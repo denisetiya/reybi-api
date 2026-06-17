@@ -1,0 +1,648 @@
+openapi: "3.0.3"
+info:
+  title: Reybi API
+  version: "1.0.0"
+  description: |
+    Reybi API — Rust rewrite (Axum 0.8).
+    E-commerce platform with cart, orders, deposite, waste management.
+  contact:
+    name: Denisetiya
+
+servers:
+  - url: http://localhost:3000/v1
+    description: Development
+
+tags:
+  - name: auth
+    description: Authentication (Firebase + JWT)
+  - name: products
+    description: Product catalog
+  - name: banners
+    description: Banner management
+  - name: articles
+    description: Article content
+  - name: profile
+    description: User profile
+  - name: reviews
+    description: Product reviews
+  - name: carts
+    description: Shopping cart
+  - name: orders
+    description: Order management
+  - name: deposites
+    description: Waste deposite / pickup requests
+  - name: landfills
+    description: Landfill locations
+  - name: trash
+    description: Trash type management
+  - name: addresses
+    description: User addresses
+  - name: sallers
+    description: Seller product listing
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: "Firebase ID token (login) or JWT access token (API access)"
+  headers:
+    x-refresh-token:
+      schema: { type: string }
+      description: Refresh JWT — used to auto-rotate access token
+    x-new-access-token:
+      schema: { type: string }
+      description: New access token when refresh succeeds
+
+  schemas:
+    SuccessResponse:
+      type: object
+      properties:
+        success: { type: boolean }
+        data: {}
+        meta:
+          type: object
+          properties:
+            locale: { type: string }
+    PaginationMeta:
+      type: object
+      properties:
+        cursor: { type: string, nullable: true }
+        has_more: { type: boolean }
+        count: { type: integer }
+    Product:
+      type: object
+      properties:
+        id: { type: string, format: uuid }
+        name: { type: string }
+        price: { type: integer }
+        stock: { type: integer }
+        description: { type: string }
+        category: { type: string }
+        location: { type: string, nullable: true }
+        discount: { type: integer, nullable: true }
+        coin: { type: integer, nullable: true }
+        recommended: { type: boolean, nullable: true }
+        thumbnail: { type: string, nullable: true }
+        images: { type: object, nullable: true }
+        saller_id: { type: string, format: uuid, nullable: true }
+        created_at: { type: string, format: date-time }
+        updated_at: { type: string, format: date-time }
+    Banner:
+      type: object
+      properties:
+        id: { type: string, format: uuid }
+        image: { type: string }
+        type: { type: string, nullable: true }
+        created_at: { type: string, format: date-time }
+    Article:
+      type: object
+      properties:
+        id: { type: string, format: uuid }
+        thumbnail: { type: string }
+        header: { type: string }
+        content: { type: string }
+        created_at: { type: string, format: date-time }
+    Cart:
+      type: object
+      properties:
+        id: { type: string, format: uuid }
+        user_id: { type: string, format: uuid }
+        product_id: { type: string, format: uuid }
+        variant_id: { type: string, format: uuid, nullable: true }
+        quantity: { type: integer }
+        created_at: { type: string, format: date-time }
+    Order:
+      type: object
+      properties:
+        id: { type: string, format: uuid }
+        user_id: { type: string, format: uuid }
+        product_id: { type: string, format: uuid }
+        quantity: { type: integer }
+        coin: { type: integer, nullable: true }
+        created_at: { type: string, format: date-time }
+    Deposite:
+      type: object
+      properties:
+        id: { type: string, format: uuid }
+        user_id: { type: string, format: uuid }
+        type: { type: string }
+        pickup_date: { type: string }
+        pickup_time: { type: string }
+        coin: { type: integer, nullable: true }
+        address_id: { type: string, format: uuid }
+        landfill_id: { type: string, format: uuid, nullable: true }
+        images: { type: object, nullable: true }
+        created_at: { type: string, format: date-time }
+    Landfill:
+      type: object
+      properties:
+        id: { type: string, format: uuid }
+        name: { type: string }
+        address: { type: string }
+        created_at: { type: string, format: date-time }
+    TrashType:
+      type: object
+      properties:
+        id: { type: string, format: uuid }
+        name: { type: string }
+        image: { type: string }
+        created_at: { type: string, format: date-time }
+    Address:
+      type: object
+      properties:
+        id: { type: string, format: uuid }
+        user_id: { type: string, format: uuid }
+        address: { type: string }
+        label: { type: string }
+        phone_number: { type: string }
+        main: { type: boolean }
+        created_at: { type: string, format: date-time }
+    ReviewProduct:
+      type: object
+      properties:
+        id: { type: string, format: uuid }
+        product_id: { type: string, format: uuid }
+        user_id: { type: string, format: uuid }
+        comment: { type: string }
+        rating: { type: integer }
+        images: { type: object, nullable: true }
+        created_at: { type: string, format: date-time }
+
+paths:
+  /auth:
+    post:
+      tags: [auth]
+      summary: Login (Firebase token → JWT)
+      security: [{ BearerAuth: [] }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { type: object }
+      responses:
+        "200":
+          description: JWT tokens + user data
+          headers:
+            x-new-access-token:
+              schema: { type: string }
+
+  /auth/register:
+    post:
+      tags: [auth]
+      summary: Register new user
+      security: [{ BearerAuth: [] }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [name, email, password]
+              properties:
+                name: { type: string }
+                email: { type: string, format: email }
+                password: { type: string, minLength: 8 }
+
+  /auth/reset-password:
+    post:
+      tags: [auth]
+      summary: Request password reset
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email]
+              properties:
+                email: { type: string, format: email }
+
+  /products:
+    get:
+      tags: [products]
+      summary: List products (public, no auth required)
+      parameters:
+        - { name: cursor, in: query, schema: { type: string } }
+        - { name: limit, in: query, schema: { type: integer, default: 25 } }
+        - { name: category, in: query, schema: { type: string } }
+        - { name: search, in: query, schema: { type: string } }
+      responses:
+        "200":
+          description: Paginated products
+
+  /products/{id}:
+    get:
+      tags: [products]
+      summary: Get product by ID
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string, format: uuid } }
+      responses:
+        "200": { description: Product data }
+        "404": { description: Product not found }
+    put:
+      tags: [products]
+      summary: Update product
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string, format: uuid } }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/Product" }
+      responses:
+        "200": { description: Updated product }
+    delete:
+      tags: [products]
+      summary: Delete product
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string, format: uuid } }
+      responses:
+        "200": { description: Product deleted }
+
+  /products/create:
+    post:
+      tags: [products]
+      summary: Create product
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [name, price, stock, description, category]
+              properties:
+                name: { type: string }
+                price: { type: integer }
+                stock: { type: integer }
+                description: { type: string }
+                category: { type: string }
+                location: { type: string }
+                discount: { type: integer }
+                coin: { type: integer }
+                recommended: { type: boolean }
+                saller_id: { type: string, format: uuid }
+                thumbnail: { type: string }
+                images: { type: object }
+      responses:
+        "201": { description: Created product }
+
+  /products/variant/{id}:
+    post:
+      tags: [products]
+      summary: Add product variant
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string, format: uuid } }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [name, price, stock]
+              properties:
+                name: { type: string }
+                price: { type: integer }
+                stock: { type: integer }
+                image: { type: string }
+      responses:
+        "201": { description: Created variant }
+
+  /banners:
+    get:
+      tags: [banners]
+      summary: List all banners (public)
+      parameters:
+        - { name: limit, in: query, schema: { type: integer, default: 25 } }
+      responses:
+        "200": { description: Banners }
+
+  /banners/type/{type}:
+    get:
+      tags: [banners]
+      summary: List banners by type
+      parameters:
+        - { name: type, in: path, required: true, schema: { type: string } }
+
+  /banners/create:
+    post:
+      tags: [banners]
+      summary: Create banner
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [image]
+              properties:
+                image: { type: string }
+                type: { type: string }
+
+  /articles:
+    get:
+      tags: [articles]
+      summary: List articles (public)
+      parameters:
+        - { name: limit, in: query, schema: { type: integer, default: 25 } }
+      responses:
+        "200": { description: Articles }
+
+  /articles/{id}:
+    get:
+      tags: [articles]
+      summary: Get article by ID
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string, format: uuid } }
+    put:
+      tags: [articles]
+      summary: Update article
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string, format: uuid } }
+    delete:
+      tags: [articles]
+      summary: Delete article
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string, format: uuid } }
+
+  /articles/create:
+    post:
+      tags: [articles]
+      summary: Create article
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [thumbnail, header, content]
+              properties:
+                thumbnail: { type: string }
+                header: { type: string }
+                content: { type: string }
+
+  /profile/{email}:
+    get:
+      tags: [profile]
+      summary: Get user profile
+      parameters:
+        - { name: email, in: path, required: true, schema: { type: string } }
+    put:
+      tags: [profile]
+      summary: Update user profile
+      parameters:
+        - { name: email, in: path, required: true, schema: { type: string } }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name: { type: string }
+                photo_url: { type: string }
+                role: { type: string }
+                phone_number: { type: string }
+
+  /reviews:
+    post:
+      tags: [reviews]
+      summary: Create review (auth required)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [product_id, comment, rating]
+              properties:
+                product_id: { type: string, format: uuid }
+                comment: { type: string }
+                rating: { type: integer, minimum: 1, maximum: 5 }
+                images: { type: object }
+
+  /reviews/{id}:
+    put:
+      tags: [reviews]
+      summary: Update review (auth required)
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string, format: uuid } }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                comment: { type: string }
+                rating: { type: integer }
+
+  /carts/user/{user_id}:
+    get:
+      tags: [carts]
+      summary: Get user cart
+      parameters:
+        - { name: user_id, in: path, required: true, schema: { type: string, format: uuid } }
+        - { name: limit, in: query, schema: { type: integer, default: 25 } }
+    post:
+      tags: [carts]
+      summary: Add item to cart
+      parameters:
+        - { name: user_id, in: path, required: true, schema: { type: string, format: uuid } }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [product_id, quantity]
+              properties:
+                product_id: { type: string, format: uuid }
+                quantity: { type: integer, minimum: 1 }
+                variant_id: { type: string, format: uuid }
+
+  /carts/item/{id}:
+    delete:
+      tags: [carts]
+      summary: Remove cart item
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string, format: uuid } }
+
+  /orders:
+    get:
+      tags: [orders]
+      summary: List all orders (admin)
+      parameters:
+        - { name: limit, in: query, schema: { type: integer, default: 25 } }
+
+  /orders/user/{user_id}:
+    get:
+      tags: [orders]
+      summary: Get user orders
+      parameters:
+        - { name: user_id, in: path, required: true, schema: { type: string, format: uuid } }
+    post:
+      tags: [orders]
+      summary: Create order (auth required)
+      parameters:
+        - { name: user_id, in: path, required: true, schema: { type: string, format: uuid } }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [product_id, quantity, payment]
+              properties:
+                product_id: { type: string, format: uuid }
+                quantity: { type: integer }
+                coin: { type: integer }
+                payment:
+                  type: object
+                  required: [method, type, amount]
+                  properties:
+                    method: { type: string }
+                    type: { type: string }
+                    amount: { type: number }
+
+  /orders/{id}:
+    delete:
+      tags: [orders]
+      summary: Cancel order (auth required)
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string, format: uuid } }
+
+  /deposites:
+    get:
+      tags: [deposites]
+      summary: List all deposites (admin)
+      parameters:
+        - { name: limit, in: query, schema: { type: integer, default: 25 } }
+    post:
+      tags: [deposites]
+      summary: Create deposite (auth required)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [address_id, type, pickup_date, pickup_time, garbage_type]
+              properties:
+                address_id: { type: string, format: uuid }
+                type: { type: string }
+                pickup_date: { type: string }
+                pickup_time: { type: string }
+                coin: { type: integer }
+                images: { type: object }
+                landfill_id: { type: string, format: uuid }
+                garbage_type:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      trash_type_id: { type: string, format: uuid }
+                      amount: { type: integer }
+
+  /deposites/user/{id}:
+    get:
+      tags: [deposites]
+      summary: Get user deposites
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string, format: uuid } }
+
+  /landfills:
+    get:
+      tags: [landfills]
+      summary: List landfills (public)
+      parameters:
+        - { name: limit, in: query, schema: { type: integer, default: 25 } }
+    post:
+      tags: [landfills]
+      summary: Create landfill (admin)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [name, address]
+              properties:
+                name: { type: string }
+                address: { type: string }
+
+  /landfills/{id}:
+    put:
+      tags: [landfills]
+      summary: Update landfill (admin)
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string, format: uuid } }
+    delete:
+      tags: [landfills]
+      summary: Delete landfill (admin)
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string, format: uuid } }
+
+  /trash/types:
+    get:
+      tags: [trash]
+      summary: List trash types (public)
+      parameters:
+        - { name: limit, in: query, schema: { type: integer, default: 25 } }
+    post:
+      tags: [trash]
+      summary: Create trash type (admin)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [name]
+              properties:
+                name: { type: string }
+                image: { type: string }
+
+  /trash/type/{id}:
+    put:
+      tags: [trash]
+      summary: Update trash type (admin)
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string, format: uuid } }
+    delete:
+      tags: [trash]
+      summary: Delete trash type (admin)
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string, format: uuid } }
+
+  /addresses/user/{user_id}:
+    post:
+      tags: [addresses]
+      summary: Create address (auth required)
+      parameters:
+        - { name: user_id, in: path, required: true, schema: { type: string, format: uuid } }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [address, label, phone_number]
+              properties:
+                address: { type: string }
+                label: { type: string }
+                phone_number: { type: string }
+                main: { type: boolean }
+    put:
+      tags: [addresses]
+      summary: Update address (auth required)
+      parameters:
+        - { name: user_id, in: path, required: true, schema: { type: string, format: uuid } }
+
+  /sallers/products/{id}:
+    get:
+      tags: [sallers]
+      summary: Get seller products
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string, format: uuid } }
+        - { name: limit, in: query, schema: { type: integer, default: 25 } }
