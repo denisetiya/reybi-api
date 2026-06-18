@@ -1,0 +1,767 @@
+openapi: 3.1.0
+info:
+  title: Reybi API
+  version: 1.0.0
+  description: |
+    Reybi API — Rust rewrite (Axum 0.8).
+    E-commerce platform with cart, orders, deposite, waste management.
+servers:
+- url: http://localhost:3000/v1
+  description: Development
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+paths:
+  /trash/type/{id}:
+    put:
+      operationId: put-trash-type-{id}
+      summary: Update trash type (admin)
+      tags:
+      - trash
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+    delete:
+      operationId: delete-trash-type-{id}
+      summary: Delete trash type (admin)
+      tags:
+      - trash
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+  /articles/create:
+    post:
+      operationId: post-articles-create
+      summary: Create article
+      tags:
+      - articles
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                content:
+                  type: string
+                thumbnail:
+                  type: string
+                header:
+                  type: string
+              required:
+              - content
+              - thumbnail
+              - header
+  /products/variant/{id}:
+    post:
+      operationId: post-products-variant-{id}
+      summary: Add product variant
+      tags:
+      - products
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                image:
+                  type: string
+                price:
+                  type: integer
+                stock:
+                  type: integer
+                name:
+                  type: string
+              required:
+              - price
+              - stock
+              - name
+      responses:
+        '201':
+          description: Created variant
+  /orders/{id}:
+    delete:
+      operationId: delete-orders-{id}
+      summary: Cancel order (auth required)
+      tags:
+      - orders
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+  /landfills/{id}:
+    put:
+      operationId: put-landfills-{id}
+      summary: Update landfill (admin)
+      tags:
+      - landfills
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+    delete:
+      operationId: delete-landfills-{id}
+      summary: Delete landfill (admin)
+      tags:
+      - landfills
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+  /orders:
+    get:
+      operationId: get-orders
+      summary: List all orders (admin)
+      tags:
+      - orders
+      parameters:
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+  /auth/register:
+    post:
+      operationId: post-auth-register
+      summary: Register new user
+      tags:
+      - auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                password:
+                  type: string
+                name:
+                  type: string
+                email:
+                  type: string
+              required:
+              - password
+              - name
+              - email
+  /profile/{email}:
+    get:
+      operationId: get-profile-{email}
+      summary: Get user profile
+      tags:
+      - profile
+      parameters:
+      - name: email
+        in: path
+        required: true
+        schema:
+          type: string
+    put:
+      operationId: put-profile-{email}
+      summary: Update user profile
+      tags:
+      - profile
+      parameters:
+      - name: email
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                role:
+                  type: string
+                phone_number:
+                  type: string
+                photo_url:
+                  type: string
+  /products/create:
+    post:
+      operationId: post-products-create
+      summary: Create product
+      tags:
+      - products
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                recommended:
+                  type: boolean
+                stock:
+                  type: integer
+                location:
+                  type: string
+                images:
+                  type: object
+                discount:
+                  type: integer
+                coin:
+                  type: integer
+                description:
+                  type: string
+                category:
+                  type: string
+                saller_id:
+                  type: string
+                name:
+                  type: string
+                thumbnail:
+                  type: string
+                price:
+                  type: integer
+              required:
+              - stock
+              - description
+              - category
+              - name
+              - price
+      responses:
+        '201':
+          description: Created product
+  /deposites/user/{id}:
+    get:
+      operationId: get-deposites-user-{id}
+      summary: Get user deposites
+      tags:
+      - deposites
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+  /products/{id}:
+    get:
+      operationId: get-products-{id}
+      summary: Get product by ID
+      tags:
+      - products
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Product data
+        '404':
+          description: Product not found
+    put:
+      operationId: put-products-{id}
+      summary: Update product
+      tags:
+      - products
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties: {}
+      responses:
+        '200':
+          description: Updated product
+    delete:
+      operationId: delete-products-{id}
+      summary: Delete product
+      tags:
+      - products
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Product deleted
+  /auth/reset-password:
+    post:
+      operationId: post-auth-reset-password
+      summary: Request password reset
+      tags:
+      - auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+              required:
+              - email
+  /landfills:
+    get:
+      operationId: get-landfills
+      summary: List landfills (public)
+      tags:
+      - landfills
+      parameters:
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+    post:
+      operationId: post-landfills
+      summary: Create landfill (admin)
+      tags:
+      - landfills
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                address:
+                  type: string
+              required:
+              - name
+              - address
+  /reviews:
+    post:
+      operationId: post-reviews
+      summary: Create review (auth required)
+      tags:
+      - reviews
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                comment:
+                  type: string
+                product_id:
+                  type: string
+                images:
+                  type: object
+                rating:
+                  type: integer
+              required:
+              - comment
+              - product_id
+              - rating
+  /banners/create:
+    post:
+      operationId: post-banners-create
+      summary: Create banner
+      tags:
+      - banners
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                image:
+                  type: string
+                type:
+                  type: string
+              required:
+              - image
+  /auth:
+    post:
+      operationId: post-auth
+      summary: Login (Firebase token → JWT)
+      tags:
+      - auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties: {}
+      responses:
+        '200':
+          description: JWT tokens + user data
+  /sallers/products/{id}:
+    get:
+      operationId: get-sallers-products-{id}
+      summary: Get seller products
+      tags:
+      - sallers
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+  /trash/types:
+    get:
+      operationId: get-trash-types
+      summary: List trash types (public)
+      tags:
+      - trash
+      parameters:
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+    post:
+      operationId: post-trash-types
+      summary: Create trash type (admin)
+      tags:
+      - trash
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                image:
+                  type: string
+                name:
+                  type: string
+              required:
+              - name
+  /orders/user/{user_id}:
+    get:
+      operationId: get-orders-user-{user_id}
+      summary: Get user orders
+      tags:
+      - orders
+      parameters:
+      - name: user_id
+        in: path
+        required: true
+        schema:
+          type: string
+    post:
+      operationId: post-orders-user-{user_id}
+      summary: Create order (auth required)
+      tags:
+      - orders
+      parameters:
+      - name: user_id
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                product_id:
+                  type: string
+                payment:
+                  type: object
+                quantity:
+                  type: integer
+                coin:
+                  type: integer
+              required:
+              - product_id
+              - payment
+              - quantity
+  /banners/type/{type}:
+    get:
+      operationId: get-banners-type-{type}
+      summary: List banners by type
+      tags:
+      - banners
+      parameters:
+      - name: type
+        in: path
+        required: true
+        schema:
+          type: string
+  /addresses/user/{user_id}:
+    post:
+      operationId: post-addresses-user-{user_id}
+      summary: Create address (auth required)
+      tags:
+      - addresses
+      parameters:
+      - name: user_id
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                address:
+                  type: string
+                phone_number:
+                  type: string
+                main:
+                  type: boolean
+                label:
+                  type: string
+              required:
+              - address
+              - phone_number
+              - label
+    put:
+      operationId: put-addresses-user-{user_id}
+      summary: Update address (auth required)
+      tags:
+      - addresses
+      parameters:
+      - name: user_id
+        in: path
+        required: true
+        schema:
+          type: string
+  /articles/{id}:
+    get:
+      operationId: get-articles-{id}
+      summary: Get article by ID
+      tags:
+      - articles
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+    put:
+      operationId: put-articles-{id}
+      summary: Update article
+      tags:
+      - articles
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+    delete:
+      operationId: delete-articles-{id}
+      summary: Delete article
+      tags:
+      - articles
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+  /reviews/{id}:
+    put:
+      operationId: put-reviews-{id}
+      summary: Update review (auth required)
+      tags:
+      - reviews
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                comment:
+                  type: string
+                rating:
+                  type: integer
+  /deposites:
+    get:
+      operationId: get-deposites
+      summary: List all deposites (admin)
+      tags:
+      - deposites
+      parameters:
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+    post:
+      operationId: post-deposites
+      summary: Create deposite (auth required)
+      tags:
+      - deposites
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                type:
+                  type: string
+                pickup_time:
+                  type: string
+                images:
+                  type: object
+                garbage_type:
+                  type: array
+                pickup_date:
+                  type: string
+                coin:
+                  type: integer
+                address_id:
+                  type: string
+                landfill_id:
+                  type: string
+              required:
+              - type
+              - pickup_time
+              - garbage_type
+              - pickup_date
+              - address_id
+  /carts/user/{user_id}:
+    get:
+      operationId: get-carts-user-{user_id}
+      summary: Get user cart
+      tags:
+      - carts
+      parameters:
+      - name: user_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+    post:
+      operationId: post-carts-user-{user_id}
+      summary: Add item to cart
+      tags:
+      - carts
+      parameters:
+      - name: user_id
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                variant_id:
+                  type: string
+                quantity:
+                  type: integer
+                product_id:
+                  type: string
+              required:
+              - quantity
+              - product_id
+  /banners:
+    get:
+      operationId: get-banners
+      summary: List all banners (public)
+      tags:
+      - banners
+      parameters:
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Banners
+  /articles:
+    get:
+      operationId: get-articles
+      summary: List articles (public)
+      tags:
+      - articles
+      parameters:
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Articles
+  /products:
+    get:
+      operationId: get-products
+      summary: List products (public, no auth required)
+      tags:
+      - products
+      parameters:
+      - name: cursor
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+      - name: category
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: search
+        in: query
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Paginated products
+  /carts/item/{id}:
+    delete:
+      operationId: delete-carts-item-{id}
+      summary: Remove cart item
+      tags:
+      - carts
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string

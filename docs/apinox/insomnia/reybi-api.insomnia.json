@@ -1,0 +1,899 @@
+{
+  "__export_date": "2026-06-18T02:18:53.312173268+00:00",
+  "__export_format": 4,
+  "__export_source": "apinox",
+  "resources": [
+    {
+      "_id": "apinox_ws_reybi_api",
+      "_type": "workspace",
+      "description": "Reybi API — Rust rewrite (Axum 0.8).\nE-commerce platform with cart, orders, deposite, waste management.\n",
+      "name": "Reybi API",
+      "scope": "collection"
+    },
+    {
+      "_id": "apinox_ws_reybi_api_cookie_jar",
+      "_type": "cookie_jar",
+      "cookies": [],
+      "parentId": "apinox_ws_reybi_api"
+    },
+    {
+      "_id": "apinox_ws_reybi_api_env_base",
+      "_type": "environment",
+      "data": {
+        "base_url": "http://localhost:3000/v1"
+      },
+      "name": "Base Environment",
+      "parentId": "apinox_ws_reybi_api"
+    },
+    {
+      "_id": "apinox_folder_auth",
+      "_type": "request_group",
+      "description": "Authentication (Firebase + JWT)",
+      "name": "auth",
+      "parentId": "apinox_ws_reybi_api"
+    },
+    {
+      "_id": "apinox_folder_products",
+      "_type": "request_group",
+      "description": "Product catalog",
+      "name": "products",
+      "parentId": "apinox_ws_reybi_api"
+    },
+    {
+      "_id": "apinox_folder_banners",
+      "_type": "request_group",
+      "description": "Banner management",
+      "name": "banners",
+      "parentId": "apinox_ws_reybi_api"
+    },
+    {
+      "_id": "apinox_folder_articles",
+      "_type": "request_group",
+      "description": "Article content",
+      "name": "articles",
+      "parentId": "apinox_ws_reybi_api"
+    },
+    {
+      "_id": "apinox_folder_profile",
+      "_type": "request_group",
+      "description": "User profile",
+      "name": "profile",
+      "parentId": "apinox_ws_reybi_api"
+    },
+    {
+      "_id": "apinox_folder_reviews",
+      "_type": "request_group",
+      "description": "Product reviews",
+      "name": "reviews",
+      "parentId": "apinox_ws_reybi_api"
+    },
+    {
+      "_id": "apinox_folder_carts",
+      "_type": "request_group",
+      "description": "Shopping cart",
+      "name": "carts",
+      "parentId": "apinox_ws_reybi_api"
+    },
+    {
+      "_id": "apinox_folder_orders",
+      "_type": "request_group",
+      "description": "Order management",
+      "name": "orders",
+      "parentId": "apinox_ws_reybi_api"
+    },
+    {
+      "_id": "apinox_folder_deposites",
+      "_type": "request_group",
+      "description": "Waste deposite / pickup requests",
+      "name": "deposites",
+      "parentId": "apinox_ws_reybi_api"
+    },
+    {
+      "_id": "apinox_folder_landfills",
+      "_type": "request_group",
+      "description": "Landfill locations",
+      "name": "landfills",
+      "parentId": "apinox_ws_reybi_api"
+    },
+    {
+      "_id": "apinox_folder_trash",
+      "_type": "request_group",
+      "description": "Trash type management",
+      "name": "trash",
+      "parentId": "apinox_ws_reybi_api"
+    },
+    {
+      "_id": "apinox_folder_addresses",
+      "_type": "request_group",
+      "description": "User addresses",
+      "name": "addresses",
+      "parentId": "apinox_ws_reybi_api"
+    },
+    {
+      "_id": "apinox_folder_sallers",
+      "_type": "request_group",
+      "description": "Seller product listing",
+      "name": "sallers",
+      "parentId": "apinox_ws_reybi_api"
+    },
+    {
+      "_id": "apinox_req_put-trash-type-{id}",
+      "_type": "request",
+      "authentication": {
+        "prefix": "Bearer ",
+        "token": "{{ _.token }}",
+        "type": "bearer"
+      },
+      "headers": [],
+      "method": "PUT",
+      "name": "Update trash type (admin)",
+      "parameters": [],
+      "parentId": "apinox_folder_trash",
+      "url": "http://localhost:3000/v1/trash/type/{id}"
+    },
+    {
+      "_id": "apinox_req_delete-trash-type-{id}",
+      "_type": "request",
+      "authentication": {
+        "prefix": "Bearer ",
+        "token": "{{ _.token }}",
+        "type": "bearer"
+      },
+      "headers": [],
+      "method": "DELETE",
+      "name": "Delete trash type (admin)",
+      "parameters": [],
+      "parentId": "apinox_folder_trash",
+      "url": "http://localhost:3000/v1/trash/type/{id}"
+    },
+    {
+      "_id": "apinox_req_post-articles-create",
+      "_type": "request",
+      "authentication": {
+        "prefix": "Bearer ",
+        "token": "{{ _.token }}",
+        "type": "bearer"
+      },
+      "body": {
+        "mimeType": "application/json",
+        "text": "{}"
+      },
+      "headers": [],
+      "method": "POST",
+      "name": "Create article",
+      "parameters": [],
+      "parentId": "apinox_folder_articles",
+      "url": "http://localhost:3000/v1/articles/create"
+    },
+    {
+      "_id": "apinox_req_post-products-variant-{id}",
+      "_type": "request",
+      "authentication": {
+        "prefix": "Bearer ",
+        "token": "{{ _.token }}",
+        "type": "bearer"
+      },
+      "body": {
+        "mimeType": "application/json",
+        "text": "{}"
+      },
+      "headers": [],
+      "method": "POST",
+      "name": "Add product variant",
+      "parameters": [],
+      "parentId": "apinox_folder_products",
+      "url": "http://localhost:3000/v1/products/variant/{id}"
+    },
+    {
+      "_id": "apinox_req_delete-orders-{id}",
+      "_type": "request",
+      "authentication": {
+        "prefix": "Bearer ",
+        "token": "{{ _.token }}",
+        "type": "bearer"
+      },
+      "headers": [],
+      "method": "DELETE",
+      "name": "Cancel order (auth required)",
+      "parameters": [],
+      "parentId": "apinox_folder_orders",
+      "url": "http://localhost:3000/v1/orders/{id}"
+    },
+    {
+      "_id": "apinox_req_put-landfills-{id}",
+      "_type": "request",
+      "authentication": {
+        "prefix": "Bearer ",
+        "token": "{{ _.token }}",
+        "type": "bearer"
+      },
+      "headers": [],
+      "method": "PUT",
+      "name": "Update landfill (admin)",
+      "parameters": [],
+      "parentId": "apinox_folder_landfills",
+      "url": "http://localhost:3000/v1/landfills/{id}"
+    },
+    {
+      "_id": "apinox_req_delete-landfills-{id}",
+      "_type": "request",
+      "authentication": {
+        "prefix": "Bearer ",
+        "token": "{{ _.token }}",
+        "type": "bearer"
+      },
+      "headers": [],
+      "method": "DELETE",
+      "name": "Delete landfill (admin)",
+      "parameters": [],
+      "parentId": "apinox_folder_landfills",
+      "url": "http://localhost:3000/v1/landfills/{id}"
+    },
+    {
+      "_id": "apinox_req_get-orders",
+      "_type": "request",
+      "authentication": {
+        "prefix": "Bearer ",
+        "token": "{{ _.token }}",
+        "type": "bearer"
+      },
+      "headers": [],
+      "method": "GET",
+      "name": "List all orders (admin)",
+      "parameters": [
+        {
+          "description": "",
+          "disabled": false,
+          "name": "limit",
+          "value": "25"
+        }
+      ],
+      "parentId": "apinox_folder_orders",
+      "url": "http://localhost:3000/v1/orders"
+    },
+    {
+      "_id": "apinox_req_post-auth-register",
+      "_type": "request",
+      "authentication": {
+        "prefix": "Bearer ",
+        "token": "{{ _.token }}",
+        "type": "bearer"
+      },
+      "body": {
+        "mimeType": "application/json",
+        "text": "{}"
+      },
+      "headers": [],
+      "method": "POST",
+      "name": "Register new user",
+      "parameters": [],
+      "parentId": "apinox_folder_auth",
+      "url": "http://localhost:3000/v1/auth/register"
+    },
+    {
+      "_id": "apinox_req_get-profile-{email}",
+      "_type": "request",
+      "authentication": {
+        "prefix": "Bearer ",
+        "token": "{{ _.token }}",
+        "type": "bearer"
+      },
+      "headers": [],
+      "method": "GET",
+      "name": "Get user profile",
+      "parameters": [],
+      "parentId": "apinox_folder_profile",
+      "url": "http://localhost:3000/v1/profile/{email}"
+    },
+    {
+      "_id": "apinox_req_put-profile-{email}",
+      "_type": "request",
+      "authentication": {
+        "prefix": "Bearer ",
+        "token": "{{ _.token }}",
+        "type": "bearer"
+      },
+      "body": {
+        "mimeType": "application/json",
+        "text": "{}"
+      },
+      "headers": [],
+      "method": "PUT",
+      "name": "Update user profile",
+      "parameters": [],
+      "parentId": "apinox_folder_profile",
+      "url": "http://localhost:3000/v1/profile/{email}"
+    },
+    {
+      "_id": "apinox_req_post-products-create",
+      "_type": "request",
+      "authentication": {
+        "prefix": "Bearer ",
+        "token": "{{ _.token }}",
+        "type": "bearer"
+      },
+      "body": {
+        "mimeType": "application/json",
+        "text": "{}"
+      },
+      "headers": [],
+      "method": "POST",
+      "name": "Create product",
+      "parameters": [],
+      "parentId": "apinox_folder_products",
+      "url": "http://localhost:3000/v1/products/create"
+    },
+    {
+      "_id": "apinox_req_get-deposites-user-{id}",
+      "_type": "request",
+      "authentication": {
+        "prefix": "Bearer ",
+        "token": "{{ _.token }}",
+        "type": "bearer"
+      },
+      "headers": [],
+      "method": "GET",
+      "name": "Get user deposites",
+      "parameters": [],
+      "parentId": "apinox_folder_deposites",
+      "url": "http://localhost:3000/v1/deposites/user/{id}"
+    },
+    {
+      "_id": "apinox_req_get-products-{id}",
+      "_type": "request",
+      "authentication": {
+        "prefix": "Bearer ",
+        "token": "{{ _.token }}",
+        "type": "bearer"
+      },
+      "headers": [],
+      "method": "GET",
+      "name": "Get product by ID",
+      "parameters": [],
+      "parentId": "apinox_folder_products",
+      "url": "http://localhost:3000/v1/products/{id}"
+    },
+    {
+      "_id": "apinox_req_put-products-{id}",
+      "_type": "request",
+      "authentication": {
+        "prefix": "Bearer ",
+        "token": "{{ _.token }}",
+        "type": "bearer"
+      },
+      "body": {
+        "mimeType": "application/json",
+        "text": "{}"
+      },
+      "headers": [],
+      "method": "PUT",
+      "name": "Update product",
+      "parameters": [],
+      "parentId": "apinox_folder_products",
+      "url": "http://localhost:3000/v1/products/{id}"
+    },
+    {
+      "_id": "apinox_req_delete-products-{id}",
+      "_type": "request",
+      "authentication": {
+        "prefix": "Bearer ",
+        "token": "{{ _.token }}",
+        "type": "bearer"
+      },
+      "headers": [],
+      "method": "DELETE",
+      "name": "Delete product",
+      "parameters": [],
+      "parentId": "apinox_folder_products",
+      "url": "http://localhost:3000/v1/products/{id}"
+    },
+    {
+      "_id": "apinox_req_post-auth-reset-password",
+      "_type": "request",
+      "authentication": {
+        "prefix": "Bearer ",
+        "token": "{{ _.token }}",
+        "type": "bearer"
+      },
+      "body": {
+        "mimeType": "application/json",
+        "text": "{}"
+      },
+      "headers": [],
+      "method": "POST",
+      "name": "Request password reset",
+      "parameters": [],
+      "parentId": "apinox_folder_auth",
+      "url": "http://localhost:3000/v1/auth/reset-password"
+    },
+    {
+      "_id": "apinox_req_get-landfills",
+      "_type": "request",
+      "authentication": {
+        "prefix": "Bearer ",
+        "token": "{{ _.token }}",
+        "type": "bearer"
+      },
+      "headers": [],
+      "method": "GET",
+      "name": "List landfills (public)",
+      "parameters": [
+        {
+          "description": "",
+          "disabled": false,
+          "name": "limit",
+          "value": "25"
+        }
+      ],
+      "parentId": "apinox_folder_landfills",
+      "url": "http://localhost:3000/v1/landfills"
+    },
+    {
+      "_id": "apinox_req_post-landfills",
+      "_type": "request",
+      "authentication": {
+        "prefix": "Bearer ",
+        "token": "{{ _.token }}",
+        "type": "bearer"
+      },
+      "body": {
+        "mimeType": "application/json",
+        "text": "{}"
+      },
+      "headers": [],
+      "method": "POST",
+      "name": "Create landfill (admin)",
+      "parameters": [],
+      "parentId": "apinox_folder_landfills",
+      "url": "http://localhost:3000/v1/landfills"
+    },
+    {
+      "_id": "apinox_req_post-reviews",
+      "_type": "request",
+      "authentication": {
+        "prefix": "Bearer ",
+        "token": "{{ _.token }}",
+        "type": "bearer"
+      },
+      "body": {
+        "mimeType": "application/json",
+        "text": "{}"
+      },
+      "headers": [],
+      "method": "POST",
+      "name": "Create review (auth required)",
+      "parameters": [],
+      "parentId": "apinox_folder_reviews",
+      "url": "http://localhost:3000/v1/reviews"
+    },
+    {
+      "_id": "apinox_req_post-banners-create",
+      "_type": "request",
+      "authentication": {
+        "prefix": "Bearer ",
+        "token": "{{ _.token }}",
+        "type": "bearer"
+      },
+      "body": {
+        "mimeType": "application/json",
+        "text": "{}"
+      },
+      "headers": [],
+      "method": "POST",
+      "name": "Create banner",
+      "parameters": [],
+      "parentId": "apinox_folder_banners",
+      "url": "http://localhost:3000/v1/banners/create"
+    },
+    {
+      "_id": "apinox_req_post-auth",
+      "_type": "request",
+      "authentication": {
+        "prefix": "Bearer ",
+        "token": "{{ _.token }}",
+        "type": "bearer"
+      },
+      "body": {
+        "mimeType": "application/json",
+        "text": "{}"
+      },
+      "headers": [],
+      "method": "POST",
+      "name": "Login (Firebase token → JWT)",
+      "parameters": [],
+      "parentId": "apinox_folder_auth",
+      "url": "http://localhost:3000/v1/auth"
+    },
+    {
+      "_id": "apinox_req_get-sallers-products-{id}",
+      "_type": "request",
+      "authentication": {
+        "prefix": "Bearer ",
+        "token": "{{ _.token }}",
+        "type": "bearer"
+      },
+      "headers": [],
+      "method": "GET",
+      "name": "Get seller products",
+      "parameters": [
+        {
+          "description": "",
+          "disabled": false,
+          "name": "limit",
+          "value": "25"
+        }
+      ],
+      "parentId": "apinox_folder_sallers",
+      "url": "http://localhost:3000/v1/sallers/products/{id}"
+    },
+    {
+      "_id": "apinox_req_get-trash-types",
+      "_type": "request",
+      "authentication": {
+        "prefix": "Bearer ",
+        "token": "{{ _.token }}",
+        "type": "bearer"
+      },
+      "headers": [],
+      "method": "GET",
+      "name": "List trash types (public)",
+      "parameters": [
+        {
+          "description": "",
+          "disabled": false,
+          "name": "limit",
+          "value": "25"
+        }
+      ],
+      "parentId": "apinox_folder_trash",
+      "url": "http://localhost:3000/v1/trash/types"
+    },
+    {
+      "_id": "apinox_req_post-trash-types",
+      "_type": "request",
+      "authentication": {
+        "prefix": "Bearer ",
+        "token": "{{ _.token }}",
+        "type": "bearer"
+      },
+      "body": {
+        "mimeType": "application/json",
+        "text": "{}"
+      },
+      "headers": [],
+      "method": "POST",
+      "name": "Create trash type (admin)",
+      "parameters": [],
+      "parentId": "apinox_folder_trash",
+      "url": "http://localhost:3000/v1/trash/types"
+    },
+    {
+      "_id": "apinox_req_get-orders-user-{user_id}",
+      "_type": "request",
+      "authentication": {
+        "prefix": "Bearer ",
+        "token": "{{ _.token }}",
+        "type": "bearer"
+      },
+      "headers": [],
+      "method": "GET",
+      "name": "Get user orders",
+      "parameters": [],
+      "parentId": "apinox_folder_orders",
+      "url": "http://localhost:3000/v1/orders/user/{user_id}"
+    },
+    {
+      "_id": "apinox_req_post-orders-user-{user_id}",
+      "_type": "request",
+      "authentication": {
+        "prefix": "Bearer ",
+        "token": "{{ _.token }}",
+        "type": "bearer"
+      },
+      "body": {
+        "mimeType": "application/json",
+        "text": "{}"
+      },
+      "headers": [],
+      "method": "POST",
+      "name": "Create order (auth required)",
+      "parameters": [],
+      "parentId": "apinox_folder_orders",
+      "url": "http://localhost:3000/v1/orders/user/{user_id}"
+    },
+    {
+      "_id": "apinox_req_get-banners-type-{type}",
+      "_type": "request",
+      "authentication": {
+        "prefix": "Bearer ",
+        "token": "{{ _.token }}",
+        "type": "bearer"
+      },
+      "headers": [],
+      "method": "GET",
+      "name": "List banners by type",
+      "parameters": [],
+      "parentId": "apinox_folder_banners",
+      "url": "http://localhost:3000/v1/banners/type/{type}"
+    },
+    {
+      "_id": "apinox_req_post-addresses-user-{user_id}",
+      "_type": "request",
+      "authentication": {
+        "prefix": "Bearer ",
+        "token": "{{ _.token }}",
+        "type": "bearer"
+      },
+      "body": {
+        "mimeType": "application/json",
+        "text": "{}"
+      },
+      "headers": [],
+      "method": "POST",
+      "name": "Create address (auth required)",
+      "parameters": [],
+      "parentId": "apinox_folder_addresses",
+      "url": "http://localhost:3000/v1/addresses/user/{user_id}"
+    },
+    {
+      "_id": "apinox_req_put-addresses-user-{user_id}",
+      "_type": "request",
+      "authentication": {
+        "prefix": "Bearer ",
+        "token": "{{ _.token }}",
+        "type": "bearer"
+      },
+      "headers": [],
+      "method": "PUT",
+      "name": "Update address (auth required)",
+      "parameters": [],
+      "parentId": "apinox_folder_addresses",
+      "url": "http://localhost:3000/v1/addresses/user/{user_id}"
+    },
+    {
+      "_id": "apinox_req_get-articles-{id}",
+      "_type": "request",
+      "authentication": {
+        "prefix": "Bearer ",
+        "token": "{{ _.token }}",
+        "type": "bearer"
+      },
+      "headers": [],
+      "method": "GET",
+      "name": "Get article by ID",
+      "parameters": [],
+      "parentId": "apinox_folder_articles",
+      "url": "http://localhost:3000/v1/articles/{id}"
+    },
+    {
+      "_id": "apinox_req_put-articles-{id}",
+      "_type": "request",
+      "authentication": {
+        "prefix": "Bearer ",
+        "token": "{{ _.token }}",
+        "type": "bearer"
+      },
+      "headers": [],
+      "method": "PUT",
+      "name": "Update article",
+      "parameters": [],
+      "parentId": "apinox_folder_articles",
+      "url": "http://localhost:3000/v1/articles/{id}"
+    },
+    {
+      "_id": "apinox_req_delete-articles-{id}",
+      "_type": "request",
+      "authentication": {
+        "prefix": "Bearer ",
+        "token": "{{ _.token }}",
+        "type": "bearer"
+      },
+      "headers": [],
+      "method": "DELETE",
+      "name": "Delete article",
+      "parameters": [],
+      "parentId": "apinox_folder_articles",
+      "url": "http://localhost:3000/v1/articles/{id}"
+    },
+    {
+      "_id": "apinox_req_put-reviews-{id}",
+      "_type": "request",
+      "authentication": {
+        "prefix": "Bearer ",
+        "token": "{{ _.token }}",
+        "type": "bearer"
+      },
+      "body": {
+        "mimeType": "application/json",
+        "text": "{}"
+      },
+      "headers": [],
+      "method": "PUT",
+      "name": "Update review (auth required)",
+      "parameters": [],
+      "parentId": "apinox_folder_reviews",
+      "url": "http://localhost:3000/v1/reviews/{id}"
+    },
+    {
+      "_id": "apinox_req_get-deposites",
+      "_type": "request",
+      "authentication": {
+        "prefix": "Bearer ",
+        "token": "{{ _.token }}",
+        "type": "bearer"
+      },
+      "headers": [],
+      "method": "GET",
+      "name": "List all deposites (admin)",
+      "parameters": [
+        {
+          "description": "",
+          "disabled": false,
+          "name": "limit",
+          "value": "25"
+        }
+      ],
+      "parentId": "apinox_folder_deposites",
+      "url": "http://localhost:3000/v1/deposites"
+    },
+    {
+      "_id": "apinox_req_post-deposites",
+      "_type": "request",
+      "authentication": {
+        "prefix": "Bearer ",
+        "token": "{{ _.token }}",
+        "type": "bearer"
+      },
+      "body": {
+        "mimeType": "application/json",
+        "text": "{}"
+      },
+      "headers": [],
+      "method": "POST",
+      "name": "Create deposite (auth required)",
+      "parameters": [],
+      "parentId": "apinox_folder_deposites",
+      "url": "http://localhost:3000/v1/deposites"
+    },
+    {
+      "_id": "apinox_req_get-carts-user-{user_id}",
+      "_type": "request",
+      "authentication": {
+        "prefix": "Bearer ",
+        "token": "{{ _.token }}",
+        "type": "bearer"
+      },
+      "headers": [],
+      "method": "GET",
+      "name": "Get user cart",
+      "parameters": [
+        {
+          "description": "",
+          "disabled": false,
+          "name": "limit",
+          "value": "25"
+        }
+      ],
+      "parentId": "apinox_folder_carts",
+      "url": "http://localhost:3000/v1/carts/user/{user_id}"
+    },
+    {
+      "_id": "apinox_req_post-carts-user-{user_id}",
+      "_type": "request",
+      "authentication": {
+        "prefix": "Bearer ",
+        "token": "{{ _.token }}",
+        "type": "bearer"
+      },
+      "body": {
+        "mimeType": "application/json",
+        "text": "{}"
+      },
+      "headers": [],
+      "method": "POST",
+      "name": "Add item to cart",
+      "parameters": [],
+      "parentId": "apinox_folder_carts",
+      "url": "http://localhost:3000/v1/carts/user/{user_id}"
+    },
+    {
+      "_id": "apinox_req_get-banners",
+      "_type": "request",
+      "authentication": {
+        "prefix": "Bearer ",
+        "token": "{{ _.token }}",
+        "type": "bearer"
+      },
+      "headers": [],
+      "method": "GET",
+      "name": "List all banners (public)",
+      "parameters": [
+        {
+          "description": "",
+          "disabled": false,
+          "name": "limit",
+          "value": "25"
+        }
+      ],
+      "parentId": "apinox_folder_banners",
+      "url": "http://localhost:3000/v1/banners"
+    },
+    {
+      "_id": "apinox_req_get-articles",
+      "_type": "request",
+      "authentication": {
+        "prefix": "Bearer ",
+        "token": "{{ _.token }}",
+        "type": "bearer"
+      },
+      "headers": [],
+      "method": "GET",
+      "name": "List articles (public)",
+      "parameters": [
+        {
+          "description": "",
+          "disabled": false,
+          "name": "limit",
+          "value": "25"
+        }
+      ],
+      "parentId": "apinox_folder_articles",
+      "url": "http://localhost:3000/v1/articles"
+    },
+    {
+      "_id": "apinox_req_get-products",
+      "_type": "request",
+      "authentication": {
+        "prefix": "Bearer ",
+        "token": "{{ _.token }}",
+        "type": "bearer"
+      },
+      "headers": [],
+      "method": "GET",
+      "name": "List products (public, no auth required)",
+      "parameters": [
+        {
+          "description": "",
+          "disabled": false,
+          "name": "cursor",
+          "value": ""
+        },
+        {
+          "description": "",
+          "disabled": false,
+          "name": "limit",
+          "value": "25"
+        },
+        {
+          "description": "",
+          "disabled": false,
+          "name": "category",
+          "value": ""
+        },
+        {
+          "description": "",
+          "disabled": false,
+          "name": "search",
+          "value": ""
+        }
+      ],
+      "parentId": "apinox_folder_products",
+      "url": "http://localhost:3000/v1/products"
+    },
+    {
+      "_id": "apinox_req_delete-carts-item-{id}",
+      "_type": "request",
+      "authentication": {
+        "prefix": "Bearer ",
+        "token": "{{ _.token }}",
+        "type": "bearer"
+      },
+      "headers": [],
+      "method": "DELETE",
+      "name": "Remove cart item",
+      "parameters": [],
+      "parentId": "apinox_folder_carts",
+      "url": "http://localhost:3000/v1/carts/item/{id}"
+    }
+  ]
+}
