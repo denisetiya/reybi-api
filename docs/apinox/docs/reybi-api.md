@@ -134,9 +134,9 @@ Authentication (Firebase + JWT)
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
+| `password` | `string` | ✅ | — |
 | `name` | `string` | ✅ | — |
 | `email` | `string` | ✅ | — |
-| `password` | `string` | ✅ | — |
 
 #### Example cURL
 
@@ -144,6 +144,18 @@ Authentication (Firebase + JWT)
 curl -X POST 'http://localhost:3000/v1/auth/register' \
   -d '{}'
 ```
+
+#### Responses
+
+##### ✅ 201 `Register new user - created`
+
+##### ⚠️ 400 `Validation failed`
+
+##### ⚠️ 401 `Authentication required`
+
+##### ⚠️ 429 `Too many requests`
+
+##### ❌ 500 `Internal server error`
 
 ---
 
@@ -171,6 +183,18 @@ curl -X POST 'http://localhost:3000/v1/auth/register' \
 curl -X POST 'http://localhost:3000/v1/auth/reset-password' \
   -d '{}'
 ```
+
+#### Responses
+
+##### ✅ 201 `Request password reset - created`
+
+##### ⚠️ 400 `Validation failed`
+
+##### ⚠️ 401 `Authentication required`
+
+##### ⚠️ 429 `Too many requests`
+
+##### ❌ 500 `Internal server error`
 
 ---
 
@@ -200,7 +224,15 @@ curl -X POST 'http://localhost:3000/v1/auth' \
 
 #### Responses
 
-##### ✅ 200 `JWT tokens + user data`
+##### ✅ 201 `Login (Firebase token → JWT) - created`
+
+##### ⚠️ 400 `Validation failed`
+
+##### ⚠️ 401 `Authentication required`
+
+##### ⚠️ 429 `Too many requests`
+
+##### ❌ 500 `Internal server error`
 
 ---
 
@@ -231,7 +263,13 @@ curl -X GET 'http://localhost:3000/v1/products?cursor=example-cursor&limit=1&cat
 
 #### Responses
 
-##### ✅ 200 `Paginated products`
+##### ✅ 200 `List products (public, no auth required) - paginated`
+
+##### ⚠️ 404 `Resource not found`
+
+##### ⚠️ 429 `Too many requests`
+
+##### ❌ 500 `Internal server error`
 
 ---
 
@@ -255,9 +293,13 @@ curl -X GET 'http://localhost:3000/v1/products/id-example'
 
 #### Responses
 
-##### ⚠️ 404 `Product not found`
+##### ✅ 200 `Get product by ID - success`
 
-##### ✅ 200 `Product data`
+##### ⚠️ 404 `Resource not found`
+
+##### ⚠️ 429 `Too many requests`
+
+##### ❌ 500 `Internal server error`
 
 ---
 
@@ -293,7 +335,15 @@ curl -X PUT 'http://localhost:3000/v1/products/id-example' \
 
 #### Responses
 
-##### ✅ 200 `Updated product`
+##### ✅ 200 `Update product - success`
+
+##### ⚠️ 400 `Validation failed`
+
+##### ⚠️ 404 `Resource not found`
+
+##### ⚠️ 429 `Too many requests`
+
+##### ❌ 500 `Internal server error`
 
 ---
 
@@ -317,7 +367,13 @@ curl -X DELETE 'http://localhost:3000/v1/products/id-example'
 
 #### Responses
 
-##### ✅ 200 `Product deleted`
+##### ✅ 200 `Delete product - success`
+
+##### ⚠️ 404 `Resource not found`
+
+##### ⚠️ 429 `Too many requests`
+
+##### ❌ 500 `Internal server error`
 
 ---
 
@@ -343,10 +399,10 @@ curl -X DELETE 'http://localhost:3000/v1/products/id-example'
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| `stock` | `integer` | ✅ | — |
-| `image` | `string` | ❌ | — |
-| `name` | `string` | ✅ | — |
 | `price` | `integer` | ✅ | — |
+| `name` | `string` | ✅ | — |
+| `image` | `string` | ❌ | — |
+| `stock` | `integer` | ✅ | — |
 
 #### Example cURL
 
@@ -357,7 +413,13 @@ curl -X POST 'http://localhost:3000/v1/products/variant/id-example' \
 
 #### Responses
 
-##### ✅ 201 `Created variant`
+##### ✅ 201 `Add product variant - created`
+
+##### ⚠️ 400 `Validation failed`
+
+##### ⚠️ 429 `Too many requests`
+
+##### ❌ 500 `Internal server error`
 
 ---
 
@@ -377,17 +439,17 @@ curl -X POST 'http://localhost:3000/v1/products/variant/id-example' \
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| `discount` | `integer` | ❌ | — |
-| `thumbnail` | `string` | ❌ | — |
-| `images` | `object` | ❌ | — |
-| `coin` | `integer` | ❌ | — |
-| `description` | `string` | ✅ | — |
-| `price` | `integer` | ✅ | — |
-| `saller_id` | `string` | ❌ | — |
-| `stock` | `integer` | ✅ | — |
 | `category` | `string` | ✅ | — |
+| `saller_id` | `string` | ❌ | — |
 | `recommended` | `boolean` | ❌ | — |
+| `price` | `integer` | ✅ | — |
+| `discount` | `integer` | ❌ | — |
+| `stock` | `integer` | ✅ | — |
+| `images` | `object` | ❌ | — |
 | `location` | `string` | ❌ | — |
+| `description` | `string` | ✅ | — |
+| `thumbnail` | `string` | ❌ | — |
+| `coin` | `integer` | ❌ | — |
 | `name` | `string` | ✅ | — |
 
 #### Example cURL
@@ -399,7 +461,13 @@ curl -X POST 'http://localhost:3000/v1/products/create' \
 
 #### Responses
 
-##### ✅ 201 `Created product`
+##### ✅ 201 `Create product - created`
+
+##### ⚠️ 400 `Validation failed`
+
+##### ⚠️ 429 `Too many requests`
+
+##### ❌ 500 `Internal server error`
 
 ---
 
@@ -424,6 +492,16 @@ Banner management
 ```bash
 curl -X GET 'http://localhost:3000/v1/banners/type/type-example'
 ```
+
+#### Responses
+
+##### ✅ 200 `List banners by type - paginated`
+
+##### ⚠️ 404 `Resource not found`
+
+##### ⚠️ 429 `Too many requests`
+
+##### ❌ 500 `Internal server error`
 
 ---
 
@@ -453,6 +531,16 @@ curl -X POST 'http://localhost:3000/v1/banners/create' \
   -d '{}'
 ```
 
+#### Responses
+
+##### ✅ 201 `Create banner - created`
+
+##### ⚠️ 400 `Validation failed`
+
+##### ⚠️ 429 `Too many requests`
+
+##### ❌ 500 `Internal server error`
+
 ---
 
 ### 🟢 `/banners` 
@@ -476,7 +564,13 @@ curl -X GET 'http://localhost:3000/v1/banners?cursor=example-cursor&limit=1'
 
 #### Responses
 
-##### ✅ 200 `Banners`
+##### ✅ 200 `List all banners (public) - paginated`
+
+##### ⚠️ 404 `Resource not found`
+
+##### ⚠️ 429 `Too many requests`
+
+##### ❌ 500 `Internal server error`
 
 ---
 
@@ -502,6 +596,16 @@ Article content
 curl -X GET 'http://localhost:3000/v1/articles/id-example'
 ```
 
+#### Responses
+
+##### ✅ 200 `Get article by ID - success`
+
+##### ⚠️ 404 `Resource not found`
+
+##### ⚠️ 429 `Too many requests`
+
+##### ❌ 500 `Internal server error`
+
 ---
 
 ### 🟠 `/articles/{id}` 
@@ -522,6 +626,18 @@ curl -X GET 'http://localhost:3000/v1/articles/id-example'
 curl -X PUT 'http://localhost:3000/v1/articles/id-example'
 ```
 
+#### Responses
+
+##### ✅ 200 `Update article - success`
+
+##### ⚠️ 400 `Validation failed`
+
+##### ⚠️ 404 `Resource not found`
+
+##### ⚠️ 429 `Too many requests`
+
+##### ❌ 500 `Internal server error`
+
 ---
 
 ### 🔴 `/articles/{id}` 
@@ -541,6 +657,16 @@ curl -X PUT 'http://localhost:3000/v1/articles/id-example'
 ```bash
 curl -X DELETE 'http://localhost:3000/v1/articles/id-example'
 ```
+
+#### Responses
+
+##### ✅ 200 `Delete article - success`
+
+##### ⚠️ 404 `Resource not found`
+
+##### ⚠️ 429 `Too many requests`
+
+##### ❌ 500 `Internal server error`
 
 ---
 
@@ -565,7 +691,13 @@ curl -X GET 'http://localhost:3000/v1/articles?cursor=example-cursor&limit=1'
 
 #### Responses
 
-##### ✅ 200 `Articles`
+##### ✅ 200 `List articles (public) - paginated`
+
+##### ⚠️ 404 `Resource not found`
+
+##### ⚠️ 429 `Too many requests`
+
+##### ❌ 500 `Internal server error`
 
 ---
 
@@ -585,8 +717,8 @@ curl -X GET 'http://localhost:3000/v1/articles?cursor=example-cursor&limit=1'
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| `header` | `string` | ✅ | — |
 | `content` | `string` | ✅ | — |
+| `header` | `string` | ✅ | — |
 | `thumbnail` | `string` | ✅ | — |
 
 #### Example cURL
@@ -595,6 +727,16 @@ curl -X GET 'http://localhost:3000/v1/articles?cursor=example-cursor&limit=1'
 curl -X POST 'http://localhost:3000/v1/articles/create' \
   -d '{}'
 ```
+
+#### Responses
+
+##### ✅ 201 `Create article - created`
+
+##### ⚠️ 400 `Validation failed`
+
+##### ⚠️ 429 `Too many requests`
+
+##### ❌ 500 `Internal server error`
 
 ---
 
@@ -619,6 +761,16 @@ User profile
 ```bash
 curl -X GET 'http://localhost:3000/v1/profile/email-example'
 ```
+
+#### Responses
+
+##### ✅ 200 `Get user profile - success`
+
+##### ⚠️ 404 `Resource not found`
+
+##### ⚠️ 429 `Too many requests`
+
+##### ❌ 500 `Internal server error`
 
 ---
 
@@ -645,8 +797,8 @@ curl -X GET 'http://localhost:3000/v1/profile/email-example'
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
 | `role` | `string` | ❌ | — |
-| `name` | `string` | ❌ | — |
 | `phone_number` | `string` | ❌ | — |
+| `name` | `string` | ❌ | — |
 | `photo_url` | `string` | ❌ | — |
 
 #### Example cURL
@@ -655,6 +807,18 @@ curl -X GET 'http://localhost:3000/v1/profile/email-example'
 curl -X PUT 'http://localhost:3000/v1/profile/email-example' \
   -d '{}'
 ```
+
+#### Responses
+
+##### ✅ 200 `Update user profile - success`
+
+##### ⚠️ 400 `Validation failed`
+
+##### ⚠️ 404 `Resource not found`
+
+##### ⚠️ 429 `Too many requests`
+
+##### ❌ 500 `Internal server error`
 
 ---
 
@@ -684,8 +848,8 @@ Product reviews
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| `comment` | `string` | ❌ | — |
 | `rating` | `integer` | ❌ | — |
+| `comment` | `string` | ❌ | — |
 
 #### Example cURL
 
@@ -693,6 +857,18 @@ Product reviews
 curl -X PUT 'http://localhost:3000/v1/reviews/id-example' \
   -d '{}'
 ```
+
+#### Responses
+
+##### ✅ 200 `Update review (auth required) - success`
+
+##### ⚠️ 400 `Validation failed`
+
+##### ⚠️ 404 `Resource not found`
+
+##### ⚠️ 429 `Too many requests`
+
+##### ❌ 500 `Internal server error`
 
 ---
 
@@ -712,10 +888,10 @@ curl -X PUT 'http://localhost:3000/v1/reviews/id-example' \
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| `images` | `object` | ❌ | — |
-| `rating` | `integer` | ✅ | — |
-| `comment` | `string` | ✅ | — |
 | `product_id` | `string` | ✅ | — |
+| `comment` | `string` | ✅ | — |
+| `rating` | `integer` | ✅ | — |
+| `images` | `object` | ❌ | — |
 
 #### Example cURL
 
@@ -723,6 +899,16 @@ curl -X PUT 'http://localhost:3000/v1/reviews/id-example' \
 curl -X POST 'http://localhost:3000/v1/reviews' \
   -d '{}'
 ```
+
+#### Responses
+
+##### ✅ 201 `Create review (auth required) - created`
+
+##### ⚠️ 400 `Validation failed`
+
+##### ⚠️ 429 `Too many requests`
+
+##### ❌ 500 `Internal server error`
 
 ---
 
@@ -754,6 +940,16 @@ Shopping cart
 ```bash
 curl -X GET 'http://localhost:3000/v1/carts/user/user_id-example?cursor=example-cursor&limit=1'
 ```
+
+#### Responses
+
+##### ✅ 200 `Get user cart - success`
+
+##### ⚠️ 404 `Resource not found`
+
+##### ⚠️ 429 `Too many requests`
+
+##### ❌ 500 `Internal server error`
 
 ---
 
@@ -790,6 +986,16 @@ curl -X POST 'http://localhost:3000/v1/carts/user/user_id-example' \
   -d '{}'
 ```
 
+#### Responses
+
+##### ✅ 201 `Add item to cart - created`
+
+##### ⚠️ 400 `Validation failed`
+
+##### ⚠️ 429 `Too many requests`
+
+##### ❌ 500 `Internal server error`
+
 ---
 
 ### 🔴 `/carts/item/{id}` 
@@ -809,6 +1015,16 @@ curl -X POST 'http://localhost:3000/v1/carts/user/user_id-example' \
 ```bash
 curl -X DELETE 'http://localhost:3000/v1/carts/item/id-example'
 ```
+
+#### Responses
+
+##### ✅ 200 `Remove cart item - success`
+
+##### ⚠️ 404 `Resource not found`
+
+##### ⚠️ 429 `Too many requests`
+
+##### ❌ 500 `Internal server error`
 
 ---
 
@@ -834,6 +1050,16 @@ Order management
 ```bash
 curl -X GET 'http://localhost:3000/v1/orders?cursor=example-cursor&limit=1'
 ```
+
+#### Responses
+
+##### ✅ 200 `List all orders (admin) - paginated`
+
+##### ⚠️ 404 `Resource not found`
+
+##### ⚠️ 429 `Too many requests`
+
+##### ❌ 500 `Internal server error`
 
 ---
 
@@ -861,6 +1087,16 @@ curl -X GET 'http://localhost:3000/v1/orders?cursor=example-cursor&limit=1'
 curl -X GET 'http://localhost:3000/v1/orders/user/user_id-example?cursor=example-cursor'
 ```
 
+#### Responses
+
+##### ✅ 200 `Get user orders - success`
+
+##### ⚠️ 404 `Resource not found`
+
+##### ⚠️ 429 `Too many requests`
+
+##### ❌ 500 `Internal server error`
+
 ---
 
 ### 🔵 `/orders/user/{user_id}` 
@@ -885,10 +1121,10 @@ curl -X GET 'http://localhost:3000/v1/orders/user/user_id-example?cursor=example
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| `quantity` | `integer` | ✅ | — |
-| `product_id` | `string` | ✅ | — |
 | `payment` | `object` | ✅ | — |
 | `coin` | `integer` | ❌ | — |
+| `quantity` | `integer` | ✅ | — |
+| `product_id` | `string` | ✅ | — |
 
 #### Example cURL
 
@@ -896,6 +1132,16 @@ curl -X GET 'http://localhost:3000/v1/orders/user/user_id-example?cursor=example
 curl -X POST 'http://localhost:3000/v1/orders/user/user_id-example' \
   -d '{}'
 ```
+
+#### Responses
+
+##### ✅ 201 `Create order (auth required) - created`
+
+##### ⚠️ 400 `Validation failed`
+
+##### ⚠️ 429 `Too many requests`
+
+##### ❌ 500 `Internal server error`
 
 ---
 
@@ -916,6 +1162,16 @@ curl -X POST 'http://localhost:3000/v1/orders/user/user_id-example' \
 ```bash
 curl -X DELETE 'http://localhost:3000/v1/orders/id-example'
 ```
+
+#### Responses
+
+##### ✅ 200 `Cancel order (auth required) - success`
+
+##### ⚠️ 404 `Resource not found`
+
+##### ⚠️ 429 `Too many requests`
+
+##### ❌ 500 `Internal server error`
 
 ---
 
@@ -942,6 +1198,16 @@ Waste deposite / pickup requests
 curl -X GET 'http://localhost:3000/v1/deposites?cursor=example-cursor&limit=1'
 ```
 
+#### Responses
+
+##### ✅ 200 `List all deposites (admin) - paginated`
+
+##### ⚠️ 404 `Resource not found`
+
+##### ⚠️ 429 `Too many requests`
+
+##### ❌ 500 `Internal server error`
+
 ---
 
 ### 🔵 `/deposites` 
@@ -960,14 +1226,14 @@ curl -X GET 'http://localhost:3000/v1/deposites?cursor=example-cursor&limit=1'
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| `address_id` | `string` | ✅ | — |
-| `garbage_type` | `array` | ✅ | — |
-| `images` | `object` | ❌ | — |
-| `pickup_date` | `string` | ✅ | — |
-| `pickup_time` | `string` | ✅ | — |
 | `landfill_id` | `string` | ❌ | — |
-| `coin` | `integer` | ❌ | — |
+| `garbage_type` | `array` | ✅ | — |
+| `pickup_time` | `string` | ✅ | — |
 | `type` | `string` | ✅ | — |
+| `pickup_date` | `string` | ✅ | — |
+| `address_id` | `string` | ✅ | — |
+| `images` | `object` | ❌ | — |
+| `coin` | `integer` | ❌ | — |
 
 #### Example cURL
 
@@ -975,6 +1241,16 @@ curl -X GET 'http://localhost:3000/v1/deposites?cursor=example-cursor&limit=1'
 curl -X POST 'http://localhost:3000/v1/deposites' \
   -d '{}'
 ```
+
+#### Responses
+
+##### ✅ 201 `Create deposite (auth required) - created`
+
+##### ⚠️ 400 `Validation failed`
+
+##### ⚠️ 429 `Too many requests`
+
+##### ❌ 500 `Internal server error`
 
 ---
 
@@ -1002,6 +1278,16 @@ curl -X POST 'http://localhost:3000/v1/deposites' \
 curl -X GET 'http://localhost:3000/v1/deposites/user/id-example?cursor=example-cursor'
 ```
 
+#### Responses
+
+##### ✅ 200 `Get user deposites - success`
+
+##### ⚠️ 404 `Resource not found`
+
+##### ⚠️ 429 `Too many requests`
+
+##### ❌ 500 `Internal server error`
+
 ---
 
 ## landfills
@@ -1027,6 +1313,16 @@ Landfill locations
 curl -X GET 'http://localhost:3000/v1/landfills?cursor=example-cursor&limit=1'
 ```
 
+#### Responses
+
+##### ✅ 200 `List landfills (public) - paginated`
+
+##### ⚠️ 404 `Resource not found`
+
+##### ⚠️ 429 `Too many requests`
+
+##### ❌ 500 `Internal server error`
+
 ---
 
 ### 🔵 `/landfills` 
@@ -1045,8 +1341,8 @@ curl -X GET 'http://localhost:3000/v1/landfills?cursor=example-cursor&limit=1'
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| `address` | `string` | ✅ | — |
 | `name` | `string` | ✅ | — |
+| `address` | `string` | ✅ | — |
 
 #### Example cURL
 
@@ -1054,6 +1350,16 @@ curl -X GET 'http://localhost:3000/v1/landfills?cursor=example-cursor&limit=1'
 curl -X POST 'http://localhost:3000/v1/landfills' \
   -d '{}'
 ```
+
+#### Responses
+
+##### ✅ 201 `Create landfill (admin) - created`
+
+##### ⚠️ 400 `Validation failed`
+
+##### ⚠️ 429 `Too many requests`
+
+##### ❌ 500 `Internal server error`
 
 ---
 
@@ -1075,6 +1381,18 @@ curl -X POST 'http://localhost:3000/v1/landfills' \
 curl -X PUT 'http://localhost:3000/v1/landfills/id-example'
 ```
 
+#### Responses
+
+##### ✅ 200 `Update landfill (admin) - success`
+
+##### ⚠️ 400 `Validation failed`
+
+##### ⚠️ 404 `Resource not found`
+
+##### ⚠️ 429 `Too many requests`
+
+##### ❌ 500 `Internal server error`
+
 ---
 
 ### 🔴 `/landfills/{id}` 
@@ -1094,6 +1412,16 @@ curl -X PUT 'http://localhost:3000/v1/landfills/id-example'
 ```bash
 curl -X DELETE 'http://localhost:3000/v1/landfills/id-example'
 ```
+
+#### Responses
+
+##### ✅ 200 `Delete landfill (admin) - success`
+
+##### ⚠️ 404 `Resource not found`
+
+##### ⚠️ 429 `Too many requests`
+
+##### ❌ 500 `Internal server error`
 
 ---
 
@@ -1119,6 +1447,18 @@ Trash type management
 curl -X PUT 'http://localhost:3000/v1/trash/type/id-example'
 ```
 
+#### Responses
+
+##### ✅ 200 `Update trash type (admin) - success`
+
+##### ⚠️ 400 `Validation failed`
+
+##### ⚠️ 404 `Resource not found`
+
+##### ⚠️ 429 `Too many requests`
+
+##### ❌ 500 `Internal server error`
+
 ---
 
 ### 🔴 `/trash/type/{id}` 
@@ -1138,6 +1478,16 @@ curl -X PUT 'http://localhost:3000/v1/trash/type/id-example'
 ```bash
 curl -X DELETE 'http://localhost:3000/v1/trash/type/id-example'
 ```
+
+#### Responses
+
+##### ✅ 200 `Delete trash type (admin) - success`
+
+##### ⚠️ 404 `Resource not found`
+
+##### ⚠️ 429 `Too many requests`
+
+##### ❌ 500 `Internal server error`
 
 ---
 
@@ -1160,6 +1510,16 @@ curl -X DELETE 'http://localhost:3000/v1/trash/type/id-example'
 curl -X GET 'http://localhost:3000/v1/trash/types?cursor=example-cursor&limit=1'
 ```
 
+#### Responses
+
+##### ✅ 200 `List trash types (public) - paginated`
+
+##### ⚠️ 404 `Resource not found`
+
+##### ⚠️ 429 `Too many requests`
+
+##### ❌ 500 `Internal server error`
+
 ---
 
 ### 🔵 `/trash/types` 
@@ -1178,8 +1538,8 @@ curl -X GET 'http://localhost:3000/v1/trash/types?cursor=example-cursor&limit=1'
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| `name` | `string` | ✅ | — |
 | `image` | `string` | ❌ | — |
+| `name` | `string` | ✅ | — |
 
 #### Example cURL
 
@@ -1187,6 +1547,16 @@ curl -X GET 'http://localhost:3000/v1/trash/types?cursor=example-cursor&limit=1'
 curl -X POST 'http://localhost:3000/v1/trash/types' \
   -d '{}'
 ```
+
+#### Responses
+
+##### ✅ 201 `Create trash type (admin) - created`
+
+##### ⚠️ 400 `Validation failed`
+
+##### ⚠️ 429 `Too many requests`
+
+##### ❌ 500 `Internal server error`
 
 ---
 
@@ -1216,10 +1586,10 @@ User addresses
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| `label` | `string` | ✅ | — |
-| `main` | `boolean` | ❌ | — |
-| `phone_number` | `string` | ✅ | — |
 | `address` | `string` | ✅ | — |
+| `phone_number` | `string` | ✅ | — |
+| `main` | `boolean` | ❌ | — |
+| `label` | `string` | ✅ | — |
 
 #### Example cURL
 
@@ -1227,6 +1597,16 @@ User addresses
 curl -X POST 'http://localhost:3000/v1/addresses/user/user_id-example' \
   -d '{}'
 ```
+
+#### Responses
+
+##### ✅ 201 `Create address (auth required) - created`
+
+##### ⚠️ 400 `Validation failed`
+
+##### ⚠️ 429 `Too many requests`
+
+##### ❌ 500 `Internal server error`
 
 ---
 
@@ -1247,6 +1627,18 @@ curl -X POST 'http://localhost:3000/v1/addresses/user/user_id-example' \
 ```bash
 curl -X PUT 'http://localhost:3000/v1/addresses/user/user_id-example'
 ```
+
+#### Responses
+
+##### ✅ 200 `Update address (auth required) - success`
+
+##### ⚠️ 400 `Validation failed`
+
+##### ⚠️ 404 `Resource not found`
+
+##### ⚠️ 429 `Too many requests`
+
+##### ❌ 500 `Internal server error`
 
 ---
 
@@ -1278,6 +1670,16 @@ Seller product listing
 ```bash
 curl -X GET 'http://localhost:3000/v1/sallers/products/id-example?cursor=example-cursor&limit=1'
 ```
+
+#### Responses
+
+##### ✅ 200 `Get seller products - success`
+
+##### ⚠️ 404 `Resource not found`
+
+##### ⚠️ 429 `Too many requests`
+
+##### ❌ 500 `Internal server error`
 
 ---
 

@@ -112,6 +112,15 @@ paths:
         required: false
         schema:
           type: integer
+      responses:
+        '200':
+          description: Get seller products - success
+        '404':
+          description: Resource not found
+        '429':
+          description: Too many requests
+        '500':
+          description: Internal server error
   /addresses/user/{user_id}:
     post:
       operationId: post-addresses-user-{user_id}
@@ -130,18 +139,27 @@ paths:
             schema:
               type: object
               properties:
-                label:
+                address:
+                  type: string
+                phone_number:
                   type: string
                 main:
                   type: boolean
-                phone_number:
-                  type: string
-                address:
+                label:
                   type: string
               required:
-              - label
-              - phone_number
               - address
+              - phone_number
+              - label
+      responses:
+        '201':
+          description: Create address (auth required) - created
+        '400':
+          description: Validation failed
+        '429':
+          description: Too many requests
+        '500':
+          description: Internal server error
     put:
       operationId: put-addresses-user-{user_id}
       summary: Update address (auth required)
@@ -153,6 +171,17 @@ paths:
         required: true
         schema:
           type: string
+      responses:
+        '200':
+          description: Update address (auth required) - success
+        '400':
+          description: Validation failed
+        '404':
+          description: Resource not found
+        '429':
+          description: Too many requests
+        '500':
+          description: Internal server error
   /auth/register:
     post:
       operationId: post-auth-register
@@ -165,16 +194,27 @@ paths:
             schema:
               type: object
               properties:
+                password:
+                  type: string
                 name:
                   type: string
                 email:
                   type: string
-                password:
-                  type: string
               required:
+              - password
               - name
               - email
-              - password
+      responses:
+        '201':
+          description: Register new user - created
+        '400':
+          description: Validation failed
+        '401':
+          description: Authentication required
+        '429':
+          description: Too many requests
+        '500':
+          description: Internal server error
   /articles/{id}:
     get:
       operationId: get-articles-{id}
@@ -187,6 +227,15 @@ paths:
         required: true
         schema:
           type: string
+      responses:
+        '200':
+          description: Get article by ID - success
+        '404':
+          description: Resource not found
+        '429':
+          description: Too many requests
+        '500':
+          description: Internal server error
     put:
       operationId: put-articles-{id}
       summary: Update article
@@ -198,6 +247,17 @@ paths:
         required: true
         schema:
           type: string
+      responses:
+        '200':
+          description: Update article - success
+        '400':
+          description: Validation failed
+        '404':
+          description: Resource not found
+        '429':
+          description: Too many requests
+        '500':
+          description: Internal server error
     delete:
       operationId: delete-articles-{id}
       summary: Delete article
@@ -209,6 +269,15 @@ paths:
         required: true
         schema:
           type: string
+      responses:
+        '200':
+          description: Delete article - success
+        '404':
+          description: Resource not found
+        '429':
+          description: Too many requests
+        '500':
+          description: Internal server error
   /orders:
     get:
       operationId: get-orders
@@ -226,6 +295,15 @@ paths:
         required: false
         schema:
           type: integer
+      responses:
+        '200':
+          description: List all orders (admin) - paginated
+        '404':
+          description: Resource not found
+        '429':
+          description: Too many requests
+        '500':
+          description: Internal server error
   /articles:
     get:
       operationId: get-articles
@@ -245,7 +323,13 @@ paths:
           type: integer
       responses:
         '200':
-          description: Articles
+          description: List articles (public) - paginated
+        '404':
+          description: Resource not found
+        '429':
+          description: Too many requests
+        '500':
+          description: Internal server error
   /products:
     get:
       operationId: get-products
@@ -275,7 +359,13 @@ paths:
           type: string
       responses:
         '200':
-          description: Paginated products
+          description: List products (public, no auth required) - paginated
+        '404':
+          description: Resource not found
+        '429':
+          description: Too many requests
+        '500':
+          description: Internal server error
   /deposites:
     get:
       operationId: get-deposites
@@ -293,6 +383,15 @@ paths:
         required: false
         schema:
           type: integer
+      responses:
+        '200':
+          description: List all deposites (admin) - paginated
+        '404':
+          description: Resource not found
+        '429':
+          description: Too many requests
+        '500':
+          description: Internal server error
     post:
       operationId: post-deposites
       summary: Create deposite (auth required)
@@ -304,28 +403,37 @@ paths:
             schema:
               type: object
               properties:
-                address_id:
+                landfill_id:
                   type: string
                 garbage_type:
                   type: array
-                images:
-                  type: object
-                pickup_date:
-                  type: string
                 pickup_time:
                   type: string
-                landfill_id:
-                  type: string
-                coin:
-                  type: integer
                 type:
                   type: string
+                pickup_date:
+                  type: string
+                address_id:
+                  type: string
+                images:
+                  type: object
+                coin:
+                  type: integer
               required:
-              - address_id
               - garbage_type
-              - pickup_date
               - pickup_time
               - type
+              - pickup_date
+              - address_id
+      responses:
+        '201':
+          description: Create deposite (auth required) - created
+        '400':
+          description: Validation failed
+        '429':
+          description: Too many requests
+        '500':
+          description: Internal server error
   /profile/{email}:
     get:
       operationId: get-profile-{email}
@@ -338,6 +446,15 @@ paths:
         required: true
         schema:
           type: string
+      responses:
+        '200':
+          description: Get user profile - success
+        '404':
+          description: Resource not found
+        '429':
+          description: Too many requests
+        '500':
+          description: Internal server error
     put:
       operationId: put-profile-{email}
       summary: Update user profile
@@ -357,12 +474,23 @@ paths:
               properties:
                 role:
                   type: string
-                name:
-                  type: string
                 phone_number:
+                  type: string
+                name:
                   type: string
                 photo_url:
                   type: string
+      responses:
+        '200':
+          description: Update user profile - success
+        '400':
+          description: Validation failed
+        '404':
+          description: Resource not found
+        '429':
+          description: Too many requests
+        '500':
+          description: Internal server error
   /products/{id}:
     get:
       operationId: get-products-{id}
@@ -376,10 +504,14 @@ paths:
         schema:
           type: string
       responses:
-        '404':
-          description: Product not found
         '200':
-          description: Product data
+          description: Get product by ID - success
+        '404':
+          description: Resource not found
+        '429':
+          description: Too many requests
+        '500':
+          description: Internal server error
     put:
       operationId: put-products-{id}
       summary: Update product
@@ -399,7 +531,15 @@ paths:
               properties: {}
       responses:
         '200':
-          description: Updated product
+          description: Update product - success
+        '400':
+          description: Validation failed
+        '404':
+          description: Resource not found
+        '429':
+          description: Too many requests
+        '500':
+          description: Internal server error
     delete:
       operationId: delete-products-{id}
       summary: Delete product
@@ -413,7 +553,13 @@ paths:
           type: string
       responses:
         '200':
-          description: Product deleted
+          description: Delete product - success
+        '404':
+          description: Resource not found
+        '429':
+          description: Too many requests
+        '500':
+          description: Internal server error
   /landfills:
     get:
       operationId: get-landfills
@@ -431,6 +577,15 @@ paths:
         required: false
         schema:
           type: integer
+      responses:
+        '200':
+          description: List landfills (public) - paginated
+        '404':
+          description: Resource not found
+        '429':
+          description: Too many requests
+        '500':
+          description: Internal server error
     post:
       operationId: post-landfills
       summary: Create landfill (admin)
@@ -442,13 +597,22 @@ paths:
             schema:
               type: object
               properties:
-                address:
-                  type: string
                 name:
                   type: string
+                address:
+                  type: string
               required:
-              - address
               - name
+              - address
+      responses:
+        '201':
+          description: Create landfill (admin) - created
+        '400':
+          description: Validation failed
+        '429':
+          description: Too many requests
+        '500':
+          description: Internal server error
   /trash/type/{id}:
     put:
       operationId: put-trash-type-{id}
@@ -461,6 +625,17 @@ paths:
         required: true
         schema:
           type: string
+      responses:
+        '200':
+          description: Update trash type (admin) - success
+        '400':
+          description: Validation failed
+        '404':
+          description: Resource not found
+        '429':
+          description: Too many requests
+        '500':
+          description: Internal server error
     delete:
       operationId: delete-trash-type-{id}
       summary: Delete trash type (admin)
@@ -472,6 +647,15 @@ paths:
         required: true
         schema:
           type: string
+      responses:
+        '200':
+          description: Delete trash type (admin) - success
+        '404':
+          description: Resource not found
+        '429':
+          description: Too many requests
+        '500':
+          description: Internal server error
   /carts/user/{user_id}:
     get:
       operationId: get-carts-user-{user_id}
@@ -494,6 +678,15 @@ paths:
         required: false
         schema:
           type: integer
+      responses:
+        '200':
+          description: Get user cart - success
+        '404':
+          description: Resource not found
+        '429':
+          description: Too many requests
+        '500':
+          description: Internal server error
     post:
       operationId: post-carts-user-{user_id}
       summary: Add item to cart
@@ -520,6 +713,15 @@ paths:
               required:
               - product_id
               - quantity
+      responses:
+        '201':
+          description: Add item to cart - created
+        '400':
+          description: Validation failed
+        '429':
+          description: Too many requests
+        '500':
+          description: Internal server error
   /trash/types:
     get:
       operationId: get-trash-types
@@ -537,6 +739,15 @@ paths:
         required: false
         schema:
           type: integer
+      responses:
+        '200':
+          description: List trash types (public) - paginated
+        '404':
+          description: Resource not found
+        '429':
+          description: Too many requests
+        '500':
+          description: Internal server error
     post:
       operationId: post-trash-types
       summary: Create trash type (admin)
@@ -548,12 +759,21 @@ paths:
             schema:
               type: object
               properties:
-                name:
-                  type: string
                 image:
+                  type: string
+                name:
                   type: string
               required:
               - name
+      responses:
+        '201':
+          description: Create trash type (admin) - created
+        '400':
+          description: Validation failed
+        '429':
+          description: Too many requests
+        '500':
+          description: Internal server error
   /orders/user/{user_id}:
     get:
       operationId: get-orders-user-{user_id}
@@ -571,6 +791,15 @@ paths:
         required: false
         schema:
           type: string
+      responses:
+        '200':
+          description: Get user orders - success
+        '404':
+          description: Resource not found
+        '429':
+          description: Too many requests
+        '500':
+          description: Internal server error
     post:
       operationId: post-orders-user-{user_id}
       summary: Create order (auth required)
@@ -588,18 +817,27 @@ paths:
             schema:
               type: object
               properties:
-                quantity:
-                  type: integer
-                product_id:
-                  type: string
                 payment:
                   type: object
                 coin:
                   type: integer
+                quantity:
+                  type: integer
+                product_id:
+                  type: string
               required:
+              - payment
               - quantity
               - product_id
-              - payment
+      responses:
+        '201':
+          description: Create order (auth required) - created
+        '400':
+          description: Validation failed
+        '429':
+          description: Too many requests
+        '500':
+          description: Internal server error
   /products/variant/{id}:
     post:
       operationId: post-products-variant-{id}
@@ -618,21 +856,27 @@ paths:
             schema:
               type: object
               properties:
-                stock:
-                  type: integer
-                image:
-                  type: string
-                name:
-                  type: string
                 price:
                   type: integer
+                name:
+                  type: string
+                image:
+                  type: string
+                stock:
+                  type: integer
               required:
-              - stock
-              - name
               - price
+              - name
+              - stock
       responses:
         '201':
-          description: Created variant
+          description: Add product variant - created
+        '400':
+          description: Validation failed
+        '429':
+          description: Too many requests
+        '500':
+          description: Internal server error
   /products/create:
     post:
       operationId: post-products-create
@@ -645,39 +889,45 @@ paths:
             schema:
               type: object
               properties:
-                discount:
-                  type: integer
-                thumbnail:
-                  type: string
-                images:
-                  type: object
-                coin:
-                  type: integer
-                description:
-                  type: string
-                price:
-                  type: integer
-                saller_id:
-                  type: string
-                stock:
-                  type: integer
                 category:
+                  type: string
+                saller_id:
                   type: string
                 recommended:
                   type: boolean
+                price:
+                  type: integer
+                discount:
+                  type: integer
+                stock:
+                  type: integer
+                images:
+                  type: object
                 location:
                   type: string
+                description:
+                  type: string
+                thumbnail:
+                  type: string
+                coin:
+                  type: integer
                 name:
                   type: string
               required:
-              - description
+              - category
               - price
               - stock
-              - category
+              - description
               - name
       responses:
         '201':
-          description: Created product
+          description: Create product - created
+        '400':
+          description: Validation failed
+        '429':
+          description: Too many requests
+        '500':
+          description: Internal server error
   /orders/{id}:
     delete:
       operationId: delete-orders-{id}
@@ -690,6 +940,15 @@ paths:
         required: true
         schema:
           type: string
+      responses:
+        '200':
+          description: Cancel order (auth required) - success
+        '404':
+          description: Resource not found
+        '429':
+          description: Too many requests
+        '500':
+          description: Internal server error
   /banners/type/{type}:
     get:
       operationId: get-banners-type-{type}
@@ -702,6 +961,15 @@ paths:
         required: true
         schema:
           type: string
+      responses:
+        '200':
+          description: List banners by type - paginated
+        '404':
+          description: Resource not found
+        '429':
+          description: Too many requests
+        '500':
+          description: Internal server error
   /reviews/{id}:
     put:
       operationId: put-reviews-{id}
@@ -720,10 +988,21 @@ paths:
             schema:
               type: object
               properties:
-                comment:
-                  type: string
                 rating:
                   type: integer
+                comment:
+                  type: string
+      responses:
+        '200':
+          description: Update review (auth required) - success
+        '400':
+          description: Validation failed
+        '404':
+          description: Resource not found
+        '429':
+          description: Too many requests
+        '500':
+          description: Internal server error
   /articles/create:
     post:
       operationId: post-articles-create
@@ -736,16 +1015,25 @@ paths:
             schema:
               type: object
               properties:
-                header:
-                  type: string
                 content:
+                  type: string
+                header:
                   type: string
                 thumbnail:
                   type: string
               required:
-              - header
               - content
+              - header
               - thumbnail
+      responses:
+        '201':
+          description: Create article - created
+        '400':
+          description: Validation failed
+        '429':
+          description: Too many requests
+        '500':
+          description: Internal server error
   /reviews:
     post:
       operationId: post-reviews
@@ -758,18 +1046,27 @@ paths:
             schema:
               type: object
               properties:
-                images:
-                  type: object
-                rating:
-                  type: integer
-                comment:
-                  type: string
                 product_id:
                   type: string
+                comment:
+                  type: string
+                rating:
+                  type: integer
+                images:
+                  type: object
               required:
-              - rating
-              - comment
               - product_id
+              - comment
+              - rating
+      responses:
+        '201':
+          description: Create review (auth required) - created
+        '400':
+          description: Validation failed
+        '429':
+          description: Too many requests
+        '500':
+          description: Internal server error
   /auth/reset-password:
     post:
       operationId: post-auth-reset-password
@@ -786,6 +1083,17 @@ paths:
                   type: string
               required:
               - email
+      responses:
+        '201':
+          description: Request password reset - created
+        '400':
+          description: Validation failed
+        '401':
+          description: Authentication required
+        '429':
+          description: Too many requests
+        '500':
+          description: Internal server error
   /carts/item/{id}:
     delete:
       operationId: delete-carts-item-{id}
@@ -798,6 +1106,15 @@ paths:
         required: true
         schema:
           type: string
+      responses:
+        '200':
+          description: Remove cart item - success
+        '404':
+          description: Resource not found
+        '429':
+          description: Too many requests
+        '500':
+          description: Internal server error
   /deposites/user/{id}:
     get:
       operationId: get-deposites-user-{id}
@@ -815,6 +1132,15 @@ paths:
         required: false
         schema:
           type: string
+      responses:
+        '200':
+          description: Get user deposites - success
+        '404':
+          description: Resource not found
+        '429':
+          description: Too many requests
+        '500':
+          description: Internal server error
   /auth:
     post:
       operationId: post-auth
@@ -828,8 +1154,16 @@ paths:
               type: object
               properties: {}
       responses:
-        '200':
-          description: JWT tokens + user data
+        '201':
+          description: Login (Firebase token → JWT) - created
+        '400':
+          description: Validation failed
+        '401':
+          description: Authentication required
+        '429':
+          description: Too many requests
+        '500':
+          description: Internal server error
   /landfills/{id}:
     put:
       operationId: put-landfills-{id}
@@ -842,6 +1176,17 @@ paths:
         required: true
         schema:
           type: string
+      responses:
+        '200':
+          description: Update landfill (admin) - success
+        '400':
+          description: Validation failed
+        '404':
+          description: Resource not found
+        '429':
+          description: Too many requests
+        '500':
+          description: Internal server error
     delete:
       operationId: delete-landfills-{id}
       summary: Delete landfill (admin)
@@ -853,6 +1198,15 @@ paths:
         required: true
         schema:
           type: string
+      responses:
+        '200':
+          description: Delete landfill (admin) - success
+        '404':
+          description: Resource not found
+        '429':
+          description: Too many requests
+        '500':
+          description: Internal server error
   /banners/create:
     post:
       operationId: post-banners-create
@@ -871,6 +1225,15 @@ paths:
                   type: string
               required:
               - image
+      responses:
+        '201':
+          description: Create banner - created
+        '400':
+          description: Validation failed
+        '429':
+          description: Too many requests
+        '500':
+          description: Internal server error
   /banners:
     get:
       operationId: get-banners
@@ -890,4 +1253,10 @@ paths:
           type: integer
       responses:
         '200':
-          description: Banners
+          description: List all banners (public) - paginated
+        '404':
+          description: Resource not found
+        '429':
+          description: Too many requests
+        '500':
+          description: Internal server error

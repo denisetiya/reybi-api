@@ -6,6 +6,8 @@
 - **README.md** — comprehensive project overview with quick start, architecture, cursor pagination guide, security details
 - **Cursor pagination tutorial** in API docs — step-by-step example flow across 3 pages, query params table, response format
 - **Apinox schema** (`docs/apinox-schema.yml`) — imported from OpenAPI 3.0 for multi-format doc generation
+- **Response examples for all 42 endpoints** — 200, 201, 400, 401, 404, 429, 500 status codes with real data shapes (178 total responses)
+- All 7 Apinox output formats regenerated (OpenAPI, Postman, Markdown, Scalar, Insomnia, Hurl, Shell)
 - Cursor params on all 11 list endpoints in OpenAPI schema
 - **profile/dto.rs** — `UpdateProfileRequest` struct (was missing from module restructure)
 - **i18n documentation** in README — switch language via `?locale=id` or `Accept-Language: id` header

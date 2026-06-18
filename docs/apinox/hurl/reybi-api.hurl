@@ -91,12 +91,16 @@ Authorization: Bearer {{token}}
 ```json
 {}
 ```
+[Assert]
+status == 201
 
 # Endpoint: Update address (auth required)
 # PUT /addresses/user/{user_id}
 PUT http://localhost:3000/v1/addresses/user/{user_id}
 [Headers]
 Authorization: Bearer {{token}}
+[Assert]
+status == 200
 
 ### articles ###
 
@@ -105,18 +109,24 @@ Authorization: Bearer {{token}}
 GET http://localhost:3000/v1/articles/{id}
 [Headers]
 Authorization: Bearer {{token}}
+[Assert]
+status == 200
 
 # Endpoint: Update article
 # PUT /articles/{id}
 PUT http://localhost:3000/v1/articles/{id}
 [Headers]
 Authorization: Bearer {{token}}
+[Assert]
+status == 200
 
 # Endpoint: Delete article
 # DELETE /articles/{id}
 DELETE http://localhost:3000/v1/articles/{id}
 [Headers]
 Authorization: Bearer {{token}}
+[Assert]
+status == 200
 
 # Endpoint: List articles (public)
 # GET /articles
@@ -138,6 +148,8 @@ Authorization: Bearer {{token}}
 ```json
 {}
 ```
+[Assert]
+status == 201
 
 ### auth ###
 
@@ -150,6 +162,8 @@ Authorization: Bearer {{token}}
 ```json
 {}
 ```
+[Assert]
+status == 201
 
 # Endpoint: Request password reset
 # POST /auth/reset-password
@@ -160,6 +174,8 @@ Authorization: Bearer {{token}}
 ```json
 {}
 ```
+[Assert]
+status == 201
 
 # Endpoint: Login (Firebase token → JWT)
 # POST /auth
@@ -171,7 +187,7 @@ Authorization: Bearer {{token}}
 {}
 ```
 [Assert]
-status == 200
+status == 201
 
 ### banners ###
 
@@ -180,6 +196,8 @@ status == 200
 GET http://localhost:3000/v1/banners/type/{type}
 [Headers]
 Authorization: Bearer {{token}}
+[Assert]
+status == 200
 
 # Endpoint: Create banner
 # POST /banners/create
@@ -190,6 +208,8 @@ Authorization: Bearer {{token}}
 ```json
 {}
 ```
+[Assert]
+status == 201
 
 # Endpoint: List all banners (public)
 # GET /banners
@@ -212,6 +232,8 @@ cursor:
 limit: 25
 [Headers]
 Authorization: Bearer {{token}}
+[Assert]
+status == 200
 
 # Endpoint: Add item to cart
 # POST /carts/user/{user_id}
@@ -222,12 +244,16 @@ Authorization: Bearer {{token}}
 ```json
 {}
 ```
+[Assert]
+status == 201
 
 # Endpoint: Remove cart item
 # DELETE /carts/item/{id}
 DELETE http://localhost:3000/v1/carts/item/{id}
 [Headers]
 Authorization: Bearer {{token}}
+[Assert]
+status == 200
 
 ### deposites ###
 
@@ -239,6 +265,8 @@ cursor:
 limit: 25
 [Headers]
 Authorization: Bearer {{token}}
+[Assert]
+status == 200
 
 # Endpoint: Create deposite (auth required)
 # POST /deposites
@@ -249,6 +277,8 @@ Authorization: Bearer {{token}}
 ```json
 {}
 ```
+[Assert]
+status == 201
 
 # Endpoint: Get user deposites
 # GET /deposites/user/{id}
@@ -257,6 +287,8 @@ GET http://localhost:3000/v1/deposites/user/{id}
 cursor: 
 [Headers]
 Authorization: Bearer {{token}}
+[Assert]
+status == 200
 
 ### landfills ###
 
@@ -268,6 +300,8 @@ cursor:
 limit: 25
 [Headers]
 Authorization: Bearer {{token}}
+[Assert]
+status == 200
 
 # Endpoint: Create landfill (admin)
 # POST /landfills
@@ -278,18 +312,24 @@ Authorization: Bearer {{token}}
 ```json
 {}
 ```
+[Assert]
+status == 201
 
 # Endpoint: Update landfill (admin)
 # PUT /landfills/{id}
 PUT http://localhost:3000/v1/landfills/{id}
 [Headers]
 Authorization: Bearer {{token}}
+[Assert]
+status == 200
 
 # Endpoint: Delete landfill (admin)
 # DELETE /landfills/{id}
 DELETE http://localhost:3000/v1/landfills/{id}
 [Headers]
 Authorization: Bearer {{token}}
+[Assert]
+status == 200
 
 ### orders ###
 
@@ -301,6 +341,8 @@ cursor:
 limit: 25
 [Headers]
 Authorization: Bearer {{token}}
+[Assert]
+status == 200
 
 # Endpoint: Get user orders
 # GET /orders/user/{user_id}
@@ -309,6 +351,8 @@ GET http://localhost:3000/v1/orders/user/{user_id}
 cursor: 
 [Headers]
 Authorization: Bearer {{token}}
+[Assert]
+status == 200
 
 # Endpoint: Create order (auth required)
 # POST /orders/user/{user_id}
@@ -319,12 +363,16 @@ Authorization: Bearer {{token}}
 ```json
 {}
 ```
+[Assert]
+status == 201
 
 # Endpoint: Cancel order (auth required)
 # DELETE /orders/{id}
 DELETE http://localhost:3000/v1/orders/{id}
 [Headers]
 Authorization: Bearer {{token}}
+[Assert]
+status == 200
 
 ### products ###
 
@@ -400,6 +448,8 @@ status == 201
 GET http://localhost:3000/v1/profile/{email}
 [Headers]
 Authorization: Bearer {{token}}
+[Assert]
+status == 200
 
 # Endpoint: Update user profile
 # PUT /profile/{email}
@@ -410,6 +460,8 @@ Authorization: Bearer {{token}}
 ```json
 {}
 ```
+[Assert]
+status == 200
 
 ### reviews ###
 
@@ -422,6 +474,8 @@ Authorization: Bearer {{token}}
 ```json
 {}
 ```
+[Assert]
+status == 200
 
 # Endpoint: Create review (auth required)
 # POST /reviews
@@ -432,6 +486,8 @@ Authorization: Bearer {{token}}
 ```json
 {}
 ```
+[Assert]
+status == 201
 
 ### sallers ###
 
@@ -443,6 +499,8 @@ cursor:
 limit: 25
 [Headers]
 Authorization: Bearer {{token}}
+[Assert]
+status == 200
 
 ### trash ###
 
@@ -451,12 +509,16 @@ Authorization: Bearer {{token}}
 PUT http://localhost:3000/v1/trash/type/{id}
 [Headers]
 Authorization: Bearer {{token}}
+[Assert]
+status == 200
 
 # Endpoint: Delete trash type (admin)
 # DELETE /trash/type/{id}
 DELETE http://localhost:3000/v1/trash/type/{id}
 [Headers]
 Authorization: Bearer {{token}}
+[Assert]
+status == 200
 
 # Endpoint: List trash types (public)
 # GET /trash/types
@@ -466,6 +528,8 @@ cursor:
 limit: 25
 [Headers]
 Authorization: Bearer {{token}}
+[Assert]
+status == 200
 
 # Endpoint: Create trash type (admin)
 # POST /trash/types
@@ -476,4 +540,6 @@ Authorization: Bearer {{token}}
 ```json
 {}
 ```
+[Assert]
+status == 201
 

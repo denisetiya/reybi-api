@@ -19,6 +19,188 @@
     {
       "item": [
         {
+          "name": "Get user cart",
+          "request": {
+            "header": [],
+            "method": "GET",
+            "url": {
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "carts",
+                "user",
+                "{user_id}"
+              ],
+              "protocol": "https",
+              "query": [
+                {
+                  "description": "",
+                  "key": "cursor",
+                  "value": ""
+                },
+                {
+                  "description": "",
+                  "key": "limit",
+                  "value": "25"
+                }
+              ],
+              "raw": "{{base_url}}/carts/user/{user_id}",
+              "variable": [
+                {
+                  "description": "",
+                  "key": "user_id",
+                  "value": ":user_id"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "code": 200,
+              "name": "200 Get user cart - success",
+              "originalRequest": {},
+              "status": "OK"
+            },
+            {
+              "code": 404,
+              "name": "404 Resource not found",
+              "originalRequest": {},
+              "status": "Not Found"
+            },
+            {
+              "code": 429,
+              "name": "429 Too many requests",
+              "originalRequest": {},
+              "status": "Too Many Requests"
+            },
+            {
+              "code": 500,
+              "name": "500 Internal server error",
+              "originalRequest": {},
+              "status": "Internal Server Error"
+            }
+          ]
+        },
+        {
+          "name": "Add item to cart",
+          "request": {
+            "body": {
+              "mode": "raw",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              },
+              "raw": "{\n  \"product_id\": \"{$randomWord}\",\n  \"quantity\": \"{{$randomInt}}\",\n  \"variant_id\": \"{$randomWord}\"\n}"
+            },
+            "header": [],
+            "method": "POST",
+            "url": {
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "carts",
+                "user",
+                "{user_id}"
+              ],
+              "protocol": "https",
+              "raw": "{{base_url}}/carts/user/{user_id}",
+              "variable": [
+                {
+                  "description": "",
+                  "key": "user_id",
+                  "value": ":user_id"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "code": 201,
+              "name": "201 Add item to cart - created",
+              "originalRequest": {},
+              "status": "Created"
+            },
+            {
+              "code": 400,
+              "name": "400 Validation failed",
+              "originalRequest": {},
+              "status": "Bad Request"
+            },
+            {
+              "code": 429,
+              "name": "429 Too many requests",
+              "originalRequest": {},
+              "status": "Too Many Requests"
+            },
+            {
+              "code": 500,
+              "name": "500 Internal server error",
+              "originalRequest": {},
+              "status": "Internal Server Error"
+            }
+          ]
+        },
+        {
+          "name": "Remove cart item",
+          "request": {
+            "header": [],
+            "method": "DELETE",
+            "url": {
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "carts",
+                "item",
+                "{id}"
+              ],
+              "protocol": "https",
+              "raw": "{{base_url}}/carts/item/{id}",
+              "variable": [
+                {
+                  "description": "",
+                  "key": "id",
+                  "value": ":id"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "code": 200,
+              "name": "200 Remove cart item - success",
+              "originalRequest": {},
+              "status": "OK"
+            },
+            {
+              "code": 404,
+              "name": "404 Resource not found",
+              "originalRequest": {},
+              "status": "Not Found"
+            },
+            {
+              "code": 429,
+              "name": "429 Too many requests",
+              "originalRequest": {},
+              "status": "Too Many Requests"
+            },
+            {
+              "code": 500,
+              "name": "500 Internal server error",
+              "originalRequest": {},
+              "status": "Internal Server Error"
+            }
+          ]
+        }
+      ],
+      "name": "carts"
+    },
+    {
+      "item": [
+        {
           "name": "Get seller products",
           "request": {
             "header": [],
@@ -55,10 +237,436 @@
               ]
             }
           },
-          "response": []
+          "response": [
+            {
+              "code": 200,
+              "name": "200 Get seller products - success",
+              "originalRequest": {},
+              "status": "OK"
+            },
+            {
+              "code": 404,
+              "name": "404 Resource not found",
+              "originalRequest": {},
+              "status": "Not Found"
+            },
+            {
+              "code": 429,
+              "name": "429 Too many requests",
+              "originalRequest": {},
+              "status": "Too Many Requests"
+            },
+            {
+              "code": 500,
+              "name": "500 Internal server error",
+              "originalRequest": {},
+              "status": "Internal Server Error"
+            }
+          ]
         }
       ],
       "name": "sallers"
+    },
+    {
+      "item": [
+        {
+          "name": "List landfills (public)",
+          "request": {
+            "header": [],
+            "method": "GET",
+            "url": {
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "landfills"
+              ],
+              "protocol": "https",
+              "query": [
+                {
+                  "description": "",
+                  "key": "cursor",
+                  "value": ""
+                },
+                {
+                  "description": "",
+                  "key": "limit",
+                  "value": "25"
+                }
+              ],
+              "raw": "{{base_url}}/landfills"
+            }
+          },
+          "response": [
+            {
+              "code": 200,
+              "name": "200 List landfills (public) - paginated",
+              "originalRequest": {},
+              "status": "OK"
+            },
+            {
+              "code": 404,
+              "name": "404 Resource not found",
+              "originalRequest": {},
+              "status": "Not Found"
+            },
+            {
+              "code": 429,
+              "name": "429 Too many requests",
+              "originalRequest": {},
+              "status": "Too Many Requests"
+            },
+            {
+              "code": 500,
+              "name": "500 Internal server error",
+              "originalRequest": {},
+              "status": "Internal Server Error"
+            }
+          ]
+        },
+        {
+          "name": "Create landfill (admin)",
+          "request": {
+            "body": {
+              "mode": "raw",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              },
+              "raw": "{\n  \"address\": \"{$randomWord}\",\n  \"name\": \"{{$randomFullName}}\"\n}"
+            },
+            "header": [],
+            "method": "POST",
+            "url": {
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "landfills"
+              ],
+              "protocol": "https",
+              "raw": "{{base_url}}/landfills"
+            }
+          },
+          "response": [
+            {
+              "code": 201,
+              "name": "201 Create landfill (admin) - created",
+              "originalRequest": {},
+              "status": "Created"
+            },
+            {
+              "code": 400,
+              "name": "400 Validation failed",
+              "originalRequest": {},
+              "status": "Bad Request"
+            },
+            {
+              "code": 429,
+              "name": "429 Too many requests",
+              "originalRequest": {},
+              "status": "Too Many Requests"
+            },
+            {
+              "code": 500,
+              "name": "500 Internal server error",
+              "originalRequest": {},
+              "status": "Internal Server Error"
+            }
+          ]
+        },
+        {
+          "name": "Update landfill (admin)",
+          "request": {
+            "header": [],
+            "method": "PUT",
+            "url": {
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "landfills",
+                "{id}"
+              ],
+              "protocol": "https",
+              "raw": "{{base_url}}/landfills/{id}",
+              "variable": [
+                {
+                  "description": "",
+                  "key": "id",
+                  "value": ":id"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "code": 200,
+              "name": "200 Update landfill (admin) - success",
+              "originalRequest": {},
+              "status": "OK"
+            },
+            {
+              "code": 400,
+              "name": "400 Validation failed",
+              "originalRequest": {},
+              "status": "Bad Request"
+            },
+            {
+              "code": 404,
+              "name": "404 Resource not found",
+              "originalRequest": {},
+              "status": "Not Found"
+            },
+            {
+              "code": 429,
+              "name": "429 Too many requests",
+              "originalRequest": {},
+              "status": "Too Many Requests"
+            },
+            {
+              "code": 500,
+              "name": "500 Internal server error",
+              "originalRequest": {},
+              "status": "Internal Server Error"
+            }
+          ]
+        },
+        {
+          "name": "Delete landfill (admin)",
+          "request": {
+            "header": [],
+            "method": "DELETE",
+            "url": {
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "landfills",
+                "{id}"
+              ],
+              "protocol": "https",
+              "raw": "{{base_url}}/landfills/{id}",
+              "variable": [
+                {
+                  "description": "",
+                  "key": "id",
+                  "value": ":id"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "code": 200,
+              "name": "200 Delete landfill (admin) - success",
+              "originalRequest": {},
+              "status": "OK"
+            },
+            {
+              "code": 404,
+              "name": "404 Resource not found",
+              "originalRequest": {},
+              "status": "Not Found"
+            },
+            {
+              "code": 429,
+              "name": "429 Too many requests",
+              "originalRequest": {},
+              "status": "Too Many Requests"
+            },
+            {
+              "code": 500,
+              "name": "500 Internal server error",
+              "originalRequest": {},
+              "status": "Internal Server Error"
+            }
+          ]
+        }
+      ],
+      "name": "landfills"
+    },
+    {
+      "item": [
+        {
+          "name": "Register new user",
+          "request": {
+            "body": {
+              "mode": "raw",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              },
+              "raw": "{\n  \"email\": \"{{$randomEmail}}\",\n  \"name\": \"{{$randomFullName}}\",\n  \"password\": \"{{$randomWords}}\"\n}"
+            },
+            "header": [],
+            "method": "POST",
+            "url": {
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "auth",
+                "register"
+              ],
+              "protocol": "https",
+              "raw": "{{base_url}}/auth/register"
+            }
+          },
+          "response": [
+            {
+              "code": 201,
+              "name": "201 Register new user - created",
+              "originalRequest": {},
+              "status": "Created"
+            },
+            {
+              "code": 400,
+              "name": "400 Validation failed",
+              "originalRequest": {},
+              "status": "Bad Request"
+            },
+            {
+              "code": 401,
+              "name": "401 Authentication required",
+              "originalRequest": {},
+              "status": "Unauthorized"
+            },
+            {
+              "code": 429,
+              "name": "429 Too many requests",
+              "originalRequest": {},
+              "status": "Too Many Requests"
+            },
+            {
+              "code": 500,
+              "name": "500 Internal server error",
+              "originalRequest": {},
+              "status": "Internal Server Error"
+            }
+          ]
+        },
+        {
+          "name": "Request password reset",
+          "request": {
+            "body": {
+              "mode": "raw",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              },
+              "raw": "{\n  \"email\": \"{{$randomEmail}}\"\n}"
+            },
+            "header": [],
+            "method": "POST",
+            "url": {
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "auth",
+                "reset-password"
+              ],
+              "protocol": "https",
+              "raw": "{{base_url}}/auth/reset-password"
+            }
+          },
+          "response": [
+            {
+              "code": 201,
+              "name": "201 Request password reset - created",
+              "originalRequest": {},
+              "status": "Created"
+            },
+            {
+              "code": 400,
+              "name": "400 Validation failed",
+              "originalRequest": {},
+              "status": "Bad Request"
+            },
+            {
+              "code": 401,
+              "name": "401 Authentication required",
+              "originalRequest": {},
+              "status": "Unauthorized"
+            },
+            {
+              "code": 429,
+              "name": "429 Too many requests",
+              "originalRequest": {},
+              "status": "Too Many Requests"
+            },
+            {
+              "code": 500,
+              "name": "500 Internal server error",
+              "originalRequest": {},
+              "status": "Internal Server Error"
+            }
+          ]
+        },
+        {
+          "name": "Login (Firebase token → JWT)",
+          "request": {
+            "body": {
+              "mode": "raw",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              },
+              "raw": "{}"
+            },
+            "header": [],
+            "method": "POST",
+            "url": {
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "auth"
+              ],
+              "protocol": "https",
+              "raw": "{{base_url}}/auth"
+            }
+          },
+          "response": [
+            {
+              "code": 201,
+              "name": "201 Login (Firebase token → JWT) - created",
+              "originalRequest": {},
+              "status": "Created"
+            },
+            {
+              "code": 400,
+              "name": "400 Validation failed",
+              "originalRequest": {},
+              "status": "Bad Request"
+            },
+            {
+              "code": 401,
+              "name": "401 Authentication required",
+              "originalRequest": {},
+              "status": "Unauthorized"
+            },
+            {
+              "code": 429,
+              "name": "429 Too many requests",
+              "originalRequest": {},
+              "status": "Too Many Requests"
+            },
+            {
+              "code": 500,
+              "name": "500 Internal server error",
+              "originalRequest": {},
+              "status": "Internal Server Error"
+            }
+          ]
+        }
+      ],
+      "name": "auth"
     },
     {
       "item": [
@@ -86,7 +694,32 @@
               ]
             }
           },
-          "response": []
+          "response": [
+            {
+              "code": 200,
+              "name": "200 Get article by ID - success",
+              "originalRequest": {},
+              "status": "OK"
+            },
+            {
+              "code": 404,
+              "name": "404 Resource not found",
+              "originalRequest": {},
+              "status": "Not Found"
+            },
+            {
+              "code": 429,
+              "name": "429 Too many requests",
+              "originalRequest": {},
+              "status": "Too Many Requests"
+            },
+            {
+              "code": 500,
+              "name": "500 Internal server error",
+              "originalRequest": {},
+              "status": "Internal Server Error"
+            }
+          ]
         },
         {
           "name": "Update article",
@@ -112,7 +745,38 @@
               ]
             }
           },
-          "response": []
+          "response": [
+            {
+              "code": 200,
+              "name": "200 Update article - success",
+              "originalRequest": {},
+              "status": "OK"
+            },
+            {
+              "code": 400,
+              "name": "400 Validation failed",
+              "originalRequest": {},
+              "status": "Bad Request"
+            },
+            {
+              "code": 404,
+              "name": "404 Resource not found",
+              "originalRequest": {},
+              "status": "Not Found"
+            },
+            {
+              "code": 429,
+              "name": "429 Too many requests",
+              "originalRequest": {},
+              "status": "Too Many Requests"
+            },
+            {
+              "code": 500,
+              "name": "500 Internal server error",
+              "originalRequest": {},
+              "status": "Internal Server Error"
+            }
+          ]
         },
         {
           "name": "Delete article",
@@ -138,7 +802,32 @@
               ]
             }
           },
-          "response": []
+          "response": [
+            {
+              "code": 200,
+              "name": "200 Delete article - success",
+              "originalRequest": {},
+              "status": "OK"
+            },
+            {
+              "code": 404,
+              "name": "404 Resource not found",
+              "originalRequest": {},
+              "status": "Not Found"
+            },
+            {
+              "code": 429,
+              "name": "429 Too many requests",
+              "originalRequest": {},
+              "status": "Too Many Requests"
+            },
+            {
+              "code": 500,
+              "name": "500 Internal server error",
+              "originalRequest": {},
+              "status": "Internal Server Error"
+            }
+          ]
         },
         {
           "name": "List articles (public)",
@@ -171,9 +860,27 @@
           "response": [
             {
               "code": 200,
-              "name": "200 Articles",
+              "name": "200 List articles (public) - paginated",
               "originalRequest": {},
               "status": "OK"
+            },
+            {
+              "code": 404,
+              "name": "404 Resource not found",
+              "originalRequest": {},
+              "status": "Not Found"
+            },
+            {
+              "code": 429,
+              "name": "429 Too many requests",
+              "originalRequest": {},
+              "status": "Too Many Requests"
+            },
+            {
+              "code": 500,
+              "name": "500 Internal server error",
+              "originalRequest": {},
+              "status": "Internal Server Error"
             }
           ]
         },
@@ -203,105 +910,35 @@
               "raw": "{{base_url}}/articles/create"
             }
           },
-          "response": []
-        }
-      ],
-      "name": "articles"
-    },
-    {
-      "item": [
-        {
-          "name": "Register new user",
-          "request": {
-            "body": {
-              "mode": "raw",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              },
-              "raw": "{\n  \"email\": \"{{$randomEmail}}\",\n  \"name\": \"{{$randomFullName}}\",\n  \"password\": \"{{$randomWords}}\"\n}"
-            },
-            "header": [],
-            "method": "POST",
-            "url": {
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "auth",
-                "register"
-              ],
-              "protocol": "https",
-              "raw": "{{base_url}}/auth/register"
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Request password reset",
-          "request": {
-            "body": {
-              "mode": "raw",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              },
-              "raw": "{\n  \"email\": \"{{$randomEmail}}\"\n}"
-            },
-            "header": [],
-            "method": "POST",
-            "url": {
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "auth",
-                "reset-password"
-              ],
-              "protocol": "https",
-              "raw": "{{base_url}}/auth/reset-password"
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Login (Firebase token → JWT)",
-          "request": {
-            "body": {
-              "mode": "raw",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              },
-              "raw": "{}"
-            },
-            "header": [],
-            "method": "POST",
-            "url": {
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "auth"
-              ],
-              "protocol": "https",
-              "raw": "{{base_url}}/auth"
-            }
-          },
           "response": [
             {
-              "code": 200,
-              "name": "200 JWT tokens + user data",
+              "code": 201,
+              "name": "201 Create article - created",
               "originalRequest": {},
-              "status": "OK"
+              "status": "Created"
+            },
+            {
+              "code": 400,
+              "name": "400 Validation failed",
+              "originalRequest": {},
+              "status": "Bad Request"
+            },
+            {
+              "code": 429,
+              "name": "429 Too many requests",
+              "originalRequest": {},
+              "status": "Too Many Requests"
+            },
+            {
+              "code": 500,
+              "name": "500 Internal server error",
+              "originalRequest": {},
+              "status": "Internal Server Error"
             }
           ]
         }
       ],
-      "name": "auth"
+      "name": "articles"
     },
     {
       "item": [
@@ -339,7 +976,32 @@
               ]
             }
           },
-          "response": []
+          "response": [
+            {
+              "code": 201,
+              "name": "201 Create address (auth required) - created",
+              "originalRequest": {},
+              "status": "Created"
+            },
+            {
+              "code": 400,
+              "name": "400 Validation failed",
+              "originalRequest": {},
+              "status": "Bad Request"
+            },
+            {
+              "code": 429,
+              "name": "429 Too many requests",
+              "originalRequest": {},
+              "status": "Too Many Requests"
+            },
+            {
+              "code": 500,
+              "name": "500 Internal server error",
+              "originalRequest": {},
+              "status": "Internal Server Error"
+            }
+          ]
         },
         {
           "name": "Update address (auth required)",
@@ -366,10 +1028,731 @@
               ]
             }
           },
-          "response": []
+          "response": [
+            {
+              "code": 200,
+              "name": "200 Update address (auth required) - success",
+              "originalRequest": {},
+              "status": "OK"
+            },
+            {
+              "code": 400,
+              "name": "400 Validation failed",
+              "originalRequest": {},
+              "status": "Bad Request"
+            },
+            {
+              "code": 404,
+              "name": "404 Resource not found",
+              "originalRequest": {},
+              "status": "Not Found"
+            },
+            {
+              "code": 429,
+              "name": "429 Too many requests",
+              "originalRequest": {},
+              "status": "Too Many Requests"
+            },
+            {
+              "code": 500,
+              "name": "500 Internal server error",
+              "originalRequest": {},
+              "status": "Internal Server Error"
+            }
+          ]
         }
       ],
       "name": "addresses"
+    },
+    {
+      "item": [
+        {
+          "name": "List all deposites (admin)",
+          "request": {
+            "header": [],
+            "method": "GET",
+            "url": {
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "deposites"
+              ],
+              "protocol": "https",
+              "query": [
+                {
+                  "description": "",
+                  "key": "cursor",
+                  "value": ""
+                },
+                {
+                  "description": "",
+                  "key": "limit",
+                  "value": "25"
+                }
+              ],
+              "raw": "{{base_url}}/deposites"
+            }
+          },
+          "response": [
+            {
+              "code": 200,
+              "name": "200 List all deposites (admin) - paginated",
+              "originalRequest": {},
+              "status": "OK"
+            },
+            {
+              "code": 404,
+              "name": "404 Resource not found",
+              "originalRequest": {},
+              "status": "Not Found"
+            },
+            {
+              "code": 429,
+              "name": "429 Too many requests",
+              "originalRequest": {},
+              "status": "Too Many Requests"
+            },
+            {
+              "code": 500,
+              "name": "500 Internal server error",
+              "originalRequest": {},
+              "status": "Internal Server Error"
+            }
+          ]
+        },
+        {
+          "name": "Create deposite (auth required)",
+          "request": {
+            "body": {
+              "mode": "raw",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              },
+              "raw": "{\n  \"address_id\": \"{$randomWord}\",\n  \"coin\": \"{{$randomInt}}\",\n  \"garbage_type\": [\n    \"item1\",\n    \"item2\"\n  ],\n  \"images\": \"{$randomWord}\",\n  \"landfill_id\": \"{$randomWord}\",\n  \"pickup_date\": \"{$randomWord}\",\n  \"pickup_time\": \"{$randomWord}\",\n  \"type\": \"{$randomWord}\"\n}"
+            },
+            "header": [],
+            "method": "POST",
+            "url": {
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "deposites"
+              ],
+              "protocol": "https",
+              "raw": "{{base_url}}/deposites"
+            }
+          },
+          "response": [
+            {
+              "code": 201,
+              "name": "201 Create deposite (auth required) - created",
+              "originalRequest": {},
+              "status": "Created"
+            },
+            {
+              "code": 400,
+              "name": "400 Validation failed",
+              "originalRequest": {},
+              "status": "Bad Request"
+            },
+            {
+              "code": 429,
+              "name": "429 Too many requests",
+              "originalRequest": {},
+              "status": "Too Many Requests"
+            },
+            {
+              "code": 500,
+              "name": "500 Internal server error",
+              "originalRequest": {},
+              "status": "Internal Server Error"
+            }
+          ]
+        },
+        {
+          "name": "Get user deposites",
+          "request": {
+            "header": [],
+            "method": "GET",
+            "url": {
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "deposites",
+                "user",
+                "{id}"
+              ],
+              "protocol": "https",
+              "query": [
+                {
+                  "description": "",
+                  "key": "cursor",
+                  "value": ""
+                }
+              ],
+              "raw": "{{base_url}}/deposites/user/{id}",
+              "variable": [
+                {
+                  "description": "",
+                  "key": "id",
+                  "value": ":id"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "code": 200,
+              "name": "200 Get user deposites - success",
+              "originalRequest": {},
+              "status": "OK"
+            },
+            {
+              "code": 404,
+              "name": "404 Resource not found",
+              "originalRequest": {},
+              "status": "Not Found"
+            },
+            {
+              "code": 429,
+              "name": "429 Too many requests",
+              "originalRequest": {},
+              "status": "Too Many Requests"
+            },
+            {
+              "code": 500,
+              "name": "500 Internal server error",
+              "originalRequest": {},
+              "status": "Internal Server Error"
+            }
+          ]
+        }
+      ],
+      "name": "deposites"
+    },
+    {
+      "item": [
+        {
+          "name": "List banners by type",
+          "request": {
+            "header": [],
+            "method": "GET",
+            "url": {
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "banners",
+                "type",
+                "{type}"
+              ],
+              "protocol": "https",
+              "raw": "{{base_url}}/banners/type/{type}",
+              "variable": [
+                {
+                  "description": "",
+                  "key": "type",
+                  "value": ":type"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "code": 200,
+              "name": "200 List banners by type - paginated",
+              "originalRequest": {},
+              "status": "OK"
+            },
+            {
+              "code": 404,
+              "name": "404 Resource not found",
+              "originalRequest": {},
+              "status": "Not Found"
+            },
+            {
+              "code": 429,
+              "name": "429 Too many requests",
+              "originalRequest": {},
+              "status": "Too Many Requests"
+            },
+            {
+              "code": 500,
+              "name": "500 Internal server error",
+              "originalRequest": {},
+              "status": "Internal Server Error"
+            }
+          ]
+        },
+        {
+          "name": "Create banner",
+          "request": {
+            "body": {
+              "mode": "raw",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              },
+              "raw": "{\n  \"image\": \"{$randomWord}\",\n  \"type\": \"{$randomWord}\"\n}"
+            },
+            "header": [],
+            "method": "POST",
+            "url": {
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "banners",
+                "create"
+              ],
+              "protocol": "https",
+              "raw": "{{base_url}}/banners/create"
+            }
+          },
+          "response": [
+            {
+              "code": 201,
+              "name": "201 Create banner - created",
+              "originalRequest": {},
+              "status": "Created"
+            },
+            {
+              "code": 400,
+              "name": "400 Validation failed",
+              "originalRequest": {},
+              "status": "Bad Request"
+            },
+            {
+              "code": 429,
+              "name": "429 Too many requests",
+              "originalRequest": {},
+              "status": "Too Many Requests"
+            },
+            {
+              "code": 500,
+              "name": "500 Internal server error",
+              "originalRequest": {},
+              "status": "Internal Server Error"
+            }
+          ]
+        },
+        {
+          "name": "List all banners (public)",
+          "request": {
+            "header": [],
+            "method": "GET",
+            "url": {
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "banners"
+              ],
+              "protocol": "https",
+              "query": [
+                {
+                  "description": "",
+                  "key": "cursor",
+                  "value": ""
+                },
+                {
+                  "description": "",
+                  "key": "limit",
+                  "value": "25"
+                }
+              ],
+              "raw": "{{base_url}}/banners"
+            }
+          },
+          "response": [
+            {
+              "code": 200,
+              "name": "200 List all banners (public) - paginated",
+              "originalRequest": {},
+              "status": "OK"
+            },
+            {
+              "code": 404,
+              "name": "404 Resource not found",
+              "originalRequest": {},
+              "status": "Not Found"
+            },
+            {
+              "code": 429,
+              "name": "429 Too many requests",
+              "originalRequest": {},
+              "status": "Too Many Requests"
+            },
+            {
+              "code": 500,
+              "name": "500 Internal server error",
+              "originalRequest": {},
+              "status": "Internal Server Error"
+            }
+          ]
+        }
+      ],
+      "name": "banners"
+    },
+    {
+      "item": [
+        {
+          "name": "List all orders (admin)",
+          "request": {
+            "header": [],
+            "method": "GET",
+            "url": {
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "orders"
+              ],
+              "protocol": "https",
+              "query": [
+                {
+                  "description": "",
+                  "key": "cursor",
+                  "value": ""
+                },
+                {
+                  "description": "",
+                  "key": "limit",
+                  "value": "25"
+                }
+              ],
+              "raw": "{{base_url}}/orders"
+            }
+          },
+          "response": [
+            {
+              "code": 200,
+              "name": "200 List all orders (admin) - paginated",
+              "originalRequest": {},
+              "status": "OK"
+            },
+            {
+              "code": 404,
+              "name": "404 Resource not found",
+              "originalRequest": {},
+              "status": "Not Found"
+            },
+            {
+              "code": 429,
+              "name": "429 Too many requests",
+              "originalRequest": {},
+              "status": "Too Many Requests"
+            },
+            {
+              "code": 500,
+              "name": "500 Internal server error",
+              "originalRequest": {},
+              "status": "Internal Server Error"
+            }
+          ]
+        },
+        {
+          "name": "Get user orders",
+          "request": {
+            "header": [],
+            "method": "GET",
+            "url": {
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "orders",
+                "user",
+                "{user_id}"
+              ],
+              "protocol": "https",
+              "query": [
+                {
+                  "description": "",
+                  "key": "cursor",
+                  "value": ""
+                }
+              ],
+              "raw": "{{base_url}}/orders/user/{user_id}",
+              "variable": [
+                {
+                  "description": "",
+                  "key": "user_id",
+                  "value": ":user_id"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "code": 200,
+              "name": "200 Get user orders - success",
+              "originalRequest": {},
+              "status": "OK"
+            },
+            {
+              "code": 404,
+              "name": "404 Resource not found",
+              "originalRequest": {},
+              "status": "Not Found"
+            },
+            {
+              "code": 429,
+              "name": "429 Too many requests",
+              "originalRequest": {},
+              "status": "Too Many Requests"
+            },
+            {
+              "code": 500,
+              "name": "500 Internal server error",
+              "originalRequest": {},
+              "status": "Internal Server Error"
+            }
+          ]
+        },
+        {
+          "name": "Create order (auth required)",
+          "request": {
+            "body": {
+              "mode": "raw",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              },
+              "raw": "{\n  \"coin\": \"{{$randomInt}}\",\n  \"payment\": \"{$randomWord}\",\n  \"product_id\": \"{$randomWord}\",\n  \"quantity\": \"{{$randomInt}}\"\n}"
+            },
+            "header": [],
+            "method": "POST",
+            "url": {
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "orders",
+                "user",
+                "{user_id}"
+              ],
+              "protocol": "https",
+              "raw": "{{base_url}}/orders/user/{user_id}",
+              "variable": [
+                {
+                  "description": "",
+                  "key": "user_id",
+                  "value": ":user_id"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "code": 201,
+              "name": "201 Create order (auth required) - created",
+              "originalRequest": {},
+              "status": "Created"
+            },
+            {
+              "code": 400,
+              "name": "400 Validation failed",
+              "originalRequest": {},
+              "status": "Bad Request"
+            },
+            {
+              "code": 429,
+              "name": "429 Too many requests",
+              "originalRequest": {},
+              "status": "Too Many Requests"
+            },
+            {
+              "code": 500,
+              "name": "500 Internal server error",
+              "originalRequest": {},
+              "status": "Internal Server Error"
+            }
+          ]
+        },
+        {
+          "name": "Cancel order (auth required)",
+          "request": {
+            "header": [],
+            "method": "DELETE",
+            "url": {
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "orders",
+                "{id}"
+              ],
+              "protocol": "https",
+              "raw": "{{base_url}}/orders/{id}",
+              "variable": [
+                {
+                  "description": "",
+                  "key": "id",
+                  "value": ":id"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "code": 200,
+              "name": "200 Cancel order (auth required) - success",
+              "originalRequest": {},
+              "status": "OK"
+            },
+            {
+              "code": 404,
+              "name": "404 Resource not found",
+              "originalRequest": {},
+              "status": "Not Found"
+            },
+            {
+              "code": 429,
+              "name": "429 Too many requests",
+              "originalRequest": {},
+              "status": "Too Many Requests"
+            },
+            {
+              "code": 500,
+              "name": "500 Internal server error",
+              "originalRequest": {},
+              "status": "Internal Server Error"
+            }
+          ]
+        }
+      ],
+      "name": "orders"
+    },
+    {
+      "item": [
+        {
+          "name": "Update review (auth required)",
+          "request": {
+            "body": {
+              "mode": "raw",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              },
+              "raw": "{\n  \"comment\": \"{$randomWord}\",\n  \"rating\": \"{{$randomInt}}\"\n}"
+            },
+            "header": [],
+            "method": "PUT",
+            "url": {
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "reviews",
+                "{id}"
+              ],
+              "protocol": "https",
+              "raw": "{{base_url}}/reviews/{id}",
+              "variable": [
+                {
+                  "description": "",
+                  "key": "id",
+                  "value": ":id"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "code": 200,
+              "name": "200 Update review (auth required) - success",
+              "originalRequest": {},
+              "status": "OK"
+            },
+            {
+              "code": 400,
+              "name": "400 Validation failed",
+              "originalRequest": {},
+              "status": "Bad Request"
+            },
+            {
+              "code": 404,
+              "name": "404 Resource not found",
+              "originalRequest": {},
+              "status": "Not Found"
+            },
+            {
+              "code": 429,
+              "name": "429 Too many requests",
+              "originalRequest": {},
+              "status": "Too Many Requests"
+            },
+            {
+              "code": 500,
+              "name": "500 Internal server error",
+              "originalRequest": {},
+              "status": "Internal Server Error"
+            }
+          ]
+        },
+        {
+          "name": "Create review (auth required)",
+          "request": {
+            "body": {
+              "mode": "raw",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              },
+              "raw": "{\n  \"comment\": \"{$randomWord}\",\n  \"images\": \"{$randomWord}\",\n  \"product_id\": \"{$randomWord}\",\n  \"rating\": \"{{$randomInt}}\"\n}"
+            },
+            "header": [],
+            "method": "POST",
+            "url": {
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "reviews"
+              ],
+              "protocol": "https",
+              "raw": "{{base_url}}/reviews"
+            }
+          },
+          "response": [
+            {
+              "code": 201,
+              "name": "201 Create review (auth required) - created",
+              "originalRequest": {},
+              "status": "Created"
+            },
+            {
+              "code": 400,
+              "name": "400 Validation failed",
+              "originalRequest": {},
+              "status": "Bad Request"
+            },
+            {
+              "code": 429,
+              "name": "429 Too many requests",
+              "originalRequest": {},
+              "status": "Too Many Requests"
+            },
+            {
+              "code": 500,
+              "name": "500 Internal server error",
+              "originalRequest": {},
+              "status": "Internal Server Error"
+            }
+          ]
+        }
+      ],
+      "name": "reviews"
     },
     {
       "item": [
@@ -414,9 +1797,27 @@
           "response": [
             {
               "code": 200,
-              "name": "200 Paginated products",
+              "name": "200 List products (public, no auth required) - paginated",
               "originalRequest": {},
               "status": "OK"
+            },
+            {
+              "code": 404,
+              "name": "404 Resource not found",
+              "originalRequest": {},
+              "status": "Not Found"
+            },
+            {
+              "code": 429,
+              "name": "429 Too many requests",
+              "originalRequest": {},
+              "status": "Too Many Requests"
+            },
+            {
+              "code": 500,
+              "name": "500 Internal server error",
+              "originalRequest": {},
+              "status": "Internal Server Error"
             }
           ]
         },
@@ -446,16 +1847,28 @@
           },
           "response": [
             {
+              "code": 200,
+              "name": "200 Get product by ID - success",
+              "originalRequest": {},
+              "status": "OK"
+            },
+            {
               "code": 404,
-              "name": "404 Product not found",
+              "name": "404 Resource not found",
               "originalRequest": {},
               "status": "Not Found"
             },
             {
-              "code": 200,
-              "name": "200 Product data",
+              "code": 429,
+              "name": "429 Too many requests",
               "originalRequest": {},
-              "status": "OK"
+              "status": "Too Many Requests"
+            },
+            {
+              "code": 500,
+              "name": "500 Internal server error",
+              "originalRequest": {},
+              "status": "Internal Server Error"
             }
           ]
         },
@@ -495,9 +1908,33 @@
           "response": [
             {
               "code": 200,
-              "name": "200 Updated product",
+              "name": "200 Update product - success",
               "originalRequest": {},
               "status": "OK"
+            },
+            {
+              "code": 400,
+              "name": "400 Validation failed",
+              "originalRequest": {},
+              "status": "Bad Request"
+            },
+            {
+              "code": 404,
+              "name": "404 Resource not found",
+              "originalRequest": {},
+              "status": "Not Found"
+            },
+            {
+              "code": 429,
+              "name": "429 Too many requests",
+              "originalRequest": {},
+              "status": "Too Many Requests"
+            },
+            {
+              "code": 500,
+              "name": "500 Internal server error",
+              "originalRequest": {},
+              "status": "Internal Server Error"
             }
           ]
         },
@@ -528,9 +1965,27 @@
           "response": [
             {
               "code": 200,
-              "name": "200 Product deleted",
+              "name": "200 Delete product - success",
               "originalRequest": {},
               "status": "OK"
+            },
+            {
+              "code": 404,
+              "name": "404 Resource not found",
+              "originalRequest": {},
+              "status": "Not Found"
+            },
+            {
+              "code": 429,
+              "name": "429 Too many requests",
+              "originalRequest": {},
+              "status": "Too Many Requests"
+            },
+            {
+              "code": 500,
+              "name": "500 Internal server error",
+              "originalRequest": {},
+              "status": "Internal Server Error"
             }
           ]
         },
@@ -571,9 +2026,27 @@
           "response": [
             {
               "code": 201,
-              "name": "201 Created variant",
+              "name": "201 Add product variant - created",
               "originalRequest": {},
               "status": "Created"
+            },
+            {
+              "code": 400,
+              "name": "400 Validation failed",
+              "originalRequest": {},
+              "status": "Bad Request"
+            },
+            {
+              "code": 429,
+              "name": "429 Too many requests",
+              "originalRequest": {},
+              "status": "Too Many Requests"
+            },
+            {
+              "code": 500,
+              "name": "500 Internal server error",
+              "originalRequest": {},
+              "status": "Internal Server Error"
             }
           ]
         },
@@ -606,534 +2079,32 @@
           "response": [
             {
               "code": 201,
-              "name": "201 Created product",
+              "name": "201 Create product - created",
               "originalRequest": {},
               "status": "Created"
+            },
+            {
+              "code": 400,
+              "name": "400 Validation failed",
+              "originalRequest": {},
+              "status": "Bad Request"
+            },
+            {
+              "code": 429,
+              "name": "429 Too many requests",
+              "originalRequest": {},
+              "status": "Too Many Requests"
+            },
+            {
+              "code": 500,
+              "name": "500 Internal server error",
+              "originalRequest": {},
+              "status": "Internal Server Error"
             }
           ]
         }
       ],
       "name": "products"
-    },
-    {
-      "item": [
-        {
-          "name": "Get user cart",
-          "request": {
-            "header": [],
-            "method": "GET",
-            "url": {
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "carts",
-                "user",
-                "{user_id}"
-              ],
-              "protocol": "https",
-              "query": [
-                {
-                  "description": "",
-                  "key": "cursor",
-                  "value": ""
-                },
-                {
-                  "description": "",
-                  "key": "limit",
-                  "value": "25"
-                }
-              ],
-              "raw": "{{base_url}}/carts/user/{user_id}",
-              "variable": [
-                {
-                  "description": "",
-                  "key": "user_id",
-                  "value": ":user_id"
-                }
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Add item to cart",
-          "request": {
-            "body": {
-              "mode": "raw",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              },
-              "raw": "{\n  \"product_id\": \"{$randomWord}\",\n  \"quantity\": \"{{$randomInt}}\",\n  \"variant_id\": \"{$randomWord}\"\n}"
-            },
-            "header": [],
-            "method": "POST",
-            "url": {
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "carts",
-                "user",
-                "{user_id}"
-              ],
-              "protocol": "https",
-              "raw": "{{base_url}}/carts/user/{user_id}",
-              "variable": [
-                {
-                  "description": "",
-                  "key": "user_id",
-                  "value": ":user_id"
-                }
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Remove cart item",
-          "request": {
-            "header": [],
-            "method": "DELETE",
-            "url": {
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "carts",
-                "item",
-                "{id}"
-              ],
-              "protocol": "https",
-              "raw": "{{base_url}}/carts/item/{id}",
-              "variable": [
-                {
-                  "description": "",
-                  "key": "id",
-                  "value": ":id"
-                }
-              ]
-            }
-          },
-          "response": []
-        }
-      ],
-      "name": "carts"
-    },
-    {
-      "item": [
-        {
-          "name": "List banners by type",
-          "request": {
-            "header": [],
-            "method": "GET",
-            "url": {
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "banners",
-                "type",
-                "{type}"
-              ],
-              "protocol": "https",
-              "raw": "{{base_url}}/banners/type/{type}",
-              "variable": [
-                {
-                  "description": "",
-                  "key": "type",
-                  "value": ":type"
-                }
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Create banner",
-          "request": {
-            "body": {
-              "mode": "raw",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              },
-              "raw": "{\n  \"image\": \"{$randomWord}\",\n  \"type\": \"{$randomWord}\"\n}"
-            },
-            "header": [],
-            "method": "POST",
-            "url": {
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "banners",
-                "create"
-              ],
-              "protocol": "https",
-              "raw": "{{base_url}}/banners/create"
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "List all banners (public)",
-          "request": {
-            "header": [],
-            "method": "GET",
-            "url": {
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "banners"
-              ],
-              "protocol": "https",
-              "query": [
-                {
-                  "description": "",
-                  "key": "cursor",
-                  "value": ""
-                },
-                {
-                  "description": "",
-                  "key": "limit",
-                  "value": "25"
-                }
-              ],
-              "raw": "{{base_url}}/banners"
-            }
-          },
-          "response": [
-            {
-              "code": 200,
-              "name": "200 Banners",
-              "originalRequest": {},
-              "status": "OK"
-            }
-          ]
-        }
-      ],
-      "name": "banners"
-    },
-    {
-      "item": [
-        {
-          "name": "List all orders (admin)",
-          "request": {
-            "header": [],
-            "method": "GET",
-            "url": {
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "orders"
-              ],
-              "protocol": "https",
-              "query": [
-                {
-                  "description": "",
-                  "key": "cursor",
-                  "value": ""
-                },
-                {
-                  "description": "",
-                  "key": "limit",
-                  "value": "25"
-                }
-              ],
-              "raw": "{{base_url}}/orders"
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Get user orders",
-          "request": {
-            "header": [],
-            "method": "GET",
-            "url": {
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "orders",
-                "user",
-                "{user_id}"
-              ],
-              "protocol": "https",
-              "query": [
-                {
-                  "description": "",
-                  "key": "cursor",
-                  "value": ""
-                }
-              ],
-              "raw": "{{base_url}}/orders/user/{user_id}",
-              "variable": [
-                {
-                  "description": "",
-                  "key": "user_id",
-                  "value": ":user_id"
-                }
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Create order (auth required)",
-          "request": {
-            "body": {
-              "mode": "raw",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              },
-              "raw": "{\n  \"coin\": \"{{$randomInt}}\",\n  \"payment\": \"{$randomWord}\",\n  \"product_id\": \"{$randomWord}\",\n  \"quantity\": \"{{$randomInt}}\"\n}"
-            },
-            "header": [],
-            "method": "POST",
-            "url": {
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "orders",
-                "user",
-                "{user_id}"
-              ],
-              "protocol": "https",
-              "raw": "{{base_url}}/orders/user/{user_id}",
-              "variable": [
-                {
-                  "description": "",
-                  "key": "user_id",
-                  "value": ":user_id"
-                }
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Cancel order (auth required)",
-          "request": {
-            "header": [],
-            "method": "DELETE",
-            "url": {
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "orders",
-                "{id}"
-              ],
-              "protocol": "https",
-              "raw": "{{base_url}}/orders/{id}",
-              "variable": [
-                {
-                  "description": "",
-                  "key": "id",
-                  "value": ":id"
-                }
-              ]
-            }
-          },
-          "response": []
-        }
-      ],
-      "name": "orders"
-    },
-    {
-      "item": [
-        {
-          "name": "Update review (auth required)",
-          "request": {
-            "body": {
-              "mode": "raw",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              },
-              "raw": "{\n  \"comment\": \"{$randomWord}\",\n  \"rating\": \"{{$randomInt}}\"\n}"
-            },
-            "header": [],
-            "method": "PUT",
-            "url": {
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "reviews",
-                "{id}"
-              ],
-              "protocol": "https",
-              "raw": "{{base_url}}/reviews/{id}",
-              "variable": [
-                {
-                  "description": "",
-                  "key": "id",
-                  "value": ":id"
-                }
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Create review (auth required)",
-          "request": {
-            "body": {
-              "mode": "raw",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              },
-              "raw": "{\n  \"comment\": \"{$randomWord}\",\n  \"images\": \"{$randomWord}\",\n  \"product_id\": \"{$randomWord}\",\n  \"rating\": \"{{$randomInt}}\"\n}"
-            },
-            "header": [],
-            "method": "POST",
-            "url": {
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "reviews"
-              ],
-              "protocol": "https",
-              "raw": "{{base_url}}/reviews"
-            }
-          },
-          "response": []
-        }
-      ],
-      "name": "reviews"
-    },
-    {
-      "item": [
-        {
-          "name": "Update trash type (admin)",
-          "request": {
-            "header": [],
-            "method": "PUT",
-            "url": {
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "trash",
-                "type",
-                "{id}"
-              ],
-              "protocol": "https",
-              "raw": "{{base_url}}/trash/type/{id}",
-              "variable": [
-                {
-                  "description": "",
-                  "key": "id",
-                  "value": ":id"
-                }
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Delete trash type (admin)",
-          "request": {
-            "header": [],
-            "method": "DELETE",
-            "url": {
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "trash",
-                "type",
-                "{id}"
-              ],
-              "protocol": "https",
-              "raw": "{{base_url}}/trash/type/{id}",
-              "variable": [
-                {
-                  "description": "",
-                  "key": "id",
-                  "value": ":id"
-                }
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "List trash types (public)",
-          "request": {
-            "header": [],
-            "method": "GET",
-            "url": {
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "trash",
-                "types"
-              ],
-              "protocol": "https",
-              "query": [
-                {
-                  "description": "",
-                  "key": "cursor",
-                  "value": ""
-                },
-                {
-                  "description": "",
-                  "key": "limit",
-                  "value": "25"
-                }
-              ],
-              "raw": "{{base_url}}/trash/types"
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Create trash type (admin)",
-          "request": {
-            "body": {
-              "mode": "raw",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              },
-              "raw": "{\n  \"image\": \"{$randomWord}\",\n  \"name\": \"{{$randomFullName}}\"\n}"
-            },
-            "header": [],
-            "method": "POST",
-            "url": {
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "trash",
-                "types"
-              ],
-              "protocol": "https",
-              "raw": "{{base_url}}/trash/types"
-            }
-          },
-          "response": []
-        }
-      ],
-      "name": "trash"
     },
     {
       "item": [
@@ -1161,7 +2132,32 @@
               ]
             }
           },
-          "response": []
+          "response": [
+            {
+              "code": 200,
+              "name": "200 Get user profile - success",
+              "originalRequest": {},
+              "status": "OK"
+            },
+            {
+              "code": 404,
+              "name": "404 Resource not found",
+              "originalRequest": {},
+              "status": "Not Found"
+            },
+            {
+              "code": 429,
+              "name": "429 Too many requests",
+              "originalRequest": {},
+              "status": "Too Many Requests"
+            },
+            {
+              "code": 500,
+              "name": "500 Internal server error",
+              "originalRequest": {},
+              "status": "Internal Server Error"
+            }
+          ]
         },
         {
           "name": "Update user profile",
@@ -1196,7 +2192,38 @@
               ]
             }
           },
-          "response": []
+          "response": [
+            {
+              "code": 200,
+              "name": "200 Update user profile - success",
+              "originalRequest": {},
+              "status": "OK"
+            },
+            {
+              "code": 400,
+              "name": "400 Validation failed",
+              "originalRequest": {},
+              "status": "Bad Request"
+            },
+            {
+              "code": 404,
+              "name": "404 Resource not found",
+              "originalRequest": {},
+              "status": "Not Found"
+            },
+            {
+              "code": 429,
+              "name": "429 Too many requests",
+              "originalRequest": {},
+              "status": "Too Many Requests"
+            },
+            {
+              "code": 500,
+              "name": "500 Internal server error",
+              "originalRequest": {},
+              "status": "Internal Server Error"
+            }
+          ]
         }
       ],
       "name": "profile"
@@ -1204,160 +2231,7 @@
     {
       "item": [
         {
-          "name": "List all deposites (admin)",
-          "request": {
-            "header": [],
-            "method": "GET",
-            "url": {
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "deposites"
-              ],
-              "protocol": "https",
-              "query": [
-                {
-                  "description": "",
-                  "key": "cursor",
-                  "value": ""
-                },
-                {
-                  "description": "",
-                  "key": "limit",
-                  "value": "25"
-                }
-              ],
-              "raw": "{{base_url}}/deposites"
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Create deposite (auth required)",
-          "request": {
-            "body": {
-              "mode": "raw",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              },
-              "raw": "{\n  \"address_id\": \"{$randomWord}\",\n  \"coin\": \"{{$randomInt}}\",\n  \"garbage_type\": [\n    \"item1\",\n    \"item2\"\n  ],\n  \"images\": \"{$randomWord}\",\n  \"landfill_id\": \"{$randomWord}\",\n  \"pickup_date\": \"{$randomWord}\",\n  \"pickup_time\": \"{$randomWord}\",\n  \"type\": \"{$randomWord}\"\n}"
-            },
-            "header": [],
-            "method": "POST",
-            "url": {
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "deposites"
-              ],
-              "protocol": "https",
-              "raw": "{{base_url}}/deposites"
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Get user deposites",
-          "request": {
-            "header": [],
-            "method": "GET",
-            "url": {
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "deposites",
-                "user",
-                "{id}"
-              ],
-              "protocol": "https",
-              "query": [
-                {
-                  "description": "",
-                  "key": "cursor",
-                  "value": ""
-                }
-              ],
-              "raw": "{{base_url}}/deposites/user/{id}",
-              "variable": [
-                {
-                  "description": "",
-                  "key": "id",
-                  "value": ":id"
-                }
-              ]
-            }
-          },
-          "response": []
-        }
-      ],
-      "name": "deposites"
-    },
-    {
-      "item": [
-        {
-          "name": "List landfills (public)",
-          "request": {
-            "header": [],
-            "method": "GET",
-            "url": {
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "landfills"
-              ],
-              "protocol": "https",
-              "query": [
-                {
-                  "description": "",
-                  "key": "cursor",
-                  "value": ""
-                },
-                {
-                  "description": "",
-                  "key": "limit",
-                  "value": "25"
-                }
-              ],
-              "raw": "{{base_url}}/landfills"
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Create landfill (admin)",
-          "request": {
-            "body": {
-              "mode": "raw",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              },
-              "raw": "{\n  \"address\": \"{$randomWord}\",\n  \"name\": \"{{$randomFullName}}\"\n}"
-            },
-            "header": [],
-            "method": "POST",
-            "url": {
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "landfills"
-              ],
-              "protocol": "https",
-              "raw": "{{base_url}}/landfills"
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Update landfill (admin)",
+          "name": "Update trash type (admin)",
           "request": {
             "header": [],
             "method": "PUT",
@@ -1366,11 +2240,12 @@
                 "{{base_url}}"
               ],
               "path": [
-                "landfills",
+                "trash",
+                "type",
                 "{id}"
               ],
               "protocol": "https",
-              "raw": "{{base_url}}/landfills/{id}",
+              "raw": "{{base_url}}/trash/type/{id}",
               "variable": [
                 {
                   "description": "",
@@ -1380,10 +2255,41 @@
               ]
             }
           },
-          "response": []
+          "response": [
+            {
+              "code": 200,
+              "name": "200 Update trash type (admin) - success",
+              "originalRequest": {},
+              "status": "OK"
+            },
+            {
+              "code": 400,
+              "name": "400 Validation failed",
+              "originalRequest": {},
+              "status": "Bad Request"
+            },
+            {
+              "code": 404,
+              "name": "404 Resource not found",
+              "originalRequest": {},
+              "status": "Not Found"
+            },
+            {
+              "code": 429,
+              "name": "429 Too many requests",
+              "originalRequest": {},
+              "status": "Too Many Requests"
+            },
+            {
+              "code": 500,
+              "name": "500 Internal server error",
+              "originalRequest": {},
+              "status": "Internal Server Error"
+            }
+          ]
         },
         {
-          "name": "Delete landfill (admin)",
+          "name": "Delete trash type (admin)",
           "request": {
             "header": [],
             "method": "DELETE",
@@ -1392,11 +2298,12 @@
                 "{{base_url}}"
               ],
               "path": [
-                "landfills",
+                "trash",
+                "type",
                 "{id}"
               ],
               "protocol": "https",
-              "raw": "{{base_url}}/landfills/{id}",
+              "raw": "{{base_url}}/trash/type/{id}",
               "variable": [
                 {
                   "description": "",
@@ -1406,10 +2313,144 @@
               ]
             }
           },
-          "response": []
+          "response": [
+            {
+              "code": 200,
+              "name": "200 Delete trash type (admin) - success",
+              "originalRequest": {},
+              "status": "OK"
+            },
+            {
+              "code": 404,
+              "name": "404 Resource not found",
+              "originalRequest": {},
+              "status": "Not Found"
+            },
+            {
+              "code": 429,
+              "name": "429 Too many requests",
+              "originalRequest": {},
+              "status": "Too Many Requests"
+            },
+            {
+              "code": 500,
+              "name": "500 Internal server error",
+              "originalRequest": {},
+              "status": "Internal Server Error"
+            }
+          ]
+        },
+        {
+          "name": "List trash types (public)",
+          "request": {
+            "header": [],
+            "method": "GET",
+            "url": {
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "trash",
+                "types"
+              ],
+              "protocol": "https",
+              "query": [
+                {
+                  "description": "",
+                  "key": "cursor",
+                  "value": ""
+                },
+                {
+                  "description": "",
+                  "key": "limit",
+                  "value": "25"
+                }
+              ],
+              "raw": "{{base_url}}/trash/types"
+            }
+          },
+          "response": [
+            {
+              "code": 200,
+              "name": "200 List trash types (public) - paginated",
+              "originalRequest": {},
+              "status": "OK"
+            },
+            {
+              "code": 404,
+              "name": "404 Resource not found",
+              "originalRequest": {},
+              "status": "Not Found"
+            },
+            {
+              "code": 429,
+              "name": "429 Too many requests",
+              "originalRequest": {},
+              "status": "Too Many Requests"
+            },
+            {
+              "code": 500,
+              "name": "500 Internal server error",
+              "originalRequest": {},
+              "status": "Internal Server Error"
+            }
+          ]
+        },
+        {
+          "name": "Create trash type (admin)",
+          "request": {
+            "body": {
+              "mode": "raw",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              },
+              "raw": "{\n  \"image\": \"{$randomWord}\",\n  \"name\": \"{{$randomFullName}}\"\n}"
+            },
+            "header": [],
+            "method": "POST",
+            "url": {
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "trash",
+                "types"
+              ],
+              "protocol": "https",
+              "raw": "{{base_url}}/trash/types"
+            }
+          },
+          "response": [
+            {
+              "code": 201,
+              "name": "201 Create trash type (admin) - created",
+              "originalRequest": {},
+              "status": "Created"
+            },
+            {
+              "code": 400,
+              "name": "400 Validation failed",
+              "originalRequest": {},
+              "status": "Bad Request"
+            },
+            {
+              "code": 429,
+              "name": "429 Too many requests",
+              "originalRequest": {},
+              "status": "Too Many Requests"
+            },
+            {
+              "code": 500,
+              "name": "500 Internal server error",
+              "originalRequest": {},
+              "status": "Internal Server Error"
+            }
+          ]
         }
       ],
-      "name": "landfills"
+      "name": "trash"
     }
   ],
   "variable": []

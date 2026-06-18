@@ -80,13 +80,27 @@
                   }
                 },
                 "required": [
-                  "label",
+                  "address",
                   "phone_number",
-                  "address"
+                  "label"
                 ],
                 "type": "object"
               }
             }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Create address (auth required) - created"
+          },
+          "400": {
+            "description": "Validation failed"
+          },
+          "429": {
+            "description": "Too many requests"
+          },
+          "500": {
+            "description": "Internal server error"
           }
         },
         "summary": "Create address (auth required)",
@@ -106,6 +120,23 @@
             }
           }
         ],
+        "responses": {
+          "200": {
+            "description": "Update address (auth required) - success"
+          },
+          "400": {
+            "description": "Validation failed"
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "429": {
+            "description": "Too many requests"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
         "summary": "Update address (auth required)",
         "tags": [
           "addresses"
@@ -135,7 +166,16 @@
         ],
         "responses": {
           "200": {
-            "description": "Articles"
+            "description": "List articles (public) - paginated"
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "429": {
+            "description": "Too many requests"
+          },
+          "500": {
+            "description": "Internal server error"
           }
         },
         "summary": "List articles (public)",
@@ -163,13 +203,27 @@
                   }
                 },
                 "required": [
-                  "header",
                   "content",
+                  "header",
                   "thumbnail"
                 ],
                 "type": "object"
               }
             }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Create article - created"
+          },
+          "400": {
+            "description": "Validation failed"
+          },
+          "429": {
+            "description": "Too many requests"
+          },
+          "500": {
+            "description": "Internal server error"
           }
         },
         "summary": "Create article",
@@ -191,6 +245,20 @@
             }
           }
         ],
+        "responses": {
+          "200": {
+            "description": "Delete article - success"
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "429": {
+            "description": "Too many requests"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
         "summary": "Delete article",
         "tags": [
           "articles"
@@ -208,6 +276,20 @@
             }
           }
         ],
+        "responses": {
+          "200": {
+            "description": "Get article by ID - success"
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "429": {
+            "description": "Too many requests"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
         "summary": "Get article by ID",
         "tags": [
           "articles"
@@ -225,6 +307,23 @@
             }
           }
         ],
+        "responses": {
+          "200": {
+            "description": "Update article - success"
+          },
+          "400": {
+            "description": "Validation failed"
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "429": {
+            "description": "Too many requests"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
         "summary": "Update article",
         "tags": [
           "articles"
@@ -245,8 +344,20 @@
           }
         },
         "responses": {
-          "200": {
-            "description": "JWT tokens + user data"
+          "201": {
+            "description": "Login (Firebase token → JWT) - created"
+          },
+          "400": {
+            "description": "Validation failed"
+          },
+          "401": {
+            "description": "Authentication required"
+          },
+          "429": {
+            "description": "Too many requests"
+          },
+          "500": {
+            "description": "Internal server error"
           }
         },
         "summary": "Login (Firebase token → JWT)",
@@ -274,13 +385,30 @@
                   }
                 },
                 "required": [
+                  "password",
                   "name",
-                  "email",
-                  "password"
+                  "email"
                 ],
                 "type": "object"
               }
             }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Register new user - created"
+          },
+          "400": {
+            "description": "Validation failed"
+          },
+          "401": {
+            "description": "Authentication required"
+          },
+          "429": {
+            "description": "Too many requests"
+          },
+          "500": {
+            "description": "Internal server error"
           }
         },
         "summary": "Register new user",
@@ -307,6 +435,23 @@
                 "type": "object"
               }
             }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Request password reset - created"
+          },
+          "400": {
+            "description": "Validation failed"
+          },
+          "401": {
+            "description": "Authentication required"
+          },
+          "429": {
+            "description": "Too many requests"
+          },
+          "500": {
+            "description": "Internal server error"
           }
         },
         "summary": "Request password reset",
@@ -338,7 +483,16 @@
         ],
         "responses": {
           "200": {
-            "description": "Banners"
+            "description": "List all banners (public) - paginated"
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "429": {
+            "description": "Too many requests"
+          },
+          "500": {
+            "description": "Internal server error"
           }
         },
         "summary": "List all banners (public)",
@@ -370,6 +524,20 @@
             }
           }
         },
+        "responses": {
+          "201": {
+            "description": "Create banner - created"
+          },
+          "400": {
+            "description": "Validation failed"
+          },
+          "429": {
+            "description": "Too many requests"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
         "summary": "Create banner",
         "tags": [
           "banners"
@@ -389,6 +557,20 @@
             }
           }
         ],
+        "responses": {
+          "200": {
+            "description": "List banners by type - paginated"
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "429": {
+            "description": "Too many requests"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
         "summary": "List banners by type",
         "tags": [
           "banners"
@@ -408,6 +590,20 @@
             }
           }
         ],
+        "responses": {
+          "200": {
+            "description": "Remove cart item - success"
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "429": {
+            "description": "Too many requests"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
         "summary": "Remove cart item",
         "tags": [
           "carts"
@@ -443,6 +639,20 @@
             }
           }
         ],
+        "responses": {
+          "200": {
+            "description": "Get user cart - success"
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "429": {
+            "description": "Too many requests"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
         "summary": "Get user cart",
         "tags": [
           "carts"
@@ -484,6 +694,20 @@
             }
           }
         },
+        "responses": {
+          "201": {
+            "description": "Add item to cart - created"
+          },
+          "400": {
+            "description": "Validation failed"
+          },
+          "429": {
+            "description": "Too many requests"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
         "summary": "Add item to cart",
         "tags": [
           "carts"
@@ -511,6 +735,20 @@
             }
           }
         ],
+        "responses": {
+          "200": {
+            "description": "List all deposites (admin) - paginated"
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "429": {
+            "description": "Too many requests"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
         "summary": "List all deposites (admin)",
         "tags": [
           "deposites"
@@ -549,15 +787,29 @@
                   }
                 },
                 "required": [
-                  "address_id",
                   "garbage_type",
-                  "pickup_date",
                   "pickup_time",
-                  "type"
+                  "type",
+                  "pickup_date",
+                  "address_id"
                 ],
                 "type": "object"
               }
             }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Create deposite (auth required) - created"
+          },
+          "400": {
+            "description": "Validation failed"
+          },
+          "429": {
+            "description": "Too many requests"
+          },
+          "500": {
+            "description": "Internal server error"
           }
         },
         "summary": "Create deposite (auth required)",
@@ -587,6 +839,20 @@
             }
           }
         ],
+        "responses": {
+          "200": {
+            "description": "Get user deposites - success"
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "429": {
+            "description": "Too many requests"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
         "summary": "Get user deposites",
         "tags": [
           "deposites"
@@ -614,6 +880,20 @@
             }
           }
         ],
+        "responses": {
+          "200": {
+            "description": "List landfills (public) - paginated"
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "429": {
+            "description": "Too many requests"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
         "summary": "List landfills (public)",
         "tags": [
           "landfills"
@@ -634,12 +914,26 @@
                   }
                 },
                 "required": [
-                  "address",
-                  "name"
+                  "name",
+                  "address"
                 ],
                 "type": "object"
               }
             }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Create landfill (admin) - created"
+          },
+          "400": {
+            "description": "Validation failed"
+          },
+          "429": {
+            "description": "Too many requests"
+          },
+          "500": {
+            "description": "Internal server error"
           }
         },
         "summary": "Create landfill (admin)",
@@ -661,6 +955,20 @@
             }
           }
         ],
+        "responses": {
+          "200": {
+            "description": "Delete landfill (admin) - success"
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "429": {
+            "description": "Too many requests"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
         "summary": "Delete landfill (admin)",
         "tags": [
           "landfills"
@@ -678,6 +986,23 @@
             }
           }
         ],
+        "responses": {
+          "200": {
+            "description": "Update landfill (admin) - success"
+          },
+          "400": {
+            "description": "Validation failed"
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "429": {
+            "description": "Too many requests"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
         "summary": "Update landfill (admin)",
         "tags": [
           "landfills"
@@ -705,6 +1030,20 @@
             }
           }
         ],
+        "responses": {
+          "200": {
+            "description": "List all orders (admin) - paginated"
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "429": {
+            "description": "Too many requests"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
         "summary": "List all orders (admin)",
         "tags": [
           "orders"
@@ -732,6 +1071,20 @@
             }
           }
         ],
+        "responses": {
+          "200": {
+            "description": "Get user orders - success"
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "429": {
+            "description": "Too many requests"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
         "summary": "Get user orders",
         "tags": [
           "orders"
@@ -768,13 +1121,27 @@
                   }
                 },
                 "required": [
+                  "payment",
                   "quantity",
-                  "product_id",
-                  "payment"
+                  "product_id"
                 ],
                 "type": "object"
               }
             }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Create order (auth required) - created"
+          },
+          "400": {
+            "description": "Validation failed"
+          },
+          "429": {
+            "description": "Too many requests"
+          },
+          "500": {
+            "description": "Internal server error"
           }
         },
         "summary": "Create order (auth required)",
@@ -796,6 +1163,20 @@
             }
           }
         ],
+        "responses": {
+          "200": {
+            "description": "Cancel order (auth required) - success"
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "429": {
+            "description": "Too many requests"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
         "summary": "Cancel order (auth required)",
         "tags": [
           "orders"
@@ -841,7 +1222,16 @@
         ],
         "responses": {
           "200": {
-            "description": "Paginated products"
+            "description": "List products (public, no auth required) - paginated"
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "429": {
+            "description": "Too many requests"
+          },
+          "500": {
+            "description": "Internal server error"
           }
         },
         "summary": "List products (public, no auth required)",
@@ -896,10 +1286,10 @@
                   }
                 },
                 "required": [
-                  "description",
+                  "category",
                   "price",
                   "stock",
-                  "category",
+                  "description",
                   "name"
                 ],
                 "type": "object"
@@ -909,7 +1299,16 @@
         },
         "responses": {
           "201": {
-            "description": "Created product"
+            "description": "Create product - created"
+          },
+          "400": {
+            "description": "Validation failed"
+          },
+          "429": {
+            "description": "Too many requests"
+          },
+          "500": {
+            "description": "Internal server error"
           }
         },
         "summary": "Create product",
@@ -950,9 +1349,9 @@
                   }
                 },
                 "required": [
-                  "stock",
+                  "price",
                   "name",
-                  "price"
+                  "stock"
                 ],
                 "type": "object"
               }
@@ -961,7 +1360,16 @@
         },
         "responses": {
           "201": {
-            "description": "Created variant"
+            "description": "Add product variant - created"
+          },
+          "400": {
+            "description": "Validation failed"
+          },
+          "429": {
+            "description": "Too many requests"
+          },
+          "500": {
+            "description": "Internal server error"
           }
         },
         "summary": "Add product variant",
@@ -985,7 +1393,16 @@
         ],
         "responses": {
           "200": {
-            "description": "Product deleted"
+            "description": "Delete product - success"
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "429": {
+            "description": "Too many requests"
+          },
+          "500": {
+            "description": "Internal server error"
           }
         },
         "summary": "Delete product",
@@ -1007,10 +1424,16 @@
         ],
         "responses": {
           "200": {
-            "description": "Product data"
+            "description": "Get product by ID - success"
           },
           "404": {
-            "description": "Product not found"
+            "description": "Resource not found"
+          },
+          "429": {
+            "description": "Too many requests"
+          },
+          "500": {
+            "description": "Internal server error"
           }
         },
         "summary": "Get product by ID",
@@ -1042,7 +1465,19 @@
         },
         "responses": {
           "200": {
-            "description": "Updated product"
+            "description": "Update product - success"
+          },
+          "400": {
+            "description": "Validation failed"
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "429": {
+            "description": "Too many requests"
+          },
+          "500": {
+            "description": "Internal server error"
           }
         },
         "summary": "Update product",
@@ -1064,6 +1499,20 @@
             }
           }
         ],
+        "responses": {
+          "200": {
+            "description": "Get user profile - success"
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "429": {
+            "description": "Too many requests"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
         "summary": "Get user profile",
         "tags": [
           "profile"
@@ -1104,6 +1553,23 @@
             }
           }
         },
+        "responses": {
+          "200": {
+            "description": "Update user profile - success"
+          },
+          "400": {
+            "description": "Validation failed"
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "429": {
+            "description": "Too many requests"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
         "summary": "Update user profile",
         "tags": [
           "profile"
@@ -1132,13 +1598,27 @@
                   }
                 },
                 "required": [
-                  "rating",
+                  "product_id",
                   "comment",
-                  "product_id"
+                  "rating"
                 ],
                 "type": "object"
               }
             }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Create review (auth required) - created"
+          },
+          "400": {
+            "description": "Validation failed"
+          },
+          "429": {
+            "description": "Too many requests"
+          },
+          "500": {
+            "description": "Internal server error"
           }
         },
         "summary": "Create review (auth required)",
@@ -1177,6 +1657,23 @@
             }
           }
         },
+        "responses": {
+          "200": {
+            "description": "Update review (auth required) - success"
+          },
+          "400": {
+            "description": "Validation failed"
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "429": {
+            "description": "Too many requests"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
         "summary": "Update review (auth required)",
         "tags": [
           "reviews"
@@ -1212,6 +1709,20 @@
             }
           }
         ],
+        "responses": {
+          "200": {
+            "description": "Get seller products - success"
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "429": {
+            "description": "Too many requests"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
         "summary": "Get seller products",
         "tags": [
           "sallers"
@@ -1231,6 +1742,20 @@
             }
           }
         ],
+        "responses": {
+          "200": {
+            "description": "Delete trash type (admin) - success"
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "429": {
+            "description": "Too many requests"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
         "summary": "Delete trash type (admin)",
         "tags": [
           "trash"
@@ -1248,6 +1773,23 @@
             }
           }
         ],
+        "responses": {
+          "200": {
+            "description": "Update trash type (admin) - success"
+          },
+          "400": {
+            "description": "Validation failed"
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "429": {
+            "description": "Too many requests"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
         "summary": "Update trash type (admin)",
         "tags": [
           "trash"
@@ -1275,6 +1817,20 @@
             }
           }
         ],
+        "responses": {
+          "200": {
+            "description": "List trash types (public) - paginated"
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "429": {
+            "description": "Too many requests"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
         "summary": "List trash types (public)",
         "tags": [
           "trash"
@@ -1300,6 +1856,20 @@
                 "type": "object"
               }
             }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Create trash type (admin) - created"
+          },
+          "400": {
+            "description": "Validation failed"
+          },
+          "429": {
+            "description": "Too many requests"
+          },
+          "500": {
+            "description": "Internal server error"
           }
         },
         "summary": "Create trash type (admin)",
