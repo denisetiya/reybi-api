@@ -24,5 +24,5 @@ pub async fn list_all(State(state): State<AppState>, Query(pq): Query<Pagination
 
 pub async fn delete(State(state): State<AppState>, Path(id): Path<Uuid>) -> AppResult<Json<serde_json::Value>> {
     OrderService::delete(&state.db, id).await?;
-    Ok(Json(message("Order cancelled", "en")))
+    Ok(Json(message("Order cancelled")))
 }

@@ -177,69 +177,60 @@ endpoints:
   body: null
   responses:
   - status: 200
-    description: Get seller products - success
+    description: Success — paginated list
     examples:
     - name: default
       value:
-        success: true
-        data: &id003
-          id: 550e8400-e29b-41d4-a716-446655440000
-          name: T-Shirt
-          price: 150000
-          coin: 10
-          description: Premium cotton t-shirt
-          thumbnail: https://example.com/thumb.jpg
-          images:
-          - https://example.com/img1.jpg
-          stock: 100
-          location: Jakarta
-          category: clothing
-          discount: 10.5
-          sold: 50
-          available: 50
-          rating: 4.5
-          saller_id: 660e8400-e29b-41d4-a716-446655440001
-          recommended: true
-          created_at: '2025-01-01T00:00:00'
-          updated_at: '2025-01-01T00:00:00'
+        statusCode: 200
+        message: Success
+        content:
+        - &id001
+          id: cmqhhc2z00064pd2degy2ymub
+          name: 'Eksklusif Botol #30'
+          price: 202082
+          coin: 202
+          thumbnail: https://picsum.photos/seed/prod-30/600/600
+          stock: 123
+          location: Medan
+          discount: null
+          sold: 418
+        - *id001
         meta:
+          nextCursor: eyJpZCI6MjV9
+          hasMore: true
           locale: en
+  - status: 400
+    description: Bad Request
+    examples:
+    - name: default
+      value:
+        statusCode: 400
+        message: Bad Request
+        error: Invalid input
   - status: 404
-    description: Resource not found
+    description: Not Found
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: NOT_FOUND
-          message: Resource not found
-          details: []
-        meta:
-          locale: en
+        statusCode: 404
+        message: Not Found
+        error: Resource not found
   - status: 429
-    description: Too many requests
+    description: Rate limit exceeded
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: RATE_LIMITED
-          message: Too many requests
-          details: []
-        meta:
-          locale: en
+        statusCode: 429
+        message: Too Many Requests
+        error: Rate limit exceeded
   - status: 500
-    description: Internal server error
+    description: Internal Server Error
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: INTERNAL_ERROR
-          message: Internal server error
-          details: []
-        meta:
-          locale: en
+        statusCode: 500
+        message: Internal Server Error
+        error: Internal error occurred
 - id: post-addresses-user-{user_id}
   name: Create address (auth required)
   group: addresses
@@ -346,58 +337,57 @@ endpoints:
     mime_type: application/json
   responses:
   - status: 201
-    description: Create address (auth required) - created
+    description: Success — created
     examples:
     - name: default
       value:
-        success: true
-        data: &id001
-          id: 550e8400-e29b-41d4-a716-446655440000
-          user_id: 660e8400-e29b-41d4-a716-446655440001
-          address: Jl. Sudirman No. 1
-          label: Home
-          phone_number: '+628123456789'
-          main: true
-          created_at: '2025-01-01T00:00:00'
-          updated_at: '2025-01-01T00:00:00'
+        statusCode: 201
+        message: Success
+        content:
+          id: usr_1234567890
+          email: user@example.com
+          name: John Doe
+          role: user
+          photoURL: https://example.com/avatar.jpg
+          phoneNumber: '+6281234567890'
+          coin: 500
+          exp: 1500.5
+          level: 12
+          badge: gold
         meta:
           locale: en
+  - status: 401
+    description: Unauthorized
+    examples:
+    - name: default
+      value:
+        statusCode: 401
+        message: Unauthorized
+        error: Token not found
   - status: 400
-    description: Validation failed
+    description: Bad Request
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: VALIDATION_ERROR
-          message: Validation failed
-          details: []
-        meta:
-          locale: en
+        statusCode: 400
+        message: Bad Request
+        error: Invalid input
   - status: 429
-    description: Too many requests
+    description: Rate limit exceeded
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: RATE_LIMITED
-          message: Too many requests
-          details: []
-        meta:
-          locale: en
+        statusCode: 429
+        message: Too Many Requests
+        error: Rate limit exceeded
   - status: 500
-    description: Internal server error
+    description: Internal Server Error
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: INTERNAL_ERROR
-          message: Internal server error
-          details: []
-        meta:
-          locale: en
+        statusCode: 500
+        message: Internal Server Error
+        error: Internal error occurred
 - id: put-addresses-user-{user_id}
   name: Update address (auth required)
   group: addresses
@@ -434,63 +424,66 @@ endpoints:
   headers: []
   body: null
   responses:
-  - status: 200
-    description: Update address (auth required) - success
+  - status: 201
+    description: Success — created
     examples:
     - name: default
       value:
-        success: true
-        data: *id001
+        statusCode: 201
+        message: Success
+        content:
+          id: usr_1234567890
+          email: user@example.com
+          name: John Doe
+          role: user
+          photoURL: https://example.com/avatar.jpg
+          phoneNumber: '+6281234567890'
+          coin: 500
+          exp: 1500.5
+          level: 12
+          badge: gold
         meta:
           locale: en
+  - status: 401
+    description: Unauthorized
+    examples:
+    - name: default
+      value:
+        statusCode: 401
+        message: Unauthorized
+        error: Token not found
   - status: 400
-    description: Validation failed
+    description: Bad Request
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: VALIDATION_ERROR
-          message: Validation failed
-          details: []
-        meta:
-          locale: en
+        statusCode: 400
+        message: Bad Request
+        error: Invalid input
   - status: 404
-    description: Resource not found
+    description: Not Found
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: NOT_FOUND
-          message: Resource not found
-          details: []
-        meta:
-          locale: en
+        statusCode: 404
+        message: Not Found
+        error: Resource not found
   - status: 429
-    description: Too many requests
+    description: Rate limit exceeded
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: RATE_LIMITED
-          message: Too many requests
-          details: []
-        meta:
-          locale: en
+        statusCode: 429
+        message: Too Many Requests
+        error: Rate limit exceeded
   - status: 500
-    description: Internal server error
+    description: Internal Server Error
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: INTERNAL_ERROR
-          message: Internal server error
-          details: []
-        meta:
-          locale: en
+        statusCode: 500
+        message: Internal Server Error
+        error: Internal error occurred
 - id: post-auth-register
   name: Register new user
   group: auth
@@ -564,69 +557,57 @@ endpoints:
     mime_type: application/json
   responses:
   - status: 201
-    description: Register new user - created
+    description: Success — created
     examples:
     - name: default
       value:
-        success: true
-        data:
-          id: 550e8400-e29b-41d4-a716-446655440000
-          fb_id: firebase-uid-123
-          email: newuser@example.com
-          name: Jane Doe
+        statusCode: 201
+        message: Success
+        content:
+          id: usr_1234567890
+          email: user@example.com
+          name: John Doe
           role: user
-          created_at: '2025-01-01T00:00:00'
-          updated_at: '2025-01-01T00:00:00'
-        meta:
-          locale: en
-  - status: 400
-    description: Validation failed
-    examples:
-    - name: default
-      value:
-        success: false
-        error:
-          code: VALIDATION_ERROR
-          message: Validation failed
-          details: []
+          photoURL: https://example.com/avatar.jpg
+          phoneNumber: '+6281234567890'
+          coin: 500
+          exp: 1500.5
+          level: 12
+          badge: gold
         meta:
           locale: en
   - status: 401
-    description: Authentication required
+    description: Unauthorized
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: UNAUTHORIZED
-          message: Authentication required
-          details: []
-        meta:
-          locale: en
+        statusCode: 401
+        message: Unauthorized
+        error: Token not found
+  - status: 400
+    description: Bad Request
+    examples:
+    - name: default
+      value:
+        statusCode: 400
+        message: Bad Request
+        error: Invalid input
   - status: 429
-    description: Too many requests
+    description: Rate limit exceeded
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: RATE_LIMITED
-          message: Too many requests
-          details: []
-        meta:
-          locale: en
+        statusCode: 429
+        message: Too Many Requests
+        error: Rate limit exceeded
   - status: 500
-    description: Internal server error
+    description: Internal Server Error
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: INTERNAL_ERROR
-          message: Internal server error
-          details: []
-        meta:
-          locale: en
+        statusCode: 500
+        message: Internal Server Error
+        error: Internal error occurred
 - id: get-articles-{id}
   name: Get article by ID
   group: articles
@@ -664,56 +645,55 @@ endpoints:
   body: null
   responses:
   - status: 200
-    description: Get article by ID - success
+    description: Success — paginated list
     examples:
     - name: default
       value:
-        success: true
-        data: &id002
-          id: 550e8400-e29b-41d4-a716-446655440000
-          thumbnail: https://example.com/article.jpg
-          header: How to Recycle
-          content: Full article content here...
-          created_at: '2025-01-01T00:00:00'
-          updated_at: '2025-01-01T00:00:00'
+        statusCode: 200
+        message: Success
+        content:
+        - &id002
+          id: cmqhhc2z00002pd2degy2ymub
+          thumbnail: https://picsum.photos/seed/article-1/800/400
+          header: Tips Recycling
+          content: Learn how to recycle properly...
+        - *id002
         meta:
+          nextCursor: eyJpZCI6MjV9
+          hasMore: true
           locale: en
+  - status: 400
+    description: Bad Request
+    examples:
+    - name: default
+      value:
+        statusCode: 400
+        message: Bad Request
+        error: Invalid input
   - status: 404
-    description: Resource not found
+    description: Not Found
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: NOT_FOUND
-          message: Resource not found
-          details: []
-        meta:
-          locale: en
+        statusCode: 404
+        message: Not Found
+        error: Resource not found
   - status: 429
-    description: Too many requests
+    description: Rate limit exceeded
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: RATE_LIMITED
-          message: Too many requests
-          details: []
-        meta:
-          locale: en
+        statusCode: 429
+        message: Too Many Requests
+        error: Rate limit exceeded
   - status: 500
-    description: Internal server error
+    description: Internal Server Error
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: INTERNAL_ERROR
-          message: Internal server error
-          details: []
-        meta:
-          locale: en
+        statusCode: 500
+        message: Internal Server Error
+        error: Internal error occurred
 - id: put-articles-{id}
   name: Update article
   group: articles
@@ -751,62 +731,59 @@ endpoints:
   body: null
   responses:
   - status: 200
-    description: Update article - success
+    description: Success
     examples:
     - name: default
       value:
-        success: true
-        data: *id002
+        statusCode: 200
+        message: Success
+        content:
+          id: cmqhhc2z00002pd2degy2ymub
+          thumbnail: https://picsum.photos/seed/article-1/800/400
+          header: Tips Recycling
+          content: Learn how to recycle properly...
         meta:
           locale: en
+  - status: 401
+    description: Unauthorized
+    examples:
+    - name: default
+      value:
+        statusCode: 401
+        message: Unauthorized
+        error: Token not found
   - status: 400
-    description: Validation failed
+    description: Bad Request
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: VALIDATION_ERROR
-          message: Validation failed
-          details: []
-        meta:
-          locale: en
+        statusCode: 400
+        message: Bad Request
+        error: Invalid input
   - status: 404
-    description: Resource not found
+    description: Not Found
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: NOT_FOUND
-          message: Resource not found
-          details: []
-        meta:
-          locale: en
+        statusCode: 404
+        message: Not Found
+        error: Resource not found
   - status: 429
-    description: Too many requests
+    description: Rate limit exceeded
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: RATE_LIMITED
-          message: Too many requests
-          details: []
-        meta:
-          locale: en
+        statusCode: 429
+        message: Too Many Requests
+        error: Rate limit exceeded
   - status: 500
-    description: Internal server error
+    description: Internal Server Error
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: INTERNAL_ERROR
-          message: Internal server error
-          details: []
-        meta:
-          locale: en
+        statusCode: 500
+        message: Internal Server Error
+        error: Internal error occurred
 - id: delete-articles-{id}
   name: Delete article
   group: articles
@@ -844,50 +821,59 @@ endpoints:
   body: null
   responses:
   - status: 200
-    description: Delete article - success
+    description: Success
     examples:
     - name: default
       value:
-        success: true
-        message: Deleted successfully
+        statusCode: 200
+        message: Success
+        content:
+          id: cmqhhc2z00002pd2degy2ymub
+          thumbnail: https://picsum.photos/seed/article-1/800/400
+          header: Tips Recycling
+          content: Learn how to recycle properly...
         meta:
           locale: en
+  - status: 401
+    description: Unauthorized
+    examples:
+    - name: default
+      value:
+        statusCode: 401
+        message: Unauthorized
+        error: Token not found
+  - status: 400
+    description: Bad Request
+    examples:
+    - name: default
+      value:
+        statusCode: 400
+        message: Bad Request
+        error: Invalid input
   - status: 404
-    description: Resource not found
+    description: Not Found
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: NOT_FOUND
-          message: Resource not found
-          details: []
-        meta:
-          locale: en
+        statusCode: 404
+        message: Not Found
+        error: Resource not found
   - status: 429
-    description: Too many requests
+    description: Rate limit exceeded
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: RATE_LIMITED
-          message: Too many requests
-          details: []
-        meta:
-          locale: en
+        statusCode: 429
+        message: Too Many Requests
+        error: Rate limit exceeded
   - status: 500
-    description: Internal server error
+    description: Internal Server Error
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: INTERNAL_ERROR
-          message: Internal server error
-          details: []
-        meta:
-          locale: en
+        statusCode: 500
+        message: Internal Server Error
+        error: Internal error occurred
 - id: get-orders
   name: List all orders (admin)
   group: orders
@@ -943,70 +929,60 @@ endpoints:
   body: null
   responses:
   - status: 200
-    description: List all orders (admin) - paginated
+    description: Success — paginated list
     examples:
     - name: default
       value:
-        success: true
-        data:
-        - &id009
-          id: 550e8400-e29b-41d4-a716-446655440000
-          user_id: 660e8400-e29b-41d4-a716-446655440001
-          product_id: 770e8400-e29b-41d4-a716-446655440002
+        statusCode: 200
+        message: Success
+        content:
+        - &id003
+          id: cmqhhc2z00004pd2degy2ymub
+          userId: usr_1234567890
+          productId: cmqhhc2z00064pd2degy2ymub
           quantity: 1
-          coin: 10
-          payment:
-            method: qris
-            status: pending
-            amount: 150000.0
-          delivery:
-            status: processing
-            tracking_number: ''
-            estimated_delivery: '2025-01-05T00:00:00'
-          created_at: '2025-01-01T00:00:00'
-          updated_at: '2025-01-01T00:00:00'
+          totalPrice: 202082
+          coin: 202
+          status: pending
+          payment: qris
+          delivery: pending
+        - *id003
         meta:
+          nextCursor: eyJpZCI6MjV9
+          hasMore: true
           locale: en
-          pagination:
-            cursor: eyJpZCI6MjV9
-            has_more: true
-            count: 25
+  - status: 400
+    description: Bad Request
+    examples:
+    - name: default
+      value:
+        statusCode: 400
+        message: Bad Request
+        error: Invalid input
   - status: 404
-    description: Resource not found
+    description: Not Found
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: NOT_FOUND
-          message: Resource not found
-          details: []
-        meta:
-          locale: en
+        statusCode: 404
+        message: Not Found
+        error: Resource not found
   - status: 429
-    description: Too many requests
+    description: Rate limit exceeded
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: RATE_LIMITED
-          message: Too many requests
-          details: []
-        meta:
-          locale: en
+        statusCode: 429
+        message: Too Many Requests
+        error: Rate limit exceeded
   - status: 500
-    description: Internal server error
+    description: Internal Server Error
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: INTERNAL_ERROR
-          message: Internal server error
-          details: []
-        meta:
-          locale: en
+        statusCode: 500
+        message: Internal Server Error
+        error: Internal error occurred
 - id: get-articles
   name: List articles (public)
   group: articles
@@ -1062,55 +1038,55 @@ endpoints:
   body: null
   responses:
   - status: 200
-    description: List articles (public) - paginated
+    description: Success — paginated list
     examples:
     - name: default
       value:
-        success: true
-        data:
-        - *id002
+        statusCode: 200
+        message: Success
+        content:
+        - &id004
+          id: cmqhhc2z00002pd2degy2ymub
+          thumbnail: https://picsum.photos/seed/article-1/800/400
+          header: Tips Recycling
+          content: Learn how to recycle properly...
+        - *id004
         meta:
+          nextCursor: eyJpZCI6MjV9
+          hasMore: true
           locale: en
-          pagination:
-            cursor: eyJpZCI6MjV9
-            has_more: true
-            count: 25
+  - status: 400
+    description: Bad Request
+    examples:
+    - name: default
+      value:
+        statusCode: 400
+        message: Bad Request
+        error: Invalid input
   - status: 404
-    description: Resource not found
+    description: Not Found
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: NOT_FOUND
-          message: Resource not found
-          details: []
-        meta:
-          locale: en
+        statusCode: 404
+        message: Not Found
+        error: Resource not found
   - status: 429
-    description: Too many requests
+    description: Rate limit exceeded
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: RATE_LIMITED
-          message: Too many requests
-          details: []
-        meta:
-          locale: en
+        statusCode: 429
+        message: Too Many Requests
+        error: Rate limit exceeded
   - status: 500
-    description: Internal server error
+    description: Internal Server Error
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: INTERNAL_ERROR
-          message: Internal server error
-          details: []
-        meta:
-          locale: en
+        statusCode: 500
+        message: Internal Server Error
+        error: Internal error occurred
 - id: get-products
   name: List products (public, no auth required)
   group: products
@@ -1202,55 +1178,60 @@ endpoints:
   body: null
   responses:
   - status: 200
-    description: List products (public, no auth required) - paginated
+    description: Success — paginated list
     examples:
     - name: default
       value:
-        success: true
-        data:
-        - *id003
+        statusCode: 200
+        message: Success
+        content:
+        - &id005
+          id: cmqhhc2z00064pd2degy2ymub
+          name: 'Eksklusif Botol #30'
+          price: 202082
+          coin: 202
+          thumbnail: https://picsum.photos/seed/prod-30/600/600
+          stock: 123
+          location: Medan
+          discount: null
+          sold: 418
+        - *id005
         meta:
+          nextCursor: eyJpZCI6MjV9
+          hasMore: true
           locale: en
-          pagination:
-            cursor: eyJpZCI6MjV9
-            has_more: true
-            count: 25
+  - status: 400
+    description: Bad Request
+    examples:
+    - name: default
+      value:
+        statusCode: 400
+        message: Bad Request
+        error: Invalid input
   - status: 404
-    description: Resource not found
+    description: Not Found
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: NOT_FOUND
-          message: Resource not found
-          details: []
-        meta:
-          locale: en
+        statusCode: 404
+        message: Not Found
+        error: Resource not found
   - status: 429
-    description: Too many requests
+    description: Rate limit exceeded
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: RATE_LIMITED
-          message: Too many requests
-          details: []
-        meta:
-          locale: en
+        statusCode: 429
+        message: Too Many Requests
+        error: Rate limit exceeded
   - status: 500
-    description: Internal server error
+    description: Internal Server Error
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: INTERNAL_ERROR
-          message: Internal server error
-          details: []
-        meta:
-          locale: en
+        statusCode: 500
+        message: Internal Server Error
+        error: Internal error occurred
 - id: get-deposites
   name: List all deposites (admin)
   group: deposites
@@ -1306,66 +1287,62 @@ endpoints:
   body: null
   responses:
   - status: 200
-    description: List all deposites (admin) - paginated
+    description: Success — paginated list
     examples:
     - name: default
       value:
-        success: true
-        data:
-        - &id004
-          id: 550e8400-e29b-41d4-a716-446655440000
-          user_id: 660e8400-e29b-41d4-a716-446655440001
-          address_id: 770e8400-e29b-41d4-a716-446655440002
-          type: plastic
-          pickup_date: '2025-01-15'
-          pickup_time: '10:00'
-          coin: 50
-          images: []
-          landfill_id: null
-          created_at: '2025-01-01T00:00:00'
-          updated_at: '2025-01-01T00:00:00'
+        statusCode: 200
+        message: Success
+        content:
+        - &id006
+          id: cmqhhc2z00005pd2degy2ymub
+          userId: usr_1234567890
+          pickupDate: '2025-06-20'
+          pickupTime: '10:00'
+          coin: 150
+          images: &id007
+          - https://example.com/deposite/img1.jpg
+          garbageType: &id008
+          - trashTypeId: trash_001
+            amount: 2
+          landfillId: landfill_001
+        - *id006
         meta:
+          nextCursor: eyJpZCI6MjV9
+          hasMore: true
           locale: en
-          pagination:
-            cursor: eyJpZCI6MjV9
-            has_more: true
-            count: 25
+  - status: 400
+    description: Bad Request
+    examples:
+    - name: default
+      value:
+        statusCode: 400
+        message: Bad Request
+        error: Invalid input
   - status: 404
-    description: Resource not found
+    description: Not Found
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: NOT_FOUND
-          message: Resource not found
-          details: []
-        meta:
-          locale: en
+        statusCode: 404
+        message: Not Found
+        error: Resource not found
   - status: 429
-    description: Too many requests
+    description: Rate limit exceeded
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: RATE_LIMITED
-          message: Too many requests
-          details: []
-        meta:
-          locale: en
+        statusCode: 429
+        message: Too Many Requests
+        error: Rate limit exceeded
   - status: 500
-    description: Internal server error
+    description: Internal Server Error
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: INTERNAL_ERROR
-          message: Internal server error
-          details: []
-        meta:
-          locale: en
+        statusCode: 500
+        message: Internal Server Error
+        error: Internal error occurred
 - id: post-deposites
   name: Create deposite (auth required)
   group: deposites
@@ -1514,50 +1491,55 @@ endpoints:
     mime_type: application/json
   responses:
   - status: 201
-    description: Create deposite (auth required) - created
+    description: Success — created
     examples:
     - name: default
       value:
-        success: true
-        data: *id004
+        statusCode: 201
+        message: Success
+        content:
+          id: cmqhhc2z00005pd2degy2ymub
+          userId: usr_1234567890
+          pickupDate: '2025-06-20'
+          pickupTime: '10:00'
+          coin: 150
+          images: *id007
+          garbageType: *id008
+          landfillId: landfill_001
         meta:
           locale: en
+  - status: 401
+    description: Unauthorized
+    examples:
+    - name: default
+      value:
+        statusCode: 401
+        message: Unauthorized
+        error: Token not found
   - status: 400
-    description: Validation failed
+    description: Bad Request
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: VALIDATION_ERROR
-          message: Validation failed
-          details: []
-        meta:
-          locale: en
+        statusCode: 400
+        message: Bad Request
+        error: Invalid input
   - status: 429
-    description: Too many requests
+    description: Rate limit exceeded
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: RATE_LIMITED
-          message: Too many requests
-          details: []
-        meta:
-          locale: en
+        statusCode: 429
+        message: Too Many Requests
+        error: Rate limit exceeded
   - status: 500
-    description: Internal server error
+    description: Internal Server Error
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: INTERNAL_ERROR
-          message: Internal server error
-          details: []
-        meta:
-          locale: en
+        statusCode: 500
+        message: Internal Server Error
+        error: Internal error occurred
 - id: get-profile-{email}
   name: Get user profile
   group: profile
@@ -1595,56 +1577,61 @@ endpoints:
   body: null
   responses:
   - status: 200
-    description: Get user profile - success
+    description: Success — paginated list
     examples:
     - name: default
       value:
-        success: true
-        data: &id005
-          id: 550e8400-e29b-41d4-a716-446655440000
-          user_id: 660e8400-e29b-41d4-a716-446655440001
-          exp: 150.5
-          level: 5
-          coin: 200
+        statusCode: 200
+        message: Success
+        content:
+        - &id009
+          id: usr_1234567890
+          email: user@example.com
+          name: John Doe
+          role: user
+          photoURL: https://example.com/avatar.jpg
+          phoneNumber: '+6281234567890'
+          coin: 500
+          exp: 1500.5
+          level: 12
           badge: gold
+        - *id009
         meta:
+          nextCursor: eyJpZCI6MjV9
+          hasMore: true
           locale: en
+  - status: 400
+    description: Bad Request
+    examples:
+    - name: default
+      value:
+        statusCode: 400
+        message: Bad Request
+        error: Invalid input
   - status: 404
-    description: Resource not found
+    description: Not Found
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: NOT_FOUND
-          message: Resource not found
-          details: []
-        meta:
-          locale: en
+        statusCode: 404
+        message: Not Found
+        error: Resource not found
   - status: 429
-    description: Too many requests
+    description: Rate limit exceeded
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: RATE_LIMITED
-          message: Too many requests
-          details: []
-        meta:
-          locale: en
+        statusCode: 429
+        message: Too Many Requests
+        error: Rate limit exceeded
   - status: 500
-    description: Internal server error
+    description: Internal Server Error
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: INTERNAL_ERROR
-          message: Internal server error
-          details: []
-        meta:
-          locale: en
+        statusCode: 500
+        message: Internal Server Error
+        error: Internal error occurred
 - id: put-profile-{email}
   name: Update user profile
   group: profile
@@ -1751,62 +1738,65 @@ endpoints:
     mime_type: application/json
   responses:
   - status: 200
-    description: Update user profile - success
+    description: Success
     examples:
     - name: default
       value:
-        success: true
-        data: *id005
+        statusCode: 200
+        message: Success
+        content:
+          id: usr_1234567890
+          email: user@example.com
+          name: John Doe
+          role: user
+          photoURL: https://example.com/avatar.jpg
+          phoneNumber: '+6281234567890'
+          coin: 500
+          exp: 1500.5
+          level: 12
+          badge: gold
         meta:
           locale: en
+  - status: 401
+    description: Unauthorized
+    examples:
+    - name: default
+      value:
+        statusCode: 401
+        message: Unauthorized
+        error: Token not found
   - status: 400
-    description: Validation failed
+    description: Bad Request
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: VALIDATION_ERROR
-          message: Validation failed
-          details: []
-        meta:
-          locale: en
+        statusCode: 400
+        message: Bad Request
+        error: Invalid input
   - status: 404
-    description: Resource not found
+    description: Not Found
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: NOT_FOUND
-          message: Resource not found
-          details: []
-        meta:
-          locale: en
+        statusCode: 404
+        message: Not Found
+        error: Resource not found
   - status: 429
-    description: Too many requests
+    description: Rate limit exceeded
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: RATE_LIMITED
-          message: Too many requests
-          details: []
-        meta:
-          locale: en
+        statusCode: 429
+        message: Too Many Requests
+        error: Rate limit exceeded
   - status: 500
-    description: Internal server error
+    description: Internal Server Error
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: INTERNAL_ERROR
-          message: Internal server error
-          details: []
-        meta:
-          locale: en
+        statusCode: 500
+        message: Internal Server Error
+        error: Internal error occurred
 - id: get-products-{id}
   name: Get product by ID
   group: products
@@ -1844,50 +1834,60 @@ endpoints:
   body: null
   responses:
   - status: 200
-    description: Get product by ID - success
+    description: Success — paginated list
     examples:
     - name: default
       value:
-        success: true
-        data: *id003
+        statusCode: 200
+        message: Success
+        content:
+        - &id010
+          id: cmqhhc2z00064pd2degy2ymub
+          name: 'Eksklusif Botol #30'
+          price: 202082
+          coin: 202
+          thumbnail: https://picsum.photos/seed/prod-30/600/600
+          stock: 123
+          location: Medan
+          discount: null
+          sold: 418
+        - *id010
         meta:
+          nextCursor: eyJpZCI6MjV9
+          hasMore: true
           locale: en
+  - status: 400
+    description: Bad Request
+    examples:
+    - name: default
+      value:
+        statusCode: 400
+        message: Bad Request
+        error: Invalid input
   - status: 404
-    description: Resource not found
+    description: Not Found
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: NOT_FOUND
-          message: Resource not found
-          details: []
-        meta:
-          locale: en
+        statusCode: 404
+        message: Not Found
+        error: Resource not found
   - status: 429
-    description: Too many requests
+    description: Rate limit exceeded
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: RATE_LIMITED
-          message: Too many requests
-          details: []
-        meta:
-          locale: en
+        statusCode: 429
+        message: Too Many Requests
+        error: Rate limit exceeded
   - status: 500
-    description: Internal server error
+    description: Internal Server Error
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: INTERNAL_ERROR
-          message: Internal server error
-          details: []
-        meta:
-          locale: en
+        statusCode: 500
+        message: Internal Server Error
+        error: Internal error occurred
 - id: put-products-{id}
   name: Update product
   group: products
@@ -1934,62 +1934,64 @@ endpoints:
     mime_type: application/json
   responses:
   - status: 200
-    description: Update product - success
+    description: Success
     examples:
     - name: default
       value:
-        success: true
-        data: *id003
+        statusCode: 200
+        message: Success
+        content:
+          id: cmqhhc2z00064pd2degy2ymub
+          name: 'Eksklusif Botol #30'
+          price: 202082
+          coin: 202
+          thumbnail: https://picsum.photos/seed/prod-30/600/600
+          stock: 123
+          location: Medan
+          discount: null
+          sold: 418
         meta:
           locale: en
+  - status: 401
+    description: Unauthorized
+    examples:
+    - name: default
+      value:
+        statusCode: 401
+        message: Unauthorized
+        error: Token not found
   - status: 400
-    description: Validation failed
+    description: Bad Request
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: VALIDATION_ERROR
-          message: Validation failed
-          details: []
-        meta:
-          locale: en
+        statusCode: 400
+        message: Bad Request
+        error: Invalid input
   - status: 404
-    description: Resource not found
+    description: Not Found
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: NOT_FOUND
-          message: Resource not found
-          details: []
-        meta:
-          locale: en
+        statusCode: 404
+        message: Not Found
+        error: Resource not found
   - status: 429
-    description: Too many requests
+    description: Rate limit exceeded
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: RATE_LIMITED
-          message: Too many requests
-          details: []
-        meta:
-          locale: en
+        statusCode: 429
+        message: Too Many Requests
+        error: Rate limit exceeded
   - status: 500
-    description: Internal server error
+    description: Internal Server Error
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: INTERNAL_ERROR
-          message: Internal server error
-          details: []
-        meta:
-          locale: en
+        statusCode: 500
+        message: Internal Server Error
+        error: Internal error occurred
 - id: delete-products-{id}
   name: Delete product
   group: products
@@ -2027,50 +2029,64 @@ endpoints:
   body: null
   responses:
   - status: 200
-    description: Delete product - success
+    description: Success
     examples:
     - name: default
       value:
-        success: true
-        message: Deleted successfully
+        statusCode: 200
+        message: Success
+        content:
+          id: cmqhhc2z00064pd2degy2ymub
+          name: 'Eksklusif Botol #30'
+          price: 202082
+          coin: 202
+          thumbnail: https://picsum.photos/seed/prod-30/600/600
+          stock: 123
+          location: Medan
+          discount: null
+          sold: 418
         meta:
           locale: en
+  - status: 401
+    description: Unauthorized
+    examples:
+    - name: default
+      value:
+        statusCode: 401
+        message: Unauthorized
+        error: Token not found
+  - status: 400
+    description: Bad Request
+    examples:
+    - name: default
+      value:
+        statusCode: 400
+        message: Bad Request
+        error: Invalid input
   - status: 404
-    description: Resource not found
+    description: Not Found
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: NOT_FOUND
-          message: Resource not found
-          details: []
-        meta:
-          locale: en
+        statusCode: 404
+        message: Not Found
+        error: Resource not found
   - status: 429
-    description: Too many requests
+    description: Rate limit exceeded
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: RATE_LIMITED
-          message: Too many requests
-          details: []
-        meta:
-          locale: en
+        statusCode: 429
+        message: Too Many Requests
+        error: Rate limit exceeded
   - status: 500
-    description: Internal server error
+    description: Internal Server Error
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: INTERNAL_ERROR
-          message: Internal server error
-          details: []
-        meta:
-          locale: en
+        statusCode: 500
+        message: Internal Server Error
+        error: Internal error occurred
 - id: get-landfills
   name: List landfills (public)
   group: landfills
@@ -2126,58 +2142,57 @@ endpoints:
   body: null
   responses:
   - status: 200
-    description: List landfills (public) - paginated
+    description: Success — paginated list
     examples:
     - name: default
       value:
-        success: true
-        data:
-        - &id006
-          id: 550e8400-e29b-41d4-a716-446655440000
-          name: TPS Jakarta Selatan
-          address: Jl. TB Simatupang
+        statusCode: 200
+        message: Success
+        content:
+        - &id011
+          id: landfill_001
+          name: TPA Bantar Gebang
+          location: Jakarta
+          capacity: 50000
+          operationalHours: 08:00-17:00
+          contact: '+6281234567890'
+        - *id011
         meta:
+          nextCursor: eyJpZCI6MjV9
+          hasMore: true
           locale: en
-          pagination:
-            cursor: eyJpZCI6MjV9
-            has_more: true
-            count: 25
+  - status: 400
+    description: Bad Request
+    examples:
+    - name: default
+      value:
+        statusCode: 400
+        message: Bad Request
+        error: Invalid input
   - status: 404
-    description: Resource not found
+    description: Not Found
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: NOT_FOUND
-          message: Resource not found
-          details: []
-        meta:
-          locale: en
+        statusCode: 404
+        message: Not Found
+        error: Resource not found
   - status: 429
-    description: Too many requests
+    description: Rate limit exceeded
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: RATE_LIMITED
-          message: Too many requests
-          details: []
-        meta:
-          locale: en
+        statusCode: 429
+        message: Too Many Requests
+        error: Rate limit exceeded
   - status: 500
-    description: Internal server error
+    description: Internal Server Error
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: INTERNAL_ERROR
-          message: Internal server error
-          details: []
-        meta:
-          locale: en
+        statusCode: 500
+        message: Internal Server Error
+        error: Internal error occurred
 - id: post-landfills
   name: Create landfill (admin)
   group: landfills
@@ -2236,50 +2251,53 @@ endpoints:
     mime_type: application/json
   responses:
   - status: 201
-    description: Create landfill (admin) - created
+    description: Success — created
     examples:
     - name: default
       value:
-        success: true
-        data: *id006
+        statusCode: 201
+        message: Success
+        content:
+          id: landfill_001
+          name: TPA Bantar Gebang
+          location: Jakarta
+          capacity: 50000
+          operationalHours: 08:00-17:00
+          contact: '+6281234567890'
         meta:
           locale: en
+  - status: 401
+    description: Unauthorized
+    examples:
+    - name: default
+      value:
+        statusCode: 401
+        message: Unauthorized
+        error: Token not found
   - status: 400
-    description: Validation failed
+    description: Bad Request
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: VALIDATION_ERROR
-          message: Validation failed
-          details: []
-        meta:
-          locale: en
+        statusCode: 400
+        message: Bad Request
+        error: Invalid input
   - status: 429
-    description: Too many requests
+    description: Rate limit exceeded
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: RATE_LIMITED
-          message: Too many requests
-          details: []
-        meta:
-          locale: en
+        statusCode: 429
+        message: Too Many Requests
+        error: Rate limit exceeded
   - status: 500
-    description: Internal server error
+    description: Internal Server Error
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: INTERNAL_ERROR
-          message: Internal server error
-          details: []
-        meta:
-          locale: en
+        statusCode: 500
+        message: Internal Server Error
+        error: Internal error occurred
 - id: put-trash-type-{id}
   name: Update trash type (admin)
   group: trash
@@ -2317,67 +2335,61 @@ endpoints:
   body: null
   responses:
   - status: 200
-    description: Update trash type (admin) - success
+    description: Success
     examples:
     - name: default
       value:
-        success: true
-        data: &id008
-          id: 550e8400-e29b-41d4-a716-446655440000
-          name: Plastic
-          image: https://example.com/trash.jpg
-          created_at: '2025-01-01T00:00:00'
-          updated_at: '2025-01-01T00:00:00'
+        statusCode: 200
+        message: Success
+        content:
+          id: trash_001
+          name: Plastic Bottle
+          pricePerKg: 2500
+          image: https://example.com/trash/plastic.jpg
+          category: plastic
+          description: Clean plastic bottles accepted
         meta:
           locale: en
+  - status: 401
+    description: Unauthorized
+    examples:
+    - name: default
+      value:
+        statusCode: 401
+        message: Unauthorized
+        error: Token not found
   - status: 400
-    description: Validation failed
+    description: Bad Request
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: VALIDATION_ERROR
-          message: Validation failed
-          details: []
-        meta:
-          locale: en
+        statusCode: 400
+        message: Bad Request
+        error: Invalid input
   - status: 404
-    description: Resource not found
+    description: Not Found
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: NOT_FOUND
-          message: Resource not found
-          details: []
-        meta:
-          locale: en
+        statusCode: 404
+        message: Not Found
+        error: Resource not found
   - status: 429
-    description: Too many requests
+    description: Rate limit exceeded
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: RATE_LIMITED
-          message: Too many requests
-          details: []
-        meta:
-          locale: en
+        statusCode: 429
+        message: Too Many Requests
+        error: Rate limit exceeded
   - status: 500
-    description: Internal server error
+    description: Internal Server Error
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: INTERNAL_ERROR
-          message: Internal server error
-          details: []
-        meta:
-          locale: en
+        statusCode: 500
+        message: Internal Server Error
+        error: Internal error occurred
 - id: delete-trash-type-{id}
   name: Delete trash type (admin)
   group: trash
@@ -2415,50 +2427,61 @@ endpoints:
   body: null
   responses:
   - status: 200
-    description: Delete trash type (admin) - success
+    description: Success
     examples:
     - name: default
       value:
-        success: true
-        message: Deleted successfully
+        statusCode: 200
+        message: Success
+        content:
+          id: trash_001
+          name: Plastic Bottle
+          pricePerKg: 2500
+          image: https://example.com/trash/plastic.jpg
+          category: plastic
+          description: Clean plastic bottles accepted
         meta:
           locale: en
+  - status: 401
+    description: Unauthorized
+    examples:
+    - name: default
+      value:
+        statusCode: 401
+        message: Unauthorized
+        error: Token not found
+  - status: 400
+    description: Bad Request
+    examples:
+    - name: default
+      value:
+        statusCode: 400
+        message: Bad Request
+        error: Invalid input
   - status: 404
-    description: Resource not found
+    description: Not Found
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: NOT_FOUND
-          message: Resource not found
-          details: []
-        meta:
-          locale: en
+        statusCode: 404
+        message: Not Found
+        error: Resource not found
   - status: 429
-    description: Too many requests
+    description: Rate limit exceeded
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: RATE_LIMITED
-          message: Too many requests
-          details: []
-        meta:
-          locale: en
+        statusCode: 429
+        message: Too Many Requests
+        error: Rate limit exceeded
   - status: 500
-    description: Internal server error
+    description: Internal Server Error
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: INTERNAL_ERROR
-          message: Internal server error
-          details: []
-        meta:
-          locale: en
+        statusCode: 500
+        message: Internal Server Error
+        error: Internal error occurred
 - id: get-carts-user-{user_id}
   name: Get user cart
   group: carts
@@ -2532,57 +2555,69 @@ endpoints:
   body: null
   responses:
   - status: 200
-    description: Get user cart - success
+    description: Success — paginated list
     examples:
     - name: default
       value:
-        success: true
-        data: &id007
-          id: 550e8400-e29b-41d4-a716-446655440000
-          user_id: 660e8400-e29b-41d4-a716-446655440001
-          product_id: 770e8400-e29b-41d4-a716-446655440002
-          quantity: 2
-          variant_id: null
-          created_at: '2025-01-01T00:00:00'
-          updated_at: '2025-01-01T00:00:00'
+        statusCode: 200
+        message: Success
+        content:
+        - &id012
+          id: usr_1234567890
+          email: user@example.com
+          name: John Doe
+          role: user
+          photoURL: https://example.com/avatar.jpg
+          phoneNumber: '+6281234567890'
+          coin: 500
+          exp: 1500.5
+          level: 12
+          badge: gold
+        - *id012
         meta:
+          nextCursor: eyJpZCI6MjV9
+          hasMore: true
           locale: en
+  - status: 401
+    description: Unauthorized
+    examples:
+    - name: default
+      value:
+        statusCode: 401
+        message: Unauthorized
+        error: Token not found
+  - status: 400
+    description: Bad Request
+    examples:
+    - name: default
+      value:
+        statusCode: 400
+        message: Bad Request
+        error: Invalid input
   - status: 404
-    description: Resource not found
+    description: Not Found
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: NOT_FOUND
-          message: Resource not found
-          details: []
-        meta:
-          locale: en
+        statusCode: 404
+        message: Not Found
+        error: Resource not found
   - status: 429
-    description: Too many requests
+    description: Rate limit exceeded
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: RATE_LIMITED
-          message: Too many requests
-          details: []
-        meta:
-          locale: en
+        statusCode: 429
+        message: Too Many Requests
+        error: Rate limit exceeded
   - status: 500
-    description: Internal server error
+    description: Internal Server Error
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: INTERNAL_ERROR
-          message: Internal server error
-          details: []
-        meta:
-          locale: en
+        statusCode: 500
+        message: Internal Server Error
+        error: Internal error occurred
 - id: post-carts-user-{user_id}
   name: Add item to cart
   group: carts
@@ -2674,50 +2709,57 @@ endpoints:
     mime_type: application/json
   responses:
   - status: 201
-    description: Add item to cart - created
+    description: Success — created
     examples:
     - name: default
       value:
-        success: true
-        data: *id007
+        statusCode: 201
+        message: Success
+        content:
+          id: usr_1234567890
+          email: user@example.com
+          name: John Doe
+          role: user
+          photoURL: https://example.com/avatar.jpg
+          phoneNumber: '+6281234567890'
+          coin: 500
+          exp: 1500.5
+          level: 12
+          badge: gold
         meta:
           locale: en
+  - status: 401
+    description: Unauthorized
+    examples:
+    - name: default
+      value:
+        statusCode: 401
+        message: Unauthorized
+        error: Token not found
   - status: 400
-    description: Validation failed
+    description: Bad Request
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: VALIDATION_ERROR
-          message: Validation failed
-          details: []
-        meta:
-          locale: en
+        statusCode: 400
+        message: Bad Request
+        error: Invalid input
   - status: 429
-    description: Too many requests
+    description: Rate limit exceeded
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: RATE_LIMITED
-          message: Too many requests
-          details: []
-        meta:
-          locale: en
+        statusCode: 429
+        message: Too Many Requests
+        error: Rate limit exceeded
   - status: 500
-    description: Internal server error
+    description: Internal Server Error
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: INTERNAL_ERROR
-          message: Internal server error
-          details: []
-        meta:
-          locale: en
+        statusCode: 500
+        message: Internal Server Error
+        error: Internal error occurred
 - id: get-trash-types
   name: List trash types (public)
   group: trash
@@ -2773,55 +2815,57 @@ endpoints:
   body: null
   responses:
   - status: 200
-    description: List trash types (public) - paginated
+    description: Success — paginated list
     examples:
     - name: default
       value:
-        success: true
-        data:
-        - *id008
+        statusCode: 200
+        message: Success
+        content:
+        - &id013
+          id: trash_001
+          name: Plastic Bottle
+          pricePerKg: 2500
+          image: https://example.com/trash/plastic.jpg
+          category: plastic
+          description: Clean plastic bottles accepted
+        - *id013
         meta:
+          nextCursor: eyJpZCI6MjV9
+          hasMore: true
           locale: en
-          pagination:
-            cursor: eyJpZCI6MjV9
-            has_more: true
-            count: 25
+  - status: 400
+    description: Bad Request
+    examples:
+    - name: default
+      value:
+        statusCode: 400
+        message: Bad Request
+        error: Invalid input
   - status: 404
-    description: Resource not found
+    description: Not Found
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: NOT_FOUND
-          message: Resource not found
-          details: []
-        meta:
-          locale: en
+        statusCode: 404
+        message: Not Found
+        error: Resource not found
   - status: 429
-    description: Too many requests
+    description: Rate limit exceeded
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: RATE_LIMITED
-          message: Too many requests
-          details: []
-        meta:
-          locale: en
+        statusCode: 429
+        message: Too Many Requests
+        error: Rate limit exceeded
   - status: 500
-    description: Internal server error
+    description: Internal Server Error
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: INTERNAL_ERROR
-          message: Internal server error
-          details: []
-        meta:
-          locale: en
+        statusCode: 500
+        message: Internal Server Error
+        error: Internal error occurred
 - id: post-trash-types
   name: Create trash type (admin)
   group: trash
@@ -2880,50 +2924,53 @@ endpoints:
     mime_type: application/json
   responses:
   - status: 201
-    description: Create trash type (admin) - created
+    description: Success — created
     examples:
     - name: default
       value:
-        success: true
-        data: *id008
+        statusCode: 201
+        message: Success
+        content:
+          id: trash_001
+          name: Plastic Bottle
+          pricePerKg: 2500
+          image: https://example.com/trash/plastic.jpg
+          category: plastic
+          description: Clean plastic bottles accepted
         meta:
           locale: en
+  - status: 401
+    description: Unauthorized
+    examples:
+    - name: default
+      value:
+        statusCode: 401
+        message: Unauthorized
+        error: Token not found
   - status: 400
-    description: Validation failed
+    description: Bad Request
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: VALIDATION_ERROR
-          message: Validation failed
-          details: []
-        meta:
-          locale: en
+        statusCode: 400
+        message: Bad Request
+        error: Invalid input
   - status: 429
-    description: Too many requests
+    description: Rate limit exceeded
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: RATE_LIMITED
-          message: Too many requests
-          details: []
-        meta:
-          locale: en
+        statusCode: 429
+        message: Too Many Requests
+        error: Rate limit exceeded
   - status: 500
-    description: Internal server error
+    description: Internal Server Error
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: INTERNAL_ERROR
-          message: Internal server error
-          details: []
-        meta:
-          locale: en
+        statusCode: 500
+        message: Internal Server Error
+        error: Internal error occurred
 - id: get-orders-user-{user_id}
   name: Get user orders
   group: orders
@@ -2979,50 +3026,69 @@ endpoints:
   body: null
   responses:
   - status: 200
-    description: Get user orders - success
+    description: Success — paginated list
     examples:
     - name: default
       value:
-        success: true
-        data: *id009
+        statusCode: 200
+        message: Success
+        content:
+        - &id014
+          id: usr_1234567890
+          email: user@example.com
+          name: John Doe
+          role: user
+          photoURL: https://example.com/avatar.jpg
+          phoneNumber: '+6281234567890'
+          coin: 500
+          exp: 1500.5
+          level: 12
+          badge: gold
+        - *id014
         meta:
+          nextCursor: eyJpZCI6MjV9
+          hasMore: true
           locale: en
+  - status: 401
+    description: Unauthorized
+    examples:
+    - name: default
+      value:
+        statusCode: 401
+        message: Unauthorized
+        error: Token not found
+  - status: 400
+    description: Bad Request
+    examples:
+    - name: default
+      value:
+        statusCode: 400
+        message: Bad Request
+        error: Invalid input
   - status: 404
-    description: Resource not found
+    description: Not Found
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: NOT_FOUND
-          message: Resource not found
-          details: []
-        meta:
-          locale: en
+        statusCode: 404
+        message: Not Found
+        error: Resource not found
   - status: 429
-    description: Too many requests
+    description: Rate limit exceeded
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: RATE_LIMITED
-          message: Too many requests
-          details: []
-        meta:
-          locale: en
+        statusCode: 429
+        message: Too Many Requests
+        error: Rate limit exceeded
   - status: 500
-    description: Internal server error
+    description: Internal Server Error
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: INTERNAL_ERROR
-          message: Internal server error
-          details: []
-        meta:
-          locale: en
+        statusCode: 500
+        message: Internal Server Error
+        error: Internal error occurred
 - id: post-orders-user-{user_id}
   name: Create order (auth required)
   group: orders
@@ -3129,50 +3195,57 @@ endpoints:
     mime_type: application/json
   responses:
   - status: 201
-    description: Create order (auth required) - created
+    description: Success — created
     examples:
     - name: default
       value:
-        success: true
-        data: *id009
+        statusCode: 201
+        message: Success
+        content:
+          id: usr_1234567890
+          email: user@example.com
+          name: John Doe
+          role: user
+          photoURL: https://example.com/avatar.jpg
+          phoneNumber: '+6281234567890'
+          coin: 500
+          exp: 1500.5
+          level: 12
+          badge: gold
         meta:
           locale: en
+  - status: 401
+    description: Unauthorized
+    examples:
+    - name: default
+      value:
+        statusCode: 401
+        message: Unauthorized
+        error: Token not found
   - status: 400
-    description: Validation failed
+    description: Bad Request
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: VALIDATION_ERROR
-          message: Validation failed
-          details: []
-        meta:
-          locale: en
+        statusCode: 400
+        message: Bad Request
+        error: Invalid input
   - status: 429
-    description: Too many requests
+    description: Rate limit exceeded
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: RATE_LIMITED
-          message: Too many requests
-          details: []
-        meta:
-          locale: en
+        statusCode: 429
+        message: Too Many Requests
+        error: Rate limit exceeded
   - status: 500
-    description: Internal server error
+    description: Internal Server Error
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: INTERNAL_ERROR
-          message: Internal server error
-          details: []
-        meta:
-          locale: en
+        statusCode: 500
+        message: Internal Server Error
+        error: Internal error occurred
 - id: post-products-variant-{id}
   name: Add product variant
   group: products
@@ -3279,56 +3352,56 @@ endpoints:
     mime_type: application/json
   responses:
   - status: 201
-    description: Add product variant - created
+    description: Success — created
     examples:
     - name: default
       value:
-        success: true
-        data:
-          id: 770e8400-e29b-41d4-a716-446655440002
-          product_id: 550e8400-e29b-41d4-a716-446655440000
-          name: Size L - Black
-          price: 160000
-          stock: 30
-          image: https://example.com/variant.jpg
+        statusCode: 201
+        message: Success
+        content:
+          id: cmqhhc2z00064pd2degy2ymub
+          name: 'Eksklusif Botol #30'
+          price: 202082
+          coin: 202
+          thumbnail: https://picsum.photos/seed/prod-30/600/600
+          stock: 123
+          location: Medan
+          discount: null
+          sold: 418
         meta:
           locale: en
+  - status: 401
+    description: Unauthorized
+    examples:
+    - name: default
+      value:
+        statusCode: 401
+        message: Unauthorized
+        error: Token not found
   - status: 400
-    description: Validation failed
+    description: Bad Request
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: VALIDATION_ERROR
-          message: Validation failed
-          details: []
-        meta:
-          locale: en
+        statusCode: 400
+        message: Bad Request
+        error: Invalid input
   - status: 429
-    description: Too many requests
+    description: Rate limit exceeded
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: RATE_LIMITED
-          message: Too many requests
-          details: []
-        meta:
-          locale: en
+        statusCode: 429
+        message: Too Many Requests
+        error: Rate limit exceeded
   - status: 500
-    description: Internal server error
+    description: Internal Server Error
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: INTERNAL_ERROR
-          message: Internal server error
-          details: []
-        meta:
-          locale: en
+        statusCode: 500
+        message: Internal Server Error
+        error: Internal error occurred
 - id: post-products-create
   name: Create product
   group: products
@@ -3537,50 +3610,56 @@ endpoints:
     mime_type: application/json
   responses:
   - status: 201
-    description: Create product - created
+    description: Success — created
     examples:
     - name: default
       value:
-        success: true
-        data: *id003
+        statusCode: 201
+        message: Success
+        content:
+          id: cmqhhc2z00064pd2degy2ymub
+          name: 'Eksklusif Botol #30'
+          price: 202082
+          coin: 202
+          thumbnail: https://picsum.photos/seed/prod-30/600/600
+          stock: 123
+          location: Medan
+          discount: null
+          sold: 418
         meta:
           locale: en
+  - status: 401
+    description: Unauthorized
+    examples:
+    - name: default
+      value:
+        statusCode: 401
+        message: Unauthorized
+        error: Token not found
   - status: 400
-    description: Validation failed
+    description: Bad Request
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: VALIDATION_ERROR
-          message: Validation failed
-          details: []
-        meta:
-          locale: en
+        statusCode: 400
+        message: Bad Request
+        error: Invalid input
   - status: 429
-    description: Too many requests
+    description: Rate limit exceeded
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: RATE_LIMITED
-          message: Too many requests
-          details: []
-        meta:
-          locale: en
+        statusCode: 429
+        message: Too Many Requests
+        error: Rate limit exceeded
   - status: 500
-    description: Internal server error
+    description: Internal Server Error
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: INTERNAL_ERROR
-          message: Internal server error
-          details: []
-        meta:
-          locale: en
+        statusCode: 500
+        message: Internal Server Error
+        error: Internal error occurred
 - id: delete-orders-{id}
   name: Cancel order (auth required)
   group: orders
@@ -3618,50 +3697,64 @@ endpoints:
   body: null
   responses:
   - status: 200
-    description: Cancel order (auth required) - success
+    description: Success
     examples:
     - name: default
       value:
-        success: true
-        message: Deleted successfully
+        statusCode: 200
+        message: Success
+        content:
+          id: cmqhhc2z00004pd2degy2ymub
+          userId: usr_1234567890
+          productId: cmqhhc2z00064pd2degy2ymub
+          quantity: 1
+          totalPrice: 202082
+          coin: 202
+          status: pending
+          payment: qris
+          delivery: pending
         meta:
           locale: en
+  - status: 401
+    description: Unauthorized
+    examples:
+    - name: default
+      value:
+        statusCode: 401
+        message: Unauthorized
+        error: Token not found
+  - status: 400
+    description: Bad Request
+    examples:
+    - name: default
+      value:
+        statusCode: 400
+        message: Bad Request
+        error: Invalid input
   - status: 404
-    description: Resource not found
+    description: Not Found
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: NOT_FOUND
-          message: Resource not found
-          details: []
-        meta:
-          locale: en
+        statusCode: 404
+        message: Not Found
+        error: Resource not found
   - status: 429
-    description: Too many requests
+    description: Rate limit exceeded
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: RATE_LIMITED
-          message: Too many requests
-          details: []
-        meta:
-          locale: en
+        statusCode: 429
+        message: Too Many Requests
+        error: Rate limit exceeded
   - status: 500
-    description: Internal server error
+    description: Internal Server Error
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: INTERNAL_ERROR
-          message: Internal server error
-          details: []
-        meta:
-          locale: en
+        statusCode: 500
+        message: Internal Server Error
+        error: Internal error occurred
 - id: get-banners-type-{type}
   name: List banners by type
   group: banners
@@ -3699,62 +3792,56 @@ endpoints:
   body: null
   responses:
   - status: 200
-    description: List banners by type - paginated
+    description: Success — paginated list
     examples:
     - name: default
       value:
-        success: true
-        data:
-        - &id011
-          id: 550e8400-e29b-41d4-a716-446655440000
-          image: https://example.com/banner.jpg
-          type: home
+        statusCode: 200
+        message: Success
+        content:
+        - &id015
+          id: cmqhhc2z00001pd2degy2ymub
+          image: https://picsum.photos/seed/banner-1/800/400
+          type: promo
           title: Summer Sale
-          description: Up to 50% off
-          created_at: '2025-01-01T00:00:00'
-          updated_at: '2025-01-01T00:00:00'
+          description: Get 50% off all items
+        - *id015
         meta:
+          nextCursor: eyJpZCI6MjV9
+          hasMore: true
           locale: en
-          pagination:
-            cursor: eyJpZCI6MjV9
-            has_more: true
-            count: 25
+  - status: 400
+    description: Bad Request
+    examples:
+    - name: default
+      value:
+        statusCode: 400
+        message: Bad Request
+        error: Invalid input
   - status: 404
-    description: Resource not found
+    description: Not Found
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: NOT_FOUND
-          message: Resource not found
-          details: []
-        meta:
-          locale: en
+        statusCode: 404
+        message: Not Found
+        error: Resource not found
   - status: 429
-    description: Too many requests
+    description: Rate limit exceeded
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: RATE_LIMITED
-          message: Too many requests
-          details: []
-        meta:
-          locale: en
+        statusCode: 429
+        message: Too Many Requests
+        error: Rate limit exceeded
   - status: 500
-    description: Internal server error
+    description: Internal Server Error
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: INTERNAL_ERROR
-          message: Internal server error
-          details: []
-        meta:
-          locale: en
+        statusCode: 500
+        message: Internal Server Error
+        error: Internal error occurred
 - id: put-reviews-{id}
   name: Update review (auth required)
   group: reviews
@@ -3831,70 +3918,62 @@ endpoints:
     mime_type: application/json
   responses:
   - status: 200
-    description: Update review (auth required) - success
+    description: Success
     examples:
     - name: default
       value:
-        success: true
-        data: &id010
-          id: 550e8400-e29b-41d4-a716-446655440000
-          product_id: 660e8400-e29b-41d4-a716-446655440001
-          user_id: 770e8400-e29b-41d4-a716-446655440002
+        statusCode: 200
+        message: Success
+        content:
+          id: cmqhhc2z00007pd2degy2ymub
+          userId: usr_1234567890
+          productId: cmqhhc2z00064pd2degy2ymub
           comment: Great product!
-          images: []
-          rating: 5.0
-          created_at: '2025-01-01T00:00:00'
-          updated_at: '2025-01-01T00:00:00'
+          rating: 5
+          images: &id016
+          - https://example.com/review/img1.jpg
         meta:
           locale: en
+  - status: 401
+    description: Unauthorized
+    examples:
+    - name: default
+      value:
+        statusCode: 401
+        message: Unauthorized
+        error: Token not found
   - status: 400
-    description: Validation failed
+    description: Bad Request
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: VALIDATION_ERROR
-          message: Validation failed
-          details: []
-        meta:
-          locale: en
+        statusCode: 400
+        message: Bad Request
+        error: Invalid input
   - status: 404
-    description: Resource not found
+    description: Not Found
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: NOT_FOUND
-          message: Resource not found
-          details: []
-        meta:
-          locale: en
+        statusCode: 404
+        message: Not Found
+        error: Resource not found
   - status: 429
-    description: Too many requests
+    description: Rate limit exceeded
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: RATE_LIMITED
-          message: Too many requests
-          details: []
-        meta:
-          locale: en
+        statusCode: 429
+        message: Too Many Requests
+        error: Rate limit exceeded
   - status: 500
-    description: Internal server error
+    description: Internal Server Error
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: INTERNAL_ERROR
-          message: Internal server error
-          details: []
-        meta:
-          locale: en
+        statusCode: 500
+        message: Internal Server Error
+        error: Internal error occurred
 - id: post-articles-create
   name: Create article
   group: articles
@@ -3968,50 +4047,51 @@ endpoints:
     mime_type: application/json
   responses:
   - status: 201
-    description: Create article - created
+    description: Success — created
     examples:
     - name: default
       value:
-        success: true
-        data: *id002
+        statusCode: 201
+        message: Success
+        content:
+          id: cmqhhc2z00002pd2degy2ymub
+          thumbnail: https://picsum.photos/seed/article-1/800/400
+          header: Tips Recycling
+          content: Learn how to recycle properly...
         meta:
           locale: en
+  - status: 401
+    description: Unauthorized
+    examples:
+    - name: default
+      value:
+        statusCode: 401
+        message: Unauthorized
+        error: Token not found
   - status: 400
-    description: Validation failed
+    description: Bad Request
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: VALIDATION_ERROR
-          message: Validation failed
-          details: []
-        meta:
-          locale: en
+        statusCode: 400
+        message: Bad Request
+        error: Invalid input
   - status: 429
-    description: Too many requests
+    description: Rate limit exceeded
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: RATE_LIMITED
-          message: Too many requests
-          details: []
-        meta:
-          locale: en
+        statusCode: 429
+        message: Too Many Requests
+        error: Rate limit exceeded
   - status: 500
-    description: Internal server error
+    description: Internal Server Error
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: INTERNAL_ERROR
-          message: Internal server error
-          details: []
-        meta:
-          locale: en
+        statusCode: 500
+        message: Internal Server Error
+        error: Internal error occurred
 - id: post-reviews
   name: Create review (auth required)
   group: reviews
@@ -4100,50 +4180,53 @@ endpoints:
     mime_type: application/json
   responses:
   - status: 201
-    description: Create review (auth required) - created
+    description: Success — created
     examples:
     - name: default
       value:
-        success: true
-        data: *id010
+        statusCode: 201
+        message: Success
+        content:
+          id: cmqhhc2z00007pd2degy2ymub
+          userId: usr_1234567890
+          productId: cmqhhc2z00064pd2degy2ymub
+          comment: Great product!
+          rating: 5
+          images: *id016
         meta:
           locale: en
+  - status: 401
+    description: Unauthorized
+    examples:
+    - name: default
+      value:
+        statusCode: 401
+        message: Unauthorized
+        error: Token not found
   - status: 400
-    description: Validation failed
+    description: Bad Request
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: VALIDATION_ERROR
-          message: Validation failed
-          details: []
-        meta:
-          locale: en
+        statusCode: 400
+        message: Bad Request
+        error: Invalid input
   - status: 429
-    description: Too many requests
+    description: Rate limit exceeded
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: RATE_LIMITED
-          message: Too many requests
-          details: []
-        meta:
-          locale: en
+        statusCode: 429
+        message: Too Many Requests
+        error: Rate limit exceeded
   - status: 500
-    description: Internal server error
+    description: Internal Server Error
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: INTERNAL_ERROR
-          message: Internal server error
-          details: []
-        meta:
-          locale: en
+        statusCode: 500
+        message: Internal Server Error
+        error: Internal error occurred
 - id: post-auth-reset-password
   name: Request password reset
   group: auth
@@ -4186,64 +4269,55 @@ endpoints:
     encoding: null
     mime_type: application/json
   responses:
-  - status: 201
-    description: Request password reset - created
+  - status: 200
+    description: Success
     examples:
     - name: default
       value:
-        success: true
-        data:
+        statusCode: 200
+        message: Success
+        content:
           email: user@example.com
-        meta:
-          locale: en
-  - status: 400
-    description: Validation failed
-    examples:
-    - name: default
-      value:
-        success: false
-        error:
-          code: VALIDATION_ERROR
-          message: Validation failed
-          details: []
+          name: John Doe
+          role: user
+          photoURL: https://example.com/avatar.jpg
+          phoneNumber: '+6281234567890'
+          accessToken: eyJhbGciOiJIUzI1NiIs...
+          refreshToken: eyJhbGciOiJIUzI1NiIs...
         meta:
           locale: en
   - status: 401
-    description: Authentication required
+    description: Unauthorized
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: UNAUTHORIZED
-          message: Authentication required
-          details: []
-        meta:
-          locale: en
+        statusCode: 401
+        message: Unauthorized
+        error: Token not found
+  - status: 400
+    description: Bad Request
+    examples:
+    - name: default
+      value:
+        statusCode: 400
+        message: Bad Request
+        error: Invalid input
   - status: 429
-    description: Too many requests
+    description: Rate limit exceeded
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: RATE_LIMITED
-          message: Too many requests
-          details: []
-        meta:
-          locale: en
+        statusCode: 429
+        message: Too Many Requests
+        error: Rate limit exceeded
   - status: 500
-    description: Internal server error
+    description: Internal Server Error
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: INTERNAL_ERROR
-          message: Internal server error
-          details: []
-        meta:
-          locale: en
+        statusCode: 500
+        message: Internal Server Error
+        error: Internal error occurred
 - id: delete-carts-item-{id}
   name: Remove cart item
   group: carts
@@ -4281,50 +4355,65 @@ endpoints:
   body: null
   responses:
   - status: 200
-    description: Remove cart item - success
+    description: Success
     examples:
     - name: default
       value:
-        success: true
-        message: Deleted successfully
+        statusCode: 200
+        message: Success
+        content:
+          id: cmqhhc2z00003pd2degy2ymub
+          userId: usr_1234567890
+          productId: cmqhhc2z00064pd2degy2ymub
+          quantity: 2
+          totalPrice: 404164
+          product:
+            id: cmqhhc2z00064pd2degy2ymub
+            name: 'Eksklusif Botol #30'
+            price: 202082
+            thumbnail: https://picsum.photos/seed/prod-30/600/600
         meta:
           locale: en
+  - status: 401
+    description: Unauthorized
+    examples:
+    - name: default
+      value:
+        statusCode: 401
+        message: Unauthorized
+        error: Token not found
+  - status: 400
+    description: Bad Request
+    examples:
+    - name: default
+      value:
+        statusCode: 400
+        message: Bad Request
+        error: Invalid input
   - status: 404
-    description: Resource not found
+    description: Not Found
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: NOT_FOUND
-          message: Resource not found
-          details: []
-        meta:
-          locale: en
+        statusCode: 404
+        message: Not Found
+        error: Resource not found
   - status: 429
-    description: Too many requests
+    description: Rate limit exceeded
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: RATE_LIMITED
-          message: Too many requests
-          details: []
-        meta:
-          locale: en
+        statusCode: 429
+        message: Too Many Requests
+        error: Rate limit exceeded
   - status: 500
-    description: Internal server error
+    description: Internal Server Error
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: INTERNAL_ERROR
-          message: Internal server error
-          details: []
-        meta:
-          locale: en
+        statusCode: 500
+        message: Internal Server Error
+        error: Internal error occurred
 - id: get-deposites-user-{id}
   name: Get user deposites
   group: deposites
@@ -4380,50 +4469,69 @@ endpoints:
   body: null
   responses:
   - status: 200
-    description: Get user deposites - success
+    description: Success — paginated list
     examples:
     - name: default
       value:
-        success: true
-        data: *id004
+        statusCode: 200
+        message: Success
+        content:
+        - &id017
+          id: usr_1234567890
+          email: user@example.com
+          name: John Doe
+          role: user
+          photoURL: https://example.com/avatar.jpg
+          phoneNumber: '+6281234567890'
+          coin: 500
+          exp: 1500.5
+          level: 12
+          badge: gold
+        - *id017
         meta:
+          nextCursor: eyJpZCI6MjV9
+          hasMore: true
           locale: en
+  - status: 401
+    description: Unauthorized
+    examples:
+    - name: default
+      value:
+        statusCode: 401
+        message: Unauthorized
+        error: Token not found
+  - status: 400
+    description: Bad Request
+    examples:
+    - name: default
+      value:
+        statusCode: 400
+        message: Bad Request
+        error: Invalid input
   - status: 404
-    description: Resource not found
+    description: Not Found
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: NOT_FOUND
-          message: Resource not found
-          details: []
-        meta:
-          locale: en
+        statusCode: 404
+        message: Not Found
+        error: Resource not found
   - status: 429
-    description: Too many requests
+    description: Rate limit exceeded
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: RATE_LIMITED
-          message: Too many requests
-          details: []
-        meta:
-          locale: en
+        statusCode: 429
+        message: Too Many Requests
+        error: Rate limit exceeded
   - status: 500
-    description: Internal server error
+    description: Internal Server Error
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: INTERNAL_ERROR
-          message: Internal server error
-          details: []
-        meta:
-          locale: en
+        statusCode: 500
+        message: Internal Server Error
+        error: Internal error occurred
 - id: post-auth
   name: Login (Firebase token → JWT)
   group: auth
@@ -4451,77 +4559,55 @@ endpoints:
     encoding: null
     mime_type: application/json
   responses:
-  - status: 201
-    description: Login (Firebase token → JWT) - created
+  - status: 200
+    description: Success
     examples:
     - name: default
       value:
-        success: true
-        data:
-          access_token: eyJhbGciOiJIUzI1NiIs...
-          refresh_token: eyJhbGciOiJIUzI1NiIs...
-          token_type: Bearer
-          expires_in: 3600
-          user:
-            id: 550e8400-e29b-41d4-a716-446655440000
-            fb_id: firebase-uid-123
-            email: user@example.com
-            name: John Doe
-            role: user
-            phone_number: '+628123456789'
-            photo_url: https://example.com/photo.jpg
-            created_at: '2025-01-01T00:00:00'
-            updated_at: '2025-01-01T00:00:00'
-        meta:
-          locale: en
-  - status: 400
-    description: Validation failed
-    examples:
-    - name: default
-      value:
-        success: false
-        error:
-          code: VALIDATION_ERROR
-          message: Validation failed
-          details: []
+        statusCode: 200
+        message: Success
+        content:
+          email: user@example.com
+          name: John Doe
+          role: user
+          photoURL: https://example.com/avatar.jpg
+          phoneNumber: '+6281234567890'
+          accessToken: eyJhbGciOiJIUzI1NiIs...
+          refreshToken: eyJhbGciOiJIUzI1NiIs...
         meta:
           locale: en
   - status: 401
-    description: Authentication required
+    description: Unauthorized
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: UNAUTHORIZED
-          message: Authentication required
-          details: []
-        meta:
-          locale: en
+        statusCode: 401
+        message: Unauthorized
+        error: Token not found
+  - status: 400
+    description: Bad Request
+    examples:
+    - name: default
+      value:
+        statusCode: 400
+        message: Bad Request
+        error: Invalid input
   - status: 429
-    description: Too many requests
+    description: Rate limit exceeded
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: RATE_LIMITED
-          message: Too many requests
-          details: []
-        meta:
-          locale: en
+        statusCode: 429
+        message: Too Many Requests
+        error: Rate limit exceeded
   - status: 500
-    description: Internal server error
+    description: Internal Server Error
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: INTERNAL_ERROR
-          message: Internal server error
-          details: []
-        meta:
-          locale: en
+        statusCode: 500
+        message: Internal Server Error
+        error: Internal error occurred
 - id: put-landfills-{id}
   name: Update landfill (admin)
   group: landfills
@@ -4559,62 +4645,61 @@ endpoints:
   body: null
   responses:
   - status: 200
-    description: Update landfill (admin) - success
+    description: Success
     examples:
     - name: default
       value:
-        success: true
-        data: *id006
+        statusCode: 200
+        message: Success
+        content:
+          id: landfill_001
+          name: TPA Bantar Gebang
+          location: Jakarta
+          capacity: 50000
+          operationalHours: 08:00-17:00
+          contact: '+6281234567890'
         meta:
           locale: en
+  - status: 401
+    description: Unauthorized
+    examples:
+    - name: default
+      value:
+        statusCode: 401
+        message: Unauthorized
+        error: Token not found
   - status: 400
-    description: Validation failed
+    description: Bad Request
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: VALIDATION_ERROR
-          message: Validation failed
-          details: []
-        meta:
-          locale: en
+        statusCode: 400
+        message: Bad Request
+        error: Invalid input
   - status: 404
-    description: Resource not found
+    description: Not Found
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: NOT_FOUND
-          message: Resource not found
-          details: []
-        meta:
-          locale: en
+        statusCode: 404
+        message: Not Found
+        error: Resource not found
   - status: 429
-    description: Too many requests
+    description: Rate limit exceeded
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: RATE_LIMITED
-          message: Too many requests
-          details: []
-        meta:
-          locale: en
+        statusCode: 429
+        message: Too Many Requests
+        error: Rate limit exceeded
   - status: 500
-    description: Internal server error
+    description: Internal Server Error
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: INTERNAL_ERROR
-          message: Internal server error
-          details: []
-        meta:
-          locale: en
+        statusCode: 500
+        message: Internal Server Error
+        error: Internal error occurred
 - id: delete-landfills-{id}
   name: Delete landfill (admin)
   group: landfills
@@ -4652,50 +4737,61 @@ endpoints:
   body: null
   responses:
   - status: 200
-    description: Delete landfill (admin) - success
+    description: Success
     examples:
     - name: default
       value:
-        success: true
-        message: Deleted successfully
+        statusCode: 200
+        message: Success
+        content:
+          id: landfill_001
+          name: TPA Bantar Gebang
+          location: Jakarta
+          capacity: 50000
+          operationalHours: 08:00-17:00
+          contact: '+6281234567890'
         meta:
           locale: en
+  - status: 401
+    description: Unauthorized
+    examples:
+    - name: default
+      value:
+        statusCode: 401
+        message: Unauthorized
+        error: Token not found
+  - status: 400
+    description: Bad Request
+    examples:
+    - name: default
+      value:
+        statusCode: 400
+        message: Bad Request
+        error: Invalid input
   - status: 404
-    description: Resource not found
+    description: Not Found
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: NOT_FOUND
-          message: Resource not found
-          details: []
-        meta:
-          locale: en
+        statusCode: 404
+        message: Not Found
+        error: Resource not found
   - status: 429
-    description: Too many requests
+    description: Rate limit exceeded
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: RATE_LIMITED
-          message: Too many requests
-          details: []
-        meta:
-          locale: en
+        statusCode: 429
+        message: Too Many Requests
+        error: Rate limit exceeded
   - status: 500
-    description: Internal server error
+    description: Internal Server Error
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: INTERNAL_ERROR
-          message: Internal server error
-          details: []
-        meta:
-          locale: en
+        statusCode: 500
+        message: Internal Server Error
+        error: Internal error occurred
 - id: post-banners-create
   name: Create banner
   group: banners
@@ -4754,50 +4850,52 @@ endpoints:
     mime_type: application/json
   responses:
   - status: 201
-    description: Create banner - created
+    description: Success — created
     examples:
     - name: default
       value:
-        success: true
-        data: *id011
+        statusCode: 201
+        message: Success
+        content:
+          id: cmqhhc2z00001pd2degy2ymub
+          image: https://picsum.photos/seed/banner-1/800/400
+          type: promo
+          title: Summer Sale
+          description: Get 50% off all items
         meta:
           locale: en
+  - status: 401
+    description: Unauthorized
+    examples:
+    - name: default
+      value:
+        statusCode: 401
+        message: Unauthorized
+        error: Token not found
   - status: 400
-    description: Validation failed
+    description: Bad Request
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: VALIDATION_ERROR
-          message: Validation failed
-          details: []
-        meta:
-          locale: en
+        statusCode: 400
+        message: Bad Request
+        error: Invalid input
   - status: 429
-    description: Too many requests
+    description: Rate limit exceeded
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: RATE_LIMITED
-          message: Too many requests
-          details: []
-        meta:
-          locale: en
+        statusCode: 429
+        message: Too Many Requests
+        error: Rate limit exceeded
   - status: 500
-    description: Internal server error
+    description: Internal Server Error
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: INTERNAL_ERROR
-          message: Internal server error
-          details: []
-        meta:
-          locale: en
+        statusCode: 500
+        message: Internal Server Error
+        error: Internal error occurred
 - id: get-banners
   name: List all banners (public)
   group: banners
@@ -4853,55 +4951,56 @@ endpoints:
   body: null
   responses:
   - status: 200
-    description: List all banners (public) - paginated
+    description: Success — paginated list
     examples:
     - name: default
       value:
-        success: true
-        data:
-        - *id011
+        statusCode: 200
+        message: Success
+        content:
+        - &id018
+          id: cmqhhc2z00001pd2degy2ymub
+          image: https://picsum.photos/seed/banner-1/800/400
+          type: promo
+          title: Summer Sale
+          description: Get 50% off all items
+        - *id018
         meta:
+          nextCursor: eyJpZCI6MjV9
+          hasMore: true
           locale: en
-          pagination:
-            cursor: eyJpZCI6MjV9
-            has_more: true
-            count: 25
+  - status: 400
+    description: Bad Request
+    examples:
+    - name: default
+      value:
+        statusCode: 400
+        message: Bad Request
+        error: Invalid input
   - status: 404
-    description: Resource not found
+    description: Not Found
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: NOT_FOUND
-          message: Resource not found
-          details: []
-        meta:
-          locale: en
+        statusCode: 404
+        message: Not Found
+        error: Resource not found
   - status: 429
-    description: Too many requests
+    description: Rate limit exceeded
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: RATE_LIMITED
-          message: Too many requests
-          details: []
-        meta:
-          locale: en
+        statusCode: 429
+        message: Too Many Requests
+        error: Rate limit exceeded
   - status: 500
-    description: Internal server error
+    description: Internal Server Error
     examples:
     - name: default
       value:
-        success: false
-        error:
-          code: INTERNAL_ERROR
-          message: Internal server error
-          details: []
-        meta:
-          locale: en
+        statusCode: 500
+        message: Internal Server Error
+        error: Internal error occurred
 includes: []
 changelog: []
 error_responses: null

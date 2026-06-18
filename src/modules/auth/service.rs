@@ -96,8 +96,7 @@ async fn validate_firebase_token(
 
     let email = body["users"][0]["email"].as_str()
         .ok_or_else(|| AppError::Validation(vec![crate::errors::FieldError {
-            field: "token".into(),
-            rule: "invalid".into(),
+            path: "token".into(),
             message: "Invalid Firebase token".into(),
         }]))?;
 

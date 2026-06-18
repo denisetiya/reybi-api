@@ -18,5 +18,5 @@ pub async fn add(State(state): State<AppState>, Path(user_id): Path<Uuid>, Json(
 
 pub async fn delete(State(state): State<AppState>, Path(id): Path<Uuid>) -> AppResult<Json<serde_json::Value>> {
     CartService::delete(&state.db, id).await?;
-    Ok(Json(message("Cart item removed", "en")))
+    Ok(Json(message("Cart item removed")))
 }

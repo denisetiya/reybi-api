@@ -28,5 +28,5 @@ pub async fn update(State(state): State<AppState>, Path(id): Path<Uuid>, Json(bo
 
 pub async fn delete(State(state): State<AppState>, Path(id): Path<Uuid>) -> AppResult<Json<serde_json::Value>> {
     ArticleService::delete(&state.db, id).await?;
-    Ok(Json(message("Article deleted", "en")))
+    Ok(Json(message("Article deleted")))
 }

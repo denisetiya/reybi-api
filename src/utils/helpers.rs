@@ -1,8 +1,7 @@
 pub fn parse_id(s: &str) -> Result<uuid::Uuid, crate::errors::AppError> {
     uuid::Uuid::parse_str(s).map_err(|_| {
         crate::errors::AppError::Validation(vec![crate::errors::FieldError {
-            field: "id".into(),
-            rule: "format".into(),
+            path: "id".into(),
             message: "Invalid ID format".into(),
         }])
     })

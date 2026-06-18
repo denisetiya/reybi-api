@@ -23,5 +23,5 @@ pub async fn update(State(state): State<AppState>, Path(id): Path<Uuid>, Json(bo
 
 pub async fn delete(State(state): State<AppState>, Path(id): Path<Uuid>) -> AppResult<Json<serde_json::Value>> {
     TrashService::delete(&state.db, id).await?;
-    Ok(Json(message("Trash type deleted", "en")))
+    Ok(Json(message("Trash type deleted")))
 }

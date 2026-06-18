@@ -46,7 +46,7 @@ pub async fn delete(
     Path(id): Path<Uuid>,
 ) -> AppResult<Json<serde_json::Value>> {
     ProductService::delete(&state.db, id).await?;
-    Ok(Json(message("Product deleted", "en")))
+    Ok(Json(message("Product deleted")))
 }
 
 pub async fn create_variant(

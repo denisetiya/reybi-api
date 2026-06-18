@@ -100,7 +100,7 @@ PUT http://localhost:3000/v1/addresses/user/{user_id}
 [Headers]
 Authorization: Bearer {{token}}
 [Assert]
-status == 200
+status == 201
 
 ### articles ###
 
@@ -175,7 +175,7 @@ Authorization: Bearer {{token}}
 {}
 ```
 [Assert]
-status == 201
+status == 200
 
 # Endpoint: Login (Firebase token → JWT)
 # POST /auth
@@ -187,7 +187,7 @@ Authorization: Bearer {{token}}
 {}
 ```
 [Assert]
-status == 201
+status == 200
 
 ### banners ###
 

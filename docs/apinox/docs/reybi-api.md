@@ -134,8 +134,8 @@ Authentication (Firebase + JWT)
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| `name` | `string` | ✅ | — |
 | `password` | `string` | ✅ | — |
+| `name` | `string` | ✅ | — |
 | `email` | `string` | ✅ | — |
 
 #### Example cURL
@@ -147,97 +147,77 @@ curl -X POST 'http://localhost:3000/v1/auth/register' \
 
 #### Responses
 
-##### ✅ 201 `Register new user - created`
+##### ✅ 201 `Success — created`
 
 *default*
 
 ```json
 {
-  "data": {
-    "created_at": "2025-01-01T00:00:00",
-    "email": "newuser@example.com",
-    "fb_id": "firebase-uid-123",
-    "id": "550e8400-e29b-41d4-a716-446655440000",
-    "name": "Jane Doe",
-    "role": "user",
-    "updated_at": "2025-01-01T00:00:00"
+  "content": {
+    "badge": "gold",
+    "coin": 500,
+    "email": "user@example.com",
+    "exp": 1500.5,
+    "id": "usr_1234567890",
+    "level": 12,
+    "name": "John Doe",
+    "phoneNumber": "+6281234567890",
+    "photoURL": "https://example.com/avatar.jpg",
+    "role": "user"
   },
+  "message": "Success",
   "meta": {
     "locale": "en"
   },
-  "success": true
+  "statusCode": 201
 }
 ```
 
-##### ⚠️ 400 `Validation failed`
+##### ⚠️ 401 `Unauthorized`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "VALIDATION_ERROR",
-    "details": [],
-    "message": "Validation failed"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Token not found",
+  "message": "Unauthorized",
+  "statusCode": 401
 }
 ```
 
-##### ⚠️ 401 `Authentication required`
+##### ⚠️ 400 `Bad Request`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "UNAUTHORIZED",
-    "details": [],
-    "message": "Authentication required"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Invalid input",
+  "message": "Bad Request",
+  "statusCode": 400
 }
 ```
 
-##### ⚠️ 429 `Too many requests`
+##### ⚠️ 429 `Rate limit exceeded`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "RATE_LIMITED",
-    "details": [],
-    "message": "Too many requests"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Rate limit exceeded",
+  "message": "Too Many Requests",
+  "statusCode": 429
 }
 ```
 
-##### ❌ 500 `Internal server error`
+##### ❌ 500 `Internal Server Error`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "INTERNAL_ERROR",
-    "details": [],
-    "message": "Internal server error"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Internal error occurred",
+  "message": "Internal Server Error",
+  "statusCode": 500
 }
 ```
 
@@ -270,91 +250,74 @@ curl -X POST 'http://localhost:3000/v1/auth/reset-password' \
 
 #### Responses
 
-##### ✅ 201 `Request password reset - created`
+##### ✅ 200 `Success`
 
 *default*
 
 ```json
 {
-  "data": {
-    "email": "user@example.com"
+  "content": {
+    "accessToken": "eyJhbGciOiJIUzI1NiIs...",
+    "email": "user@example.com",
+    "name": "John Doe",
+    "phoneNumber": "+6281234567890",
+    "photoURL": "https://example.com/avatar.jpg",
+    "refreshToken": "eyJhbGciOiJIUzI1NiIs...",
+    "role": "user"
   },
+  "message": "Success",
   "meta": {
     "locale": "en"
   },
-  "success": true
+  "statusCode": 200
 }
 ```
 
-##### ⚠️ 400 `Validation failed`
+##### ⚠️ 401 `Unauthorized`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "VALIDATION_ERROR",
-    "details": [],
-    "message": "Validation failed"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Token not found",
+  "message": "Unauthorized",
+  "statusCode": 401
 }
 ```
 
-##### ⚠️ 401 `Authentication required`
+##### ⚠️ 400 `Bad Request`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "UNAUTHORIZED",
-    "details": [],
-    "message": "Authentication required"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Invalid input",
+  "message": "Bad Request",
+  "statusCode": 400
 }
 ```
 
-##### ⚠️ 429 `Too many requests`
+##### ⚠️ 429 `Rate limit exceeded`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "RATE_LIMITED",
-    "details": [],
-    "message": "Too many requests"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Rate limit exceeded",
+  "message": "Too Many Requests",
+  "statusCode": 429
 }
 ```
 
-##### ❌ 500 `Internal server error`
+##### ❌ 500 `Internal Server Error`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "INTERNAL_ERROR",
-    "details": [],
-    "message": "Internal server error"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Internal error occurred",
+  "message": "Internal Server Error",
+  "statusCode": 500
 }
 ```
 
@@ -386,105 +349,74 @@ curl -X POST 'http://localhost:3000/v1/auth' \
 
 #### Responses
 
-##### ✅ 201 `Login (Firebase token → JWT) - created`
+##### ✅ 200 `Success`
 
 *default*
 
 ```json
 {
-  "data": {
-    "access_token": "eyJhbGciOiJIUzI1NiIs...",
-    "expires_in": 3600,
-    "refresh_token": "eyJhbGciOiJIUzI1NiIs...",
-    "token_type": "Bearer",
-    "user": {
-      "created_at": "2025-01-01T00:00:00",
-      "email": "user@example.com",
-      "fb_id": "firebase-uid-123",
-      "id": "550e8400-e29b-41d4-a716-446655440000",
-      "name": "John Doe",
-      "phone_number": "+628123456789",
-      "photo_url": "https://example.com/photo.jpg",
-      "role": "user",
-      "updated_at": "2025-01-01T00:00:00"
-    }
+  "content": {
+    "accessToken": "eyJhbGciOiJIUzI1NiIs...",
+    "email": "user@example.com",
+    "name": "John Doe",
+    "phoneNumber": "+6281234567890",
+    "photoURL": "https://example.com/avatar.jpg",
+    "refreshToken": "eyJhbGciOiJIUzI1NiIs...",
+    "role": "user"
   },
+  "message": "Success",
   "meta": {
     "locale": "en"
   },
-  "success": true
+  "statusCode": 200
 }
 ```
 
-##### ⚠️ 400 `Validation failed`
+##### ⚠️ 401 `Unauthorized`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "VALIDATION_ERROR",
-    "details": [],
-    "message": "Validation failed"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Token not found",
+  "message": "Unauthorized",
+  "statusCode": 401
 }
 ```
 
-##### ⚠️ 401 `Authentication required`
+##### ⚠️ 400 `Bad Request`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "UNAUTHORIZED",
-    "details": [],
-    "message": "Authentication required"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Invalid input",
+  "message": "Bad Request",
+  "statusCode": 400
 }
 ```
 
-##### ⚠️ 429 `Too many requests`
+##### ⚠️ 429 `Rate limit exceeded`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "RATE_LIMITED",
-    "details": [],
-    "message": "Too many requests"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Rate limit exceeded",
+  "message": "Too Many Requests",
+  "statusCode": 429
 }
 ```
 
-##### ❌ 500 `Internal server error`
+##### ❌ 500 `Internal Server Error`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "INTERNAL_ERROR",
-    "details": [],
-    "message": "Internal server error"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Internal error occurred",
+  "message": "Internal Server Error",
+  "statusCode": 500
 }
 ```
 
@@ -517,99 +449,91 @@ curl -X GET 'http://localhost:3000/v1/products?cursor=example-cursor&limit=1&cat
 
 #### Responses
 
-##### ✅ 200 `List products (public, no auth required) - paginated`
+##### ✅ 200 `Success — paginated list`
 
 *default*
 
 ```json
 {
-  "data": [
+  "content": [
     {
-      "available": 50,
-      "category": "clothing",
-      "coin": 10,
-      "created_at": "2025-01-01T00:00:00",
-      "description": "Premium cotton t-shirt",
-      "discount": 10.5,
-      "id": "550e8400-e29b-41d4-a716-446655440000",
-      "images": [
-        "https://example.com/img1.jpg"
-      ],
-      "location": "Jakarta",
-      "name": "T-Shirt",
-      "price": 150000,
-      "rating": 4.5,
-      "recommended": true,
-      "saller_id": "660e8400-e29b-41d4-a716-446655440001",
-      "sold": 50,
-      "stock": 100,
-      "thumbnail": "https://example.com/thumb.jpg",
-      "updated_at": "2025-01-01T00:00:00"
+      "coin": 202,
+      "discount": null,
+      "id": "cmqhhc2z00064pd2degy2ymub",
+      "location": "Medan",
+      "name": "Eksklusif Botol #30",
+      "price": 202082,
+      "sold": 418,
+      "stock": 123,
+      "thumbnail": "https://picsum.photos/seed/prod-30/600/600"
+    },
+    {
+      "coin": 202,
+      "discount": null,
+      "id": "cmqhhc2z00064pd2degy2ymub",
+      "location": "Medan",
+      "name": "Eksklusif Botol #30",
+      "price": 202082,
+      "sold": 418,
+      "stock": 123,
+      "thumbnail": "https://picsum.photos/seed/prod-30/600/600"
     }
   ],
+  "message": "Success",
   "meta": {
+    "hasMore": true,
     "locale": "en",
-    "pagination": {
-      "count": 25,
-      "cursor": "eyJpZCI6MjV9",
-      "has_more": true
-    }
+    "nextCursor": "eyJpZCI6MjV9"
   },
-  "success": true
+  "statusCode": 200
 }
 ```
 
-##### ⚠️ 404 `Resource not found`
+##### ⚠️ 400 `Bad Request`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "NOT_FOUND",
-    "details": [],
-    "message": "Resource not found"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Invalid input",
+  "message": "Bad Request",
+  "statusCode": 400
 }
 ```
 
-##### ⚠️ 429 `Too many requests`
+##### ⚠️ 404 `Not Found`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "RATE_LIMITED",
-    "details": [],
-    "message": "Too many requests"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Resource not found",
+  "message": "Not Found",
+  "statusCode": 404
 }
 ```
 
-##### ❌ 500 `Internal server error`
+##### ⚠️ 429 `Rate limit exceeded`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "INTERNAL_ERROR",
-    "details": [],
-    "message": "Internal server error"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Rate limit exceeded",
+  "message": "Too Many Requests",
+  "statusCode": 429
+}
+```
+
+##### ❌ 500 `Internal Server Error`
+
+*default*
+
+```json
+{
+  "error": "Internal error occurred",
+  "message": "Internal Server Error",
+  "statusCode": 500
 }
 ```
 
@@ -635,92 +559,91 @@ curl -X GET 'http://localhost:3000/v1/products/id-example'
 
 #### Responses
 
-##### ✅ 200 `Get product by ID - success`
+##### ✅ 200 `Success — paginated list`
 
 *default*
 
 ```json
 {
-  "data": {
-    "available": 50,
-    "category": "clothing",
-    "coin": 10,
-    "created_at": "2025-01-01T00:00:00",
-    "description": "Premium cotton t-shirt",
-    "discount": 10.5,
-    "id": "550e8400-e29b-41d4-a716-446655440000",
-    "images": [
-      "https://example.com/img1.jpg"
-    ],
-    "location": "Jakarta",
-    "name": "T-Shirt",
-    "price": 150000,
-    "rating": 4.5,
-    "recommended": true,
-    "saller_id": "660e8400-e29b-41d4-a716-446655440001",
-    "sold": 50,
-    "stock": 100,
-    "thumbnail": "https://example.com/thumb.jpg",
-    "updated_at": "2025-01-01T00:00:00"
-  },
+  "content": [
+    {
+      "coin": 202,
+      "discount": null,
+      "id": "cmqhhc2z00064pd2degy2ymub",
+      "location": "Medan",
+      "name": "Eksklusif Botol #30",
+      "price": 202082,
+      "sold": 418,
+      "stock": 123,
+      "thumbnail": "https://picsum.photos/seed/prod-30/600/600"
+    },
+    {
+      "coin": 202,
+      "discount": null,
+      "id": "cmqhhc2z00064pd2degy2ymub",
+      "location": "Medan",
+      "name": "Eksklusif Botol #30",
+      "price": 202082,
+      "sold": 418,
+      "stock": 123,
+      "thumbnail": "https://picsum.photos/seed/prod-30/600/600"
+    }
+  ],
+  "message": "Success",
   "meta": {
-    "locale": "en"
+    "hasMore": true,
+    "locale": "en",
+    "nextCursor": "eyJpZCI6MjV9"
   },
-  "success": true
+  "statusCode": 200
 }
 ```
 
-##### ⚠️ 404 `Resource not found`
+##### ⚠️ 400 `Bad Request`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "NOT_FOUND",
-    "details": [],
-    "message": "Resource not found"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Invalid input",
+  "message": "Bad Request",
+  "statusCode": 400
 }
 ```
 
-##### ⚠️ 429 `Too many requests`
+##### ⚠️ 404 `Not Found`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "RATE_LIMITED",
-    "details": [],
-    "message": "Too many requests"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Resource not found",
+  "message": "Not Found",
+  "statusCode": 404
 }
 ```
 
-##### ❌ 500 `Internal server error`
+##### ⚠️ 429 `Rate limit exceeded`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "INTERNAL_ERROR",
-    "details": [],
-    "message": "Internal server error"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Rate limit exceeded",
+  "message": "Too Many Requests",
+  "statusCode": 429
+}
+```
+
+##### ❌ 500 `Internal Server Error`
+
+*default*
+
+```json
+{
+  "error": "Internal error occurred",
+  "message": "Internal Server Error",
+  "statusCode": 500
 }
 ```
 
@@ -758,110 +681,88 @@ curl -X PUT 'http://localhost:3000/v1/products/id-example' \
 
 #### Responses
 
-##### ✅ 200 `Update product - success`
+##### ✅ 200 `Success`
 
 *default*
 
 ```json
 {
-  "data": {
-    "available": 50,
-    "category": "clothing",
-    "coin": 10,
-    "created_at": "2025-01-01T00:00:00",
-    "description": "Premium cotton t-shirt",
-    "discount": 10.5,
-    "id": "550e8400-e29b-41d4-a716-446655440000",
-    "images": [
-      "https://example.com/img1.jpg"
-    ],
-    "location": "Jakarta",
-    "name": "T-Shirt",
-    "price": 150000,
-    "rating": 4.5,
-    "recommended": true,
-    "saller_id": "660e8400-e29b-41d4-a716-446655440001",
-    "sold": 50,
-    "stock": 100,
-    "thumbnail": "https://example.com/thumb.jpg",
-    "updated_at": "2025-01-01T00:00:00"
+  "content": {
+    "coin": 202,
+    "discount": null,
+    "id": "cmqhhc2z00064pd2degy2ymub",
+    "location": "Medan",
+    "name": "Eksklusif Botol #30",
+    "price": 202082,
+    "sold": 418,
+    "stock": 123,
+    "thumbnail": "https://picsum.photos/seed/prod-30/600/600"
   },
+  "message": "Success",
   "meta": {
     "locale": "en"
   },
-  "success": true
+  "statusCode": 200
 }
 ```
 
-##### ⚠️ 400 `Validation failed`
+##### ⚠️ 401 `Unauthorized`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "VALIDATION_ERROR",
-    "details": [],
-    "message": "Validation failed"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Token not found",
+  "message": "Unauthorized",
+  "statusCode": 401
 }
 ```
 
-##### ⚠️ 404 `Resource not found`
+##### ⚠️ 400 `Bad Request`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "NOT_FOUND",
-    "details": [],
-    "message": "Resource not found"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Invalid input",
+  "message": "Bad Request",
+  "statusCode": 400
 }
 ```
 
-##### ⚠️ 429 `Too many requests`
+##### ⚠️ 404 `Not Found`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "RATE_LIMITED",
-    "details": [],
-    "message": "Too many requests"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Resource not found",
+  "message": "Not Found",
+  "statusCode": 404
 }
 ```
 
-##### ❌ 500 `Internal server error`
+##### ⚠️ 429 `Rate limit exceeded`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "INTERNAL_ERROR",
-    "details": [],
-    "message": "Internal server error"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Rate limit exceeded",
+  "message": "Too Many Requests",
+  "statusCode": 429
+}
+```
+
+##### ❌ 500 `Internal Server Error`
+
+*default*
+
+```json
+{
+  "error": "Internal error occurred",
+  "message": "Internal Server Error",
+  "statusCode": 500
 }
 ```
 
@@ -887,71 +788,88 @@ curl -X DELETE 'http://localhost:3000/v1/products/id-example'
 
 #### Responses
 
-##### ✅ 200 `Delete product - success`
+##### ✅ 200 `Success`
 
 *default*
 
 ```json
 {
-  "message": "Deleted successfully",
+  "content": {
+    "coin": 202,
+    "discount": null,
+    "id": "cmqhhc2z00064pd2degy2ymub",
+    "location": "Medan",
+    "name": "Eksklusif Botol #30",
+    "price": 202082,
+    "sold": 418,
+    "stock": 123,
+    "thumbnail": "https://picsum.photos/seed/prod-30/600/600"
+  },
+  "message": "Success",
   "meta": {
     "locale": "en"
   },
-  "success": true
+  "statusCode": 200
 }
 ```
 
-##### ⚠️ 404 `Resource not found`
+##### ⚠️ 401 `Unauthorized`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "NOT_FOUND",
-    "details": [],
-    "message": "Resource not found"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Token not found",
+  "message": "Unauthorized",
+  "statusCode": 401
 }
 ```
 
-##### ⚠️ 429 `Too many requests`
+##### ⚠️ 400 `Bad Request`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "RATE_LIMITED",
-    "details": [],
-    "message": "Too many requests"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Invalid input",
+  "message": "Bad Request",
+  "statusCode": 400
 }
 ```
 
-##### ❌ 500 `Internal server error`
+##### ⚠️ 404 `Not Found`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "INTERNAL_ERROR",
-    "details": [],
-    "message": "Internal server error"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Resource not found",
+  "message": "Not Found",
+  "statusCode": 404
+}
+```
+
+##### ⚠️ 429 `Rate limit exceeded`
+
+*default*
+
+```json
+{
+  "error": "Rate limit exceeded",
+  "message": "Too Many Requests",
+  "statusCode": 429
+}
+```
+
+##### ❌ 500 `Internal Server Error`
+
+*default*
+
+```json
+{
+  "error": "Internal error occurred",
+  "message": "Internal Server Error",
+  "statusCode": 500
 }
 ```
 
@@ -979,10 +897,10 @@ curl -X DELETE 'http://localhost:3000/v1/products/id-example'
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| `name` | `string` | ✅ | — |
+| `image` | `string` | ❌ | — |
 | `price` | `integer` | ✅ | — |
 | `stock` | `integer` | ✅ | — |
-| `image` | `string` | ❌ | — |
+| `name` | `string` | ✅ | — |
 
 #### Example cURL
 
@@ -993,78 +911,76 @@ curl -X POST 'http://localhost:3000/v1/products/variant/id-example' \
 
 #### Responses
 
-##### ✅ 201 `Add product variant - created`
+##### ✅ 201 `Success — created`
 
 *default*
 
 ```json
 {
-  "data": {
-    "id": "770e8400-e29b-41d4-a716-446655440002",
-    "image": "https://example.com/variant.jpg",
-    "name": "Size L - Black",
-    "price": 160000,
-    "product_id": "550e8400-e29b-41d4-a716-446655440000",
-    "stock": 30
+  "content": {
+    "coin": 202,
+    "discount": null,
+    "id": "cmqhhc2z00064pd2degy2ymub",
+    "location": "Medan",
+    "name": "Eksklusif Botol #30",
+    "price": 202082,
+    "sold": 418,
+    "stock": 123,
+    "thumbnail": "https://picsum.photos/seed/prod-30/600/600"
   },
+  "message": "Success",
   "meta": {
     "locale": "en"
   },
-  "success": true
+  "statusCode": 201
 }
 ```
 
-##### ⚠️ 400 `Validation failed`
+##### ⚠️ 401 `Unauthorized`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "VALIDATION_ERROR",
-    "details": [],
-    "message": "Validation failed"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Token not found",
+  "message": "Unauthorized",
+  "statusCode": 401
 }
 ```
 
-##### ⚠️ 429 `Too many requests`
+##### ⚠️ 400 `Bad Request`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "RATE_LIMITED",
-    "details": [],
-    "message": "Too many requests"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Invalid input",
+  "message": "Bad Request",
+  "statusCode": 400
 }
 ```
 
-##### ❌ 500 `Internal server error`
+##### ⚠️ 429 `Rate limit exceeded`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "INTERNAL_ERROR",
-    "details": [],
-    "message": "Internal server error"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Rate limit exceeded",
+  "message": "Too Many Requests",
+  "statusCode": 429
+}
+```
+
+##### ❌ 500 `Internal Server Error`
+
+*default*
+
+```json
+{
+  "error": "Internal error occurred",
+  "message": "Internal Server Error",
+  "statusCode": 500
 }
 ```
 
@@ -1086,17 +1002,17 @@ curl -X POST 'http://localhost:3000/v1/products/variant/id-example' \
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| `recommended` | `boolean` | ❌ | — |
 | `images` | `object` | ❌ | — |
-| `thumbnail` | `string` | ❌ | — |
 | `coin` | `integer` | ❌ | — |
-| `category` | `string` | ✅ | — |
 | `discount` | `integer` | ❌ | — |
 | `name` | `string` | ✅ | — |
 | `stock` | `integer` | ✅ | — |
-| `saller_id` | `string` | ❌ | — |
+| `recommended` | `boolean` | ❌ | — |
+| `thumbnail` | `string` | ❌ | — |
+| `category` | `string` | ✅ | — |
 | `description` | `string` | ✅ | — |
 | `price` | `integer` | ✅ | — |
+| `saller_id` | `string` | ❌ | — |
 | `location` | `string` | ❌ | — |
 
 #### Example cURL
@@ -1108,92 +1024,76 @@ curl -X POST 'http://localhost:3000/v1/products/create' \
 
 #### Responses
 
-##### ✅ 201 `Create product - created`
+##### ✅ 201 `Success — created`
 
 *default*
 
 ```json
 {
-  "data": {
-    "available": 50,
-    "category": "clothing",
-    "coin": 10,
-    "created_at": "2025-01-01T00:00:00",
-    "description": "Premium cotton t-shirt",
-    "discount": 10.5,
-    "id": "550e8400-e29b-41d4-a716-446655440000",
-    "images": [
-      "https://example.com/img1.jpg"
-    ],
-    "location": "Jakarta",
-    "name": "T-Shirt",
-    "price": 150000,
-    "rating": 4.5,
-    "recommended": true,
-    "saller_id": "660e8400-e29b-41d4-a716-446655440001",
-    "sold": 50,
-    "stock": 100,
-    "thumbnail": "https://example.com/thumb.jpg",
-    "updated_at": "2025-01-01T00:00:00"
+  "content": {
+    "coin": 202,
+    "discount": null,
+    "id": "cmqhhc2z00064pd2degy2ymub",
+    "location": "Medan",
+    "name": "Eksklusif Botol #30",
+    "price": 202082,
+    "sold": 418,
+    "stock": 123,
+    "thumbnail": "https://picsum.photos/seed/prod-30/600/600"
   },
+  "message": "Success",
   "meta": {
     "locale": "en"
   },
-  "success": true
+  "statusCode": 201
 }
 ```
 
-##### ⚠️ 400 `Validation failed`
+##### ⚠️ 401 `Unauthorized`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "VALIDATION_ERROR",
-    "details": [],
-    "message": "Validation failed"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Token not found",
+  "message": "Unauthorized",
+  "statusCode": 401
 }
 ```
 
-##### ⚠️ 429 `Too many requests`
+##### ⚠️ 400 `Bad Request`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "RATE_LIMITED",
-    "details": [],
-    "message": "Too many requests"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Invalid input",
+  "message": "Bad Request",
+  "statusCode": 400
 }
 ```
 
-##### ❌ 500 `Internal server error`
+##### ⚠️ 429 `Rate limit exceeded`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "INTERNAL_ERROR",
-    "details": [],
-    "message": "Internal server error"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Rate limit exceeded",
+  "message": "Too Many Requests",
+  "statusCode": 429
+}
+```
+
+##### ❌ 500 `Internal Server Error`
+
+*default*
+
+```json
+{
+  "error": "Internal error occurred",
+  "message": "Internal Server Error",
+  "statusCode": 500
 }
 ```
 
@@ -1223,86 +1123,83 @@ curl -X GET 'http://localhost:3000/v1/banners/type/type-example'
 
 #### Responses
 
-##### ✅ 200 `List banners by type - paginated`
+##### ✅ 200 `Success — paginated list`
 
 *default*
 
 ```json
 {
-  "data": [
+  "content": [
     {
-      "created_at": "2025-01-01T00:00:00",
-      "description": "Up to 50% off",
-      "id": "550e8400-e29b-41d4-a716-446655440000",
-      "image": "https://example.com/banner.jpg",
+      "description": "Get 50% off all items",
+      "id": "cmqhhc2z00001pd2degy2ymub",
+      "image": "https://picsum.photos/seed/banner-1/800/400",
       "title": "Summer Sale",
-      "type": "home",
-      "updated_at": "2025-01-01T00:00:00"
+      "type": "promo"
+    },
+    {
+      "description": "Get 50% off all items",
+      "id": "cmqhhc2z00001pd2degy2ymub",
+      "image": "https://picsum.photos/seed/banner-1/800/400",
+      "title": "Summer Sale",
+      "type": "promo"
     }
   ],
+  "message": "Success",
   "meta": {
+    "hasMore": true,
     "locale": "en",
-    "pagination": {
-      "count": 25,
-      "cursor": "eyJpZCI6MjV9",
-      "has_more": true
-    }
+    "nextCursor": "eyJpZCI6MjV9"
   },
-  "success": true
+  "statusCode": 200
 }
 ```
 
-##### ⚠️ 404 `Resource not found`
+##### ⚠️ 400 `Bad Request`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "NOT_FOUND",
-    "details": [],
-    "message": "Resource not found"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Invalid input",
+  "message": "Bad Request",
+  "statusCode": 400
 }
 ```
 
-##### ⚠️ 429 `Too many requests`
+##### ⚠️ 404 `Not Found`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "RATE_LIMITED",
-    "details": [],
-    "message": "Too many requests"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Resource not found",
+  "message": "Not Found",
+  "statusCode": 404
 }
 ```
 
-##### ❌ 500 `Internal server error`
+##### ⚠️ 429 `Rate limit exceeded`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "INTERNAL_ERROR",
-    "details": [],
-    "message": "Internal server error"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Rate limit exceeded",
+  "message": "Too Many Requests",
+  "statusCode": 429
+}
+```
+
+##### ❌ 500 `Internal Server Error`
+
+*default*
+
+```json
+{
+  "error": "Internal error occurred",
+  "message": "Internal Server Error",
+  "statusCode": 500
 }
 ```
 
@@ -1324,8 +1221,8 @@ curl -X GET 'http://localhost:3000/v1/banners/type/type-example'
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| `image` | `string` | ✅ | — |
 | `type` | `string` | ❌ | — |
+| `image` | `string` | ✅ | — |
 
 #### Example cURL
 
@@ -1336,79 +1233,72 @@ curl -X POST 'http://localhost:3000/v1/banners/create' \
 
 #### Responses
 
-##### ✅ 201 `Create banner - created`
+##### ✅ 201 `Success — created`
 
 *default*
 
 ```json
 {
-  "data": {
-    "created_at": "2025-01-01T00:00:00",
-    "description": "Up to 50% off",
-    "id": "550e8400-e29b-41d4-a716-446655440000",
-    "image": "https://example.com/banner.jpg",
+  "content": {
+    "description": "Get 50% off all items",
+    "id": "cmqhhc2z00001pd2degy2ymub",
+    "image": "https://picsum.photos/seed/banner-1/800/400",
     "title": "Summer Sale",
-    "type": "home",
-    "updated_at": "2025-01-01T00:00:00"
+    "type": "promo"
   },
+  "message": "Success",
   "meta": {
     "locale": "en"
   },
-  "success": true
+  "statusCode": 201
 }
 ```
 
-##### ⚠️ 400 `Validation failed`
+##### ⚠️ 401 `Unauthorized`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "VALIDATION_ERROR",
-    "details": [],
-    "message": "Validation failed"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Token not found",
+  "message": "Unauthorized",
+  "statusCode": 401
 }
 ```
 
-##### ⚠️ 429 `Too many requests`
+##### ⚠️ 400 `Bad Request`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "RATE_LIMITED",
-    "details": [],
-    "message": "Too many requests"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Invalid input",
+  "message": "Bad Request",
+  "statusCode": 400
 }
 ```
 
-##### ❌ 500 `Internal server error`
+##### ⚠️ 429 `Rate limit exceeded`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "INTERNAL_ERROR",
-    "details": [],
-    "message": "Internal server error"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Rate limit exceeded",
+  "message": "Too Many Requests",
+  "statusCode": 429
+}
+```
+
+##### ❌ 500 `Internal Server Error`
+
+*default*
+
+```json
+{
+  "error": "Internal error occurred",
+  "message": "Internal Server Error",
+  "statusCode": 500
 }
 ```
 
@@ -1435,86 +1325,83 @@ curl -X GET 'http://localhost:3000/v1/banners?cursor=example-cursor&limit=1'
 
 #### Responses
 
-##### ✅ 200 `List all banners (public) - paginated`
+##### ✅ 200 `Success — paginated list`
 
 *default*
 
 ```json
 {
-  "data": [
+  "content": [
     {
-      "created_at": "2025-01-01T00:00:00",
-      "description": "Up to 50% off",
-      "id": "550e8400-e29b-41d4-a716-446655440000",
-      "image": "https://example.com/banner.jpg",
+      "description": "Get 50% off all items",
+      "id": "cmqhhc2z00001pd2degy2ymub",
+      "image": "https://picsum.photos/seed/banner-1/800/400",
       "title": "Summer Sale",
-      "type": "home",
-      "updated_at": "2025-01-01T00:00:00"
+      "type": "promo"
+    },
+    {
+      "description": "Get 50% off all items",
+      "id": "cmqhhc2z00001pd2degy2ymub",
+      "image": "https://picsum.photos/seed/banner-1/800/400",
+      "title": "Summer Sale",
+      "type": "promo"
     }
   ],
+  "message": "Success",
   "meta": {
+    "hasMore": true,
     "locale": "en",
-    "pagination": {
-      "count": 25,
-      "cursor": "eyJpZCI6MjV9",
-      "has_more": true
-    }
+    "nextCursor": "eyJpZCI6MjV9"
   },
-  "success": true
+  "statusCode": 200
 }
 ```
 
-##### ⚠️ 404 `Resource not found`
+##### ⚠️ 400 `Bad Request`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "NOT_FOUND",
-    "details": [],
-    "message": "Resource not found"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Invalid input",
+  "message": "Bad Request",
+  "statusCode": 400
 }
 ```
 
-##### ⚠️ 429 `Too many requests`
+##### ⚠️ 404 `Not Found`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "RATE_LIMITED",
-    "details": [],
-    "message": "Too many requests"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Resource not found",
+  "message": "Not Found",
+  "statusCode": 404
 }
 ```
 
-##### ❌ 500 `Internal server error`
+##### ⚠️ 429 `Rate limit exceeded`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "INTERNAL_ERROR",
-    "details": [],
-    "message": "Internal server error"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Rate limit exceeded",
+  "message": "Too Many Requests",
+  "statusCode": 429
+}
+```
+
+##### ❌ 500 `Internal Server Error`
+
+*default*
+
+```json
+{
+  "error": "Internal error occurred",
+  "message": "Internal Server Error",
+  "statusCode": 500
 }
 ```
 
@@ -1544,78 +1431,81 @@ curl -X GET 'http://localhost:3000/v1/articles/id-example'
 
 #### Responses
 
-##### ✅ 200 `Get article by ID - success`
+##### ✅ 200 `Success — paginated list`
 
 *default*
 
 ```json
 {
-  "data": {
-    "content": "Full article content here...",
-    "created_at": "2025-01-01T00:00:00",
-    "header": "How to Recycle",
-    "id": "550e8400-e29b-41d4-a716-446655440000",
-    "thumbnail": "https://example.com/article.jpg",
-    "updated_at": "2025-01-01T00:00:00"
-  },
+  "content": [
+    {
+      "content": "Learn how to recycle properly...",
+      "header": "Tips Recycling",
+      "id": "cmqhhc2z00002pd2degy2ymub",
+      "thumbnail": "https://picsum.photos/seed/article-1/800/400"
+    },
+    {
+      "content": "Learn how to recycle properly...",
+      "header": "Tips Recycling",
+      "id": "cmqhhc2z00002pd2degy2ymub",
+      "thumbnail": "https://picsum.photos/seed/article-1/800/400"
+    }
+  ],
+  "message": "Success",
   "meta": {
-    "locale": "en"
+    "hasMore": true,
+    "locale": "en",
+    "nextCursor": "eyJpZCI6MjV9"
   },
-  "success": true
+  "statusCode": 200
 }
 ```
 
-##### ⚠️ 404 `Resource not found`
+##### ⚠️ 400 `Bad Request`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "NOT_FOUND",
-    "details": [],
-    "message": "Resource not found"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Invalid input",
+  "message": "Bad Request",
+  "statusCode": 400
 }
 ```
 
-##### ⚠️ 429 `Too many requests`
+##### ⚠️ 404 `Not Found`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "RATE_LIMITED",
-    "details": [],
-    "message": "Too many requests"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Resource not found",
+  "message": "Not Found",
+  "statusCode": 404
 }
 ```
 
-##### ❌ 500 `Internal server error`
+##### ⚠️ 429 `Rate limit exceeded`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "INTERNAL_ERROR",
-    "details": [],
-    "message": "Internal server error"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Rate limit exceeded",
+  "message": "Too Many Requests",
+  "statusCode": 429
+}
+```
+
+##### ❌ 500 `Internal Server Error`
+
+*default*
+
+```json
+{
+  "error": "Internal error occurred",
+  "message": "Internal Server Error",
+  "statusCode": 500
 }
 ```
 
@@ -1641,96 +1531,83 @@ curl -X PUT 'http://localhost:3000/v1/articles/id-example'
 
 #### Responses
 
-##### ✅ 200 `Update article - success`
+##### ✅ 200 `Success`
 
 *default*
 
 ```json
 {
-  "data": {
-    "content": "Full article content here...",
-    "created_at": "2025-01-01T00:00:00",
-    "header": "How to Recycle",
-    "id": "550e8400-e29b-41d4-a716-446655440000",
-    "thumbnail": "https://example.com/article.jpg",
-    "updated_at": "2025-01-01T00:00:00"
+  "content": {
+    "content": "Learn how to recycle properly...",
+    "header": "Tips Recycling",
+    "id": "cmqhhc2z00002pd2degy2ymub",
+    "thumbnail": "https://picsum.photos/seed/article-1/800/400"
   },
+  "message": "Success",
   "meta": {
     "locale": "en"
   },
-  "success": true
+  "statusCode": 200
 }
 ```
 
-##### ⚠️ 400 `Validation failed`
+##### ⚠️ 401 `Unauthorized`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "VALIDATION_ERROR",
-    "details": [],
-    "message": "Validation failed"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Token not found",
+  "message": "Unauthorized",
+  "statusCode": 401
 }
 ```
 
-##### ⚠️ 404 `Resource not found`
+##### ⚠️ 400 `Bad Request`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "NOT_FOUND",
-    "details": [],
-    "message": "Resource not found"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Invalid input",
+  "message": "Bad Request",
+  "statusCode": 400
 }
 ```
 
-##### ⚠️ 429 `Too many requests`
+##### ⚠️ 404 `Not Found`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "RATE_LIMITED",
-    "details": [],
-    "message": "Too many requests"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Resource not found",
+  "message": "Not Found",
+  "statusCode": 404
 }
 ```
 
-##### ❌ 500 `Internal server error`
+##### ⚠️ 429 `Rate limit exceeded`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "INTERNAL_ERROR",
-    "details": [],
-    "message": "Internal server error"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Rate limit exceeded",
+  "message": "Too Many Requests",
+  "statusCode": 429
+}
+```
+
+##### ❌ 500 `Internal Server Error`
+
+*default*
+
+```json
+{
+  "error": "Internal error occurred",
+  "message": "Internal Server Error",
+  "statusCode": 500
 }
 ```
 
@@ -1756,71 +1633,83 @@ curl -X DELETE 'http://localhost:3000/v1/articles/id-example'
 
 #### Responses
 
-##### ✅ 200 `Delete article - success`
+##### ✅ 200 `Success`
 
 *default*
 
 ```json
 {
-  "message": "Deleted successfully",
+  "content": {
+    "content": "Learn how to recycle properly...",
+    "header": "Tips Recycling",
+    "id": "cmqhhc2z00002pd2degy2ymub",
+    "thumbnail": "https://picsum.photos/seed/article-1/800/400"
+  },
+  "message": "Success",
   "meta": {
     "locale": "en"
   },
-  "success": true
+  "statusCode": 200
 }
 ```
 
-##### ⚠️ 404 `Resource not found`
+##### ⚠️ 401 `Unauthorized`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "NOT_FOUND",
-    "details": [],
-    "message": "Resource not found"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Token not found",
+  "message": "Unauthorized",
+  "statusCode": 401
 }
 ```
 
-##### ⚠️ 429 `Too many requests`
+##### ⚠️ 400 `Bad Request`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "RATE_LIMITED",
-    "details": [],
-    "message": "Too many requests"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Invalid input",
+  "message": "Bad Request",
+  "statusCode": 400
 }
 ```
 
-##### ❌ 500 `Internal server error`
+##### ⚠️ 404 `Not Found`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "INTERNAL_ERROR",
-    "details": [],
-    "message": "Internal server error"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Resource not found",
+  "message": "Not Found",
+  "statusCode": 404
+}
+```
+
+##### ⚠️ 429 `Rate limit exceeded`
+
+*default*
+
+```json
+{
+  "error": "Rate limit exceeded",
+  "message": "Too Many Requests",
+  "statusCode": 429
+}
+```
+
+##### ❌ 500 `Internal Server Error`
+
+*default*
+
+```json
+{
+  "error": "Internal error occurred",
+  "message": "Internal Server Error",
+  "statusCode": 500
 }
 ```
 
@@ -1847,85 +1736,81 @@ curl -X GET 'http://localhost:3000/v1/articles?cursor=example-cursor&limit=1'
 
 #### Responses
 
-##### ✅ 200 `List articles (public) - paginated`
+##### ✅ 200 `Success — paginated list`
 
 *default*
 
 ```json
 {
-  "data": [
+  "content": [
     {
-      "content": "Full article content here...",
-      "created_at": "2025-01-01T00:00:00",
-      "header": "How to Recycle",
-      "id": "550e8400-e29b-41d4-a716-446655440000",
-      "thumbnail": "https://example.com/article.jpg",
-      "updated_at": "2025-01-01T00:00:00"
+      "content": "Learn how to recycle properly...",
+      "header": "Tips Recycling",
+      "id": "cmqhhc2z00002pd2degy2ymub",
+      "thumbnail": "https://picsum.photos/seed/article-1/800/400"
+    },
+    {
+      "content": "Learn how to recycle properly...",
+      "header": "Tips Recycling",
+      "id": "cmqhhc2z00002pd2degy2ymub",
+      "thumbnail": "https://picsum.photos/seed/article-1/800/400"
     }
   ],
+  "message": "Success",
   "meta": {
+    "hasMore": true,
     "locale": "en",
-    "pagination": {
-      "count": 25,
-      "cursor": "eyJpZCI6MjV9",
-      "has_more": true
-    }
+    "nextCursor": "eyJpZCI6MjV9"
   },
-  "success": true
+  "statusCode": 200
 }
 ```
 
-##### ⚠️ 404 `Resource not found`
+##### ⚠️ 400 `Bad Request`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "NOT_FOUND",
-    "details": [],
-    "message": "Resource not found"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Invalid input",
+  "message": "Bad Request",
+  "statusCode": 400
 }
 ```
 
-##### ⚠️ 429 `Too many requests`
+##### ⚠️ 404 `Not Found`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "RATE_LIMITED",
-    "details": [],
-    "message": "Too many requests"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Resource not found",
+  "message": "Not Found",
+  "statusCode": 404
 }
 ```
 
-##### ❌ 500 `Internal server error`
+##### ⚠️ 429 `Rate limit exceeded`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "INTERNAL_ERROR",
-    "details": [],
-    "message": "Internal server error"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Rate limit exceeded",
+  "message": "Too Many Requests",
+  "statusCode": 429
+}
+```
+
+##### ❌ 500 `Internal Server Error`
+
+*default*
+
+```json
+{
+  "error": "Internal error occurred",
+  "message": "Internal Server Error",
+  "statusCode": 500
 }
 ```
 
@@ -1960,78 +1845,71 @@ curl -X POST 'http://localhost:3000/v1/articles/create' \
 
 #### Responses
 
-##### ✅ 201 `Create article - created`
+##### ✅ 201 `Success — created`
 
 *default*
 
 ```json
 {
-  "data": {
-    "content": "Full article content here...",
-    "created_at": "2025-01-01T00:00:00",
-    "header": "How to Recycle",
-    "id": "550e8400-e29b-41d4-a716-446655440000",
-    "thumbnail": "https://example.com/article.jpg",
-    "updated_at": "2025-01-01T00:00:00"
+  "content": {
+    "content": "Learn how to recycle properly...",
+    "header": "Tips Recycling",
+    "id": "cmqhhc2z00002pd2degy2ymub",
+    "thumbnail": "https://picsum.photos/seed/article-1/800/400"
   },
+  "message": "Success",
   "meta": {
     "locale": "en"
   },
-  "success": true
+  "statusCode": 201
 }
 ```
 
-##### ⚠️ 400 `Validation failed`
+##### ⚠️ 401 `Unauthorized`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "VALIDATION_ERROR",
-    "details": [],
-    "message": "Validation failed"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Token not found",
+  "message": "Unauthorized",
+  "statusCode": 401
 }
 ```
 
-##### ⚠️ 429 `Too many requests`
+##### ⚠️ 400 `Bad Request`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "RATE_LIMITED",
-    "details": [],
-    "message": "Too many requests"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Invalid input",
+  "message": "Bad Request",
+  "statusCode": 400
 }
 ```
 
-##### ❌ 500 `Internal server error`
+##### ⚠️ 429 `Rate limit exceeded`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "INTERNAL_ERROR",
-    "details": [],
-    "message": "Internal server error"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Rate limit exceeded",
+  "message": "Too Many Requests",
+  "statusCode": 429
+}
+```
+
+##### ❌ 500 `Internal Server Error`
+
+*default*
+
+```json
+{
+  "error": "Internal error occurred",
+  "message": "Internal Server Error",
+  "statusCode": 500
 }
 ```
 
@@ -2061,78 +1939,93 @@ curl -X GET 'http://localhost:3000/v1/profile/email-example'
 
 #### Responses
 
-##### ✅ 200 `Get user profile - success`
+##### ✅ 200 `Success — paginated list`
 
 *default*
 
 ```json
 {
-  "data": {
-    "badge": "gold",
-    "coin": 200,
-    "exp": 150.5,
-    "id": "550e8400-e29b-41d4-a716-446655440000",
-    "level": 5,
-    "user_id": "660e8400-e29b-41d4-a716-446655440001"
-  },
+  "content": [
+    {
+      "badge": "gold",
+      "coin": 500,
+      "email": "user@example.com",
+      "exp": 1500.5,
+      "id": "usr_1234567890",
+      "level": 12,
+      "name": "John Doe",
+      "phoneNumber": "+6281234567890",
+      "photoURL": "https://example.com/avatar.jpg",
+      "role": "user"
+    },
+    {
+      "badge": "gold",
+      "coin": 500,
+      "email": "user@example.com",
+      "exp": 1500.5,
+      "id": "usr_1234567890",
+      "level": 12,
+      "name": "John Doe",
+      "phoneNumber": "+6281234567890",
+      "photoURL": "https://example.com/avatar.jpg",
+      "role": "user"
+    }
+  ],
+  "message": "Success",
   "meta": {
-    "locale": "en"
+    "hasMore": true,
+    "locale": "en",
+    "nextCursor": "eyJpZCI6MjV9"
   },
-  "success": true
+  "statusCode": 200
 }
 ```
 
-##### ⚠️ 404 `Resource not found`
+##### ⚠️ 400 `Bad Request`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "NOT_FOUND",
-    "details": [],
-    "message": "Resource not found"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Invalid input",
+  "message": "Bad Request",
+  "statusCode": 400
 }
 ```
 
-##### ⚠️ 429 `Too many requests`
+##### ⚠️ 404 `Not Found`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "RATE_LIMITED",
-    "details": [],
-    "message": "Too many requests"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Resource not found",
+  "message": "Not Found",
+  "statusCode": 404
 }
 ```
 
-##### ❌ 500 `Internal server error`
+##### ⚠️ 429 `Rate limit exceeded`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "INTERNAL_ERROR",
-    "details": [],
-    "message": "Internal server error"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Rate limit exceeded",
+  "message": "Too Many Requests",
+  "statusCode": 429
+}
+```
+
+##### ❌ 500 `Internal Server Error`
+
+*default*
+
+```json
+{
+  "error": "Internal error occurred",
+  "message": "Internal Server Error",
+  "statusCode": 500
 }
 ```
 
@@ -2160,10 +2053,10 @@ curl -X GET 'http://localhost:3000/v1/profile/email-example'
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| `photo_url` | `string` | ❌ | — |
 | `name` | `string` | ❌ | — |
 | `role` | `string` | ❌ | — |
 | `phone_number` | `string` | ❌ | — |
+| `photo_url` | `string` | ❌ | — |
 
 #### Example cURL
 
@@ -2174,96 +2067,89 @@ curl -X PUT 'http://localhost:3000/v1/profile/email-example' \
 
 #### Responses
 
-##### ✅ 200 `Update user profile - success`
+##### ✅ 200 `Success`
 
 *default*
 
 ```json
 {
-  "data": {
+  "content": {
     "badge": "gold",
-    "coin": 200,
-    "exp": 150.5,
-    "id": "550e8400-e29b-41d4-a716-446655440000",
-    "level": 5,
-    "user_id": "660e8400-e29b-41d4-a716-446655440001"
+    "coin": 500,
+    "email": "user@example.com",
+    "exp": 1500.5,
+    "id": "usr_1234567890",
+    "level": 12,
+    "name": "John Doe",
+    "phoneNumber": "+6281234567890",
+    "photoURL": "https://example.com/avatar.jpg",
+    "role": "user"
   },
+  "message": "Success",
   "meta": {
     "locale": "en"
   },
-  "success": true
+  "statusCode": 200
 }
 ```
 
-##### ⚠️ 400 `Validation failed`
+##### ⚠️ 401 `Unauthorized`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "VALIDATION_ERROR",
-    "details": [],
-    "message": "Validation failed"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Token not found",
+  "message": "Unauthorized",
+  "statusCode": 401
 }
 ```
 
-##### ⚠️ 404 `Resource not found`
+##### ⚠️ 400 `Bad Request`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "NOT_FOUND",
-    "details": [],
-    "message": "Resource not found"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Invalid input",
+  "message": "Bad Request",
+  "statusCode": 400
 }
 ```
 
-##### ⚠️ 429 `Too many requests`
+##### ⚠️ 404 `Not Found`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "RATE_LIMITED",
-    "details": [],
-    "message": "Too many requests"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Resource not found",
+  "message": "Not Found",
+  "statusCode": 404
 }
 ```
 
-##### ❌ 500 `Internal server error`
+##### ⚠️ 429 `Rate limit exceeded`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "INTERNAL_ERROR",
-    "details": [],
-    "message": "Internal server error"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Rate limit exceeded",
+  "message": "Too Many Requests",
+  "statusCode": 429
+}
+```
+
+##### ❌ 500 `Internal Server Error`
+
+*default*
+
+```json
+{
+  "error": "Internal error occurred",
+  "message": "Internal Server Error",
+  "statusCode": 500
 }
 ```
 
@@ -2307,98 +2193,87 @@ curl -X PUT 'http://localhost:3000/v1/reviews/id-example' \
 
 #### Responses
 
-##### ✅ 200 `Update review (auth required) - success`
+##### ✅ 200 `Success`
 
 *default*
 
 ```json
 {
-  "data": {
+  "content": {
     "comment": "Great product!",
-    "created_at": "2025-01-01T00:00:00",
-    "id": "550e8400-e29b-41d4-a716-446655440000",
-    "images": [],
-    "product_id": "660e8400-e29b-41d4-a716-446655440001",
-    "rating": 5.0,
-    "updated_at": "2025-01-01T00:00:00",
-    "user_id": "770e8400-e29b-41d4-a716-446655440002"
+    "id": "cmqhhc2z00007pd2degy2ymub",
+    "images": [
+      "https://example.com/review/img1.jpg"
+    ],
+    "productId": "cmqhhc2z00064pd2degy2ymub",
+    "rating": 5,
+    "userId": "usr_1234567890"
   },
+  "message": "Success",
   "meta": {
     "locale": "en"
   },
-  "success": true
+  "statusCode": 200
 }
 ```
 
-##### ⚠️ 400 `Validation failed`
+##### ⚠️ 401 `Unauthorized`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "VALIDATION_ERROR",
-    "details": [],
-    "message": "Validation failed"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Token not found",
+  "message": "Unauthorized",
+  "statusCode": 401
 }
 ```
 
-##### ⚠️ 404 `Resource not found`
+##### ⚠️ 400 `Bad Request`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "NOT_FOUND",
-    "details": [],
-    "message": "Resource not found"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Invalid input",
+  "message": "Bad Request",
+  "statusCode": 400
 }
 ```
 
-##### ⚠️ 429 `Too many requests`
+##### ⚠️ 404 `Not Found`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "RATE_LIMITED",
-    "details": [],
-    "message": "Too many requests"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Resource not found",
+  "message": "Not Found",
+  "statusCode": 404
 }
 ```
 
-##### ❌ 500 `Internal server error`
+##### ⚠️ 429 `Rate limit exceeded`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "INTERNAL_ERROR",
-    "details": [],
-    "message": "Internal server error"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Rate limit exceeded",
+  "message": "Too Many Requests",
+  "statusCode": 429
+}
+```
+
+##### ❌ 500 `Internal Server Error`
+
+*default*
+
+```json
+{
+  "error": "Internal error occurred",
+  "message": "Internal Server Error",
+  "statusCode": 500
 }
 ```
 
@@ -2420,10 +2295,10 @@ curl -X PUT 'http://localhost:3000/v1/reviews/id-example' \
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| `rating` | `integer` | ✅ | — |
-| `images` | `object` | ❌ | — |
-| `comment` | `string` | ✅ | — |
 | `product_id` | `string` | ✅ | — |
+| `rating` | `integer` | ✅ | — |
+| `comment` | `string` | ✅ | — |
+| `images` | `object` | ❌ | — |
 
 #### Example cURL
 
@@ -2434,80 +2309,75 @@ curl -X POST 'http://localhost:3000/v1/reviews' \
 
 #### Responses
 
-##### ✅ 201 `Create review (auth required) - created`
+##### ✅ 201 `Success — created`
 
 *default*
 
 ```json
 {
-  "data": {
+  "content": {
     "comment": "Great product!",
-    "created_at": "2025-01-01T00:00:00",
-    "id": "550e8400-e29b-41d4-a716-446655440000",
-    "images": [],
-    "product_id": "660e8400-e29b-41d4-a716-446655440001",
-    "rating": 5.0,
-    "updated_at": "2025-01-01T00:00:00",
-    "user_id": "770e8400-e29b-41d4-a716-446655440002"
+    "id": "cmqhhc2z00007pd2degy2ymub",
+    "images": [
+      "https://example.com/review/img1.jpg"
+    ],
+    "productId": "cmqhhc2z00064pd2degy2ymub",
+    "rating": 5,
+    "userId": "usr_1234567890"
   },
+  "message": "Success",
   "meta": {
     "locale": "en"
   },
-  "success": true
+  "statusCode": 201
 }
 ```
 
-##### ⚠️ 400 `Validation failed`
+##### ⚠️ 401 `Unauthorized`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "VALIDATION_ERROR",
-    "details": [],
-    "message": "Validation failed"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Token not found",
+  "message": "Unauthorized",
+  "statusCode": 401
 }
 ```
 
-##### ⚠️ 429 `Too many requests`
+##### ⚠️ 400 `Bad Request`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "RATE_LIMITED",
-    "details": [],
-    "message": "Too many requests"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Invalid input",
+  "message": "Bad Request",
+  "statusCode": 400
 }
 ```
 
-##### ❌ 500 `Internal server error`
+##### ⚠️ 429 `Rate limit exceeded`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "INTERNAL_ERROR",
-    "details": [],
-    "message": "Internal server error"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Rate limit exceeded",
+  "message": "Too Many Requests",
+  "statusCode": 429
+}
+```
+
+##### ❌ 500 `Internal Server Error`
+
+*default*
+
+```json
+{
+  "error": "Internal error occurred",
+  "message": "Internal Server Error",
+  "statusCode": 500
 }
 ```
 
@@ -2544,79 +2414,105 @@ curl -X GET 'http://localhost:3000/v1/carts/user/user_id-example?cursor=example-
 
 #### Responses
 
-##### ✅ 200 `Get user cart - success`
+##### ✅ 200 `Success — paginated list`
 
 *default*
 
 ```json
 {
-  "data": {
-    "created_at": "2025-01-01T00:00:00",
-    "id": "550e8400-e29b-41d4-a716-446655440000",
-    "product_id": "770e8400-e29b-41d4-a716-446655440002",
-    "quantity": 2,
-    "updated_at": "2025-01-01T00:00:00",
-    "user_id": "660e8400-e29b-41d4-a716-446655440001",
-    "variant_id": null
-  },
+  "content": [
+    {
+      "badge": "gold",
+      "coin": 500,
+      "email": "user@example.com",
+      "exp": 1500.5,
+      "id": "usr_1234567890",
+      "level": 12,
+      "name": "John Doe",
+      "phoneNumber": "+6281234567890",
+      "photoURL": "https://example.com/avatar.jpg",
+      "role": "user"
+    },
+    {
+      "badge": "gold",
+      "coin": 500,
+      "email": "user@example.com",
+      "exp": 1500.5,
+      "id": "usr_1234567890",
+      "level": 12,
+      "name": "John Doe",
+      "phoneNumber": "+6281234567890",
+      "photoURL": "https://example.com/avatar.jpg",
+      "role": "user"
+    }
+  ],
+  "message": "Success",
   "meta": {
-    "locale": "en"
+    "hasMore": true,
+    "locale": "en",
+    "nextCursor": "eyJpZCI6MjV9"
   },
-  "success": true
+  "statusCode": 200
 }
 ```
 
-##### ⚠️ 404 `Resource not found`
+##### ⚠️ 401 `Unauthorized`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "NOT_FOUND",
-    "details": [],
-    "message": "Resource not found"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Token not found",
+  "message": "Unauthorized",
+  "statusCode": 401
 }
 ```
 
-##### ⚠️ 429 `Too many requests`
+##### ⚠️ 400 `Bad Request`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "RATE_LIMITED",
-    "details": [],
-    "message": "Too many requests"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Invalid input",
+  "message": "Bad Request",
+  "statusCode": 400
 }
 ```
 
-##### ❌ 500 `Internal server error`
+##### ⚠️ 404 `Not Found`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "INTERNAL_ERROR",
-    "details": [],
-    "message": "Internal server error"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Resource not found",
+  "message": "Not Found",
+  "statusCode": 404
+}
+```
+
+##### ⚠️ 429 `Rate limit exceeded`
+
+*default*
+
+```json
+{
+  "error": "Rate limit exceeded",
+  "message": "Too Many Requests",
+  "statusCode": 429
+}
+```
+
+##### ❌ 500 `Internal Server Error`
+
+*default*
+
+```json
+{
+  "error": "Internal error occurred",
+  "message": "Internal Server Error",
+  "statusCode": 500
 }
 ```
 
@@ -2644,8 +2540,8 @@ curl -X GET 'http://localhost:3000/v1/carts/user/user_id-example?cursor=example-
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| `product_id` | `string` | ✅ | — |
 | `variant_id` | `string` | ❌ | — |
+| `product_id` | `string` | ✅ | — |
 | `quantity` | `integer` | ✅ | — |
 
 #### Example cURL
@@ -2657,79 +2553,77 @@ curl -X POST 'http://localhost:3000/v1/carts/user/user_id-example' \
 
 #### Responses
 
-##### ✅ 201 `Add item to cart - created`
+##### ✅ 201 `Success — created`
 
 *default*
 
 ```json
 {
-  "data": {
-    "created_at": "2025-01-01T00:00:00",
-    "id": "550e8400-e29b-41d4-a716-446655440000",
-    "product_id": "770e8400-e29b-41d4-a716-446655440002",
-    "quantity": 2,
-    "updated_at": "2025-01-01T00:00:00",
-    "user_id": "660e8400-e29b-41d4-a716-446655440001",
-    "variant_id": null
+  "content": {
+    "badge": "gold",
+    "coin": 500,
+    "email": "user@example.com",
+    "exp": 1500.5,
+    "id": "usr_1234567890",
+    "level": 12,
+    "name": "John Doe",
+    "phoneNumber": "+6281234567890",
+    "photoURL": "https://example.com/avatar.jpg",
+    "role": "user"
   },
+  "message": "Success",
   "meta": {
     "locale": "en"
   },
-  "success": true
+  "statusCode": 201
 }
 ```
 
-##### ⚠️ 400 `Validation failed`
+##### ⚠️ 401 `Unauthorized`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "VALIDATION_ERROR",
-    "details": [],
-    "message": "Validation failed"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Token not found",
+  "message": "Unauthorized",
+  "statusCode": 401
 }
 ```
 
-##### ⚠️ 429 `Too many requests`
+##### ⚠️ 400 `Bad Request`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "RATE_LIMITED",
-    "details": [],
-    "message": "Too many requests"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Invalid input",
+  "message": "Bad Request",
+  "statusCode": 400
 }
 ```
 
-##### ❌ 500 `Internal server error`
+##### ⚠️ 429 `Rate limit exceeded`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "INTERNAL_ERROR",
-    "details": [],
-    "message": "Internal server error"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Rate limit exceeded",
+  "message": "Too Many Requests",
+  "statusCode": 429
+}
+```
+
+##### ❌ 500 `Internal Server Error`
+
+*default*
+
+```json
+{
+  "error": "Internal error occurred",
+  "message": "Internal Server Error",
+  "statusCode": 500
 }
 ```
 
@@ -2755,71 +2649,90 @@ curl -X DELETE 'http://localhost:3000/v1/carts/item/id-example'
 
 #### Responses
 
-##### ✅ 200 `Remove cart item - success`
+##### ✅ 200 `Success`
 
 *default*
 
 ```json
 {
-  "message": "Deleted successfully",
+  "content": {
+    "id": "cmqhhc2z00003pd2degy2ymub",
+    "product": {
+      "id": "cmqhhc2z00064pd2degy2ymub",
+      "name": "Eksklusif Botol #30",
+      "price": 202082,
+      "thumbnail": "https://picsum.photos/seed/prod-30/600/600"
+    },
+    "productId": "cmqhhc2z00064pd2degy2ymub",
+    "quantity": 2,
+    "totalPrice": 404164,
+    "userId": "usr_1234567890"
+  },
+  "message": "Success",
   "meta": {
     "locale": "en"
   },
-  "success": true
+  "statusCode": 200
 }
 ```
 
-##### ⚠️ 404 `Resource not found`
+##### ⚠️ 401 `Unauthorized`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "NOT_FOUND",
-    "details": [],
-    "message": "Resource not found"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Token not found",
+  "message": "Unauthorized",
+  "statusCode": 401
 }
 ```
 
-##### ⚠️ 429 `Too many requests`
+##### ⚠️ 400 `Bad Request`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "RATE_LIMITED",
-    "details": [],
-    "message": "Too many requests"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Invalid input",
+  "message": "Bad Request",
+  "statusCode": 400
 }
 ```
 
-##### ❌ 500 `Internal server error`
+##### ⚠️ 404 `Not Found`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "INTERNAL_ERROR",
-    "details": [],
-    "message": "Internal server error"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Resource not found",
+  "message": "Not Found",
+  "statusCode": 404
+}
+```
+
+##### ⚠️ 429 `Rate limit exceeded`
+
+*default*
+
+```json
+{
+  "error": "Rate limit exceeded",
+  "message": "Too Many Requests",
+  "statusCode": 429
+}
+```
+
+##### ❌ 500 `Internal Server Error`
+
+*default*
+
+```json
+{
+  "error": "Internal error occurred",
+  "message": "Internal Server Error",
+  "statusCode": 500
 }
 ```
 
@@ -2850,96 +2763,91 @@ curl -X GET 'http://localhost:3000/v1/orders?cursor=example-cursor&limit=1'
 
 #### Responses
 
-##### ✅ 200 `List all orders (admin) - paginated`
+##### ✅ 200 `Success — paginated list`
 
 *default*
 
 ```json
 {
-  "data": [
+  "content": [
     {
-      "coin": 10,
-      "created_at": "2025-01-01T00:00:00",
-      "delivery": {
-        "estimated_delivery": "2025-01-05T00:00:00",
-        "status": "processing",
-        "tracking_number": ""
-      },
-      "id": "550e8400-e29b-41d4-a716-446655440000",
-      "payment": {
-        "amount": 150000.0,
-        "method": "qris",
-        "status": "pending"
-      },
-      "product_id": "770e8400-e29b-41d4-a716-446655440002",
+      "coin": 202,
+      "delivery": "pending",
+      "id": "cmqhhc2z00004pd2degy2ymub",
+      "payment": "qris",
+      "productId": "cmqhhc2z00064pd2degy2ymub",
       "quantity": 1,
-      "updated_at": "2025-01-01T00:00:00",
-      "user_id": "660e8400-e29b-41d4-a716-446655440001"
+      "status": "pending",
+      "totalPrice": 202082,
+      "userId": "usr_1234567890"
+    },
+    {
+      "coin": 202,
+      "delivery": "pending",
+      "id": "cmqhhc2z00004pd2degy2ymub",
+      "payment": "qris",
+      "productId": "cmqhhc2z00064pd2degy2ymub",
+      "quantity": 1,
+      "status": "pending",
+      "totalPrice": 202082,
+      "userId": "usr_1234567890"
     }
   ],
+  "message": "Success",
   "meta": {
+    "hasMore": true,
     "locale": "en",
-    "pagination": {
-      "count": 25,
-      "cursor": "eyJpZCI6MjV9",
-      "has_more": true
-    }
+    "nextCursor": "eyJpZCI6MjV9"
   },
-  "success": true
+  "statusCode": 200
 }
 ```
 
-##### ⚠️ 404 `Resource not found`
+##### ⚠️ 400 `Bad Request`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "NOT_FOUND",
-    "details": [],
-    "message": "Resource not found"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Invalid input",
+  "message": "Bad Request",
+  "statusCode": 400
 }
 ```
 
-##### ⚠️ 429 `Too many requests`
+##### ⚠️ 404 `Not Found`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "RATE_LIMITED",
-    "details": [],
-    "message": "Too many requests"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Resource not found",
+  "message": "Not Found",
+  "statusCode": 404
 }
 ```
 
-##### ❌ 500 `Internal server error`
+##### ⚠️ 429 `Rate limit exceeded`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "INTERNAL_ERROR",
-    "details": [],
-    "message": "Internal server error"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Rate limit exceeded",
+  "message": "Too Many Requests",
+  "statusCode": 429
+}
+```
+
+##### ❌ 500 `Internal Server Error`
+
+*default*
+
+```json
+{
+  "error": "Internal error occurred",
+  "message": "Internal Server Error",
+  "statusCode": 500
 }
 ```
 
@@ -2971,89 +2879,105 @@ curl -X GET 'http://localhost:3000/v1/orders/user/user_id-example?cursor=example
 
 #### Responses
 
-##### ✅ 200 `Get user orders - success`
+##### ✅ 200 `Success — paginated list`
 
 *default*
 
 ```json
 {
-  "data": {
-    "coin": 10,
-    "created_at": "2025-01-01T00:00:00",
-    "delivery": {
-      "estimated_delivery": "2025-01-05T00:00:00",
-      "status": "processing",
-      "tracking_number": ""
+  "content": [
+    {
+      "badge": "gold",
+      "coin": 500,
+      "email": "user@example.com",
+      "exp": 1500.5,
+      "id": "usr_1234567890",
+      "level": 12,
+      "name": "John Doe",
+      "phoneNumber": "+6281234567890",
+      "photoURL": "https://example.com/avatar.jpg",
+      "role": "user"
     },
-    "id": "550e8400-e29b-41d4-a716-446655440000",
-    "payment": {
-      "amount": 150000.0,
-      "method": "qris",
-      "status": "pending"
-    },
-    "product_id": "770e8400-e29b-41d4-a716-446655440002",
-    "quantity": 1,
-    "updated_at": "2025-01-01T00:00:00",
-    "user_id": "660e8400-e29b-41d4-a716-446655440001"
-  },
+    {
+      "badge": "gold",
+      "coin": 500,
+      "email": "user@example.com",
+      "exp": 1500.5,
+      "id": "usr_1234567890",
+      "level": 12,
+      "name": "John Doe",
+      "phoneNumber": "+6281234567890",
+      "photoURL": "https://example.com/avatar.jpg",
+      "role": "user"
+    }
+  ],
+  "message": "Success",
   "meta": {
-    "locale": "en"
+    "hasMore": true,
+    "locale": "en",
+    "nextCursor": "eyJpZCI6MjV9"
   },
-  "success": true
+  "statusCode": 200
 }
 ```
 
-##### ⚠️ 404 `Resource not found`
+##### ⚠️ 401 `Unauthorized`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "NOT_FOUND",
-    "details": [],
-    "message": "Resource not found"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Token not found",
+  "message": "Unauthorized",
+  "statusCode": 401
 }
 ```
 
-##### ⚠️ 429 `Too many requests`
+##### ⚠️ 400 `Bad Request`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "RATE_LIMITED",
-    "details": [],
-    "message": "Too many requests"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Invalid input",
+  "message": "Bad Request",
+  "statusCode": 400
 }
 ```
 
-##### ❌ 500 `Internal server error`
+##### ⚠️ 404 `Not Found`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "INTERNAL_ERROR",
-    "details": [],
-    "message": "Internal server error"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Resource not found",
+  "message": "Not Found",
+  "statusCode": 404
+}
+```
+
+##### ⚠️ 429 `Rate limit exceeded`
+
+*default*
+
+```json
+{
+  "error": "Rate limit exceeded",
+  "message": "Too Many Requests",
+  "statusCode": 429
+}
+```
+
+##### ❌ 500 `Internal Server Error`
+
+*default*
+
+```json
+{
+  "error": "Internal error occurred",
+  "message": "Internal Server Error",
+  "statusCode": 500
 }
 ```
 
@@ -3095,89 +3019,77 @@ curl -X POST 'http://localhost:3000/v1/orders/user/user_id-example' \
 
 #### Responses
 
-##### ✅ 201 `Create order (auth required) - created`
+##### ✅ 201 `Success — created`
 
 *default*
 
 ```json
 {
-  "data": {
-    "coin": 10,
-    "created_at": "2025-01-01T00:00:00",
-    "delivery": {
-      "estimated_delivery": "2025-01-05T00:00:00",
-      "status": "processing",
-      "tracking_number": ""
-    },
-    "id": "550e8400-e29b-41d4-a716-446655440000",
-    "payment": {
-      "amount": 150000.0,
-      "method": "qris",
-      "status": "pending"
-    },
-    "product_id": "770e8400-e29b-41d4-a716-446655440002",
-    "quantity": 1,
-    "updated_at": "2025-01-01T00:00:00",
-    "user_id": "660e8400-e29b-41d4-a716-446655440001"
+  "content": {
+    "badge": "gold",
+    "coin": 500,
+    "email": "user@example.com",
+    "exp": 1500.5,
+    "id": "usr_1234567890",
+    "level": 12,
+    "name": "John Doe",
+    "phoneNumber": "+6281234567890",
+    "photoURL": "https://example.com/avatar.jpg",
+    "role": "user"
   },
+  "message": "Success",
   "meta": {
     "locale": "en"
   },
-  "success": true
+  "statusCode": 201
 }
 ```
 
-##### ⚠️ 400 `Validation failed`
+##### ⚠️ 401 `Unauthorized`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "VALIDATION_ERROR",
-    "details": [],
-    "message": "Validation failed"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Token not found",
+  "message": "Unauthorized",
+  "statusCode": 401
 }
 ```
 
-##### ⚠️ 429 `Too many requests`
+##### ⚠️ 400 `Bad Request`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "RATE_LIMITED",
-    "details": [],
-    "message": "Too many requests"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Invalid input",
+  "message": "Bad Request",
+  "statusCode": 400
 }
 ```
 
-##### ❌ 500 `Internal server error`
+##### ⚠️ 429 `Rate limit exceeded`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "INTERNAL_ERROR",
-    "details": [],
-    "message": "Internal server error"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Rate limit exceeded",
+  "message": "Too Many Requests",
+  "statusCode": 429
+}
+```
+
+##### ❌ 500 `Internal Server Error`
+
+*default*
+
+```json
+{
+  "error": "Internal error occurred",
+  "message": "Internal Server Error",
+  "statusCode": 500
 }
 ```
 
@@ -3203,71 +3115,88 @@ curl -X DELETE 'http://localhost:3000/v1/orders/id-example'
 
 #### Responses
 
-##### ✅ 200 `Cancel order (auth required) - success`
+##### ✅ 200 `Success`
 
 *default*
 
 ```json
 {
-  "message": "Deleted successfully",
+  "content": {
+    "coin": 202,
+    "delivery": "pending",
+    "id": "cmqhhc2z00004pd2degy2ymub",
+    "payment": "qris",
+    "productId": "cmqhhc2z00064pd2degy2ymub",
+    "quantity": 1,
+    "status": "pending",
+    "totalPrice": 202082,
+    "userId": "usr_1234567890"
+  },
+  "message": "Success",
   "meta": {
     "locale": "en"
   },
-  "success": true
+  "statusCode": 200
 }
 ```
 
-##### ⚠️ 404 `Resource not found`
+##### ⚠️ 401 `Unauthorized`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "NOT_FOUND",
-    "details": [],
-    "message": "Resource not found"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Token not found",
+  "message": "Unauthorized",
+  "statusCode": 401
 }
 ```
 
-##### ⚠️ 429 `Too many requests`
+##### ⚠️ 400 `Bad Request`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "RATE_LIMITED",
-    "details": [],
-    "message": "Too many requests"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Invalid input",
+  "message": "Bad Request",
+  "statusCode": 400
 }
 ```
 
-##### ❌ 500 `Internal server error`
+##### ⚠️ 404 `Not Found`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "INTERNAL_ERROR",
-    "details": [],
-    "message": "Internal server error"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Resource not found",
+  "message": "Not Found",
+  "statusCode": 404
+}
+```
+
+##### ⚠️ 429 `Rate limit exceeded`
+
+*default*
+
+```json
+{
+  "error": "Rate limit exceeded",
+  "message": "Too Many Requests",
+  "statusCode": 429
+}
+```
+
+##### ❌ 500 `Internal Server Error`
+
+*default*
+
+```json
+{
+  "error": "Internal error occurred",
+  "message": "Internal Server Error",
+  "statusCode": 500
 }
 ```
 
@@ -3298,90 +3227,103 @@ curl -X GET 'http://localhost:3000/v1/deposites?cursor=example-cursor&limit=1'
 
 #### Responses
 
-##### ✅ 200 `List all deposites (admin) - paginated`
+##### ✅ 200 `Success — paginated list`
 
 *default*
 
 ```json
 {
-  "data": [
+  "content": [
     {
-      "address_id": "770e8400-e29b-41d4-a716-446655440002",
-      "coin": 50,
-      "created_at": "2025-01-01T00:00:00",
-      "id": "550e8400-e29b-41d4-a716-446655440000",
-      "images": [],
-      "landfill_id": null,
-      "pickup_date": "2025-01-15",
-      "pickup_time": "10:00",
-      "type": "plastic",
-      "updated_at": "2025-01-01T00:00:00",
-      "user_id": "660e8400-e29b-41d4-a716-446655440001"
+      "coin": 150,
+      "garbageType": [
+        {
+          "amount": 2,
+          "trashTypeId": "trash_001"
+        }
+      ],
+      "id": "cmqhhc2z00005pd2degy2ymub",
+      "images": [
+        "https://example.com/deposite/img1.jpg"
+      ],
+      "landfillId": "landfill_001",
+      "pickupDate": "2025-06-20",
+      "pickupTime": "10:00",
+      "userId": "usr_1234567890"
+    },
+    {
+      "coin": 150,
+      "garbageType": [
+        {
+          "amount": 2,
+          "trashTypeId": "trash_001"
+        }
+      ],
+      "id": "cmqhhc2z00005pd2degy2ymub",
+      "images": [
+        "https://example.com/deposite/img1.jpg"
+      ],
+      "landfillId": "landfill_001",
+      "pickupDate": "2025-06-20",
+      "pickupTime": "10:00",
+      "userId": "usr_1234567890"
     }
   ],
+  "message": "Success",
   "meta": {
+    "hasMore": true,
     "locale": "en",
-    "pagination": {
-      "count": 25,
-      "cursor": "eyJpZCI6MjV9",
-      "has_more": true
-    }
+    "nextCursor": "eyJpZCI6MjV9"
   },
-  "success": true
+  "statusCode": 200
 }
 ```
 
-##### ⚠️ 404 `Resource not found`
+##### ⚠️ 400 `Bad Request`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "NOT_FOUND",
-    "details": [],
-    "message": "Resource not found"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Invalid input",
+  "message": "Bad Request",
+  "statusCode": 400
 }
 ```
 
-##### ⚠️ 429 `Too many requests`
+##### ⚠️ 404 `Not Found`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "RATE_LIMITED",
-    "details": [],
-    "message": "Too many requests"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Resource not found",
+  "message": "Not Found",
+  "statusCode": 404
 }
 ```
 
-##### ❌ 500 `Internal server error`
+##### ⚠️ 429 `Rate limit exceeded`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "INTERNAL_ERROR",
-    "details": [],
-    "message": "Internal server error"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Rate limit exceeded",
+  "message": "Too Many Requests",
+  "statusCode": 429
+}
+```
+
+##### ❌ 500 `Internal Server Error`
+
+*default*
+
+```json
+{
+  "error": "Internal error occurred",
+  "message": "Internal Server Error",
+  "statusCode": 500
 }
 ```
 
@@ -3403,14 +3345,14 @@ curl -X GET 'http://localhost:3000/v1/deposites?cursor=example-cursor&limit=1'
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| `coin` | `integer` | ❌ | — |
+| `landfill_id` | `string` | ❌ | — |
 | `type` | `string` | ✅ | — |
+| `coin` | `integer` | ❌ | — |
 | `address_id` | `string` | ✅ | — |
 | `pickup_date` | `string` | ✅ | — |
 | `garbage_type` | `array` | ✅ | — |
-| `pickup_time` | `string` | ✅ | — |
 | `images` | `object` | ❌ | — |
-| `landfill_id` | `string` | ❌ | — |
+| `pickup_time` | `string` | ✅ | — |
 
 #### Example cURL
 
@@ -3421,83 +3363,82 @@ curl -X POST 'http://localhost:3000/v1/deposites' \
 
 #### Responses
 
-##### ✅ 201 `Create deposite (auth required) - created`
+##### ✅ 201 `Success — created`
 
 *default*
 
 ```json
 {
-  "data": {
-    "address_id": "770e8400-e29b-41d4-a716-446655440002",
-    "coin": 50,
-    "created_at": "2025-01-01T00:00:00",
-    "id": "550e8400-e29b-41d4-a716-446655440000",
-    "images": [],
-    "landfill_id": null,
-    "pickup_date": "2025-01-15",
-    "pickup_time": "10:00",
-    "type": "plastic",
-    "updated_at": "2025-01-01T00:00:00",
-    "user_id": "660e8400-e29b-41d4-a716-446655440001"
+  "content": {
+    "coin": 150,
+    "garbageType": [
+      {
+        "amount": 2,
+        "trashTypeId": "trash_001"
+      }
+    ],
+    "id": "cmqhhc2z00005pd2degy2ymub",
+    "images": [
+      "https://example.com/deposite/img1.jpg"
+    ],
+    "landfillId": "landfill_001",
+    "pickupDate": "2025-06-20",
+    "pickupTime": "10:00",
+    "userId": "usr_1234567890"
   },
+  "message": "Success",
   "meta": {
     "locale": "en"
   },
-  "success": true
+  "statusCode": 201
 }
 ```
 
-##### ⚠️ 400 `Validation failed`
+##### ⚠️ 401 `Unauthorized`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "VALIDATION_ERROR",
-    "details": [],
-    "message": "Validation failed"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Token not found",
+  "message": "Unauthorized",
+  "statusCode": 401
 }
 ```
 
-##### ⚠️ 429 `Too many requests`
+##### ⚠️ 400 `Bad Request`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "RATE_LIMITED",
-    "details": [],
-    "message": "Too many requests"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Invalid input",
+  "message": "Bad Request",
+  "statusCode": 400
 }
 ```
 
-##### ❌ 500 `Internal server error`
+##### ⚠️ 429 `Rate limit exceeded`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "INTERNAL_ERROR",
-    "details": [],
-    "message": "Internal server error"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Rate limit exceeded",
+  "message": "Too Many Requests",
+  "statusCode": 429
+}
+```
+
+##### ❌ 500 `Internal Server Error`
+
+*default*
+
+```json
+{
+  "error": "Internal error occurred",
+  "message": "Internal Server Error",
+  "statusCode": 500
 }
 ```
 
@@ -3529,83 +3470,105 @@ curl -X GET 'http://localhost:3000/v1/deposites/user/id-example?cursor=example-c
 
 #### Responses
 
-##### ✅ 200 `Get user deposites - success`
+##### ✅ 200 `Success — paginated list`
 
 *default*
 
 ```json
 {
-  "data": {
-    "address_id": "770e8400-e29b-41d4-a716-446655440002",
-    "coin": 50,
-    "created_at": "2025-01-01T00:00:00",
-    "id": "550e8400-e29b-41d4-a716-446655440000",
-    "images": [],
-    "landfill_id": null,
-    "pickup_date": "2025-01-15",
-    "pickup_time": "10:00",
-    "type": "plastic",
-    "updated_at": "2025-01-01T00:00:00",
-    "user_id": "660e8400-e29b-41d4-a716-446655440001"
-  },
+  "content": [
+    {
+      "badge": "gold",
+      "coin": 500,
+      "email": "user@example.com",
+      "exp": 1500.5,
+      "id": "usr_1234567890",
+      "level": 12,
+      "name": "John Doe",
+      "phoneNumber": "+6281234567890",
+      "photoURL": "https://example.com/avatar.jpg",
+      "role": "user"
+    },
+    {
+      "badge": "gold",
+      "coin": 500,
+      "email": "user@example.com",
+      "exp": 1500.5,
+      "id": "usr_1234567890",
+      "level": 12,
+      "name": "John Doe",
+      "phoneNumber": "+6281234567890",
+      "photoURL": "https://example.com/avatar.jpg",
+      "role": "user"
+    }
+  ],
+  "message": "Success",
   "meta": {
-    "locale": "en"
+    "hasMore": true,
+    "locale": "en",
+    "nextCursor": "eyJpZCI6MjV9"
   },
-  "success": true
+  "statusCode": 200
 }
 ```
 
-##### ⚠️ 404 `Resource not found`
+##### ⚠️ 401 `Unauthorized`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "NOT_FOUND",
-    "details": [],
-    "message": "Resource not found"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Token not found",
+  "message": "Unauthorized",
+  "statusCode": 401
 }
 ```
 
-##### ⚠️ 429 `Too many requests`
+##### ⚠️ 400 `Bad Request`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "RATE_LIMITED",
-    "details": [],
-    "message": "Too many requests"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Invalid input",
+  "message": "Bad Request",
+  "statusCode": 400
 }
 ```
 
-##### ❌ 500 `Internal server error`
+##### ⚠️ 404 `Not Found`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "INTERNAL_ERROR",
-    "details": [],
-    "message": "Internal server error"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Resource not found",
+  "message": "Not Found",
+  "statusCode": 404
+}
+```
+
+##### ⚠️ 429 `Rate limit exceeded`
+
+*default*
+
+```json
+{
+  "error": "Rate limit exceeded",
+  "message": "Too Many Requests",
+  "statusCode": 429
+}
+```
+
+##### ❌ 500 `Internal Server Error`
+
+*default*
+
+```json
+{
+  "error": "Internal error occurred",
+  "message": "Internal Server Error",
+  "statusCode": 500
 }
 ```
 
@@ -3636,82 +3599,85 @@ curl -X GET 'http://localhost:3000/v1/landfills?cursor=example-cursor&limit=1'
 
 #### Responses
 
-##### ✅ 200 `List landfills (public) - paginated`
+##### ✅ 200 `Success — paginated list`
 
 *default*
 
 ```json
 {
-  "data": [
+  "content": [
     {
-      "address": "Jl. TB Simatupang",
-      "id": "550e8400-e29b-41d4-a716-446655440000",
-      "name": "TPS Jakarta Selatan"
+      "capacity": 50000,
+      "contact": "+6281234567890",
+      "id": "landfill_001",
+      "location": "Jakarta",
+      "name": "TPA Bantar Gebang",
+      "operationalHours": "08:00-17:00"
+    },
+    {
+      "capacity": 50000,
+      "contact": "+6281234567890",
+      "id": "landfill_001",
+      "location": "Jakarta",
+      "name": "TPA Bantar Gebang",
+      "operationalHours": "08:00-17:00"
     }
   ],
+  "message": "Success",
   "meta": {
+    "hasMore": true,
     "locale": "en",
-    "pagination": {
-      "count": 25,
-      "cursor": "eyJpZCI6MjV9",
-      "has_more": true
-    }
+    "nextCursor": "eyJpZCI6MjV9"
   },
-  "success": true
+  "statusCode": 200
 }
 ```
 
-##### ⚠️ 404 `Resource not found`
+##### ⚠️ 400 `Bad Request`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "NOT_FOUND",
-    "details": [],
-    "message": "Resource not found"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Invalid input",
+  "message": "Bad Request",
+  "statusCode": 400
 }
 ```
 
-##### ⚠️ 429 `Too many requests`
+##### ⚠️ 404 `Not Found`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "RATE_LIMITED",
-    "details": [],
-    "message": "Too many requests"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Resource not found",
+  "message": "Not Found",
+  "statusCode": 404
 }
 ```
 
-##### ❌ 500 `Internal server error`
+##### ⚠️ 429 `Rate limit exceeded`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "INTERNAL_ERROR",
-    "details": [],
-    "message": "Internal server error"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Rate limit exceeded",
+  "message": "Too Many Requests",
+  "statusCode": 429
+}
+```
+
+##### ❌ 500 `Internal Server Error`
+
+*default*
+
+```json
+{
+  "error": "Internal error occurred",
+  "message": "Internal Server Error",
+  "statusCode": 500
 }
 ```
 
@@ -3733,8 +3699,8 @@ curl -X GET 'http://localhost:3000/v1/landfills?cursor=example-cursor&limit=1'
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| `name` | `string` | ✅ | — |
 | `address` | `string` | ✅ | — |
+| `name` | `string` | ✅ | — |
 
 #### Example cURL
 
@@ -3745,75 +3711,73 @@ curl -X POST 'http://localhost:3000/v1/landfills' \
 
 #### Responses
 
-##### ✅ 201 `Create landfill (admin) - created`
+##### ✅ 201 `Success — created`
 
 *default*
 
 ```json
 {
-  "data": {
-    "address": "Jl. TB Simatupang",
-    "id": "550e8400-e29b-41d4-a716-446655440000",
-    "name": "TPS Jakarta Selatan"
+  "content": {
+    "capacity": 50000,
+    "contact": "+6281234567890",
+    "id": "landfill_001",
+    "location": "Jakarta",
+    "name": "TPA Bantar Gebang",
+    "operationalHours": "08:00-17:00"
   },
+  "message": "Success",
   "meta": {
     "locale": "en"
   },
-  "success": true
+  "statusCode": 201
 }
 ```
 
-##### ⚠️ 400 `Validation failed`
+##### ⚠️ 401 `Unauthorized`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "VALIDATION_ERROR",
-    "details": [],
-    "message": "Validation failed"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Token not found",
+  "message": "Unauthorized",
+  "statusCode": 401
 }
 ```
 
-##### ⚠️ 429 `Too many requests`
+##### ⚠️ 400 `Bad Request`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "RATE_LIMITED",
-    "details": [],
-    "message": "Too many requests"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Invalid input",
+  "message": "Bad Request",
+  "statusCode": 400
 }
 ```
 
-##### ❌ 500 `Internal server error`
+##### ⚠️ 429 `Rate limit exceeded`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "INTERNAL_ERROR",
-    "details": [],
-    "message": "Internal server error"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Rate limit exceeded",
+  "message": "Too Many Requests",
+  "statusCode": 429
+}
+```
+
+##### ❌ 500 `Internal Server Error`
+
+*default*
+
+```json
+{
+  "error": "Internal error occurred",
+  "message": "Internal Server Error",
+  "statusCode": 500
 }
 ```
 
@@ -3839,93 +3803,85 @@ curl -X PUT 'http://localhost:3000/v1/landfills/id-example'
 
 #### Responses
 
-##### ✅ 200 `Update landfill (admin) - success`
+##### ✅ 200 `Success`
 
 *default*
 
 ```json
 {
-  "data": {
-    "address": "Jl. TB Simatupang",
-    "id": "550e8400-e29b-41d4-a716-446655440000",
-    "name": "TPS Jakarta Selatan"
+  "content": {
+    "capacity": 50000,
+    "contact": "+6281234567890",
+    "id": "landfill_001",
+    "location": "Jakarta",
+    "name": "TPA Bantar Gebang",
+    "operationalHours": "08:00-17:00"
   },
+  "message": "Success",
   "meta": {
     "locale": "en"
   },
-  "success": true
+  "statusCode": 200
 }
 ```
 
-##### ⚠️ 400 `Validation failed`
+##### ⚠️ 401 `Unauthorized`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "VALIDATION_ERROR",
-    "details": [],
-    "message": "Validation failed"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Token not found",
+  "message": "Unauthorized",
+  "statusCode": 401
 }
 ```
 
-##### ⚠️ 404 `Resource not found`
+##### ⚠️ 400 `Bad Request`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "NOT_FOUND",
-    "details": [],
-    "message": "Resource not found"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Invalid input",
+  "message": "Bad Request",
+  "statusCode": 400
 }
 ```
 
-##### ⚠️ 429 `Too many requests`
+##### ⚠️ 404 `Not Found`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "RATE_LIMITED",
-    "details": [],
-    "message": "Too many requests"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Resource not found",
+  "message": "Not Found",
+  "statusCode": 404
 }
 ```
 
-##### ❌ 500 `Internal server error`
+##### ⚠️ 429 `Rate limit exceeded`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "INTERNAL_ERROR",
-    "details": [],
-    "message": "Internal server error"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Rate limit exceeded",
+  "message": "Too Many Requests",
+  "statusCode": 429
+}
+```
+
+##### ❌ 500 `Internal Server Error`
+
+*default*
+
+```json
+{
+  "error": "Internal error occurred",
+  "message": "Internal Server Error",
+  "statusCode": 500
 }
 ```
 
@@ -3951,71 +3907,85 @@ curl -X DELETE 'http://localhost:3000/v1/landfills/id-example'
 
 #### Responses
 
-##### ✅ 200 `Delete landfill (admin) - success`
+##### ✅ 200 `Success`
 
 *default*
 
 ```json
 {
-  "message": "Deleted successfully",
+  "content": {
+    "capacity": 50000,
+    "contact": "+6281234567890",
+    "id": "landfill_001",
+    "location": "Jakarta",
+    "name": "TPA Bantar Gebang",
+    "operationalHours": "08:00-17:00"
+  },
+  "message": "Success",
   "meta": {
     "locale": "en"
   },
-  "success": true
+  "statusCode": 200
 }
 ```
 
-##### ⚠️ 404 `Resource not found`
+##### ⚠️ 401 `Unauthorized`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "NOT_FOUND",
-    "details": [],
-    "message": "Resource not found"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Token not found",
+  "message": "Unauthorized",
+  "statusCode": 401
 }
 ```
 
-##### ⚠️ 429 `Too many requests`
+##### ⚠️ 400 `Bad Request`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "RATE_LIMITED",
-    "details": [],
-    "message": "Too many requests"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Invalid input",
+  "message": "Bad Request",
+  "statusCode": 400
 }
 ```
 
-##### ❌ 500 `Internal server error`
+##### ⚠️ 404 `Not Found`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "INTERNAL_ERROR",
-    "details": [],
-    "message": "Internal server error"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Resource not found",
+  "message": "Not Found",
+  "statusCode": 404
+}
+```
+
+##### ⚠️ 429 `Rate limit exceeded`
+
+*default*
+
+```json
+{
+  "error": "Rate limit exceeded",
+  "message": "Too Many Requests",
+  "statusCode": 429
+}
+```
+
+##### ❌ 500 `Internal Server Error`
+
+*default*
+
+```json
+{
+  "error": "Internal error occurred",
+  "message": "Internal Server Error",
+  "statusCode": 500
 }
 ```
 
@@ -4045,95 +4015,85 @@ curl -X PUT 'http://localhost:3000/v1/trash/type/id-example'
 
 #### Responses
 
-##### ✅ 200 `Update trash type (admin) - success`
+##### ✅ 200 `Success`
 
 *default*
 
 ```json
 {
-  "data": {
-    "created_at": "2025-01-01T00:00:00",
-    "id": "550e8400-e29b-41d4-a716-446655440000",
-    "image": "https://example.com/trash.jpg",
-    "name": "Plastic",
-    "updated_at": "2025-01-01T00:00:00"
+  "content": {
+    "category": "plastic",
+    "description": "Clean plastic bottles accepted",
+    "id": "trash_001",
+    "image": "https://example.com/trash/plastic.jpg",
+    "name": "Plastic Bottle",
+    "pricePerKg": 2500
   },
+  "message": "Success",
   "meta": {
     "locale": "en"
   },
-  "success": true
+  "statusCode": 200
 }
 ```
 
-##### ⚠️ 400 `Validation failed`
+##### ⚠️ 401 `Unauthorized`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "VALIDATION_ERROR",
-    "details": [],
-    "message": "Validation failed"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Token not found",
+  "message": "Unauthorized",
+  "statusCode": 401
 }
 ```
 
-##### ⚠️ 404 `Resource not found`
+##### ⚠️ 400 `Bad Request`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "NOT_FOUND",
-    "details": [],
-    "message": "Resource not found"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Invalid input",
+  "message": "Bad Request",
+  "statusCode": 400
 }
 ```
 
-##### ⚠️ 429 `Too many requests`
+##### ⚠️ 404 `Not Found`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "RATE_LIMITED",
-    "details": [],
-    "message": "Too many requests"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Resource not found",
+  "message": "Not Found",
+  "statusCode": 404
 }
 ```
 
-##### ❌ 500 `Internal server error`
+##### ⚠️ 429 `Rate limit exceeded`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "INTERNAL_ERROR",
-    "details": [],
-    "message": "Internal server error"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Rate limit exceeded",
+  "message": "Too Many Requests",
+  "statusCode": 429
+}
+```
+
+##### ❌ 500 `Internal Server Error`
+
+*default*
+
+```json
+{
+  "error": "Internal error occurred",
+  "message": "Internal Server Error",
+  "statusCode": 500
 }
 ```
 
@@ -4159,71 +4119,85 @@ curl -X DELETE 'http://localhost:3000/v1/trash/type/id-example'
 
 #### Responses
 
-##### ✅ 200 `Delete trash type (admin) - success`
+##### ✅ 200 `Success`
 
 *default*
 
 ```json
 {
-  "message": "Deleted successfully",
+  "content": {
+    "category": "plastic",
+    "description": "Clean plastic bottles accepted",
+    "id": "trash_001",
+    "image": "https://example.com/trash/plastic.jpg",
+    "name": "Plastic Bottle",
+    "pricePerKg": 2500
+  },
+  "message": "Success",
   "meta": {
     "locale": "en"
   },
-  "success": true
+  "statusCode": 200
 }
 ```
 
-##### ⚠️ 404 `Resource not found`
+##### ⚠️ 401 `Unauthorized`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "NOT_FOUND",
-    "details": [],
-    "message": "Resource not found"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Token not found",
+  "message": "Unauthorized",
+  "statusCode": 401
 }
 ```
 
-##### ⚠️ 429 `Too many requests`
+##### ⚠️ 400 `Bad Request`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "RATE_LIMITED",
-    "details": [],
-    "message": "Too many requests"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Invalid input",
+  "message": "Bad Request",
+  "statusCode": 400
 }
 ```
 
-##### ❌ 500 `Internal server error`
+##### ⚠️ 404 `Not Found`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "INTERNAL_ERROR",
-    "details": [],
-    "message": "Internal server error"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Resource not found",
+  "message": "Not Found",
+  "statusCode": 404
+}
+```
+
+##### ⚠️ 429 `Rate limit exceeded`
+
+*default*
+
+```json
+{
+  "error": "Rate limit exceeded",
+  "message": "Too Many Requests",
+  "statusCode": 429
+}
+```
+
+##### ❌ 500 `Internal Server Error`
+
+*default*
+
+```json
+{
+  "error": "Internal error occurred",
+  "message": "Internal Server Error",
+  "statusCode": 500
 }
 ```
 
@@ -4250,84 +4224,85 @@ curl -X GET 'http://localhost:3000/v1/trash/types?cursor=example-cursor&limit=1'
 
 #### Responses
 
-##### ✅ 200 `List trash types (public) - paginated`
+##### ✅ 200 `Success — paginated list`
 
 *default*
 
 ```json
 {
-  "data": [
+  "content": [
     {
-      "created_at": "2025-01-01T00:00:00",
-      "id": "550e8400-e29b-41d4-a716-446655440000",
-      "image": "https://example.com/trash.jpg",
-      "name": "Plastic",
-      "updated_at": "2025-01-01T00:00:00"
+      "category": "plastic",
+      "description": "Clean plastic bottles accepted",
+      "id": "trash_001",
+      "image": "https://example.com/trash/plastic.jpg",
+      "name": "Plastic Bottle",
+      "pricePerKg": 2500
+    },
+    {
+      "category": "plastic",
+      "description": "Clean plastic bottles accepted",
+      "id": "trash_001",
+      "image": "https://example.com/trash/plastic.jpg",
+      "name": "Plastic Bottle",
+      "pricePerKg": 2500
     }
   ],
+  "message": "Success",
   "meta": {
+    "hasMore": true,
     "locale": "en",
-    "pagination": {
-      "count": 25,
-      "cursor": "eyJpZCI6MjV9",
-      "has_more": true
-    }
+    "nextCursor": "eyJpZCI6MjV9"
   },
-  "success": true
+  "statusCode": 200
 }
 ```
 
-##### ⚠️ 404 `Resource not found`
+##### ⚠️ 400 `Bad Request`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "NOT_FOUND",
-    "details": [],
-    "message": "Resource not found"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Invalid input",
+  "message": "Bad Request",
+  "statusCode": 400
 }
 ```
 
-##### ⚠️ 429 `Too many requests`
+##### ⚠️ 404 `Not Found`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "RATE_LIMITED",
-    "details": [],
-    "message": "Too many requests"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Resource not found",
+  "message": "Not Found",
+  "statusCode": 404
 }
 ```
 
-##### ❌ 500 `Internal server error`
+##### ⚠️ 429 `Rate limit exceeded`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "INTERNAL_ERROR",
-    "details": [],
-    "message": "Internal server error"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Rate limit exceeded",
+  "message": "Too Many Requests",
+  "statusCode": 429
+}
+```
+
+##### ❌ 500 `Internal Server Error`
+
+*default*
+
+```json
+{
+  "error": "Internal error occurred",
+  "message": "Internal Server Error",
+  "statusCode": 500
 }
 ```
 
@@ -4361,77 +4336,73 @@ curl -X POST 'http://localhost:3000/v1/trash/types' \
 
 #### Responses
 
-##### ✅ 201 `Create trash type (admin) - created`
+##### ✅ 201 `Success — created`
 
 *default*
 
 ```json
 {
-  "data": {
-    "created_at": "2025-01-01T00:00:00",
-    "id": "550e8400-e29b-41d4-a716-446655440000",
-    "image": "https://example.com/trash.jpg",
-    "name": "Plastic",
-    "updated_at": "2025-01-01T00:00:00"
+  "content": {
+    "category": "plastic",
+    "description": "Clean plastic bottles accepted",
+    "id": "trash_001",
+    "image": "https://example.com/trash/plastic.jpg",
+    "name": "Plastic Bottle",
+    "pricePerKg": 2500
   },
+  "message": "Success",
   "meta": {
     "locale": "en"
   },
-  "success": true
+  "statusCode": 201
 }
 ```
 
-##### ⚠️ 400 `Validation failed`
+##### ⚠️ 401 `Unauthorized`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "VALIDATION_ERROR",
-    "details": [],
-    "message": "Validation failed"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Token not found",
+  "message": "Unauthorized",
+  "statusCode": 401
 }
 ```
 
-##### ⚠️ 429 `Too many requests`
+##### ⚠️ 400 `Bad Request`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "RATE_LIMITED",
-    "details": [],
-    "message": "Too many requests"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Invalid input",
+  "message": "Bad Request",
+  "statusCode": 400
 }
 ```
 
-##### ❌ 500 `Internal server error`
+##### ⚠️ 429 `Rate limit exceeded`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "INTERNAL_ERROR",
-    "details": [],
-    "message": "Internal server error"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Rate limit exceeded",
+  "message": "Too Many Requests",
+  "statusCode": 429
+}
+```
+
+##### ❌ 500 `Internal Server Error`
+
+*default*
+
+```json
+{
+  "error": "Internal error occurred",
+  "message": "Internal Server Error",
+  "statusCode": 500
 }
 ```
 
@@ -4464,8 +4435,8 @@ User addresses
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
 | `phone_number` | `string` | ✅ | — |
-| `main` | `boolean` | ❌ | — |
 | `label` | `string` | ✅ | — |
+| `main` | `boolean` | ❌ | — |
 | `address` | `string` | ✅ | — |
 
 #### Example cURL
@@ -4477,80 +4448,77 @@ curl -X POST 'http://localhost:3000/v1/addresses/user/user_id-example' \
 
 #### Responses
 
-##### ✅ 201 `Create address (auth required) - created`
+##### ✅ 201 `Success — created`
 
 *default*
 
 ```json
 {
-  "data": {
-    "address": "Jl. Sudirman No. 1",
-    "created_at": "2025-01-01T00:00:00",
-    "id": "550e8400-e29b-41d4-a716-446655440000",
-    "label": "Home",
-    "main": true,
-    "phone_number": "+628123456789",
-    "updated_at": "2025-01-01T00:00:00",
-    "user_id": "660e8400-e29b-41d4-a716-446655440001"
+  "content": {
+    "badge": "gold",
+    "coin": 500,
+    "email": "user@example.com",
+    "exp": 1500.5,
+    "id": "usr_1234567890",
+    "level": 12,
+    "name": "John Doe",
+    "phoneNumber": "+6281234567890",
+    "photoURL": "https://example.com/avatar.jpg",
+    "role": "user"
   },
+  "message": "Success",
   "meta": {
     "locale": "en"
   },
-  "success": true
+  "statusCode": 201
 }
 ```
 
-##### ⚠️ 400 `Validation failed`
+##### ⚠️ 401 `Unauthorized`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "VALIDATION_ERROR",
-    "details": [],
-    "message": "Validation failed"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Token not found",
+  "message": "Unauthorized",
+  "statusCode": 401
 }
 ```
 
-##### ⚠️ 429 `Too many requests`
+##### ⚠️ 400 `Bad Request`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "RATE_LIMITED",
-    "details": [],
-    "message": "Too many requests"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Invalid input",
+  "message": "Bad Request",
+  "statusCode": 400
 }
 ```
 
-##### ❌ 500 `Internal server error`
+##### ⚠️ 429 `Rate limit exceeded`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "INTERNAL_ERROR",
-    "details": [],
-    "message": "Internal server error"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Rate limit exceeded",
+  "message": "Too Many Requests",
+  "statusCode": 429
+}
+```
+
+##### ❌ 500 `Internal Server Error`
+
+*default*
+
+```json
+{
+  "error": "Internal error occurred",
+  "message": "Internal Server Error",
+  "statusCode": 500
 }
 ```
 
@@ -4576,98 +4544,89 @@ curl -X PUT 'http://localhost:3000/v1/addresses/user/user_id-example'
 
 #### Responses
 
-##### ✅ 200 `Update address (auth required) - success`
+##### ✅ 201 `Success — created`
 
 *default*
 
 ```json
 {
-  "data": {
-    "address": "Jl. Sudirman No. 1",
-    "created_at": "2025-01-01T00:00:00",
-    "id": "550e8400-e29b-41d4-a716-446655440000",
-    "label": "Home",
-    "main": true,
-    "phone_number": "+628123456789",
-    "updated_at": "2025-01-01T00:00:00",
-    "user_id": "660e8400-e29b-41d4-a716-446655440001"
+  "content": {
+    "badge": "gold",
+    "coin": 500,
+    "email": "user@example.com",
+    "exp": 1500.5,
+    "id": "usr_1234567890",
+    "level": 12,
+    "name": "John Doe",
+    "phoneNumber": "+6281234567890",
+    "photoURL": "https://example.com/avatar.jpg",
+    "role": "user"
   },
+  "message": "Success",
   "meta": {
     "locale": "en"
   },
-  "success": true
+  "statusCode": 201
 }
 ```
 
-##### ⚠️ 400 `Validation failed`
+##### ⚠️ 401 `Unauthorized`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "VALIDATION_ERROR",
-    "details": [],
-    "message": "Validation failed"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Token not found",
+  "message": "Unauthorized",
+  "statusCode": 401
 }
 ```
 
-##### ⚠️ 404 `Resource not found`
+##### ⚠️ 400 `Bad Request`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "NOT_FOUND",
-    "details": [],
-    "message": "Resource not found"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Invalid input",
+  "message": "Bad Request",
+  "statusCode": 400
 }
 ```
 
-##### ⚠️ 429 `Too many requests`
+##### ⚠️ 404 `Not Found`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "RATE_LIMITED",
-    "details": [],
-    "message": "Too many requests"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Resource not found",
+  "message": "Not Found",
+  "statusCode": 404
 }
 ```
 
-##### ❌ 500 `Internal server error`
+##### ⚠️ 429 `Rate limit exceeded`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "INTERNAL_ERROR",
-    "details": [],
-    "message": "Internal server error"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Rate limit exceeded",
+  "message": "Too Many Requests",
+  "statusCode": 429
+}
+```
+
+##### ❌ 500 `Internal Server Error`
+
+*default*
+
+```json
+{
+  "error": "Internal error occurred",
+  "message": "Internal Server Error",
+  "statusCode": 500
 }
 ```
 
@@ -4704,92 +4663,91 @@ curl -X GET 'http://localhost:3000/v1/sallers/products/id-example?cursor=example
 
 #### Responses
 
-##### ✅ 200 `Get seller products - success`
+##### ✅ 200 `Success — paginated list`
 
 *default*
 
 ```json
 {
-  "data": {
-    "available": 50,
-    "category": "clothing",
-    "coin": 10,
-    "created_at": "2025-01-01T00:00:00",
-    "description": "Premium cotton t-shirt",
-    "discount": 10.5,
-    "id": "550e8400-e29b-41d4-a716-446655440000",
-    "images": [
-      "https://example.com/img1.jpg"
-    ],
-    "location": "Jakarta",
-    "name": "T-Shirt",
-    "price": 150000,
-    "rating": 4.5,
-    "recommended": true,
-    "saller_id": "660e8400-e29b-41d4-a716-446655440001",
-    "sold": 50,
-    "stock": 100,
-    "thumbnail": "https://example.com/thumb.jpg",
-    "updated_at": "2025-01-01T00:00:00"
-  },
+  "content": [
+    {
+      "coin": 202,
+      "discount": null,
+      "id": "cmqhhc2z00064pd2degy2ymub",
+      "location": "Medan",
+      "name": "Eksklusif Botol #30",
+      "price": 202082,
+      "sold": 418,
+      "stock": 123,
+      "thumbnail": "https://picsum.photos/seed/prod-30/600/600"
+    },
+    {
+      "coin": 202,
+      "discount": null,
+      "id": "cmqhhc2z00064pd2degy2ymub",
+      "location": "Medan",
+      "name": "Eksklusif Botol #30",
+      "price": 202082,
+      "sold": 418,
+      "stock": 123,
+      "thumbnail": "https://picsum.photos/seed/prod-30/600/600"
+    }
+  ],
+  "message": "Success",
   "meta": {
-    "locale": "en"
+    "hasMore": true,
+    "locale": "en",
+    "nextCursor": "eyJpZCI6MjV9"
   },
-  "success": true
+  "statusCode": 200
 }
 ```
 
-##### ⚠️ 404 `Resource not found`
+##### ⚠️ 400 `Bad Request`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "NOT_FOUND",
-    "details": [],
-    "message": "Resource not found"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Invalid input",
+  "message": "Bad Request",
+  "statusCode": 400
 }
 ```
 
-##### ⚠️ 429 `Too many requests`
+##### ⚠️ 404 `Not Found`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "RATE_LIMITED",
-    "details": [],
-    "message": "Too many requests"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Resource not found",
+  "message": "Not Found",
+  "statusCode": 404
 }
 ```
 
-##### ❌ 500 `Internal server error`
+##### ⚠️ 429 `Rate limit exceeded`
 
 *default*
 
 ```json
 {
-  "error": {
-    "code": "INTERNAL_ERROR",
-    "details": [],
-    "message": "Internal server error"
-  },
-  "meta": {
-    "locale": "en"
-  },
-  "success": false
+  "error": "Rate limit exceeded",
+  "message": "Too Many Requests",
+  "statusCode": 429
+}
+```
+
+##### ❌ 500 `Internal Server Error`
+
+*default*
+
+```json
+{
+  "error": "Internal error occurred",
+  "message": "Internal Server Error",
+  "statusCode": 500
 }
 ```
 
