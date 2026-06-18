@@ -3,6 +3,81 @@
 # Reybi API — Rust rewrite (Axum 0.8).
 E-commerce platform with cart, orders, deposite, waste management.
 
+## Cursor Pagination
+
+All list endpoints use cursor-based pagination (NO offset). This ensures stable
+pagination even when rows are inserted/deleted between requests.
+
+### How It Works
+
+```
+GET /v1/products?cursor=eyJpZCI6NTB9&limit=25
+```
+
+1. **First page** — omit `cursor`, API returns first N items
+2. **Next pages** — use `cursor` from `meta.pagination` of previous response
+3. **Last page** — `has_more: false`, `cursor: null`
+
+### Response Format
+
+```json
+{
+  "success": true,
+  "data": [ ... ],
+  "meta": {
+    "locale": "en",
+    "pagination": {
+      "cursor": "eyJpZCI6MjV9",
+      "has_more": true,
+      "count": 25
+    }
+  }
+}
+```
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `meta.pagination.cursor` | string\|null | Opaque token for next page. `null` when has_more=false |
+| `meta.pagination.has_more` | bool | `true` if more items exist after this page |
+| `meta.pagination.count` | int | Number of items in THIS page (not total) |
+
+### Query Parameters
+
+| Param | Type | Default | Max | Description |
+|-------|------|---------|-----|-------------|
+| `cursor` | string | — | — | Opaque token from previous page (omit for first page) |
+| `limit` | integer | 25 | 100 | Items per page |
+
+### Example Flow
+
+```bash
+# Page 1 — first 25 products
+curl "http://localhost:3000/v1/products?limit=25"
+# Response: meta.pagination.cursor = "eyJpZCI6MjV9", has_more = true
+
+# Page 2 — use cursor from page 1
+curl "http://localhost:3000/v1/products?cursor=eyJpZCI6MjV9&limit=25"
+# Response: meta.pagination.cursor = "eyJpZCI6NTB9", has_more = true
+
+# Page 3 — last page (say 12 items remain)
+curl "http://localhost:3000/v1/products?cursor=eyJpZCI6NTB9&limit=25"
+# Response: meta.pagination.cursor = null, has_more = false, count = 12
+```
+
+### Important
+
+- **Cursor is opaque** — never parse or construct it client-side
+- **has_more=false** means end of dataset
+- **count** is current page items, not total
+- **Order** — created_at DESC, id DESC
+- **Default limit is 25** — specify limit for predictable page sizes
+
+### Endpoints with Cursor Pagination
+
+GET /v1/products, GET /v1/banners, GET /v1/banners/type/{type},
+GET /v1/articles, GET /v1/carts/user/{user_id}, GET /v1/orders,
+GET /v1/orders/user/{user_id}, GET /v1/deposites, GET /v1/deposites/user/{id},
+GET /v1/landfills, GET /v1/trash/types, GET /v1/sallers/products/{id}
 # Base URL: http://localhost:3000/v1
 
 ### addresses ###
@@ -24,16 +99,6 @@ PUT http://localhost:3000/v1/addresses/user/{user_id}
 Authorization: Bearer {{token}}
 
 ### articles ###
-
-# Endpoint: Create article
-# POST /articles/create
-POST http://localhost:3000/v1/articles/create
-[Headers]
-Authorization: Bearer {{token}}
-[Body]
-```json
-{}
-```
 
 # Endpoint: Get article by ID
 # GET /articles/{id}
@@ -57,11 +122,22 @@ Authorization: Bearer {{token}}
 # GET /articles
 GET http://localhost:3000/v1/articles
 [QueryStringParams]
+cursor: 
 limit: 25
 [Headers]
 Authorization: Bearer {{token}}
 [Assert]
 status == 200
+
+# Endpoint: Create article
+# POST /articles/create
+POST http://localhost:3000/v1/articles/create
+[Headers]
+Authorization: Bearer {{token}}
+[Body]
+```json
+{}
+```
 
 ### auth ###
 
@@ -99,6 +175,12 @@ status == 200
 
 ### banners ###
 
+# Endpoint: List banners by type
+# GET /banners/type/{type}
+GET http://localhost:3000/v1/banners/type/{type}
+[Headers]
+Authorization: Bearer {{token}}
+
 # Endpoint: Create banner
 # POST /banners/create
 POST http://localhost:3000/v1/banners/create
@@ -109,16 +191,11 @@ Authorization: Bearer {{token}}
 {}
 ```
 
-# Endpoint: List banners by type
-# GET /banners/type/{type}
-GET http://localhost:3000/v1/banners/type/{type}
-[Headers]
-Authorization: Bearer {{token}}
-
 # Endpoint: List all banners (public)
 # GET /banners
 GET http://localhost:3000/v1/banners
 [QueryStringParams]
+cursor: 
 limit: 25
 [Headers]
 Authorization: Bearer {{token}}
@@ -131,6 +208,7 @@ status == 200
 # GET /carts/user/{user_id}
 GET http://localhost:3000/v1/carts/user/{user_id}
 [QueryStringParams]
+cursor: 
 limit: 25
 [Headers]
 Authorization: Bearer {{token}}
@@ -153,16 +231,11 @@ Authorization: Bearer {{token}}
 
 ### deposites ###
 
-# Endpoint: Get user deposites
-# GET /deposites/user/{id}
-GET http://localhost:3000/v1/deposites/user/{id}
-[Headers]
-Authorization: Bearer {{token}}
-
 # Endpoint: List all deposites (admin)
 # GET /deposites
 GET http://localhost:3000/v1/deposites
 [QueryStringParams]
+cursor: 
 limit: 25
 [Headers]
 Authorization: Bearer {{token}}
@@ -177,24 +250,21 @@ Authorization: Bearer {{token}}
 {}
 ```
 
+# Endpoint: Get user deposites
+# GET /deposites/user/{id}
+GET http://localhost:3000/v1/deposites/user/{id}
+[QueryStringParams]
+cursor: 
+[Headers]
+Authorization: Bearer {{token}}
+
 ### landfills ###
-
-# Endpoint: Update landfill (admin)
-# PUT /landfills/{id}
-PUT http://localhost:3000/v1/landfills/{id}
-[Headers]
-Authorization: Bearer {{token}}
-
-# Endpoint: Delete landfill (admin)
-# DELETE /landfills/{id}
-DELETE http://localhost:3000/v1/landfills/{id}
-[Headers]
-Authorization: Bearer {{token}}
 
 # Endpoint: List landfills (public)
 # GET /landfills
 GET http://localhost:3000/v1/landfills
 [QueryStringParams]
+cursor: 
 limit: 25
 [Headers]
 Authorization: Bearer {{token}}
@@ -209,18 +279,25 @@ Authorization: Bearer {{token}}
 {}
 ```
 
-### orders ###
-
-# Endpoint: Cancel order (auth required)
-# DELETE /orders/{id}
-DELETE http://localhost:3000/v1/orders/{id}
+# Endpoint: Update landfill (admin)
+# PUT /landfills/{id}
+PUT http://localhost:3000/v1/landfills/{id}
 [Headers]
 Authorization: Bearer {{token}}
+
+# Endpoint: Delete landfill (admin)
+# DELETE /landfills/{id}
+DELETE http://localhost:3000/v1/landfills/{id}
+[Headers]
+Authorization: Bearer {{token}}
+
+### orders ###
 
 # Endpoint: List all orders (admin)
 # GET /orders
 GET http://localhost:3000/v1/orders
 [QueryStringParams]
+cursor: 
 limit: 25
 [Headers]
 Authorization: Bearer {{token}}
@@ -228,6 +305,8 @@ Authorization: Bearer {{token}}
 # Endpoint: Get user orders
 # GET /orders/user/{user_id}
 GET http://localhost:3000/v1/orders/user/{user_id}
+[QueryStringParams]
+cursor: 
 [Headers]
 Authorization: Bearer {{token}}
 
@@ -241,31 +320,26 @@ Authorization: Bearer {{token}}
 {}
 ```
 
+# Endpoint: Cancel order (auth required)
+# DELETE /orders/{id}
+DELETE http://localhost:3000/v1/orders/{id}
+[Headers]
+Authorization: Bearer {{token}}
+
 ### products ###
 
-# Endpoint: Add product variant
-# POST /products/variant/{id}
-POST http://localhost:3000/v1/products/variant/{id}
+# Endpoint: List products (public, no auth required)
+# GET /products
+GET http://localhost:3000/v1/products
+[QueryStringParams]
+cursor: 
+limit: 25
+category: 
+search: 
 [Headers]
 Authorization: Bearer {{token}}
-[Body]
-```json
-{}
-```
 [Assert]
-status == 201
-
-# Endpoint: Create product
-# POST /products/create
-POST http://localhost:3000/v1/products/create
-[Headers]
-Authorization: Bearer {{token}}
-[Body]
-```json
-{}
-```
-[Assert]
-status == 201
+status == 200
 
 # Endpoint: Get product by ID
 # GET /products/{id}
@@ -295,18 +369,29 @@ Authorization: Bearer {{token}}
 [Assert]
 status == 200
 
-# Endpoint: List products (public, no auth required)
-# GET /products
-GET http://localhost:3000/v1/products
-[QueryStringParams]
-cursor: 
-limit: 25
-category: 
-search: 
+# Endpoint: Add product variant
+# POST /products/variant/{id}
+POST http://localhost:3000/v1/products/variant/{id}
 [Headers]
 Authorization: Bearer {{token}}
+[Body]
+```json
+{}
+```
 [Assert]
-status == 200
+status == 201
+
+# Endpoint: Create product
+# POST /products/create
+POST http://localhost:3000/v1/products/create
+[Headers]
+Authorization: Bearer {{token}}
+[Body]
+```json
+{}
+```
+[Assert]
+status == 201
 
 ### profile ###
 
@@ -328,9 +413,9 @@ Authorization: Bearer {{token}}
 
 ### reviews ###
 
-# Endpoint: Create review (auth required)
-# POST /reviews
-POST http://localhost:3000/v1/reviews
+# Endpoint: Update review (auth required)
+# PUT /reviews/{id}
+PUT http://localhost:3000/v1/reviews/{id}
 [Headers]
 Authorization: Bearer {{token}}
 [Body]
@@ -338,9 +423,9 @@ Authorization: Bearer {{token}}
 {}
 ```
 
-# Endpoint: Update review (auth required)
-# PUT /reviews/{id}
-PUT http://localhost:3000/v1/reviews/{id}
+# Endpoint: Create review (auth required)
+# POST /reviews
+POST http://localhost:3000/v1/reviews
 [Headers]
 Authorization: Bearer {{token}}
 [Body]
@@ -354,6 +439,7 @@ Authorization: Bearer {{token}}
 # GET /sallers/products/{id}
 GET http://localhost:3000/v1/sallers/products/{id}
 [QueryStringParams]
+cursor: 
 limit: 25
 [Headers]
 Authorization: Bearer {{token}}
@@ -376,6 +462,7 @@ Authorization: Bearer {{token}}
 # GET /trash/types
 GET http://localhost:3000/v1/trash/types
 [QueryStringParams]
+cursor: 
 limit: 25
 [Headers]
 Authorization: Bearer {{token}}

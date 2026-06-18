@@ -1,0 +1,2851 @@
+apinox: '1.0'
+name: Reybi API
+version: 1.0.0
+description: |-
+  Reybi API — Rust rewrite (Axum 0.8).
+  E-commerce platform with cart, orders, deposite, waste management.
+
+  ## Cursor Pagination
+
+  All list endpoints use cursor-based pagination (NO offset). This ensures stable
+  pagination even when rows are inserted/deleted between requests.
+
+  ### How It Works
+
+  ```
+  GET /v1/products?cursor=eyJpZCI6NTB9&limit=25
+  ```
+
+  1. **First page** — omit `cursor`, API returns first N items
+  2. **Next pages** — use `cursor` from `meta.pagination` of previous response
+  3. **Last page** — `has_more: false`, `cursor: null`
+
+  ### Response Format
+
+  ```json
+  {
+    "success": true,
+    "data": [ ... ],
+    "meta": {
+      "locale": "en",
+      "pagination": {
+        "cursor": "eyJpZCI6MjV9",
+        "has_more": true,
+        "count": 25
+      }
+    }
+  }
+  ```
+
+  | Field | Type | Description |
+  |-------|------|-------------|
+  | `meta.pagination.cursor` | string\|null | Opaque token for next page. `null` when has_more=false |
+  | `meta.pagination.has_more` | bool | `true` if more items exist after this page |
+  | `meta.pagination.count` | int | Number of items in THIS page (not total) |
+
+  ### Query Parameters
+
+  | Param | Type | Default | Max | Description |
+  |-------|------|---------|-----|-------------|
+  | `cursor` | string | — | — | Opaque token from previous page (omit for first page) |
+  | `limit` | integer | 25 | 100 | Items per page |
+
+  ### Example Flow
+
+  ```bash
+  # Page 1 — first 25 products
+  curl "http://localhost:3000/v1/products?limit=25"
+  # Response: meta.pagination.cursor = "eyJpZCI6MjV9", has_more = true
+
+  # Page 2 — use cursor from page 1
+  curl "http://localhost:3000/v1/products?cursor=eyJpZCI6MjV9&limit=25"
+  # Response: meta.pagination.cursor = "eyJpZCI6NTB9", has_more = true
+
+  # Page 3 — last page (say 12 items remain)
+  curl "http://localhost:3000/v1/products?cursor=eyJpZCI6NTB9&limit=25"
+  # Response: meta.pagination.cursor = null, has_more = false, count = 12
+  ```
+
+  ### Important
+
+  - **Cursor is opaque** — never parse or construct it client-side
+  - **has_more=false** means end of dataset
+  - **count** is current page items, not total
+  - **Order** — created_at DESC, id DESC
+  - **Default limit is 25** — specify limit for predictable page sizes
+
+  ### Endpoints with Cursor Pagination
+
+  GET /v1/products, GET /v1/banners, GET /v1/banners/type/{type},
+  GET /v1/articles, GET /v1/carts/user/{user_id}, GET /v1/orders,
+  GET /v1/orders/user/{user_id}, GET /v1/deposites, GET /v1/deposites/user/{id},
+  GET /v1/landfills, GET /v1/trash/types, GET /v1/sallers/products/{id}
+base_url: http://localhost:3000/v1
+environments:
+- name: Development
+  base_url: http://localhost:3000/v1
+  description: Development
+  vars: {}
+auth:
+  default: BearerAuth
+  schemes:
+  - id: BearerAuth
+    type: http
+    scheme: bearer
+    header: Authorization
+    prefix: 'Bearer '
+    key: null
+    in_location: null
+    description: Firebase ID token (login) or JWT access token (API access)
+groups:
+- id: auth
+  name: auth
+  description: Authentication (Firebase + JWT)
+  auth: null
+- id: products
+  name: products
+  description: Product catalog
+  auth: null
+- id: banners
+  name: banners
+  description: Banner management
+  auth: null
+- id: articles
+  name: articles
+  description: Article content
+  auth: null
+- id: profile
+  name: profile
+  description: User profile
+  auth: null
+- id: reviews
+  name: reviews
+  description: Product reviews
+  auth: null
+- id: carts
+  name: carts
+  description: Shopping cart
+  auth: null
+- id: orders
+  name: orders
+  description: Order management
+  auth: null
+- id: deposites
+  name: deposites
+  description: Waste deposite / pickup requests
+  auth: null
+- id: landfills
+  name: landfills
+  description: Landfill locations
+  auth: null
+- id: trash
+  name: trash
+  description: Trash type management
+  auth: null
+- id: addresses
+  name: addresses
+  description: User addresses
+  auth: null
+- id: sallers
+  name: sallers
+  description: Seller product listing
+  auth: null
+endpoints:
+- id: get-sallers-products-{id}
+  name: Get seller products
+  group: sallers
+  method: GET
+  path: /sallers/products/{id}
+  description: null
+  deprecated: false
+  tags:
+  - sallers
+  auth: null
+  auth_override: null
+  servers: null
+  rate_limit: null
+  path_params:
+  - name: id
+    type: string
+    required: true
+    description: null
+    deprecated: false
+    example: null
+    min: null
+    max: null
+    min_length: null
+    max_length: null
+    pattern: null
+    enum: null
+    format: uuid
+    default: null
+    items: null
+    max_items: null
+    min_items: null
+    fields: null
+  query_params:
+  - name: cursor
+    type: string
+    required: false
+    description: null
+    deprecated: false
+    example: null
+    min: null
+    max: null
+    min_length: null
+    max_length: null
+    pattern: null
+    enum: null
+    format: null
+    default: null
+    items: null
+    max_items: null
+    min_items: null
+    fields: null
+  - name: limit
+    type: integer
+    required: false
+    description: null
+    deprecated: false
+    example: null
+    min: null
+    max: null
+    min_length: null
+    max_length: null
+    pattern: null
+    enum: null
+    format: null
+    default: 25
+    items: null
+    max_items: null
+    min_items: null
+    fields: null
+  headers: []
+  body: null
+  responses: []
+- id: post-addresses-user-{user_id}
+  name: Create address (auth required)
+  group: addresses
+  method: POST
+  path: /addresses/user/{user_id}
+  description: null
+  deprecated: false
+  tags:
+  - addresses
+  auth: null
+  auth_override: null
+  servers: null
+  rate_limit: null
+  path_params:
+  - name: user_id
+    type: string
+    required: true
+    description: null
+    deprecated: false
+    example: null
+    min: null
+    max: null
+    min_length: null
+    max_length: null
+    pattern: null
+    enum: null
+    format: uuid
+    default: null
+    items: null
+    max_items: null
+    min_items: null
+    fields: null
+  query_params: []
+  headers: []
+  body:
+    type: json
+    required: true
+    content_type: application/json
+    description: null
+    schema:
+      phone_number:
+        type: string
+        required: true
+        sensitive: false
+        description: null
+        default: null
+        enum: null
+        min: null
+        max: null
+        min_length: null
+        max_length: null
+        pattern: null
+        format: null
+        sub_fields: null
+        sub_items: null
+      label:
+        type: string
+        required: true
+        sensitive: false
+        description: null
+        default: null
+        enum: null
+        min: null
+        max: null
+        min_length: null
+        max_length: null
+        pattern: null
+        format: null
+        sub_fields: null
+        sub_items: null
+      main:
+        type: boolean
+        required: false
+        sensitive: false
+        description: null
+        default: null
+        enum: null
+        min: null
+        max: null
+        min_length: null
+        max_length: null
+        pattern: null
+        format: null
+        sub_fields: null
+        sub_items: null
+      address:
+        type: string
+        required: true
+        sensitive: false
+        description: null
+        default: null
+        enum: null
+        min: null
+        max: null
+        min_length: null
+        max_length: null
+        pattern: null
+        format: null
+        sub_fields: null
+        sub_items: null
+    fields: null
+    examples: []
+    encoding: null
+    mime_type: application/json
+  responses: []
+- id: put-addresses-user-{user_id}
+  name: Update address (auth required)
+  group: addresses
+  method: PUT
+  path: /addresses/user/{user_id}
+  description: null
+  deprecated: false
+  tags:
+  - addresses
+  auth: null
+  auth_override: null
+  servers: null
+  rate_limit: null
+  path_params:
+  - name: user_id
+    type: string
+    required: true
+    description: null
+    deprecated: false
+    example: null
+    min: null
+    max: null
+    min_length: null
+    max_length: null
+    pattern: null
+    enum: null
+    format: uuid
+    default: null
+    items: null
+    max_items: null
+    min_items: null
+    fields: null
+  query_params: []
+  headers: []
+  body: null
+  responses: []
+- id: post-auth-register
+  name: Register new user
+  group: auth
+  method: POST
+  path: /auth/register
+  description: null
+  deprecated: false
+  tags:
+  - auth
+  auth: null
+  auth_override: null
+  servers: null
+  rate_limit: null
+  path_params: []
+  query_params: []
+  headers: []
+  body:
+    type: json
+    required: true
+    content_type: application/json
+    description: null
+    schema:
+      password:
+        type: string
+        required: true
+        sensitive: false
+        description: null
+        default: null
+        enum: null
+        min: null
+        max: null
+        min_length: 8
+        max_length: null
+        pattern: null
+        format: null
+        sub_fields: null
+        sub_items: null
+      name:
+        type: string
+        required: true
+        sensitive: false
+        description: null
+        default: null
+        enum: null
+        min: null
+        max: null
+        min_length: null
+        max_length: null
+        pattern: null
+        format: null
+        sub_fields: null
+        sub_items: null
+      email:
+        type: string
+        required: true
+        sensitive: false
+        description: null
+        default: null
+        enum: null
+        min: null
+        max: null
+        min_length: null
+        max_length: null
+        pattern: null
+        format: email
+        sub_fields: null
+        sub_items: null
+    fields: null
+    examples: []
+    encoding: null
+    mime_type: application/json
+  responses: []
+- id: get-articles-{id}
+  name: Get article by ID
+  group: articles
+  method: GET
+  path: /articles/{id}
+  description: null
+  deprecated: false
+  tags:
+  - articles
+  auth: null
+  auth_override: null
+  servers: null
+  rate_limit: null
+  path_params:
+  - name: id
+    type: string
+    required: true
+    description: null
+    deprecated: false
+    example: null
+    min: null
+    max: null
+    min_length: null
+    max_length: null
+    pattern: null
+    enum: null
+    format: uuid
+    default: null
+    items: null
+    max_items: null
+    min_items: null
+    fields: null
+  query_params: []
+  headers: []
+  body: null
+  responses: []
+- id: put-articles-{id}
+  name: Update article
+  group: articles
+  method: PUT
+  path: /articles/{id}
+  description: null
+  deprecated: false
+  tags:
+  - articles
+  auth: null
+  auth_override: null
+  servers: null
+  rate_limit: null
+  path_params:
+  - name: id
+    type: string
+    required: true
+    description: null
+    deprecated: false
+    example: null
+    min: null
+    max: null
+    min_length: null
+    max_length: null
+    pattern: null
+    enum: null
+    format: uuid
+    default: null
+    items: null
+    max_items: null
+    min_items: null
+    fields: null
+  query_params: []
+  headers: []
+  body: null
+  responses: []
+- id: delete-articles-{id}
+  name: Delete article
+  group: articles
+  method: DELETE
+  path: /articles/{id}
+  description: null
+  deprecated: false
+  tags:
+  - articles
+  auth: null
+  auth_override: null
+  servers: null
+  rate_limit: null
+  path_params:
+  - name: id
+    type: string
+    required: true
+    description: null
+    deprecated: false
+    example: null
+    min: null
+    max: null
+    min_length: null
+    max_length: null
+    pattern: null
+    enum: null
+    format: uuid
+    default: null
+    items: null
+    max_items: null
+    min_items: null
+    fields: null
+  query_params: []
+  headers: []
+  body: null
+  responses: []
+- id: get-orders
+  name: List all orders (admin)
+  group: orders
+  method: GET
+  path: /orders
+  description: null
+  deprecated: false
+  tags:
+  - orders
+  auth: null
+  auth_override: null
+  servers: null
+  rate_limit: null
+  path_params: []
+  query_params:
+  - name: cursor
+    type: string
+    required: false
+    description: null
+    deprecated: false
+    example: null
+    min: null
+    max: null
+    min_length: null
+    max_length: null
+    pattern: null
+    enum: null
+    format: null
+    default: null
+    items: null
+    max_items: null
+    min_items: null
+    fields: null
+  - name: limit
+    type: integer
+    required: false
+    description: null
+    deprecated: false
+    example: null
+    min: null
+    max: null
+    min_length: null
+    max_length: null
+    pattern: null
+    enum: null
+    format: null
+    default: 25
+    items: null
+    max_items: null
+    min_items: null
+    fields: null
+  headers: []
+  body: null
+  responses: []
+- id: get-articles
+  name: List articles (public)
+  group: articles
+  method: GET
+  path: /articles
+  description: null
+  deprecated: false
+  tags:
+  - articles
+  auth: null
+  auth_override: null
+  servers: null
+  rate_limit: null
+  path_params: []
+  query_params:
+  - name: cursor
+    type: string
+    required: false
+    description: null
+    deprecated: false
+    example: null
+    min: null
+    max: null
+    min_length: null
+    max_length: null
+    pattern: null
+    enum: null
+    format: null
+    default: null
+    items: null
+    max_items: null
+    min_items: null
+    fields: null
+  - name: limit
+    type: integer
+    required: false
+    description: null
+    deprecated: false
+    example: null
+    min: null
+    max: null
+    min_length: null
+    max_length: null
+    pattern: null
+    enum: null
+    format: null
+    default: 25
+    items: null
+    max_items: null
+    min_items: null
+    fields: null
+  headers: []
+  body: null
+  responses:
+  - status: 200
+    description: Articles
+    headers: []
+    content_type: null
+    schema: null
+    examples: []
+    use_pattern: null
+- id: get-products
+  name: List products (public, no auth required)
+  group: products
+  method: GET
+  path: /products
+  description: null
+  deprecated: false
+  tags:
+  - products
+  auth: null
+  auth_override: null
+  servers: null
+  rate_limit: null
+  path_params: []
+  query_params:
+  - name: cursor
+    type: string
+    required: false
+    description: null
+    deprecated: false
+    example: null
+    min: null
+    max: null
+    min_length: null
+    max_length: null
+    pattern: null
+    enum: null
+    format: null
+    default: null
+    items: null
+    max_items: null
+    min_items: null
+    fields: null
+  - name: limit
+    type: integer
+    required: false
+    description: null
+    deprecated: false
+    example: null
+    min: null
+    max: null
+    min_length: null
+    max_length: null
+    pattern: null
+    enum: null
+    format: null
+    default: 25
+    items: null
+    max_items: null
+    min_items: null
+    fields: null
+  - name: category
+    type: string
+    required: false
+    description: null
+    deprecated: false
+    example: null
+    min: null
+    max: null
+    min_length: null
+    max_length: null
+    pattern: null
+    enum: null
+    format: null
+    default: null
+    items: null
+    max_items: null
+    min_items: null
+    fields: null
+  - name: search
+    type: string
+    required: false
+    description: null
+    deprecated: false
+    example: null
+    min: null
+    max: null
+    min_length: null
+    max_length: null
+    pattern: null
+    enum: null
+    format: null
+    default: null
+    items: null
+    max_items: null
+    min_items: null
+    fields: null
+  headers: []
+  body: null
+  responses:
+  - status: 200
+    description: Paginated products
+    headers: []
+    content_type: null
+    schema: null
+    examples: []
+    use_pattern: null
+- id: get-deposites
+  name: List all deposites (admin)
+  group: deposites
+  method: GET
+  path: /deposites
+  description: null
+  deprecated: false
+  tags:
+  - deposites
+  auth: null
+  auth_override: null
+  servers: null
+  rate_limit: null
+  path_params: []
+  query_params:
+  - name: cursor
+    type: string
+    required: false
+    description: null
+    deprecated: false
+    example: null
+    min: null
+    max: null
+    min_length: null
+    max_length: null
+    pattern: null
+    enum: null
+    format: null
+    default: null
+    items: null
+    max_items: null
+    min_items: null
+    fields: null
+  - name: limit
+    type: integer
+    required: false
+    description: null
+    deprecated: false
+    example: null
+    min: null
+    max: null
+    min_length: null
+    max_length: null
+    pattern: null
+    enum: null
+    format: null
+    default: 25
+    items: null
+    max_items: null
+    min_items: null
+    fields: null
+  headers: []
+  body: null
+  responses: []
+- id: post-deposites
+  name: Create deposite (auth required)
+  group: deposites
+  method: POST
+  path: /deposites
+  description: null
+  deprecated: false
+  tags:
+  - deposites
+  auth: null
+  auth_override: null
+  servers: null
+  rate_limit: null
+  path_params: []
+  query_params: []
+  headers: []
+  body:
+    type: json
+    required: true
+    content_type: application/json
+    description: null
+    schema:
+      address_id:
+        type: string
+        required: true
+        sensitive: false
+        description: null
+        default: null
+        enum: null
+        min: null
+        max: null
+        min_length: null
+        max_length: null
+        pattern: null
+        format: uuid
+        sub_fields: null
+        sub_items: null
+      type:
+        type: string
+        required: true
+        sensitive: false
+        description: null
+        default: null
+        enum: null
+        min: null
+        max: null
+        min_length: null
+        max_length: null
+        pattern: null
+        format: null
+        sub_fields: null
+        sub_items: null
+      pickup_date:
+        type: string
+        required: true
+        sensitive: false
+        description: null
+        default: null
+        enum: null
+        min: null
+        max: null
+        min_length: null
+        max_length: null
+        pattern: null
+        format: null
+        sub_fields: null
+        sub_items: null
+      garbage_type:
+        type: array
+        required: true
+        sensitive: false
+        description: null
+        default: null
+        enum: null
+        min: null
+        max: null
+        min_length: null
+        max_length: null
+        pattern: null
+        format: null
+        sub_fields: null
+        sub_items: null
+      landfill_id:
+        type: string
+        required: false
+        sensitive: false
+        description: null
+        default: null
+        enum: null
+        min: null
+        max: null
+        min_length: null
+        max_length: null
+        pattern: null
+        format: uuid
+        sub_fields: null
+        sub_items: null
+      pickup_time:
+        type: string
+        required: true
+        sensitive: false
+        description: null
+        default: null
+        enum: null
+        min: null
+        max: null
+        min_length: null
+        max_length: null
+        pattern: null
+        format: null
+        sub_fields: null
+        sub_items: null
+      images:
+        type: object
+        required: false
+        sensitive: false
+        description: null
+        default: null
+        enum: null
+        min: null
+        max: null
+        min_length: null
+        max_length: null
+        pattern: null
+        format: null
+        sub_fields: null
+        sub_items: null
+      coin:
+        type: integer
+        required: false
+        sensitive: false
+        description: null
+        default: null
+        enum: null
+        min: null
+        max: null
+        min_length: null
+        max_length: null
+        pattern: null
+        format: null
+        sub_fields: null
+        sub_items: null
+    fields: null
+    examples: []
+    encoding: null
+    mime_type: application/json
+  responses: []
+- id: get-profile-{email}
+  name: Get user profile
+  group: profile
+  method: GET
+  path: /profile/{email}
+  description: null
+  deprecated: false
+  tags:
+  - profile
+  auth: null
+  auth_override: null
+  servers: null
+  rate_limit: null
+  path_params:
+  - name: email
+    type: string
+    required: true
+    description: null
+    deprecated: false
+    example: null
+    min: null
+    max: null
+    min_length: null
+    max_length: null
+    pattern: null
+    enum: null
+    format: null
+    default: null
+    items: null
+    max_items: null
+    min_items: null
+    fields: null
+  query_params: []
+  headers: []
+  body: null
+  responses: []
+- id: put-profile-{email}
+  name: Update user profile
+  group: profile
+  method: PUT
+  path: /profile/{email}
+  description: null
+  deprecated: false
+  tags:
+  - profile
+  auth: null
+  auth_override: null
+  servers: null
+  rate_limit: null
+  path_params:
+  - name: email
+    type: string
+    required: true
+    description: null
+    deprecated: false
+    example: null
+    min: null
+    max: null
+    min_length: null
+    max_length: null
+    pattern: null
+    enum: null
+    format: null
+    default: null
+    items: null
+    max_items: null
+    min_items: null
+    fields: null
+  query_params: []
+  headers: []
+  body:
+    type: json
+    required: true
+    content_type: application/json
+    description: null
+    schema:
+      name:
+        type: string
+        required: false
+        sensitive: false
+        description: null
+        default: null
+        enum: null
+        min: null
+        max: null
+        min_length: null
+        max_length: null
+        pattern: null
+        format: null
+        sub_fields: null
+        sub_items: null
+      phone_number:
+        type: string
+        required: false
+        sensitive: false
+        description: null
+        default: null
+        enum: null
+        min: null
+        max: null
+        min_length: null
+        max_length: null
+        pattern: null
+        format: null
+        sub_fields: null
+        sub_items: null
+      role:
+        type: string
+        required: false
+        sensitive: false
+        description: null
+        default: null
+        enum: null
+        min: null
+        max: null
+        min_length: null
+        max_length: null
+        pattern: null
+        format: null
+        sub_fields: null
+        sub_items: null
+      photo_url:
+        type: string
+        required: false
+        sensitive: false
+        description: null
+        default: null
+        enum: null
+        min: null
+        max: null
+        min_length: null
+        max_length: null
+        pattern: null
+        format: null
+        sub_fields: null
+        sub_items: null
+    fields: null
+    examples: []
+    encoding: null
+    mime_type: application/json
+  responses: []
+- id: get-products-{id}
+  name: Get product by ID
+  group: products
+  method: GET
+  path: /products/{id}
+  description: null
+  deprecated: false
+  tags:
+  - products
+  auth: null
+  auth_override: null
+  servers: null
+  rate_limit: null
+  path_params:
+  - name: id
+    type: string
+    required: true
+    description: null
+    deprecated: false
+    example: null
+    min: null
+    max: null
+    min_length: null
+    max_length: null
+    pattern: null
+    enum: null
+    format: uuid
+    default: null
+    items: null
+    max_items: null
+    min_items: null
+    fields: null
+  query_params: []
+  headers: []
+  body: null
+  responses:
+  - status: 404
+    description: Product not found
+    headers: []
+    content_type: null
+    schema: null
+    examples: []
+    use_pattern: null
+  - status: 200
+    description: Product data
+    headers: []
+    content_type: null
+    schema: null
+    examples: []
+    use_pattern: null
+- id: put-products-{id}
+  name: Update product
+  group: products
+  method: PUT
+  path: /products/{id}
+  description: null
+  deprecated: false
+  tags:
+  - products
+  auth: null
+  auth_override: null
+  servers: null
+  rate_limit: null
+  path_params:
+  - name: id
+    type: string
+    required: true
+    description: null
+    deprecated: false
+    example: null
+    min: null
+    max: null
+    min_length: null
+    max_length: null
+    pattern: null
+    enum: null
+    format: uuid
+    default: null
+    items: null
+    max_items: null
+    min_items: null
+    fields: null
+  query_params: []
+  headers: []
+  body:
+    type: json
+    required: true
+    content_type: application/json
+    description: null
+    schema: {}
+    fields: null
+    examples: []
+    encoding: null
+    mime_type: application/json
+  responses:
+  - status: 200
+    description: Updated product
+    headers: []
+    content_type: null
+    schema: null
+    examples: []
+    use_pattern: null
+- id: delete-products-{id}
+  name: Delete product
+  group: products
+  method: DELETE
+  path: /products/{id}
+  description: null
+  deprecated: false
+  tags:
+  - products
+  auth: null
+  auth_override: null
+  servers: null
+  rate_limit: null
+  path_params:
+  - name: id
+    type: string
+    required: true
+    description: null
+    deprecated: false
+    example: null
+    min: null
+    max: null
+    min_length: null
+    max_length: null
+    pattern: null
+    enum: null
+    format: uuid
+    default: null
+    items: null
+    max_items: null
+    min_items: null
+    fields: null
+  query_params: []
+  headers: []
+  body: null
+  responses:
+  - status: 200
+    description: Product deleted
+    headers: []
+    content_type: null
+    schema: null
+    examples: []
+    use_pattern: null
+- id: get-landfills
+  name: List landfills (public)
+  group: landfills
+  method: GET
+  path: /landfills
+  description: null
+  deprecated: false
+  tags:
+  - landfills
+  auth: null
+  auth_override: null
+  servers: null
+  rate_limit: null
+  path_params: []
+  query_params:
+  - name: cursor
+    type: string
+    required: false
+    description: null
+    deprecated: false
+    example: null
+    min: null
+    max: null
+    min_length: null
+    max_length: null
+    pattern: null
+    enum: null
+    format: null
+    default: null
+    items: null
+    max_items: null
+    min_items: null
+    fields: null
+  - name: limit
+    type: integer
+    required: false
+    description: null
+    deprecated: false
+    example: null
+    min: null
+    max: null
+    min_length: null
+    max_length: null
+    pattern: null
+    enum: null
+    format: null
+    default: 25
+    items: null
+    max_items: null
+    min_items: null
+    fields: null
+  headers: []
+  body: null
+  responses: []
+- id: post-landfills
+  name: Create landfill (admin)
+  group: landfills
+  method: POST
+  path: /landfills
+  description: null
+  deprecated: false
+  tags:
+  - landfills
+  auth: null
+  auth_override: null
+  servers: null
+  rate_limit: null
+  path_params: []
+  query_params: []
+  headers: []
+  body:
+    type: json
+    required: true
+    content_type: application/json
+    description: null
+    schema:
+      address:
+        type: string
+        required: true
+        sensitive: false
+        description: null
+        default: null
+        enum: null
+        min: null
+        max: null
+        min_length: null
+        max_length: null
+        pattern: null
+        format: null
+        sub_fields: null
+        sub_items: null
+      name:
+        type: string
+        required: true
+        sensitive: false
+        description: null
+        default: null
+        enum: null
+        min: null
+        max: null
+        min_length: null
+        max_length: null
+        pattern: null
+        format: null
+        sub_fields: null
+        sub_items: null
+    fields: null
+    examples: []
+    encoding: null
+    mime_type: application/json
+  responses: []
+- id: put-trash-type-{id}
+  name: Update trash type (admin)
+  group: trash
+  method: PUT
+  path: /trash/type/{id}
+  description: null
+  deprecated: false
+  tags:
+  - trash
+  auth: null
+  auth_override: null
+  servers: null
+  rate_limit: null
+  path_params:
+  - name: id
+    type: string
+    required: true
+    description: null
+    deprecated: false
+    example: null
+    min: null
+    max: null
+    min_length: null
+    max_length: null
+    pattern: null
+    enum: null
+    format: uuid
+    default: null
+    items: null
+    max_items: null
+    min_items: null
+    fields: null
+  query_params: []
+  headers: []
+  body: null
+  responses: []
+- id: delete-trash-type-{id}
+  name: Delete trash type (admin)
+  group: trash
+  method: DELETE
+  path: /trash/type/{id}
+  description: null
+  deprecated: false
+  tags:
+  - trash
+  auth: null
+  auth_override: null
+  servers: null
+  rate_limit: null
+  path_params:
+  - name: id
+    type: string
+    required: true
+    description: null
+    deprecated: false
+    example: null
+    min: null
+    max: null
+    min_length: null
+    max_length: null
+    pattern: null
+    enum: null
+    format: uuid
+    default: null
+    items: null
+    max_items: null
+    min_items: null
+    fields: null
+  query_params: []
+  headers: []
+  body: null
+  responses: []
+- id: get-carts-user-{user_id}
+  name: Get user cart
+  group: carts
+  method: GET
+  path: /carts/user/{user_id}
+  description: null
+  deprecated: false
+  tags:
+  - carts
+  auth: null
+  auth_override: null
+  servers: null
+  rate_limit: null
+  path_params:
+  - name: user_id
+    type: string
+    required: true
+    description: null
+    deprecated: false
+    example: null
+    min: null
+    max: null
+    min_length: null
+    max_length: null
+    pattern: null
+    enum: null
+    format: uuid
+    default: null
+    items: null
+    max_items: null
+    min_items: null
+    fields: null
+  query_params:
+  - name: cursor
+    type: string
+    required: false
+    description: null
+    deprecated: false
+    example: null
+    min: null
+    max: null
+    min_length: null
+    max_length: null
+    pattern: null
+    enum: null
+    format: null
+    default: null
+    items: null
+    max_items: null
+    min_items: null
+    fields: null
+  - name: limit
+    type: integer
+    required: false
+    description: null
+    deprecated: false
+    example: null
+    min: null
+    max: null
+    min_length: null
+    max_length: null
+    pattern: null
+    enum: null
+    format: null
+    default: 25
+    items: null
+    max_items: null
+    min_items: null
+    fields: null
+  headers: []
+  body: null
+  responses: []
+- id: post-carts-user-{user_id}
+  name: Add item to cart
+  group: carts
+  method: POST
+  path: /carts/user/{user_id}
+  description: null
+  deprecated: false
+  tags:
+  - carts
+  auth: null
+  auth_override: null
+  servers: null
+  rate_limit: null
+  path_params:
+  - name: user_id
+    type: string
+    required: true
+    description: null
+    deprecated: false
+    example: null
+    min: null
+    max: null
+    min_length: null
+    max_length: null
+    pattern: null
+    enum: null
+    format: uuid
+    default: null
+    items: null
+    max_items: null
+    min_items: null
+    fields: null
+  query_params: []
+  headers: []
+  body:
+    type: json
+    required: true
+    content_type: application/json
+    description: null
+    schema:
+      variant_id:
+        type: string
+        required: false
+        sensitive: false
+        description: null
+        default: null
+        enum: null
+        min: null
+        max: null
+        min_length: null
+        max_length: null
+        pattern: null
+        format: uuid
+        sub_fields: null
+        sub_items: null
+      product_id:
+        type: string
+        required: true
+        sensitive: false
+        description: null
+        default: null
+        enum: null
+        min: null
+        max: null
+        min_length: null
+        max_length: null
+        pattern: null
+        format: uuid
+        sub_fields: null
+        sub_items: null
+      quantity:
+        type: integer
+        required: true
+        sensitive: false
+        description: null
+        default: null
+        enum: null
+        min: 1.0
+        max: null
+        min_length: null
+        max_length: null
+        pattern: null
+        format: null
+        sub_fields: null
+        sub_items: null
+    fields: null
+    examples: []
+    encoding: null
+    mime_type: application/json
+  responses: []
+- id: get-trash-types
+  name: List trash types (public)
+  group: trash
+  method: GET
+  path: /trash/types
+  description: null
+  deprecated: false
+  tags:
+  - trash
+  auth: null
+  auth_override: null
+  servers: null
+  rate_limit: null
+  path_params: []
+  query_params:
+  - name: cursor
+    type: string
+    required: false
+    description: null
+    deprecated: false
+    example: null
+    min: null
+    max: null
+    min_length: null
+    max_length: null
+    pattern: null
+    enum: null
+    format: null
+    default: null
+    items: null
+    max_items: null
+    min_items: null
+    fields: null
+  - name: limit
+    type: integer
+    required: false
+    description: null
+    deprecated: false
+    example: null
+    min: null
+    max: null
+    min_length: null
+    max_length: null
+    pattern: null
+    enum: null
+    format: null
+    default: 25
+    items: null
+    max_items: null
+    min_items: null
+    fields: null
+  headers: []
+  body: null
+  responses: []
+- id: post-trash-types
+  name: Create trash type (admin)
+  group: trash
+  method: POST
+  path: /trash/types
+  description: null
+  deprecated: false
+  tags:
+  - trash
+  auth: null
+  auth_override: null
+  servers: null
+  rate_limit: null
+  path_params: []
+  query_params: []
+  headers: []
+  body:
+    type: json
+    required: true
+    content_type: application/json
+    description: null
+    schema:
+      name:
+        type: string
+        required: true
+        sensitive: false
+        description: null
+        default: null
+        enum: null
+        min: null
+        max: null
+        min_length: null
+        max_length: null
+        pattern: null
+        format: null
+        sub_fields: null
+        sub_items: null
+      image:
+        type: string
+        required: false
+        sensitive: false
+        description: null
+        default: null
+        enum: null
+        min: null
+        max: null
+        min_length: null
+        max_length: null
+        pattern: null
+        format: null
+        sub_fields: null
+        sub_items: null
+    fields: null
+    examples: []
+    encoding: null
+    mime_type: application/json
+  responses: []
+- id: get-orders-user-{user_id}
+  name: Get user orders
+  group: orders
+  method: GET
+  path: /orders/user/{user_id}
+  description: null
+  deprecated: false
+  tags:
+  - orders
+  auth: null
+  auth_override: null
+  servers: null
+  rate_limit: null
+  path_params:
+  - name: user_id
+    type: string
+    required: true
+    description: null
+    deprecated: false
+    example: null
+    min: null
+    max: null
+    min_length: null
+    max_length: null
+    pattern: null
+    enum: null
+    format: uuid
+    default: null
+    items: null
+    max_items: null
+    min_items: null
+    fields: null
+  query_params:
+  - name: cursor
+    type: string
+    required: false
+    description: null
+    deprecated: false
+    example: null
+    min: null
+    max: null
+    min_length: null
+    max_length: null
+    pattern: null
+    enum: null
+    format: null
+    default: null
+    items: null
+    max_items: null
+    min_items: null
+    fields: null
+  headers: []
+  body: null
+  responses: []
+- id: post-orders-user-{user_id}
+  name: Create order (auth required)
+  group: orders
+  method: POST
+  path: /orders/user/{user_id}
+  description: null
+  deprecated: false
+  tags:
+  - orders
+  auth: null
+  auth_override: null
+  servers: null
+  rate_limit: null
+  path_params:
+  - name: user_id
+    type: string
+    required: true
+    description: null
+    deprecated: false
+    example: null
+    min: null
+    max: null
+    min_length: null
+    max_length: null
+    pattern: null
+    enum: null
+    format: uuid
+    default: null
+    items: null
+    max_items: null
+    min_items: null
+    fields: null
+  query_params: []
+  headers: []
+  body:
+    type: json
+    required: true
+    content_type: application/json
+    description: null
+    schema:
+      payment:
+        type: object
+        required: true
+        sensitive: false
+        description: null
+        default: null
+        enum: null
+        min: null
+        max: null
+        min_length: null
+        max_length: null
+        pattern: null
+        format: null
+        sub_fields: null
+        sub_items: null
+      quantity:
+        type: integer
+        required: true
+        sensitive: false
+        description: null
+        default: null
+        enum: null
+        min: null
+        max: null
+        min_length: null
+        max_length: null
+        pattern: null
+        format: null
+        sub_fields: null
+        sub_items: null
+      coin:
+        type: integer
+        required: false
+        sensitive: false
+        description: null
+        default: null
+        enum: null
+        min: null
+        max: null
+        min_length: null
+        max_length: null
+        pattern: null
+        format: null
+        sub_fields: null
+        sub_items: null
+      product_id:
+        type: string
+        required: true
+        sensitive: false
+        description: null
+        default: null
+        enum: null
+        min: null
+        max: null
+        min_length: null
+        max_length: null
+        pattern: null
+        format: uuid
+        sub_fields: null
+        sub_items: null
+    fields: null
+    examples: []
+    encoding: null
+    mime_type: application/json
+  responses: []
+- id: post-products-variant-{id}
+  name: Add product variant
+  group: products
+  method: POST
+  path: /products/variant/{id}
+  description: null
+  deprecated: false
+  tags:
+  - products
+  auth: null
+  auth_override: null
+  servers: null
+  rate_limit: null
+  path_params:
+  - name: id
+    type: string
+    required: true
+    description: null
+    deprecated: false
+    example: null
+    min: null
+    max: null
+    min_length: null
+    max_length: null
+    pattern: null
+    enum: null
+    format: uuid
+    default: null
+    items: null
+    max_items: null
+    min_items: null
+    fields: null
+  query_params: []
+  headers: []
+  body:
+    type: json
+    required: true
+    content_type: application/json
+    description: null
+    schema:
+      image:
+        type: string
+        required: false
+        sensitive: false
+        description: null
+        default: null
+        enum: null
+        min: null
+        max: null
+        min_length: null
+        max_length: null
+        pattern: null
+        format: null
+        sub_fields: null
+        sub_items: null
+      name:
+        type: string
+        required: true
+        sensitive: false
+        description: null
+        default: null
+        enum: null
+        min: null
+        max: null
+        min_length: null
+        max_length: null
+        pattern: null
+        format: null
+        sub_fields: null
+        sub_items: null
+      price:
+        type: integer
+        required: true
+        sensitive: false
+        description: null
+        default: null
+        enum: null
+        min: null
+        max: null
+        min_length: null
+        max_length: null
+        pattern: null
+        format: null
+        sub_fields: null
+        sub_items: null
+      stock:
+        type: integer
+        required: true
+        sensitive: false
+        description: null
+        default: null
+        enum: null
+        min: null
+        max: null
+        min_length: null
+        max_length: null
+        pattern: null
+        format: null
+        sub_fields: null
+        sub_items: null
+    fields: null
+    examples: []
+    encoding: null
+    mime_type: application/json
+  responses:
+  - status: 201
+    description: Created variant
+    headers: []
+    content_type: null
+    schema: null
+    examples: []
+    use_pattern: null
+- id: post-products-create
+  name: Create product
+  group: products
+  method: POST
+  path: /products/create
+  description: null
+  deprecated: false
+  tags:
+  - products
+  auth: null
+  auth_override: null
+  servers: null
+  rate_limit: null
+  path_params: []
+  query_params: []
+  headers: []
+  body:
+    type: json
+    required: true
+    content_type: application/json
+    description: null
+    schema:
+      coin:
+        type: integer
+        required: false
+        sensitive: false
+        description: null
+        default: null
+        enum: null
+        min: null
+        max: null
+        min_length: null
+        max_length: null
+        pattern: null
+        format: null
+        sub_fields: null
+        sub_items: null
+      images:
+        type: object
+        required: false
+        sensitive: false
+        description: null
+        default: null
+        enum: null
+        min: null
+        max: null
+        min_length: null
+        max_length: null
+        pattern: null
+        format: null
+        sub_fields: null
+        sub_items: null
+      recommended:
+        type: boolean
+        required: false
+        sensitive: false
+        description: null
+        default: null
+        enum: null
+        min: null
+        max: null
+        min_length: null
+        max_length: null
+        pattern: null
+        format: null
+        sub_fields: null
+        sub_items: null
+      saller_id:
+        type: string
+        required: false
+        sensitive: false
+        description: null
+        default: null
+        enum: null
+        min: null
+        max: null
+        min_length: null
+        max_length: null
+        pattern: null
+        format: uuid
+        sub_fields: null
+        sub_items: null
+      stock:
+        type: integer
+        required: true
+        sensitive: false
+        description: null
+        default: null
+        enum: null
+        min: null
+        max: null
+        min_length: null
+        max_length: null
+        pattern: null
+        format: null
+        sub_fields: null
+        sub_items: null
+      thumbnail:
+        type: string
+        required: false
+        sensitive: false
+        description: null
+        default: null
+        enum: null
+        min: null
+        max: null
+        min_length: null
+        max_length: null
+        pattern: null
+        format: null
+        sub_fields: null
+        sub_items: null
+      category:
+        type: string
+        required: true
+        sensitive: false
+        description: null
+        default: null
+        enum: null
+        min: null
+        max: null
+        min_length: null
+        max_length: null
+        pattern: null
+        format: null
+        sub_fields: null
+        sub_items: null
+      description:
+        type: string
+        required: true
+        sensitive: false
+        description: null
+        default: null
+        enum: null
+        min: null
+        max: null
+        min_length: null
+        max_length: null
+        pattern: null
+        format: null
+        sub_fields: null
+        sub_items: null
+      location:
+        type: string
+        required: false
+        sensitive: false
+        description: null
+        default: null
+        enum: null
+        min: null
+        max: null
+        min_length: null
+        max_length: null
+        pattern: null
+        format: null
+        sub_fields: null
+        sub_items: null
+      discount:
+        type: integer
+        required: false
+        sensitive: false
+        description: null
+        default: null
+        enum: null
+        min: null
+        max: null
+        min_length: null
+        max_length: null
+        pattern: null
+        format: null
+        sub_fields: null
+        sub_items: null
+      name:
+        type: string
+        required: true
+        sensitive: false
+        description: null
+        default: null
+        enum: null
+        min: null
+        max: null
+        min_length: null
+        max_length: null
+        pattern: null
+        format: null
+        sub_fields: null
+        sub_items: null
+      price:
+        type: integer
+        required: true
+        sensitive: false
+        description: null
+        default: null
+        enum: null
+        min: null
+        max: null
+        min_length: null
+        max_length: null
+        pattern: null
+        format: null
+        sub_fields: null
+        sub_items: null
+    fields: null
+    examples: []
+    encoding: null
+    mime_type: application/json
+  responses:
+  - status: 201
+    description: Created product
+    headers: []
+    content_type: null
+    schema: null
+    examples: []
+    use_pattern: null
+- id: delete-orders-{id}
+  name: Cancel order (auth required)
+  group: orders
+  method: DELETE
+  path: /orders/{id}
+  description: null
+  deprecated: false
+  tags:
+  - orders
+  auth: null
+  auth_override: null
+  servers: null
+  rate_limit: null
+  path_params:
+  - name: id
+    type: string
+    required: true
+    description: null
+    deprecated: false
+    example: null
+    min: null
+    max: null
+    min_length: null
+    max_length: null
+    pattern: null
+    enum: null
+    format: uuid
+    default: null
+    items: null
+    max_items: null
+    min_items: null
+    fields: null
+  query_params: []
+  headers: []
+  body: null
+  responses: []
+- id: get-banners-type-{type}
+  name: List banners by type
+  group: banners
+  method: GET
+  path: /banners/type/{type}
+  description: null
+  deprecated: false
+  tags:
+  - banners
+  auth: null
+  auth_override: null
+  servers: null
+  rate_limit: null
+  path_params:
+  - name: type
+    type: string
+    required: true
+    description: null
+    deprecated: false
+    example: null
+    min: null
+    max: null
+    min_length: null
+    max_length: null
+    pattern: null
+    enum: null
+    format: null
+    default: null
+    items: null
+    max_items: null
+    min_items: null
+    fields: null
+  query_params: []
+  headers: []
+  body: null
+  responses: []
+- id: put-reviews-{id}
+  name: Update review (auth required)
+  group: reviews
+  method: PUT
+  path: /reviews/{id}
+  description: null
+  deprecated: false
+  tags:
+  - reviews
+  auth: null
+  auth_override: null
+  servers: null
+  rate_limit: null
+  path_params:
+  - name: id
+    type: string
+    required: true
+    description: null
+    deprecated: false
+    example: null
+    min: null
+    max: null
+    min_length: null
+    max_length: null
+    pattern: null
+    enum: null
+    format: uuid
+    default: null
+    items: null
+    max_items: null
+    min_items: null
+    fields: null
+  query_params: []
+  headers: []
+  body:
+    type: json
+    required: true
+    content_type: application/json
+    description: null
+    schema:
+      comment:
+        type: string
+        required: false
+        sensitive: false
+        description: null
+        default: null
+        enum: null
+        min: null
+        max: null
+        min_length: null
+        max_length: null
+        pattern: null
+        format: null
+        sub_fields: null
+        sub_items: null
+      rating:
+        type: integer
+        required: false
+        sensitive: false
+        description: null
+        default: null
+        enum: null
+        min: null
+        max: null
+        min_length: null
+        max_length: null
+        pattern: null
+        format: null
+        sub_fields: null
+        sub_items: null
+    fields: null
+    examples: []
+    encoding: null
+    mime_type: application/json
+  responses: []
+- id: post-articles-create
+  name: Create article
+  group: articles
+  method: POST
+  path: /articles/create
+  description: null
+  deprecated: false
+  tags:
+  - articles
+  auth: null
+  auth_override: null
+  servers: null
+  rate_limit: null
+  path_params: []
+  query_params: []
+  headers: []
+  body:
+    type: json
+    required: true
+    content_type: application/json
+    description: null
+    schema:
+      content:
+        type: string
+        required: true
+        sensitive: false
+        description: null
+        default: null
+        enum: null
+        min: null
+        max: null
+        min_length: null
+        max_length: null
+        pattern: null
+        format: null
+        sub_fields: null
+        sub_items: null
+      header:
+        type: string
+        required: true
+        sensitive: false
+        description: null
+        default: null
+        enum: null
+        min: null
+        max: null
+        min_length: null
+        max_length: null
+        pattern: null
+        format: null
+        sub_fields: null
+        sub_items: null
+      thumbnail:
+        type: string
+        required: true
+        sensitive: false
+        description: null
+        default: null
+        enum: null
+        min: null
+        max: null
+        min_length: null
+        max_length: null
+        pattern: null
+        format: null
+        sub_fields: null
+        sub_items: null
+    fields: null
+    examples: []
+    encoding: null
+    mime_type: application/json
+  responses: []
+- id: post-reviews
+  name: Create review (auth required)
+  group: reviews
+  method: POST
+  path: /reviews
+  description: null
+  deprecated: false
+  tags:
+  - reviews
+  auth: null
+  auth_override: null
+  servers: null
+  rate_limit: null
+  path_params: []
+  query_params: []
+  headers: []
+  body:
+    type: json
+    required: true
+    content_type: application/json
+    description: null
+    schema:
+      comment:
+        type: string
+        required: true
+        sensitive: false
+        description: null
+        default: null
+        enum: null
+        min: null
+        max: null
+        min_length: null
+        max_length: null
+        pattern: null
+        format: null
+        sub_fields: null
+        sub_items: null
+      product_id:
+        type: string
+        required: true
+        sensitive: false
+        description: null
+        default: null
+        enum: null
+        min: null
+        max: null
+        min_length: null
+        max_length: null
+        pattern: null
+        format: uuid
+        sub_fields: null
+        sub_items: null
+      images:
+        type: object
+        required: false
+        sensitive: false
+        description: null
+        default: null
+        enum: null
+        min: null
+        max: null
+        min_length: null
+        max_length: null
+        pattern: null
+        format: null
+        sub_fields: null
+        sub_items: null
+      rating:
+        type: integer
+        required: true
+        sensitive: false
+        description: null
+        default: null
+        enum: null
+        min: 1.0
+        max: 5.0
+        min_length: null
+        max_length: null
+        pattern: null
+        format: null
+        sub_fields: null
+        sub_items: null
+    fields: null
+    examples: []
+    encoding: null
+    mime_type: application/json
+  responses: []
+- id: post-auth-reset-password
+  name: Request password reset
+  group: auth
+  method: POST
+  path: /auth/reset-password
+  description: null
+  deprecated: false
+  tags:
+  - auth
+  auth: null
+  auth_override: null
+  servers: null
+  rate_limit: null
+  path_params: []
+  query_params: []
+  headers: []
+  body:
+    type: json
+    required: true
+    content_type: application/json
+    description: null
+    schema:
+      email:
+        type: string
+        required: true
+        sensitive: false
+        description: null
+        default: null
+        enum: null
+        min: null
+        max: null
+        min_length: null
+        max_length: null
+        pattern: null
+        format: email
+        sub_fields: null
+        sub_items: null
+    fields: null
+    examples: []
+    encoding: null
+    mime_type: application/json
+  responses: []
+- id: delete-carts-item-{id}
+  name: Remove cart item
+  group: carts
+  method: DELETE
+  path: /carts/item/{id}
+  description: null
+  deprecated: false
+  tags:
+  - carts
+  auth: null
+  auth_override: null
+  servers: null
+  rate_limit: null
+  path_params:
+  - name: id
+    type: string
+    required: true
+    description: null
+    deprecated: false
+    example: null
+    min: null
+    max: null
+    min_length: null
+    max_length: null
+    pattern: null
+    enum: null
+    format: uuid
+    default: null
+    items: null
+    max_items: null
+    min_items: null
+    fields: null
+  query_params: []
+  headers: []
+  body: null
+  responses: []
+- id: get-deposites-user-{id}
+  name: Get user deposites
+  group: deposites
+  method: GET
+  path: /deposites/user/{id}
+  description: null
+  deprecated: false
+  tags:
+  - deposites
+  auth: null
+  auth_override: null
+  servers: null
+  rate_limit: null
+  path_params:
+  - name: id
+    type: string
+    required: true
+    description: null
+    deprecated: false
+    example: null
+    min: null
+    max: null
+    min_length: null
+    max_length: null
+    pattern: null
+    enum: null
+    format: uuid
+    default: null
+    items: null
+    max_items: null
+    min_items: null
+    fields: null
+  query_params:
+  - name: cursor
+    type: string
+    required: false
+    description: null
+    deprecated: false
+    example: null
+    min: null
+    max: null
+    min_length: null
+    max_length: null
+    pattern: null
+    enum: null
+    format: null
+    default: null
+    items: null
+    max_items: null
+    min_items: null
+    fields: null
+  headers: []
+  body: null
+  responses: []
+- id: post-auth
+  name: Login (Firebase token → JWT)
+  group: auth
+  method: POST
+  path: /auth
+  description: null
+  deprecated: false
+  tags:
+  - auth
+  auth: null
+  auth_override: null
+  servers: null
+  rate_limit: null
+  path_params: []
+  query_params: []
+  headers: []
+  body:
+    type: json
+    required: true
+    content_type: application/json
+    description: null
+    schema: {}
+    fields: null
+    examples: []
+    encoding: null
+    mime_type: application/json
+  responses:
+  - status: 200
+    description: JWT tokens + user data
+    headers: []
+    content_type: null
+    schema: null
+    examples: []
+    use_pattern: null
+- id: put-landfills-{id}
+  name: Update landfill (admin)
+  group: landfills
+  method: PUT
+  path: /landfills/{id}
+  description: null
+  deprecated: false
+  tags:
+  - landfills
+  auth: null
+  auth_override: null
+  servers: null
+  rate_limit: null
+  path_params:
+  - name: id
+    type: string
+    required: true
+    description: null
+    deprecated: false
+    example: null
+    min: null
+    max: null
+    min_length: null
+    max_length: null
+    pattern: null
+    enum: null
+    format: uuid
+    default: null
+    items: null
+    max_items: null
+    min_items: null
+    fields: null
+  query_params: []
+  headers: []
+  body: null
+  responses: []
+- id: delete-landfills-{id}
+  name: Delete landfill (admin)
+  group: landfills
+  method: DELETE
+  path: /landfills/{id}
+  description: null
+  deprecated: false
+  tags:
+  - landfills
+  auth: null
+  auth_override: null
+  servers: null
+  rate_limit: null
+  path_params:
+  - name: id
+    type: string
+    required: true
+    description: null
+    deprecated: false
+    example: null
+    min: null
+    max: null
+    min_length: null
+    max_length: null
+    pattern: null
+    enum: null
+    format: uuid
+    default: null
+    items: null
+    max_items: null
+    min_items: null
+    fields: null
+  query_params: []
+  headers: []
+  body: null
+  responses: []
+- id: post-banners-create
+  name: Create banner
+  group: banners
+  method: POST
+  path: /banners/create
+  description: null
+  deprecated: false
+  tags:
+  - banners
+  auth: null
+  auth_override: null
+  servers: null
+  rate_limit: null
+  path_params: []
+  query_params: []
+  headers: []
+  body:
+    type: json
+    required: true
+    content_type: application/json
+    description: null
+    schema:
+      image:
+        type: string
+        required: true
+        sensitive: false
+        description: null
+        default: null
+        enum: null
+        min: null
+        max: null
+        min_length: null
+        max_length: null
+        pattern: null
+        format: null
+        sub_fields: null
+        sub_items: null
+      type:
+        type: string
+        required: false
+        sensitive: false
+        description: null
+        default: null
+        enum: null
+        min: null
+        max: null
+        min_length: null
+        max_length: null
+        pattern: null
+        format: null
+        sub_fields: null
+        sub_items: null
+    fields: null
+    examples: []
+    encoding: null
+    mime_type: application/json
+  responses: []
+- id: get-banners
+  name: List all banners (public)
+  group: banners
+  method: GET
+  path: /banners
+  description: null
+  deprecated: false
+  tags:
+  - banners
+  auth: null
+  auth_override: null
+  servers: null
+  rate_limit: null
+  path_params: []
+  query_params:
+  - name: cursor
+    type: string
+    required: false
+    description: null
+    deprecated: false
+    example: null
+    min: null
+    max: null
+    min_length: null
+    max_length: null
+    pattern: null
+    enum: null
+    format: null
+    default: null
+    items: null
+    max_items: null
+    min_items: null
+    fields: null
+  - name: limit
+    type: integer
+    required: false
+    description: null
+    deprecated: false
+    example: null
+    min: null
+    max: null
+    min_length: null
+    max_length: null
+    pattern: null
+    enum: null
+    format: null
+    default: 25
+    items: null
+    max_items: null
+    min_items: null
+    fields: null
+  headers: []
+  body: null
+  responses:
+  - status: 200
+    description: Banners
+    headers: []
+    content_type: null
+    schema: null
+    examples: []
+    use_pattern: null
+includes: []
+changelog: []
+error_responses: null

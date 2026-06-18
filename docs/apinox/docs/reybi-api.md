@@ -5,6 +5,81 @@
 Reybi API — Rust rewrite (Axum 0.8).
 E-commerce platform with cart, orders, deposite, waste management.
 
+## Cursor Pagination
+
+All list endpoints use cursor-based pagination (NO offset). This ensures stable
+pagination even when rows are inserted/deleted between requests.
+
+### How It Works
+
+```
+GET /v1/products?cursor=eyJpZCI6NTB9&limit=25
+```
+
+1. **First page** — omit `cursor`, API returns first N items
+2. **Next pages** — use `cursor` from `meta.pagination` of previous response
+3. **Last page** — `has_more: false`, `cursor: null`
+
+### Response Format
+
+```json
+{
+  "success": true,
+  "data": [ ... ],
+  "meta": {
+    "locale": "en",
+    "pagination": {
+      "cursor": "eyJpZCI6MjV9",
+      "has_more": true,
+      "count": 25
+    }
+  }
+}
+```
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `meta.pagination.cursor` | string\|null | Opaque token for next page. `null` when has_more=false |
+| `meta.pagination.has_more` | bool | `true` if more items exist after this page |
+| `meta.pagination.count` | int | Number of items in THIS page (not total) |
+
+### Query Parameters
+
+| Param | Type | Default | Max | Description |
+|-------|------|---------|-----|-------------|
+| `cursor` | string | — | — | Opaque token from previous page (omit for first page) |
+| `limit` | integer | 25 | 100 | Items per page |
+
+### Example Flow
+
+```bash
+# Page 1 — first 25 products
+curl "http://localhost:3000/v1/products?limit=25"
+# Response: meta.pagination.cursor = "eyJpZCI6MjV9", has_more = true
+
+# Page 2 — use cursor from page 1
+curl "http://localhost:3000/v1/products?cursor=eyJpZCI6MjV9&limit=25"
+# Response: meta.pagination.cursor = "eyJpZCI6NTB9", has_more = true
+
+# Page 3 — last page (say 12 items remain)
+curl "http://localhost:3000/v1/products?cursor=eyJpZCI6NTB9&limit=25"
+# Response: meta.pagination.cursor = null, has_more = false, count = 12
+```
+
+### Important
+
+- **Cursor is opaque** — never parse or construct it client-side
+- **has_more=false** means end of dataset
+- **count** is current page items, not total
+- **Order** — created_at DESC, id DESC
+- **Default limit is 25** — specify limit for predictable page sizes
+
+### Endpoints with Cursor Pagination
+
+GET /v1/products, GET /v1/banners, GET /v1/banners/type/{type},
+GET /v1/articles, GET /v1/carts/user/{user_id}, GET /v1/orders,
+GET /v1/orders/user/{user_id}, GET /v1/deposites, GET /v1/deposites/user/{id},
+GET /v1/landfills, GET /v1/trash/types, GET /v1/sallers/products/{id}
 
 **Base URL:** `http://localhost:3000/v1`
 
@@ -59,9 +134,9 @@ Authentication (Firebase + JWT)
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| `password` | `string` | ✅ | — |
 | `name` | `string` | ✅ | — |
 | `email` | `string` | ✅ | — |
+| `password` | `string` | ✅ | — |
 
 #### Example cURL
 
@@ -133,85 +208,30 @@ curl -X POST 'http://localhost:3000/v1/auth' \
 
 Product catalog
 
-### 🔵 `/products/variant/{id}` 
+### 🟢 `/products` 
 
-**Add product variant** — `POST`
+**List products (public, no auth required)** — `GET`
 
 **Tags:** `products`
 
-#### Path Parameters
+#### Query Parameters
 
 | Name | Type | Required | Description |
 |------|------|----------|-------------|
-| `id` | `string` | ✅ | — |
-
-#### Request Body
-
-**Content-Type:** `json`
-**Actual Content-Type:** `application/json`
-**Required:** ✅
-
-**Schema:**
-
-| Field | Type | Required | Description |
-|-------|------|----------|-------------|
-| `image` | `string` | ❌ | — |
-| `price` | `integer` | ✅ | — |
-| `stock` | `integer` | ✅ | — |
-| `name` | `string` | ✅ | — |
+| `cursor` | `string` | ❌ | — |
+| `limit` | `integer` | ❌ | — |
+| `category` | `string` | ❌ | — |
+| `search` | `string` | ❌ | — |
 
 #### Example cURL
 
 ```bash
-curl -X POST 'http://localhost:3000/v1/products/variant/id-example' \
-  -d '{}'
+curl -X GET 'http://localhost:3000/v1/products?cursor=example-cursor&limit=1&category=example-category&search=example-search'
 ```
 
 #### Responses
 
-##### ✅ 201 `Created variant`
-
----
-
-### 🔵 `/products/create` 
-
-**Create product** — `POST`
-
-**Tags:** `products`
-
-#### Request Body
-
-**Content-Type:** `json`
-**Actual Content-Type:** `application/json`
-**Required:** ✅
-
-**Schema:**
-
-| Field | Type | Required | Description |
-|-------|------|----------|-------------|
-| `recommended` | `boolean` | ❌ | — |
-| `stock` | `integer` | ✅ | — |
-| `location` | `string` | ❌ | — |
-| `images` | `object` | ❌ | — |
-| `discount` | `integer` | ❌ | — |
-| `coin` | `integer` | ❌ | — |
-| `description` | `string` | ✅ | — |
-| `category` | `string` | ✅ | — |
-| `saller_id` | `string` | ❌ | — |
-| `name` | `string` | ✅ | — |
-| `thumbnail` | `string` | ❌ | — |
-| `price` | `integer` | ✅ | — |
-
-#### Example cURL
-
-```bash
-curl -X POST 'http://localhost:3000/v1/products/create' \
-  -d '{}'
-```
-
-#### Responses
-
-##### ✅ 201 `Created product`
+##### ✅ 200 `Paginated products`
 
 ---
 
@@ -235,9 +255,9 @@ curl -X GET 'http://localhost:3000/v1/products/id-example'
 
 #### Responses
 
-##### ✅ 200 `Product data`
-
 ##### ⚠️ 404 `Product not found`
+
+##### ✅ 200 `Product data`
 
 ---
 
@@ -301,36 +321,111 @@ curl -X DELETE 'http://localhost:3000/v1/products/id-example'
 
 ---
 
-### 🟢 `/products` 
+### 🔵 `/products/variant/{id}` 
 
-**List products (public, no auth required)** — `GET`
+**Add product variant** — `POST`
 
 **Tags:** `products`
 
-#### Query Parameters
+#### Path Parameters
 
 | Name | Type | Required | Description |
 |------|------|----------|-------------|
-| `cursor` | `string` | ❌ | — |
-| `limit` | `integer` | ❌ | — |
-| `category` | `string` | ❌ | — |
-| `search` | `string` | ❌ | — |
+| `id` | `string` | ✅ | — |
+
+#### Request Body
+
+**Content-Type:** `json`
+**Actual Content-Type:** `application/json`
+**Required:** ✅
+
+**Schema:**
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `image` | `string` | ❌ | — |
+| `stock` | `integer` | ✅ | — |
+| `name` | `string` | ✅ | — |
+| `price` | `integer` | ✅ | — |
 
 #### Example cURL
 
 ```bash
-curl -X GET 'http://localhost:3000/v1/products?cursor=example-cursor&limit=1&category=example-category&search=example-search'
+curl -X POST 'http://localhost:3000/v1/products/variant/id-example' \
+  -d '{}'
 ```
 
 #### Responses
 
-##### ✅ 200 `Paginated products`
+##### ✅ 201 `Created variant`
+
+---
+
+### 🔵 `/products/create` 
+
+**Create product** — `POST`
+
+**Tags:** `products`
+
+#### Request Body
+
+**Content-Type:** `json`
+**Actual Content-Type:** `application/json`
+**Required:** ✅
+
+**Schema:**
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `saller_id` | `string` | ❌ | — |
+| `price` | `integer` | ✅ | — |
+| `stock` | `integer` | ✅ | — |
+| `thumbnail` | `string` | ❌ | — |
+| `location` | `string` | ❌ | — |
+| `category` | `string` | ✅ | — |
+| `discount` | `integer` | ❌ | — |
+| `images` | `object` | ❌ | — |
+| `description` | `string` | ✅ | — |
+| `recommended` | `boolean` | ❌ | — |
+| `coin` | `integer` | ❌ | — |
+| `name` | `string` | ✅ | — |
+
+#### Example cURL
+
+```bash
+curl -X POST 'http://localhost:3000/v1/products/create' \
+  -d '{}'
+```
+
+#### Responses
+
+##### ✅ 201 `Created product`
 
 ---
 
 ## banners
 
 Banner management
+
+### 🟢 `/banners/type/{type}` 
+
+**List banners by type** — `GET`
+
+**Tags:** `banners`
+
+#### Path Parameters
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `type` | `string` | ✅ | — |
+
+#### Example cURL
+
+```bash
+curl -X GET 'http://localhost:3000/v1/banners/type/type-example'
+```
+
+---
 
 ### 🔵 `/banners/create` 
 
@@ -360,26 +455,6 @@ curl -X POST 'http://localhost:3000/v1/banners/create' \
 
 ---
 
-### 🟢 `/banners/type/{type}` 
-
-**List banners by type** — `GET`
-
-**Tags:** `banners`
-
-#### Path Parameters
-
-| Name | Type | Required | Description |
-|------|------|----------|-------------|
-| `type` | `string` | ✅ | — |
-
-#### Example cURL
-
-```bash
-curl -X GET 'http://localhost:3000/v1/banners/type/type-example'
-```
-
----
-
 ### 🟢 `/banners` 
 
 **List all banners (public)** — `GET`
@@ -390,12 +465,13 @@ curl -X GET 'http://localhost:3000/v1/banners/type/type-example'
 
 | Name | Type | Required | Description |
 |------|------|----------|-------------|
+| `cursor` | `string` | ❌ | — |
 | `limit` | `integer` | ❌ | — |
 
 #### Example cURL
 
 ```bash
-curl -X GET 'http://localhost:3000/v1/banners?limit=1'
+curl -X GET 'http://localhost:3000/v1/banners?cursor=example-cursor&limit=1'
 ```
 
 #### Responses
@@ -407,35 +483,6 @@ curl -X GET 'http://localhost:3000/v1/banners?limit=1'
 ## articles
 
 Article content
-
-### 🔵 `/articles/create` 
-
-**Create article** — `POST`
-
-**Tags:** `articles`
-
-#### Request Body
-
-**Content-Type:** `json`
-**Actual Content-Type:** `application/json`
-**Required:** ✅
-
-**Schema:**
-
-| Field | Type | Required | Description |
-|-------|------|----------|-------------|
-| `content` | `string` | ✅ | — |
-| `thumbnail` | `string` | ✅ | — |
-| `header` | `string` | ✅ | — |
-
-#### Example cURL
-
-```bash
-curl -X POST 'http://localhost:3000/v1/articles/create' \
-  -d '{}'
-```
-
----
 
 ### 🟢 `/articles/{id}` 
 
@@ -507,17 +554,47 @@ curl -X DELETE 'http://localhost:3000/v1/articles/id-example'
 
 | Name | Type | Required | Description |
 |------|------|----------|-------------|
+| `cursor` | `string` | ❌ | — |
 | `limit` | `integer` | ❌ | — |
 
 #### Example cURL
 
 ```bash
-curl -X GET 'http://localhost:3000/v1/articles?limit=1'
+curl -X GET 'http://localhost:3000/v1/articles?cursor=example-cursor&limit=1'
 ```
 
 #### Responses
 
 ##### ✅ 200 `Articles`
+
+---
+
+### 🔵 `/articles/create` 
+
+**Create article** — `POST`
+
+**Tags:** `articles`
+
+#### Request Body
+
+**Content-Type:** `json`
+**Actual Content-Type:** `application/json`
+**Required:** ✅
+
+**Schema:**
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `thumbnail` | `string` | ✅ | — |
+| `content` | `string` | ✅ | — |
+| `header` | `string` | ✅ | — |
+
+#### Example cURL
+
+```bash
+curl -X POST 'http://localhost:3000/v1/articles/create' \
+  -d '{}'
+```
 
 ---
 
@@ -567,9 +644,9 @@ curl -X GET 'http://localhost:3000/v1/profile/email-example'
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
+| `phone_number` | `string` | ❌ | — |
 | `name` | `string` | ❌ | — |
 | `role` | `string` | ❌ | — |
-| `phone_number` | `string` | ❌ | — |
 | `photo_url` | `string` | ❌ | — |
 
 #### Example cURL
@@ -584,36 +661,6 @@ curl -X PUT 'http://localhost:3000/v1/profile/email-example' \
 ## reviews
 
 Product reviews
-
-### 🔵 `/reviews` 
-
-**Create review (auth required)** — `POST`
-
-**Tags:** `reviews`
-
-#### Request Body
-
-**Content-Type:** `json`
-**Actual Content-Type:** `application/json`
-**Required:** ✅
-
-**Schema:**
-
-| Field | Type | Required | Description |
-|-------|------|----------|-------------|
-| `comment` | `string` | ✅ | — |
-| `product_id` | `string` | ✅ | — |
-| `images` | `object` | ❌ | — |
-| `rating` | `integer` | ✅ | — |
-
-#### Example cURL
-
-```bash
-curl -X POST 'http://localhost:3000/v1/reviews' \
-  -d '{}'
-```
-
----
 
 ### 🟠 `/reviews/{id}` 
 
@@ -649,6 +696,36 @@ curl -X PUT 'http://localhost:3000/v1/reviews/id-example' \
 
 ---
 
+### 🔵 `/reviews` 
+
+**Create review (auth required)** — `POST`
+
+**Tags:** `reviews`
+
+#### Request Body
+
+**Content-Type:** `json`
+**Actual Content-Type:** `application/json`
+**Required:** ✅
+
+**Schema:**
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `comment` | `string` | ✅ | — |
+| `product_id` | `string` | ✅ | — |
+| `images` | `object` | ❌ | — |
+| `rating` | `integer` | ✅ | — |
+
+#### Example cURL
+
+```bash
+curl -X POST 'http://localhost:3000/v1/reviews' \
+  -d '{}'
+```
+
+---
+
 ## carts
 
 Shopping cart
@@ -669,12 +746,13 @@ Shopping cart
 
 | Name | Type | Required | Description |
 |------|------|----------|-------------|
+| `cursor` | `string` | ❌ | — |
 | `limit` | `integer` | ❌ | — |
 
 #### Example cURL
 
 ```bash
-curl -X GET 'http://localhost:3000/v1/carts/user/user_id-example?limit=1'
+curl -X GET 'http://localhost:3000/v1/carts/user/user_id-example?cursor=example-cursor&limit=1'
 ```
 
 ---
@@ -702,8 +780,8 @@ curl -X GET 'http://localhost:3000/v1/carts/user/user_id-example?limit=1'
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
 | `variant_id` | `string` | ❌ | — |
-| `quantity` | `integer` | ✅ | — |
 | `product_id` | `string` | ✅ | — |
+| `quantity` | `integer` | ✅ | — |
 
 #### Example cURL
 
@@ -738,26 +816,6 @@ curl -X DELETE 'http://localhost:3000/v1/carts/item/id-example'
 
 Order management
 
-### 🔴 `/orders/{id}` 
-
-**Cancel order (auth required)** — `DELETE`
-
-**Tags:** `orders`
-
-#### Path Parameters
-
-| Name | Type | Required | Description |
-|------|------|----------|-------------|
-| `id` | `string` | ✅ | — |
-
-#### Example cURL
-
-```bash
-curl -X DELETE 'http://localhost:3000/v1/orders/id-example'
-```
-
----
-
 ### 🟢 `/orders` 
 
 **List all orders (admin)** — `GET`
@@ -768,12 +826,13 @@ curl -X DELETE 'http://localhost:3000/v1/orders/id-example'
 
 | Name | Type | Required | Description |
 |------|------|----------|-------------|
+| `cursor` | `string` | ❌ | — |
 | `limit` | `integer` | ❌ | — |
 
 #### Example cURL
 
 ```bash
-curl -X GET 'http://localhost:3000/v1/orders?limit=1'
+curl -X GET 'http://localhost:3000/v1/orders?cursor=example-cursor&limit=1'
 ```
 
 ---
@@ -790,10 +849,16 @@ curl -X GET 'http://localhost:3000/v1/orders?limit=1'
 |------|------|----------|-------------|
 | `user_id` | `string` | ✅ | — |
 
+#### Query Parameters
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `cursor` | `string` | ❌ | — |
+
 #### Example cURL
 
 ```bash
-curl -X GET 'http://localhost:3000/v1/orders/user/user_id-example'
+curl -X GET 'http://localhost:3000/v1/orders/user/user_id-example?cursor=example-cursor'
 ```
 
 ---
@@ -821,9 +886,9 @@ curl -X GET 'http://localhost:3000/v1/orders/user/user_id-example'
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
 | `product_id` | `string` | ✅ | — |
-| `payment` | `object` | ✅ | — |
 | `quantity` | `integer` | ✅ | — |
 | `coin` | `integer` | ❌ | — |
+| `payment` | `object` | ✅ | — |
 
 #### Example cURL
 
@@ -834,15 +899,11 @@ curl -X POST 'http://localhost:3000/v1/orders/user/user_id-example' \
 
 ---
 
-## deposites
+### 🔴 `/orders/{id}` 
 
-Waste deposite / pickup requests
+**Cancel order (auth required)** — `DELETE`
 
-### 🟢 `/deposites/user/{id}` 
-
-**Get user deposites** — `GET`
-
-**Tags:** `deposites`
+**Tags:** `orders`
 
 #### Path Parameters
 
@@ -853,10 +914,14 @@ Waste deposite / pickup requests
 #### Example cURL
 
 ```bash
-curl -X GET 'http://localhost:3000/v1/deposites/user/id-example'
+curl -X DELETE 'http://localhost:3000/v1/orders/id-example'
 ```
 
 ---
+
+## deposites
+
+Waste deposite / pickup requests
 
 ### 🟢 `/deposites` 
 
@@ -868,12 +933,13 @@ curl -X GET 'http://localhost:3000/v1/deposites/user/id-example'
 
 | Name | Type | Required | Description |
 |------|------|----------|-------------|
+| `cursor` | `string` | ❌ | — |
 | `limit` | `integer` | ❌ | — |
 
 #### Example cURL
 
 ```bash
-curl -X GET 'http://localhost:3000/v1/deposites?limit=1'
+curl -X GET 'http://localhost:3000/v1/deposites?cursor=example-cursor&limit=1'
 ```
 
 ---
@@ -894,14 +960,14 @@ curl -X GET 'http://localhost:3000/v1/deposites?limit=1'
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| `type` | `string` | ✅ | — |
-| `pickup_time` | `string` | ✅ | — |
-| `images` | `object` | ❌ | — |
-| `garbage_type` | `array` | ✅ | — |
-| `pickup_date` | `string` | ✅ | — |
-| `coin` | `integer` | ❌ | — |
-| `address_id` | `string` | ✅ | — |
 | `landfill_id` | `string` | ❌ | — |
+| `address_id` | `string` | ✅ | — |
+| `pickup_time` | `string` | ✅ | — |
+| `garbage_type` | `array` | ✅ | — |
+| `coin` | `integer` | ❌ | — |
+| `type` | `string` | ✅ | — |
+| `pickup_date` | `string` | ✅ | — |
+| `images` | `object` | ❌ | — |
 
 #### Example cURL
 
@@ -912,9 +978,84 @@ curl -X POST 'http://localhost:3000/v1/deposites' \
 
 ---
 
+### 🟢 `/deposites/user/{id}` 
+
+**Get user deposites** — `GET`
+
+**Tags:** `deposites`
+
+#### Path Parameters
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `id` | `string` | ✅ | — |
+
+#### Query Parameters
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `cursor` | `string` | ❌ | — |
+
+#### Example cURL
+
+```bash
+curl -X GET 'http://localhost:3000/v1/deposites/user/id-example?cursor=example-cursor'
+```
+
+---
+
 ## landfills
 
 Landfill locations
+
+### 🟢 `/landfills` 
+
+**List landfills (public)** — `GET`
+
+**Tags:** `landfills`
+
+#### Query Parameters
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `cursor` | `string` | ❌ | — |
+| `limit` | `integer` | ❌ | — |
+
+#### Example cURL
+
+```bash
+curl -X GET 'http://localhost:3000/v1/landfills?cursor=example-cursor&limit=1'
+```
+
+---
+
+### 🔵 `/landfills` 
+
+**Create landfill (admin)** — `POST`
+
+**Tags:** `landfills`
+
+#### Request Body
+
+**Content-Type:** `json`
+**Actual Content-Type:** `application/json`
+**Required:** ✅
+
+**Schema:**
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `address` | `string` | ✅ | — |
+| `name` | `string` | ✅ | — |
+
+#### Example cURL
+
+```bash
+curl -X POST 'http://localhost:3000/v1/landfills' \
+  -d '{}'
+```
+
+---
 
 ### 🟠 `/landfills/{id}` 
 
@@ -952,54 +1093,6 @@ curl -X PUT 'http://localhost:3000/v1/landfills/id-example'
 
 ```bash
 curl -X DELETE 'http://localhost:3000/v1/landfills/id-example'
-```
-
----
-
-### 🟢 `/landfills` 
-
-**List landfills (public)** — `GET`
-
-**Tags:** `landfills`
-
-#### Query Parameters
-
-| Name | Type | Required | Description |
-|------|------|----------|-------------|
-| `limit` | `integer` | ❌ | — |
-
-#### Example cURL
-
-```bash
-curl -X GET 'http://localhost:3000/v1/landfills?limit=1'
-```
-
----
-
-### 🔵 `/landfills` 
-
-**Create landfill (admin)** — `POST`
-
-**Tags:** `landfills`
-
-#### Request Body
-
-**Content-Type:** `json`
-**Actual Content-Type:** `application/json`
-**Required:** ✅
-
-**Schema:**
-
-| Field | Type | Required | Description |
-|-------|------|----------|-------------|
-| `name` | `string` | ✅ | — |
-| `address` | `string` | ✅ | — |
-
-#### Example cURL
-
-```bash
-curl -X POST 'http://localhost:3000/v1/landfills' \
-  -d '{}'
 ```
 
 ---
@@ -1058,12 +1151,13 @@ curl -X DELETE 'http://localhost:3000/v1/trash/type/id-example'
 
 | Name | Type | Required | Description |
 |------|------|----------|-------------|
+| `cursor` | `string` | ❌ | — |
 | `limit` | `integer` | ❌ | — |
 
 #### Example cURL
 
 ```bash
-curl -X GET 'http://localhost:3000/v1/trash/types?limit=1'
+curl -X GET 'http://localhost:3000/v1/trash/types?cursor=example-cursor&limit=1'
 ```
 
 ---
@@ -1084,8 +1178,8 @@ curl -X GET 'http://localhost:3000/v1/trash/types?limit=1'
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| `image` | `string` | ❌ | — |
 | `name` | `string` | ✅ | — |
+| `image` | `string` | ❌ | — |
 
 #### Example cURL
 
@@ -1122,10 +1216,10 @@ User addresses
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| `address` | `string` | ✅ | — |
-| `phone_number` | `string` | ✅ | — |
 | `main` | `boolean` | ❌ | — |
+| `address` | `string` | ✅ | — |
 | `label` | `string` | ✅ | — |
+| `phone_number` | `string` | ✅ | — |
 
 #### Example cURL
 
@@ -1176,12 +1270,13 @@ Seller product listing
 
 | Name | Type | Required | Description |
 |------|------|----------|-------------|
+| `cursor` | `string` | ❌ | — |
 | `limit` | `integer` | ❌ | — |
 
 #### Example cURL
 
 ```bash
-curl -X GET 'http://localhost:3000/v1/sallers/products/id-example?limit=1'
+curl -X GET 'http://localhost:3000/v1/sallers/products/id-example?cursor=example-cursor&limit=1'
 ```
 
 ---

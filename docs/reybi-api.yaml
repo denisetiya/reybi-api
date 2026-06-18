@@ -1,212 +1,353 @@
-openapi: "3.0.3"
+openapi: 3.0.3
 info:
   title: Reybi API
-  version: "1.0.0"
-  description: |
-    Reybi API — Rust rewrite (Axum 0.8).
-    E-commerce platform with cart, orders, deposite, waste management.
+  version: 1.0.0
+  description: "Reybi API — Rust rewrite (Axum 0.8).\nE-commerce platform with cart, orders, deposite, waste management.\n\n## Cursor Pagination\n\nAll list endpoints use cursor-based pagination (NO offset).\
+    \ This ensures stable\npagination even when rows are inserted/deleted between requests.\n\n### How It Works\n\n```\nGET /v1/products?cursor=eyJpZCI6NTB9&limit=25\n```\n\n1. **First page** — omit `cursor`,\
+    \ API returns first N items\n2. **Next pages** — use `cursor` from `meta.pagination` of previous response\n3. **Last page** — `has_more: false`, `cursor: null`\n\n### Response Format\n\n```json\n{\n\
+    \  \"success\": true,\n  \"data\": [ ... ],\n  \"meta\": {\n    \"locale\": \"en\",\n    \"pagination\": {\n      \"cursor\": \"eyJpZCI6MjV9\",\n      \"has_more\": true,\n      \"count\": 25\n    }\n\
+    \  }\n}\n```\n\n| Field | Type | Description |\n|-------|------|-------------|\n| `meta.pagination.cursor` | string\\|null | Opaque token for next page. `null` when has_more=false |\n| `meta.pagination.has_more`\
+    \ | bool | `true` if more items exist after this page |\n| `meta.pagination.count` | int | Number of items in THIS page (not total) |\n\n### Query Parameters\n\n| Param | Type | Default | Max | Description\
+    \ |\n|-------|------|---------|-----|-------------|\n| `cursor` | string | — | — | Opaque token from previous page (omit for first page) |\n| `limit` | integer | 25 | 100 | Items per page |\n\n### Example\
+    \ Flow\n\n```bash\n# Page 1 — first 25 products\ncurl \"http://localhost:3000/v1/products?limit=25\"\n# Response: meta.pagination.cursor = \"eyJpZCI6MjV9\", has_more = true\n\n# Page 2 — use cursor\
+    \ from page 1\ncurl \"http://localhost:3000/v1/products?cursor=eyJpZCI6MjV9&limit=25\"\n# Response: meta.pagination.cursor = \"eyJpZCI6NTB9\", has_more = true\n\n# Page 3 — last page (say 12 items remain)\n\
+    curl \"http://localhost:3000/v1/products?cursor=eyJpZCI6NTB9&limit=25\"\n# Response: meta.pagination.cursor = null, has_more = false, count = 12\n```\n\n### Important\n\n- **Cursor is opaque** — never\
+    \ parse or construct it client-side\n- **has_more=false** means end of dataset\n- **count** is current page items, not total\n- **Order** — created_at DESC, id DESC\n- **Default limit is 25** — specify\
+    \ limit for predictable page sizes\n\n### Endpoints with Cursor Pagination\n\nGET /v1/products, GET /v1/banners, GET /v1/banners/type/{type},\nGET /v1/articles, GET /v1/carts/user/{user_id}, GET /v1/orders,\n\
+    GET /v1/orders/user/{user_id}, GET /v1/deposites, GET /v1/deposites/user/{id},\nGET /v1/landfills, GET /v1/trash/types, GET /v1/sallers/products/{id}"
   contact:
     name: Denisetiya
-
 servers:
-  - url: http://localhost:3000/v1
-    description: Development
-
+- url: http://localhost:3000/v1
+  description: Development
 tags:
-  - name: auth
-    description: Authentication (Firebase + JWT)
-  - name: products
-    description: Product catalog
-  - name: banners
-    description: Banner management
-  - name: articles
-    description: Article content
-  - name: profile
-    description: User profile
-  - name: reviews
-    description: Product reviews
-  - name: carts
-    description: Shopping cart
-  - name: orders
-    description: Order management
-  - name: deposites
-    description: Waste deposite / pickup requests
-  - name: landfills
-    description: Landfill locations
-  - name: trash
-    description: Trash type management
-  - name: addresses
-    description: User addresses
-  - name: sallers
-    description: Seller product listing
-
+- name: auth
+  description: Authentication (Firebase + JWT)
+- name: products
+  description: Product catalog
+- name: banners
+  description: Banner management
+- name: articles
+  description: Article content
+- name: profile
+  description: User profile
+- name: reviews
+  description: Product reviews
+- name: carts
+  description: Shopping cart
+- name: orders
+  description: Order management
+- name: deposites
+  description: Waste deposite / pickup requests
+- name: landfills
+  description: Landfill locations
+- name: trash
+  description: Trash type management
+- name: addresses
+  description: User addresses
+- name: sallers
+  description: Seller product listing
 components:
   securitySchemes:
     BearerAuth:
       type: http
       scheme: bearer
-      description: "Firebase ID token (login) or JWT access token (API access)"
+      description: Firebase ID token (login) or JWT access token (API access)
   headers:
     x-refresh-token:
-      schema: { type: string }
+      schema:
+        type: string
       description: Refresh JWT — used to auto-rotate access token
     x-new-access-token:
-      schema: { type: string }
+      schema:
+        type: string
       description: New access token when refresh succeeds
-
   schemas:
     SuccessResponse:
       type: object
       properties:
-        success: { type: boolean }
+        success:
+          type: boolean
         data: {}
         meta:
           type: object
           properties:
-            locale: { type: string }
+            locale:
+              type: string
     PaginationMeta:
       type: object
       properties:
-        cursor: { type: string, nullable: true }
-        has_more: { type: boolean }
-        count: { type: integer }
+        cursor:
+          type: string
+          nullable: true
+        has_more:
+          type: boolean
+        count:
+          type: integer
     Product:
       type: object
       properties:
-        id: { type: string, format: uuid }
-        name: { type: string }
-        price: { type: integer }
-        stock: { type: integer }
-        description: { type: string }
-        category: { type: string }
-        location: { type: string, nullable: true }
-        discount: { type: integer, nullable: true }
-        coin: { type: integer, nullable: true }
-        recommended: { type: boolean, nullable: true }
-        thumbnail: { type: string, nullable: true }
-        images: { type: object, nullable: true }
-        saller_id: { type: string, format: uuid, nullable: true }
-        created_at: { type: string, format: date-time }
-        updated_at: { type: string, format: date-time }
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        price:
+          type: integer
+        stock:
+          type: integer
+        description:
+          type: string
+        category:
+          type: string
+        location:
+          type: string
+          nullable: true
+        discount:
+          type: integer
+          nullable: true
+        coin:
+          type: integer
+          nullable: true
+        recommended:
+          type: boolean
+          nullable: true
+        thumbnail:
+          type: string
+          nullable: true
+        images:
+          type: object
+          nullable: true
+        saller_id:
+          type: string
+          format: uuid
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
     Banner:
       type: object
       properties:
-        id: { type: string, format: uuid }
-        image: { type: string }
-        type: { type: string, nullable: true }
-        created_at: { type: string, format: date-time }
+        id:
+          type: string
+          format: uuid
+        image:
+          type: string
+        type:
+          type: string
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
     Article:
       type: object
       properties:
-        id: { type: string, format: uuid }
-        thumbnail: { type: string }
-        header: { type: string }
-        content: { type: string }
-        created_at: { type: string, format: date-time }
+        id:
+          type: string
+          format: uuid
+        thumbnail:
+          type: string
+        header:
+          type: string
+        content:
+          type: string
+        created_at:
+          type: string
+          format: date-time
     Cart:
       type: object
       properties:
-        id: { type: string, format: uuid }
-        user_id: { type: string, format: uuid }
-        product_id: { type: string, format: uuid }
-        variant_id: { type: string, format: uuid, nullable: true }
-        quantity: { type: integer }
-        created_at: { type: string, format: date-time }
+        id:
+          type: string
+          format: uuid
+        user_id:
+          type: string
+          format: uuid
+        product_id:
+          type: string
+          format: uuid
+        variant_id:
+          type: string
+          format: uuid
+          nullable: true
+        quantity:
+          type: integer
+        created_at:
+          type: string
+          format: date-time
     Order:
       type: object
       properties:
-        id: { type: string, format: uuid }
-        user_id: { type: string, format: uuid }
-        product_id: { type: string, format: uuid }
-        quantity: { type: integer }
-        coin: { type: integer, nullable: true }
-        created_at: { type: string, format: date-time }
+        id:
+          type: string
+          format: uuid
+        user_id:
+          type: string
+          format: uuid
+        product_id:
+          type: string
+          format: uuid
+        quantity:
+          type: integer
+        coin:
+          type: integer
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
     Deposite:
       type: object
       properties:
-        id: { type: string, format: uuid }
-        user_id: { type: string, format: uuid }
-        type: { type: string }
-        pickup_date: { type: string }
-        pickup_time: { type: string }
-        coin: { type: integer, nullable: true }
-        address_id: { type: string, format: uuid }
-        landfill_id: { type: string, format: uuid, nullable: true }
-        images: { type: object, nullable: true }
-        created_at: { type: string, format: date-time }
+        id:
+          type: string
+          format: uuid
+        user_id:
+          type: string
+          format: uuid
+        type:
+          type: string
+        pickup_date:
+          type: string
+        pickup_time:
+          type: string
+        coin:
+          type: integer
+          nullable: true
+        address_id:
+          type: string
+          format: uuid
+        landfill_id:
+          type: string
+          format: uuid
+          nullable: true
+        images:
+          type: object
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
     Landfill:
       type: object
       properties:
-        id: { type: string, format: uuid }
-        name: { type: string }
-        address: { type: string }
-        created_at: { type: string, format: date-time }
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        address:
+          type: string
+        created_at:
+          type: string
+          format: date-time
     TrashType:
       type: object
       properties:
-        id: { type: string, format: uuid }
-        name: { type: string }
-        image: { type: string }
-        created_at: { type: string, format: date-time }
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        image:
+          type: string
+        created_at:
+          type: string
+          format: date-time
     Address:
       type: object
       properties:
-        id: { type: string, format: uuid }
-        user_id: { type: string, format: uuid }
-        address: { type: string }
-        label: { type: string }
-        phone_number: { type: string }
-        main: { type: boolean }
-        created_at: { type: string, format: date-time }
+        id:
+          type: string
+          format: uuid
+        user_id:
+          type: string
+          format: uuid
+        address:
+          type: string
+        label:
+          type: string
+        phone_number:
+          type: string
+        main:
+          type: boolean
+        created_at:
+          type: string
+          format: date-time
     ReviewProduct:
       type: object
       properties:
-        id: { type: string, format: uuid }
-        product_id: { type: string, format: uuid }
-        user_id: { type: string, format: uuid }
-        comment: { type: string }
-        rating: { type: integer }
-        images: { type: object, nullable: true }
-        created_at: { type: string, format: date-time }
-
+        id:
+          type: string
+          format: uuid
+        product_id:
+          type: string
+          format: uuid
+        user_id:
+          type: string
+          format: uuid
+        comment:
+          type: string
+        rating:
+          type: integer
+        images:
+          type: object
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
 paths:
   /auth:
     post:
-      tags: [auth]
+      tags:
+      - auth
       summary: Login (Firebase token → JWT)
-      security: [{ BearerAuth: [] }]
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema: { type: object }
-      responses:
-        "200":
-          description: JWT tokens + user data
-          headers:
-            x-new-access-token:
-              schema: { type: string }
-
-  /auth/register:
-    post:
-      tags: [auth]
-      summary: Register new user
-      security: [{ BearerAuth: [] }]
+      security:
+      - BearerAuth: []
       requestBody:
         required: true
         content:
           application/json:
             schema:
               type: object
-              required: [name, email, password]
+      responses:
+        '200':
+          description: JWT tokens + user data
+          headers:
+            x-new-access-token:
+              schema:
+                type: string
+  /auth/register:
+    post:
+      tags:
+      - auth
+      summary: Register new user
+      security:
+      - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - name
+              - email
+              - password
               properties:
-                name: { type: string }
-                email: { type: string, format: email }
-                password: { type: string, minLength: 8 }
-
+                name:
+                  type: string
+                email:
+                  type: string
+                  format: email
+                password:
+                  type: string
+                  minLength: 8
   /auth/reset-password:
     post:
-      tags: [auth]
+      tags:
+      - auth
       summary: Request password reset
       requestBody:
         required: true
@@ -214,55 +355,93 @@ paths:
           application/json:
             schema:
               type: object
-              required: [email]
+              required:
+              - email
               properties:
-                email: { type: string, format: email }
-
+                email:
+                  type: string
+                  format: email
   /products:
     get:
-      tags: [products]
+      tags:
+      - products
       summary: List products (public, no auth required)
       parameters:
-        - { name: cursor, in: query, schema: { type: string } }
-        - { name: limit, in: query, schema: { type: integer, default: 25 } }
-        - { name: category, in: query, schema: { type: string } }
-        - { name: search, in: query, schema: { type: string } }
+      - name: cursor
+        in: query
+        schema:
+          type: string
+      - name: limit
+        in: query
+        schema:
+          type: integer
+          default: 25
+      - name: category
+        in: query
+        schema:
+          type: string
+      - name: search
+        in: query
+        schema:
+          type: string
       responses:
-        "200":
+        '200':
           description: Paginated products
-
   /products/{id}:
     get:
-      tags: [products]
+      tags:
+      - products
       summary: Get product by ID
       parameters:
-        - { name: id, in: path, required: true, schema: { type: string, format: uuid } }
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
       responses:
-        "200": { description: Product data }
-        "404": { description: Product not found }
+        '200':
+          description: Product data
+        '404':
+          description: Product not found
     put:
-      tags: [products]
+      tags:
+      - products
       summary: Update product
       parameters:
-        - { name: id, in: path, required: true, schema: { type: string, format: uuid } }
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
       requestBody:
         required: true
         content:
           application/json:
-            schema: { $ref: "#/components/schemas/Product" }
+            schema:
+              $ref: '#/components/schemas/Product'
       responses:
-        "200": { description: Updated product }
+        '200':
+          description: Updated product
     delete:
-      tags: [products]
+      tags:
+      - products
       summary: Delete product
       parameters:
-        - { name: id, in: path, required: true, schema: { type: string, format: uuid } }
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
       responses:
-        "200": { description: Product deleted }
-
+        '200':
+          description: Product deleted
   /products/create:
     post:
-      tags: [products]
+      tags:
+      - products
       summary: Create product
       requestBody:
         required: true
@@ -270,63 +449,109 @@ paths:
           application/json:
             schema:
               type: object
-              required: [name, price, stock, description, category]
+              required:
+              - name
+              - price
+              - stock
+              - description
+              - category
               properties:
-                name: { type: string }
-                price: { type: integer }
-                stock: { type: integer }
-                description: { type: string }
-                category: { type: string }
-                location: { type: string }
-                discount: { type: integer }
-                coin: { type: integer }
-                recommended: { type: boolean }
-                saller_id: { type: string, format: uuid }
-                thumbnail: { type: string }
-                images: { type: object }
+                name:
+                  type: string
+                price:
+                  type: integer
+                stock:
+                  type: integer
+                description:
+                  type: string
+                category:
+                  type: string
+                location:
+                  type: string
+                discount:
+                  type: integer
+                coin:
+                  type: integer
+                recommended:
+                  type: boolean
+                saller_id:
+                  type: string
+                  format: uuid
+                thumbnail:
+                  type: string
+                images:
+                  type: object
       responses:
-        "201": { description: Created product }
-
+        '201':
+          description: Created product
   /products/variant/{id}:
     post:
-      tags: [products]
+      tags:
+      - products
       summary: Add product variant
       parameters:
-        - { name: id, in: path, required: true, schema: { type: string, format: uuid } }
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
       requestBody:
         required: true
         content:
           application/json:
             schema:
               type: object
-              required: [name, price, stock]
+              required:
+              - name
+              - price
+              - stock
               properties:
-                name: { type: string }
-                price: { type: integer }
-                stock: { type: integer }
-                image: { type: string }
+                name:
+                  type: string
+                price:
+                  type: integer
+                stock:
+                  type: integer
+                image:
+                  type: string
       responses:
-        "201": { description: Created variant }
-
+        '201':
+          description: Created variant
   /banners:
     get:
-      tags: [banners]
+      tags:
+      - banners
       summary: List all banners (public)
       parameters:
-        - { name: limit, in: query, schema: { type: integer, default: 25 } }
+      - &id001
+        name: cursor
+        in: query
+        schema:
+          type: string
+      - name: limit
+        in: query
+        schema:
+          type: integer
+          default: 25
       responses:
-        "200": { description: Banners }
-
+        '200':
+          description: Banners
   /banners/type/{type}:
     get:
-      tags: [banners]
+      tags:
+      - banners
       summary: List banners by type
       parameters:
-        - { name: type, in: path, required: true, schema: { type: string } }
-
+      - name: type
+        in: path
+        required: true
+        schema:
+          type: string
   /banners/create:
     post:
-      tags: [banners]
+      tags:
+      - banners
       summary: Create banner
       requestBody:
         required: true
@@ -334,40 +559,66 @@ paths:
           application/json:
             schema:
               type: object
-              required: [image]
+              required:
+              - image
               properties:
-                image: { type: string }
-                type: { type: string }
-
+                image:
+                  type: string
+                type:
+                  type: string
   /articles:
     get:
-      tags: [articles]
+      tags:
+      - articles
       summary: List articles (public)
       parameters:
-        - { name: limit, in: query, schema: { type: integer, default: 25 } }
+      - *id001
+      - name: limit
+        in: query
+        schema:
+          type: integer
+          default: 25
       responses:
-        "200": { description: Articles }
-
+        '200':
+          description: Articles
   /articles/{id}:
     get:
-      tags: [articles]
+      tags:
+      - articles
       summary: Get article by ID
       parameters:
-        - { name: id, in: path, required: true, schema: { type: string, format: uuid } }
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
     put:
-      tags: [articles]
+      tags:
+      - articles
       summary: Update article
       parameters:
-        - { name: id, in: path, required: true, schema: { type: string, format: uuid } }
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
     delete:
-      tags: [articles]
+      tags:
+      - articles
       summary: Delete article
       parameters:
-        - { name: id, in: path, required: true, schema: { type: string, format: uuid } }
-
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
   /articles/create:
     post:
-      tags: [articles]
+      tags:
+      - articles
       summary: Create article
       requestBody:
         required: true
@@ -375,23 +626,38 @@ paths:
           application/json:
             schema:
               type: object
-              required: [thumbnail, header, content]
+              required:
+              - thumbnail
+              - header
+              - content
               properties:
-                thumbnail: { type: string }
-                header: { type: string }
-                content: { type: string }
-
+                thumbnail:
+                  type: string
+                header:
+                  type: string
+                content:
+                  type: string
   /profile/{email}:
     get:
-      tags: [profile]
+      tags:
+      - profile
       summary: Get user profile
       parameters:
-        - { name: email, in: path, required: true, schema: { type: string } }
+      - name: email
+        in: path
+        required: true
+        schema:
+          type: string
     put:
-      tags: [profile]
+      tags:
+      - profile
       summary: Update user profile
       parameters:
-        - { name: email, in: path, required: true, schema: { type: string } }
+      - name: email
+        in: path
+        required: true
+        schema:
+          type: string
       requestBody:
         required: true
         content:
@@ -399,14 +665,18 @@ paths:
             schema:
               type: object
               properties:
-                name: { type: string }
-                photo_url: { type: string }
-                role: { type: string }
-                phone_number: { type: string }
-
+                name:
+                  type: string
+                photo_url:
+                  type: string
+                role:
+                  type: string
+                phone_number:
+                  type: string
   /reviews:
     post:
-      tags: [reviews]
+      tags:
+      - reviews
       summary: Create review (auth required)
       requestBody:
         required: true
@@ -414,19 +684,34 @@ paths:
           application/json:
             schema:
               type: object
-              required: [product_id, comment, rating]
+              required:
+              - product_id
+              - comment
+              - rating
               properties:
-                product_id: { type: string, format: uuid }
-                comment: { type: string }
-                rating: { type: integer, minimum: 1, maximum: 5 }
-                images: { type: object }
-
+                product_id:
+                  type: string
+                  format: uuid
+                comment:
+                  type: string
+                rating:
+                  type: integer
+                  minimum: 1
+                  maximum: 5
+                images:
+                  type: object
   /reviews/{id}:
     put:
-      tags: [reviews]
+      tags:
+      - reviews
       summary: Update review (auth required)
       parameters:
-        - { name: id, in: path, required: true, schema: { type: string, format: uuid } }
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
       requestBody:
         required: true
         content:
@@ -434,92 +719,164 @@ paths:
             schema:
               type: object
               properties:
-                comment: { type: string }
-                rating: { type: integer }
-
+                comment:
+                  type: string
+                rating:
+                  type: integer
   /carts/user/{user_id}:
     get:
-      tags: [carts]
+      tags:
+      - carts
       summary: Get user cart
       parameters:
-        - { name: user_id, in: path, required: true, schema: { type: string, format: uuid } }
-        - { name: limit, in: query, schema: { type: integer, default: 25 } }
+      - *id001
+      - name: user_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: limit
+        in: query
+        schema:
+          type: integer
+          default: 25
     post:
-      tags: [carts]
+      tags:
+      - carts
       summary: Add item to cart
       parameters:
-        - { name: user_id, in: path, required: true, schema: { type: string, format: uuid } }
+      - name: user_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
       requestBody:
         required: true
         content:
           application/json:
             schema:
               type: object
-              required: [product_id, quantity]
+              required:
+              - product_id
+              - quantity
               properties:
-                product_id: { type: string, format: uuid }
-                quantity: { type: integer, minimum: 1 }
-                variant_id: { type: string, format: uuid }
-
+                product_id:
+                  type: string
+                  format: uuid
+                quantity:
+                  type: integer
+                  minimum: 1
+                variant_id:
+                  type: string
+                  format: uuid
   /carts/item/{id}:
     delete:
-      tags: [carts]
+      tags:
+      - carts
       summary: Remove cart item
       parameters:
-        - { name: id, in: path, required: true, schema: { type: string, format: uuid } }
-
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
   /orders:
     get:
-      tags: [orders]
+      tags:
+      - orders
       summary: List all orders (admin)
       parameters:
-        - { name: limit, in: query, schema: { type: integer, default: 25 } }
-
+      - *id001
+      - name: limit
+        in: query
+        schema:
+          type: integer
+          default: 25
   /orders/user/{user_id}:
     get:
-      tags: [orders]
+      tags:
+      - orders
       summary: Get user orders
       parameters:
-        - { name: user_id, in: path, required: true, schema: { type: string, format: uuid } }
+      - *id001
+      - name: user_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
     post:
-      tags: [orders]
+      tags:
+      - orders
       summary: Create order (auth required)
       parameters:
-        - { name: user_id, in: path, required: true, schema: { type: string, format: uuid } }
+      - name: user_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
       requestBody:
         required: true
         content:
           application/json:
             schema:
               type: object
-              required: [product_id, quantity, payment]
+              required:
+              - product_id
+              - quantity
+              - payment
               properties:
-                product_id: { type: string, format: uuid }
-                quantity: { type: integer }
-                coin: { type: integer }
+                product_id:
+                  type: string
+                  format: uuid
+                quantity:
+                  type: integer
+                coin:
+                  type: integer
                 payment:
                   type: object
-                  required: [method, type, amount]
+                  required:
+                  - method
+                  - type
+                  - amount
                   properties:
-                    method: { type: string }
-                    type: { type: string }
-                    amount: { type: number }
-
+                    method:
+                      type: string
+                    type:
+                      type: string
+                    amount:
+                      type: number
   /orders/{id}:
     delete:
-      tags: [orders]
+      tags:
+      - orders
       summary: Cancel order (auth required)
       parameters:
-        - { name: id, in: path, required: true, schema: { type: string, format: uuid } }
-
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
   /deposites:
     get:
-      tags: [deposites]
+      tags:
+      - deposites
       summary: List all deposites (admin)
       parameters:
-        - { name: limit, in: query, schema: { type: integer, default: 25 } }
+      - *id001
+      - name: limit
+        in: query
+        schema:
+          type: integer
+          default: 25
     post:
-      tags: [deposites]
+      tags:
+      - deposites
       summary: Create deposite (auth required)
       requestBody:
         required: true
@@ -527,38 +884,67 @@ paths:
           application/json:
             schema:
               type: object
-              required: [address_id, type, pickup_date, pickup_time, garbage_type]
+              required:
+              - address_id
+              - type
+              - pickup_date
+              - pickup_time
+              - garbage_type
               properties:
-                address_id: { type: string, format: uuid }
-                type: { type: string }
-                pickup_date: { type: string }
-                pickup_time: { type: string }
-                coin: { type: integer }
-                images: { type: object }
-                landfill_id: { type: string, format: uuid }
+                address_id:
+                  type: string
+                  format: uuid
+                type:
+                  type: string
+                pickup_date:
+                  type: string
+                pickup_time:
+                  type: string
+                coin:
+                  type: integer
+                images:
+                  type: object
+                landfill_id:
+                  type: string
+                  format: uuid
                 garbage_type:
                   type: array
                   items:
                     type: object
                     properties:
-                      trash_type_id: { type: string, format: uuid }
-                      amount: { type: integer }
-
+                      trash_type_id:
+                        type: string
+                        format: uuid
+                      amount:
+                        type: integer
   /deposites/user/{id}:
     get:
-      tags: [deposites]
+      tags:
+      - deposites
       summary: Get user deposites
       parameters:
-        - { name: id, in: path, required: true, schema: { type: string, format: uuid } }
-
+      - *id001
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
   /landfills:
     get:
-      tags: [landfills]
+      tags:
+      - landfills
       summary: List landfills (public)
       parameters:
-        - { name: limit, in: query, schema: { type: integer, default: 25 } }
+      - *id001
+      - name: limit
+        in: query
+        schema:
+          type: integer
+          default: 25
     post:
-      tags: [landfills]
+      tags:
+      - landfills
       summary: Create landfill (admin)
       requestBody:
         required: true
@@ -566,31 +952,52 @@ paths:
           application/json:
             schema:
               type: object
-              required: [name, address]
+              required:
+              - name
+              - address
               properties:
-                name: { type: string }
-                address: { type: string }
-
+                name:
+                  type: string
+                address:
+                  type: string
   /landfills/{id}:
     put:
-      tags: [landfills]
+      tags:
+      - landfills
       summary: Update landfill (admin)
       parameters:
-        - { name: id, in: path, required: true, schema: { type: string, format: uuid } }
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
     delete:
-      tags: [landfills]
+      tags:
+      - landfills
       summary: Delete landfill (admin)
       parameters:
-        - { name: id, in: path, required: true, schema: { type: string, format: uuid } }
-
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
   /trash/types:
     get:
-      tags: [trash]
+      tags:
+      - trash
       summary: List trash types (public)
       parameters:
-        - { name: limit, in: query, schema: { type: integer, default: 25 } }
+      - *id001
+      - name: limit
+        in: query
+        schema:
+          type: integer
+          default: 25
     post:
-      tags: [trash]
+      tags:
+      - trash
       summary: Create trash type (admin)
       requestBody:
         required: true
@@ -598,51 +1005,93 @@ paths:
           application/json:
             schema:
               type: object
-              required: [name]
+              required:
+              - name
               properties:
-                name: { type: string }
-                image: { type: string }
-
+                name:
+                  type: string
+                image:
+                  type: string
   /trash/type/{id}:
     put:
-      tags: [trash]
+      tags:
+      - trash
       summary: Update trash type (admin)
       parameters:
-        - { name: id, in: path, required: true, schema: { type: string, format: uuid } }
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
     delete:
-      tags: [trash]
+      tags:
+      - trash
       summary: Delete trash type (admin)
       parameters:
-        - { name: id, in: path, required: true, schema: { type: string, format: uuid } }
-
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
   /addresses/user/{user_id}:
     post:
-      tags: [addresses]
+      tags:
+      - addresses
       summary: Create address (auth required)
       parameters:
-        - { name: user_id, in: path, required: true, schema: { type: string, format: uuid } }
+      - name: user_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
       requestBody:
         required: true
         content:
           application/json:
             schema:
               type: object
-              required: [address, label, phone_number]
+              required:
+              - address
+              - label
+              - phone_number
               properties:
-                address: { type: string }
-                label: { type: string }
-                phone_number: { type: string }
-                main: { type: boolean }
+                address:
+                  type: string
+                label:
+                  type: string
+                phone_number:
+                  type: string
+                main:
+                  type: boolean
     put:
-      tags: [addresses]
+      tags:
+      - addresses
       summary: Update address (auth required)
       parameters:
-        - { name: user_id, in: path, required: true, schema: { type: string, format: uuid } }
-
+      - name: user_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
   /sallers/products/{id}:
     get:
-      tags: [sallers]
+      tags:
+      - sallers
       summary: Get seller products
       parameters:
-        - { name: id, in: path, required: true, schema: { type: string, format: uuid } }
-        - { name: limit, in: query, schema: { type: integer, default: 25 } }
+      - *id001
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: limit
+        in: query
+        schema:
+          type: integer
+          default: 25

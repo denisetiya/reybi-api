@@ -42,7 +42,7 @@
     }
   },
   "info": {
-    "description": "Reybi API — Rust rewrite (Axum 0.8).\nE-commerce platform with cart, orders, deposite, waste management.\n",
+    "description": "Reybi API — Rust rewrite (Axum 0.8).\nE-commerce platform with cart, orders, deposite, waste management.\n\n## Cursor Pagination\n\nAll list endpoints use cursor-based pagination (NO offset). This ensures stable\npagination even when rows are inserted/deleted between requests.\n\n### How It Works\n\n```\nGET /v1/products?cursor=eyJpZCI6NTB9&limit=25\n```\n\n1. **First page** — omit `cursor`, API returns first N items\n2. **Next pages** — use `cursor` from `meta.pagination` of previous response\n3. **Last page** — `has_more: false`, `cursor: null`\n\n### Response Format\n\n```json\n{\n  \"success\": true,\n  \"data\": [ ... ],\n  \"meta\": {\n    \"locale\": \"en\",\n    \"pagination\": {\n      \"cursor\": \"eyJpZCI6MjV9\",\n      \"has_more\": true,\n      \"count\": 25\n    }\n  }\n}\n```\n\n| Field | Type | Description |\n|-------|------|-------------|\n| `meta.pagination.cursor` | string\\|null | Opaque token for next page. `null` when has_more=false |\n| `meta.pagination.has_more` | bool | `true` if more items exist after this page |\n| `meta.pagination.count` | int | Number of items in THIS page (not total) |\n\n### Query Parameters\n\n| Param | Type | Default | Max | Description |\n|-------|------|---------|-----|-------------|\n| `cursor` | string | — | — | Opaque token from previous page (omit for first page) |\n| `limit` | integer | 25 | 100 | Items per page |\n\n### Example Flow\n\n```bash\n# Page 1 — first 25 products\ncurl \"http://localhost:3000/v1/products?limit=25\"\n# Response: meta.pagination.cursor = \"eyJpZCI6MjV9\", has_more = true\n\n# Page 2 — use cursor from page 1\ncurl \"http://localhost:3000/v1/products?cursor=eyJpZCI6MjV9&limit=25\"\n# Response: meta.pagination.cursor = \"eyJpZCI6NTB9\", has_more = true\n\n# Page 3 — last page (say 12 items remain)\ncurl \"http://localhost:3000/v1/products?cursor=eyJpZCI6NTB9&limit=25\"\n# Response: meta.pagination.cursor = null, has_more = false, count = 12\n```\n\n### Important\n\n- **Cursor is opaque** — never parse or construct it client-side\n- **has_more=false** means end of dataset\n- **count** is current page items, not total\n- **Order** — created_at DESC, id DESC\n- **Default limit is 25** — specify limit for predictable page sizes\n\n### Endpoints with Cursor Pagination\n\nGET /v1/products, GET /v1/banners, GET /v1/banners/type/{type},\nGET /v1/articles, GET /v1/carts/user/{user_id}, GET /v1/orders,\nGET /v1/orders/user/{user_id}, GET /v1/deposites, GET /v1/deposites/user/{id},\nGET /v1/landfills, GET /v1/trash/types, GET /v1/sallers/products/{id}",
     "title": "Reybi API",
     "version": "1.0.0"
   },
@@ -81,8 +81,8 @@
                 },
                 "required": [
                   "address",
-                  "phone_number",
-                  "label"
+                  "label",
+                  "phone_number"
                 ],
                 "type": "object"
               }
@@ -116,6 +116,14 @@
       "get": {
         "operationId": "get-articles",
         "parameters": [
+          {
+            "in": "query",
+            "name": "cursor",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
           {
             "in": "query",
             "name": "limit",
@@ -155,8 +163,8 @@
                   }
                 },
                 "required": [
-                  "content",
                   "thumbnail",
+                  "content",
                   "header"
                 ],
                 "type": "object"
@@ -266,9 +274,9 @@
                   }
                 },
                 "required": [
-                  "password",
                   "name",
-                  "email"
+                  "email",
+                  "password"
                 ],
                 "type": "object"
               }
@@ -311,6 +319,14 @@
       "get": {
         "operationId": "get-banners",
         "parameters": [
+          {
+            "in": "query",
+            "name": "cursor",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
           {
             "in": "query",
             "name": "limit",
@@ -412,6 +428,14 @@
           },
           {
             "in": "query",
+            "name": "cursor",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
             "name": "limit",
             "required": false,
             "schema": {
@@ -452,8 +476,8 @@
                   }
                 },
                 "required": [
-                  "quantity",
-                  "product_id"
+                  "product_id",
+                  "quantity"
                 ],
                 "type": "object"
               }
@@ -470,6 +494,14 @@
       "get": {
         "operationId": "get-deposites",
         "parameters": [
+          {
+            "in": "query",
+            "name": "cursor",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
           {
             "in": "query",
             "name": "limit",
@@ -517,11 +549,11 @@
                   }
                 },
                 "required": [
-                  "type",
+                  "address_id",
                   "pickup_time",
                   "garbage_type",
-                  "pickup_date",
-                  "address_id"
+                  "type",
+                  "pickup_date"
                 ],
                 "type": "object"
               }
@@ -545,6 +577,14 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "in": "query",
+            "name": "cursor",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "summary": "Get user deposites",
@@ -557,6 +597,14 @@
       "get": {
         "operationId": "get-landfills",
         "parameters": [
+          {
+            "in": "query",
+            "name": "cursor",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
           {
             "in": "query",
             "name": "limit",
@@ -586,8 +634,8 @@
                   }
                 },
                 "required": [
-                  "name",
-                  "address"
+                  "address",
+                  "name"
                 ],
                 "type": "object"
               }
@@ -642,6 +690,14 @@
         "parameters": [
           {
             "in": "query",
+            "name": "cursor",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
             "name": "limit",
             "required": false,
             "schema": {
@@ -663,6 +719,14 @@
             "in": "path",
             "name": "user_id",
             "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "cursor",
+            "required": false,
             "schema": {
               "type": "string"
             }
@@ -705,8 +769,8 @@
                 },
                 "required": [
                   "product_id",
-                  "payment",
-                  "quantity"
+                  "quantity",
+                  "payment"
                 ],
                 "type": "object"
               }
@@ -832,11 +896,11 @@
                   }
                 },
                 "required": [
+                  "price",
                   "stock",
-                  "description",
                   "category",
-                  "name",
-                  "price"
+                  "description",
+                  "name"
                 ],
                 "type": "object"
               }
@@ -886,9 +950,9 @@
                   }
                 },
                 "required": [
-                  "price",
                   "stock",
-                  "name"
+                  "name",
+                  "price"
                 ],
                 "type": "object"
               }
@@ -1133,6 +1197,14 @@
           },
           {
             "in": "query",
+            "name": "cursor",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
             "name": "limit",
             "required": false,
             "schema": {
@@ -1186,6 +1258,14 @@
       "get": {
         "operationId": "get-trash-types",
         "parameters": [
+          {
+            "in": "query",
+            "name": "cursor",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
           {
             "in": "query",
             "name": "limit",

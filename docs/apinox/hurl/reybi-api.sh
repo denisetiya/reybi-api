@@ -17,9 +17,6 @@ curl -s -w '\nHTTP Status: %{http_code}\n' -X PUT -H 'Authorization: Bearer ${TO
 
 echo "=== articles ==="
 
-# Create article - POST
-curl -s -w '\nHTTP Status: %{http_code}\n' -X POST -H 'Authorization: Bearer ${TOKEN}' -H 'Content-Type: application/json' -d '{}' 'http://localhost:3000/v1/articles/create'
-
 # Get article by ID - GET
 curl -s -w '\nHTTP Status: %{http_code}\n' -X GET -H 'Authorization: Bearer ${TOKEN}' 'http://localhost:3000/v1/articles/{id}'
 
@@ -31,6 +28,9 @@ curl -s -w '\nHTTP Status: %{http_code}\n' -X DELETE -H 'Authorization: Bearer $
 
 # List articles (public) - GET
 curl -s -w '\nHTTP Status: %{http_code}\n' -X GET -H 'Authorization: Bearer ${TOKEN}' 'http://localhost:3000/v1/articles'
+
+# Create article - POST
+curl -s -w '\nHTTP Status: %{http_code}\n' -X POST -H 'Authorization: Bearer ${TOKEN}' -H 'Content-Type: application/json' -d '{}' 'http://localhost:3000/v1/articles/create'
 
 echo "=== auth ==="
 
@@ -45,11 +45,11 @@ curl -s -w '\nHTTP Status: %{http_code}\n' -X POST -H 'Authorization: Bearer ${T
 
 echo "=== banners ==="
 
-# Create banner - POST
-curl -s -w '\nHTTP Status: %{http_code}\n' -X POST -H 'Authorization: Bearer ${TOKEN}' -H 'Content-Type: application/json' -d '{}' 'http://localhost:3000/v1/banners/create'
-
 # List banners by type - GET
 curl -s -w '\nHTTP Status: %{http_code}\n' -X GET -H 'Authorization: Bearer ${TOKEN}' 'http://localhost:3000/v1/banners/type/{type}'
+
+# Create banner - POST
+curl -s -w '\nHTTP Status: %{http_code}\n' -X POST -H 'Authorization: Bearer ${TOKEN}' -H 'Content-Type: application/json' -d '{}' 'http://localhost:3000/v1/banners/create'
 
 # List all banners (public) - GET
 curl -s -w '\nHTTP Status: %{http_code}\n' -X GET -H 'Authorization: Bearer ${TOKEN}' 'http://localhost:3000/v1/banners'
@@ -67,22 +67,16 @@ curl -s -w '\nHTTP Status: %{http_code}\n' -X DELETE -H 'Authorization: Bearer $
 
 echo "=== deposites ==="
 
-# Get user deposites - GET
-curl -s -w '\nHTTP Status: %{http_code}\n' -X GET -H 'Authorization: Bearer ${TOKEN}' 'http://localhost:3000/v1/deposites/user/{id}'
-
 # List all deposites (admin) - GET
 curl -s -w '\nHTTP Status: %{http_code}\n' -X GET -H 'Authorization: Bearer ${TOKEN}' 'http://localhost:3000/v1/deposites'
 
 # Create deposite (auth required) - POST
 curl -s -w '\nHTTP Status: %{http_code}\n' -X POST -H 'Authorization: Bearer ${TOKEN}' -H 'Content-Type: application/json' -d '{}' 'http://localhost:3000/v1/deposites'
 
+# Get user deposites - GET
+curl -s -w '\nHTTP Status: %{http_code}\n' -X GET -H 'Authorization: Bearer ${TOKEN}' 'http://localhost:3000/v1/deposites/user/{id}'
+
 echo "=== landfills ==="
-
-# Update landfill (admin) - PUT
-curl -s -w '\nHTTP Status: %{http_code}\n' -X PUT -H 'Authorization: Bearer ${TOKEN}' 'http://localhost:3000/v1/landfills/{id}'
-
-# Delete landfill (admin) - DELETE
-curl -s -w '\nHTTP Status: %{http_code}\n' -X DELETE -H 'Authorization: Bearer ${TOKEN}' 'http://localhost:3000/v1/landfills/{id}'
 
 # List landfills (public) - GET
 curl -s -w '\nHTTP Status: %{http_code}\n' -X GET -H 'Authorization: Bearer ${TOKEN}' 'http://localhost:3000/v1/landfills'
@@ -90,10 +84,13 @@ curl -s -w '\nHTTP Status: %{http_code}\n' -X GET -H 'Authorization: Bearer ${TO
 # Create landfill (admin) - POST
 curl -s -w '\nHTTP Status: %{http_code}\n' -X POST -H 'Authorization: Bearer ${TOKEN}' -H 'Content-Type: application/json' -d '{}' 'http://localhost:3000/v1/landfills'
 
-echo "=== orders ==="
+# Update landfill (admin) - PUT
+curl -s -w '\nHTTP Status: %{http_code}\n' -X PUT -H 'Authorization: Bearer ${TOKEN}' 'http://localhost:3000/v1/landfills/{id}'
 
-# Cancel order (auth required) - DELETE
-curl -s -w '\nHTTP Status: %{http_code}\n' -X DELETE -H 'Authorization: Bearer ${TOKEN}' 'http://localhost:3000/v1/orders/{id}'
+# Delete landfill (admin) - DELETE
+curl -s -w '\nHTTP Status: %{http_code}\n' -X DELETE -H 'Authorization: Bearer ${TOKEN}' 'http://localhost:3000/v1/landfills/{id}'
+
+echo "=== orders ==="
 
 # List all orders (admin) - GET
 curl -s -w '\nHTTP Status: %{http_code}\n' -X GET -H 'Authorization: Bearer ${TOKEN}' 'http://localhost:3000/v1/orders'
@@ -104,13 +101,13 @@ curl -s -w '\nHTTP Status: %{http_code}\n' -X GET -H 'Authorization: Bearer ${TO
 # Create order (auth required) - POST
 curl -s -w '\nHTTP Status: %{http_code}\n' -X POST -H 'Authorization: Bearer ${TOKEN}' -H 'Content-Type: application/json' -d '{}' 'http://localhost:3000/v1/orders/user/{user_id}'
 
+# Cancel order (auth required) - DELETE
+curl -s -w '\nHTTP Status: %{http_code}\n' -X DELETE -H 'Authorization: Bearer ${TOKEN}' 'http://localhost:3000/v1/orders/{id}'
+
 echo "=== products ==="
 
-# Add product variant - POST
-curl -s -w '\nHTTP Status: %{http_code}\n' -X POST -H 'Authorization: Bearer ${TOKEN}' -H 'Content-Type: application/json' -d '{}' 'http://localhost:3000/v1/products/variant/{id}'
-
-# Create product - POST
-curl -s -w '\nHTTP Status: %{http_code}\n' -X POST -H 'Authorization: Bearer ${TOKEN}' -H 'Content-Type: application/json' -d '{}' 'http://localhost:3000/v1/products/create'
+# List products (public, no auth required) - GET
+curl -s -w '\nHTTP Status: %{http_code}\n' -X GET -H 'Authorization: Bearer ${TOKEN}' 'http://localhost:3000/v1/products'
 
 # Get product by ID - GET
 curl -s -w '\nHTTP Status: %{http_code}\n' -X GET -H 'Authorization: Bearer ${TOKEN}' 'http://localhost:3000/v1/products/{id}'
@@ -121,8 +118,11 @@ curl -s -w '\nHTTP Status: %{http_code}\n' -X PUT -H 'Authorization: Bearer ${TO
 # Delete product - DELETE
 curl -s -w '\nHTTP Status: %{http_code}\n' -X DELETE -H 'Authorization: Bearer ${TOKEN}' 'http://localhost:3000/v1/products/{id}'
 
-# List products (public, no auth required) - GET
-curl -s -w '\nHTTP Status: %{http_code}\n' -X GET -H 'Authorization: Bearer ${TOKEN}' 'http://localhost:3000/v1/products'
+# Add product variant - POST
+curl -s -w '\nHTTP Status: %{http_code}\n' -X POST -H 'Authorization: Bearer ${TOKEN}' -H 'Content-Type: application/json' -d '{}' 'http://localhost:3000/v1/products/variant/{id}'
+
+# Create product - POST
+curl -s -w '\nHTTP Status: %{http_code}\n' -X POST -H 'Authorization: Bearer ${TOKEN}' -H 'Content-Type: application/json' -d '{}' 'http://localhost:3000/v1/products/create'
 
 echo "=== profile ==="
 
@@ -134,11 +134,11 @@ curl -s -w '\nHTTP Status: %{http_code}\n' -X PUT -H 'Authorization: Bearer ${TO
 
 echo "=== reviews ==="
 
-# Create review (auth required) - POST
-curl -s -w '\nHTTP Status: %{http_code}\n' -X POST -H 'Authorization: Bearer ${TOKEN}' -H 'Content-Type: application/json' -d '{}' 'http://localhost:3000/v1/reviews'
-
 # Update review (auth required) - PUT
 curl -s -w '\nHTTP Status: %{http_code}\n' -X PUT -H 'Authorization: Bearer ${TOKEN}' -H 'Content-Type: application/json' -d '{}' 'http://localhost:3000/v1/reviews/{id}'
+
+# Create review (auth required) - POST
+curl -s -w '\nHTTP Status: %{http_code}\n' -X POST -H 'Authorization: Bearer ${TOKEN}' -H 'Content-Type: application/json' -d '{}' 'http://localhost:3000/v1/reviews'
 
 echo "=== sallers ==="
 

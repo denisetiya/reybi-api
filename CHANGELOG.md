@@ -1,5 +1,16 @@
 # Changelog
 
+## [Unreleased]
+
+### Added
+- **README.md** — comprehensive project overview with quick start, architecture, cursor pagination guide, security details
+- **Cursor pagination tutorial** in API docs — step-by-step example flow across 3 pages, query params table, response format
+- **Apinox schema** (`docs/apinox-schema.yml`) — imported from OpenAPI 3.0 for multi-format doc generation
+- Cursor params on all 11 list endpoints in OpenAPI schema
+
+### Changed
+- **Apinox docs regenerated** — tutorial embedded in Markdown, Scalar, OpenAPI, Postman, Insomnia, Hurl outputs
+
 ## [1.0.0] - 2026-06-17
 
 ### Added
