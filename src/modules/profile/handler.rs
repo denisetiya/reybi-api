@@ -1,7 +1,7 @@
 use axum::{extract::{Path, State}, Json};
 use crate::config::AppState;
 use crate::common::response::ok;
-use crate::dto::UpdateProfileRequest;
+use super::dto::UpdateProfileRequest;
 use crate::errors::AppResult;
 use super::service::ProfileService;
 

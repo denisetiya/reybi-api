@@ -9,7 +9,7 @@ pub struct PaginationQuery {
 
 impl PaginationQuery {
     pub fn take(&self) -> i64 {
-        self.limit.unwrap_or(25).min(100).max(1)
+        self.limit.unwrap_or(25).clamp(1, 100)
     }
 }
 

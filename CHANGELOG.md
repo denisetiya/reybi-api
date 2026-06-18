@@ -7,9 +7,14 @@
 - **Cursor pagination tutorial** in API docs — step-by-step example flow across 3 pages, query params table, response format
 - **Apinox schema** (`docs/apinox-schema.yml`) — imported from OpenAPI 3.0 for multi-format doc generation
 - Cursor params on all 11 list endpoints in OpenAPI schema
+- **profile/dto.rs** — `UpdateProfileRequest` struct (was missing from module restructure)
 
 ### Changed
 - **Apinox docs regenerated** — tutorial embedded in Markdown, Scalar, OpenAPI, Postman, Insomnia, Hurl outputs
+- **jsonwebtoken** 9 → 10 (backward-compatible API, latest major)
+- **Removed unused deps**: `rand`, `image`, `urlencoding`, `mime_guess` — no code references
+- **Removed dead module**: `src/dto` reference in lib.rs (superseded by per-module dto)
+- **cargo update** — 62 transitive crates removed from lockfile
 
 ## [1.0.0] - 2026-06-17
 

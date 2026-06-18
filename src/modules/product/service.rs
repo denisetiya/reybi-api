@@ -1,15 +1,14 @@
 use sqlx::PgPool;
 use uuid::Uuid;
-use serde_json::Value;
 use crate::errors::{AppError, AppResult};
 use crate::models::Product;
-use super::dto::{ProductFilter, CreateVariantRequest};
+use super::dto::{ProductFilter, CreateProductRequest, UpdateProductRequest, CreateVariantRequest};
 
 pub struct ProductService;
 
 impl ProductService {
     pub async fn list(db: &PgPool, filter: &ProductFilter) -> AppResult<Vec<Product>> {
-        let limit = filter.limit.unwrap_or(25).min(100).max(1);
+        let limit = filter.limit.unwrap_or(25).clamp(1, 100);
         if let Some(cat) = &filter.category {
             let rows = sqlx::query_as::<_, Product>(
                 "SELECT * FROM products WHERE category = $1 ORDER BY created_at DESC LIMIT $2"
@@ -43,32 +42,21 @@ impl ProductService {
             .fetch_optional(db).await.map_err(|e| AppError::Internal(e.into()))
     }
 
-    pub async fn create(
-        db: &PgPool, name: &str, price: i32, stock: i32,
-        description: &str, category: &str, location: Option<&str>,
-        discount: Option<f64>, coin: Option<i32>, recommended: Option<bool>,
-        saller_id: Option<Uuid>, thumbnail: Option<&str>, images: Option<Value>,
-    ) -> AppResult<Product> {
+    pub async fn create(db: &PgPool, data: CreateProductRequest) -> AppResult<Product> {
         let id = Uuid::new_v4();
         sqlx::query_as::<_, Product>(
             r#"INSERT INTO products (id, name, price, stock, description, category,
                location, discount, coin, recommended, saller_id, thumbnail, images)
                VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13) RETURNING *"#
         )
-        .bind(id).bind(name).bind(price).bind(stock)
-        .bind(description).bind(category).bind(location)
-        .bind(discount).bind(coin).bind(recommended)
-        .bind(saller_id).bind(thumbnail).bind(images)
+        .bind(id).bind(&data.name).bind(data.price).bind(data.stock)
+        .bind(&data.description).bind(&data.category).bind(data.location.as_deref())
+        .bind(data.discount).bind(data.coin).bind(data.recommended)
+        .bind(data.saller_id).bind(data.thumbnail.as_deref()).bind(data.images)
         .fetch_one(db).await.map_err(|e| AppError::Internal(e.into()))
     }
 
-    pub async fn update(
-        db: &PgPool, id: Uuid,
-        name: Option<&str>, price: Option<i32>, stock: Option<i32>,
-        description: Option<&str>, category: Option<&str>,
-        location: Option<&str>, discount: Option<f64>, coin: Option<i32>,
-        recommended: Option<bool>, thumbnail: Option<&str>, images: Option<Value>,
-    ) -> AppResult<Product> {
+    pub async fn update(db: &PgPool, id: Uuid, data: UpdateProductRequest) -> AppResult<Product> {
         let existing = Self::get_by_id(db, id).await?
             .ok_or_else(|| AppError::NotFound("Product not found".into()))?;
         sqlx::query_as::<_, Product>(
@@ -79,17 +67,17 @@ impl ProductService {
                WHERE id=$1 RETURNING *"#
         )
         .bind(id)
-        .bind(name.unwrap_or(&existing.name))
-        .bind(price.unwrap_or(existing.price))
-        .bind(stock.unwrap_or(existing.stock))
-        .bind(description.unwrap_or(&existing.description))
-        .bind(category.unwrap_or(&existing.category))
-        .bind(location.or(existing.location.as_deref()))
-        .bind(discount.or(existing.discount))
-        .bind(coin.map(|v| v as i64).or(existing.coin.map(|c| c as i64)))
-        .bind(recommended.or(existing.recommended))
-        .bind(thumbnail.or(existing.thumbnail.as_deref()))
-        .bind(images.or(Some(existing.images.clone())))
+        .bind(data.name.as_deref().unwrap_or(&existing.name))
+        .bind(data.price.unwrap_or(existing.price))
+        .bind(data.stock.unwrap_or(existing.stock))
+        .bind(data.description.as_deref().unwrap_or(&existing.description))
+        .bind(data.category.as_deref().unwrap_or(&existing.category))
+        .bind(data.location.as_deref().or(existing.location.as_deref()))
+        .bind(data.discount.or(existing.discount))
+        .bind(data.coin.map(|v| v as i64).or(existing.coin.map(|c| c as i64)))
+        .bind(data.recommended.or(existing.recommended))
+        .bind(data.thumbnail.as_deref().or(existing.thumbnail.as_deref()))
+        .bind(data.images.or(Some(existing.images.clone())))
         .fetch_one(db).await.map_err(|e| AppError::Internal(e.into()))
     }
 

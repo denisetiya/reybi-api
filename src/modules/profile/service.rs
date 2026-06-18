@@ -1,5 +1,5 @@
 use sqlx::PgPool;
-use crate::dto::UpdateProfileRequest;
+use super::dto::UpdateProfileRequest;
 use crate::errors::{AppError, AppResult};
 use crate::models::User;
 

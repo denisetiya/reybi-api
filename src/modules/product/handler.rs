@@ -28,12 +28,7 @@ pub async fn create(
     State(state): State<AppState>,
     Json(body): Json<CreateProductRequest>,
 ) -> AppResult<Json<serde_json::Value>> {
-    let product = ProductService::create(
-        &state.db, &body.name, body.price, body.stock,
-        &body.description, &body.category, body.location.as_deref(),
-        body.discount, body.coin, body.recommended,
-        body.saller_id, body.thumbnail.as_deref(), body.images,
-    ).await?;
+    let product = ProductService::create(&state.db, body).await?;
     Ok(Json(ok(product)))
 }
 
@@ -42,13 +37,7 @@ pub async fn update(
     Path(id): Path<Uuid>,
     Json(body): Json<UpdateProductRequest>,
 ) -> AppResult<Json<serde_json::Value>> {
-    let product = ProductService::update(
-        &state.db, id,
-        body.name.as_deref(), body.price, body.stock,
-        body.description.as_deref(), body.category.as_deref(),
-        body.location.as_deref(), body.discount, body.coin,
-        body.recommended, body.thumbnail.as_deref(), body.images,
-    ).await?;
+    let product = ProductService::update(&state.db, id, body).await?;
     Ok(Json(ok(product)))
 }
 
