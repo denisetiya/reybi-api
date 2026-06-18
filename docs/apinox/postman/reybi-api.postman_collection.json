@@ -19,7 +19,7 @@
     {
       "item": [
         {
-          "name": "Get user cart",
+          "name": "Get user profile",
           "request": {
             "header": [],
             "method": "GET",
@@ -28,9 +28,685 @@
                 "{{base_url}}"
               ],
               "path": [
-                "carts",
+                "profile",
+                "{email}"
+              ],
+              "protocol": "https",
+              "raw": "{{base_url}}/profile/{email}",
+              "variable": [
+                {
+                  "description": "",
+                  "key": "email",
+                  "value": ":email"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"data\": {\n    \"badge\": \"gold\",\n    \"coin\": 200,\n    \"exp\": 150.5,\n    \"id\": \"550e8400-e29b-41d4-a716-446655440000\",\n    \"level\": 5,\n    \"user_id\": \"660e8400-e29b-41d4-a716-446655440001\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": true\n}",
+              "code": 200,
+              "name": "200 - Get user profile - success",
+              "originalRequest": {},
+              "status": "OK"
+            },
+            {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"NOT_FOUND\",\n    \"details\": [],\n    \"message\": \"Resource not found\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
+              "code": 404,
+              "name": "404 - Resource not found",
+              "originalRequest": {},
+              "status": "Not Found"
+            },
+            {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"RATE_LIMITED\",\n    \"details\": [],\n    \"message\": \"Too many requests\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
+              "code": 429,
+              "name": "429 - Too many requests",
+              "originalRequest": {},
+              "status": "Too Many Requests"
+            },
+            {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"INTERNAL_ERROR\",\n    \"details\": [],\n    \"message\": \"Internal server error\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
+              "code": 500,
+              "name": "500 - Internal server error",
+              "originalRequest": {},
+              "status": "Internal Server Error"
+            }
+          ]
+        },
+        {
+          "name": "Update user profile",
+          "request": {
+            "body": {
+              "mode": "raw",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              },
+              "raw": "{\n  \"name\": \"{{$randomFullName}}\",\n  \"phone_number\": \"{{$randomPhoneNumber}}\",\n  \"photo_url\": \"{{$randomUrl}}\",\n  \"role\": \"{$randomWord}\"\n}"
+            },
+            "header": [],
+            "method": "PUT",
+            "url": {
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "profile",
+                "{email}"
+              ],
+              "protocol": "https",
+              "raw": "{{base_url}}/profile/{email}",
+              "variable": [
+                {
+                  "description": "",
+                  "key": "email",
+                  "value": ":email"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"data\": {\n    \"badge\": \"gold\",\n    \"coin\": 200,\n    \"exp\": 150.5,\n    \"id\": \"550e8400-e29b-41d4-a716-446655440000\",\n    \"level\": 5,\n    \"user_id\": \"660e8400-e29b-41d4-a716-446655440001\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": true\n}",
+              "code": 200,
+              "name": "200 - Update user profile - success",
+              "originalRequest": {},
+              "status": "OK"
+            },
+            {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"VALIDATION_ERROR\",\n    \"details\": [],\n    \"message\": \"Validation failed\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
+              "code": 400,
+              "name": "400 - Validation failed",
+              "originalRequest": {},
+              "status": "Bad Request"
+            },
+            {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"NOT_FOUND\",\n    \"details\": [],\n    \"message\": \"Resource not found\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
+              "code": 404,
+              "name": "404 - Resource not found",
+              "originalRequest": {},
+              "status": "Not Found"
+            },
+            {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"RATE_LIMITED\",\n    \"details\": [],\n    \"message\": \"Too many requests\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
+              "code": 429,
+              "name": "429 - Too many requests",
+              "originalRequest": {},
+              "status": "Too Many Requests"
+            },
+            {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"INTERNAL_ERROR\",\n    \"details\": [],\n    \"message\": \"Internal server error\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
+              "code": 500,
+              "name": "500 - Internal server error",
+              "originalRequest": {},
+              "status": "Internal Server Error"
+            }
+          ]
+        }
+      ],
+      "name": "profile"
+    },
+    {
+      "item": [
+        {
+          "name": "Register new user",
+          "request": {
+            "body": {
+              "mode": "raw",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              },
+              "raw": "{\n  \"email\": \"{{$randomEmail}}\",\n  \"name\": \"{{$randomFullName}}\",\n  \"password\": \"{{$randomWords}}\"\n}"
+            },
+            "header": [],
+            "method": "POST",
+            "url": {
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "auth",
+                "register"
+              ],
+              "protocol": "https",
+              "raw": "{{base_url}}/auth/register"
+            }
+          },
+          "response": [
+            {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"data\": {\n    \"created_at\": \"2025-01-01T00:00:00\",\n    \"email\": \"newuser@example.com\",\n    \"fb_id\": \"firebase-uid-123\",\n    \"id\": \"550e8400-e29b-41d4-a716-446655440000\",\n    \"name\": \"Jane Doe\",\n    \"role\": \"user\",\n    \"updated_at\": \"2025-01-01T00:00:00\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": true\n}",
+              "code": 201,
+              "name": "201 - Register new user - created",
+              "originalRequest": {},
+              "status": "Created"
+            },
+            {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"VALIDATION_ERROR\",\n    \"details\": [],\n    \"message\": \"Validation failed\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
+              "code": 400,
+              "name": "400 - Validation failed",
+              "originalRequest": {},
+              "status": "Bad Request"
+            },
+            {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"UNAUTHORIZED\",\n    \"details\": [],\n    \"message\": \"Authentication required\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
+              "code": 401,
+              "name": "401 - Authentication required",
+              "originalRequest": {},
+              "status": "Unauthorized"
+            },
+            {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"RATE_LIMITED\",\n    \"details\": [],\n    \"message\": \"Too many requests\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
+              "code": 429,
+              "name": "429 - Too many requests",
+              "originalRequest": {},
+              "status": "Too Many Requests"
+            },
+            {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"INTERNAL_ERROR\",\n    \"details\": [],\n    \"message\": \"Internal server error\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
+              "code": 500,
+              "name": "500 - Internal server error",
+              "originalRequest": {},
+              "status": "Internal Server Error"
+            }
+          ]
+        },
+        {
+          "name": "Request password reset",
+          "request": {
+            "body": {
+              "mode": "raw",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              },
+              "raw": "{\n  \"email\": \"{{$randomEmail}}\"\n}"
+            },
+            "header": [],
+            "method": "POST",
+            "url": {
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "auth",
+                "reset-password"
+              ],
+              "protocol": "https",
+              "raw": "{{base_url}}/auth/reset-password"
+            }
+          },
+          "response": [
+            {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"data\": {\n    \"email\": \"user@example.com\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": true\n}",
+              "code": 201,
+              "name": "201 - Request password reset - created",
+              "originalRequest": {},
+              "status": "Created"
+            },
+            {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"VALIDATION_ERROR\",\n    \"details\": [],\n    \"message\": \"Validation failed\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
+              "code": 400,
+              "name": "400 - Validation failed",
+              "originalRequest": {},
+              "status": "Bad Request"
+            },
+            {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"UNAUTHORIZED\",\n    \"details\": [],\n    \"message\": \"Authentication required\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
+              "code": 401,
+              "name": "401 - Authentication required",
+              "originalRequest": {},
+              "status": "Unauthorized"
+            },
+            {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"RATE_LIMITED\",\n    \"details\": [],\n    \"message\": \"Too many requests\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
+              "code": 429,
+              "name": "429 - Too many requests",
+              "originalRequest": {},
+              "status": "Too Many Requests"
+            },
+            {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"INTERNAL_ERROR\",\n    \"details\": [],\n    \"message\": \"Internal server error\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
+              "code": 500,
+              "name": "500 - Internal server error",
+              "originalRequest": {},
+              "status": "Internal Server Error"
+            }
+          ]
+        },
+        {
+          "name": "Login (Firebase token → JWT)",
+          "request": {
+            "body": {
+              "mode": "raw",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              },
+              "raw": "{}"
+            },
+            "header": [],
+            "method": "POST",
+            "url": {
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "auth"
+              ],
+              "protocol": "https",
+              "raw": "{{base_url}}/auth"
+            }
+          },
+          "response": [
+            {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"data\": {\n    \"access_token\": \"eyJhbGciOiJIUzI1NiIs...\",\n    \"expires_in\": 3600,\n    \"refresh_token\": \"eyJhbGciOiJIUzI1NiIs...\",\n    \"token_type\": \"Bearer\",\n    \"user\": {\n      \"created_at\": \"2025-01-01T00:00:00\",\n      \"email\": \"user@example.com\",\n      \"fb_id\": \"firebase-uid-123\",\n      \"id\": \"550e8400-e29b-41d4-a716-446655440000\",\n      \"name\": \"John Doe\",\n      \"phone_number\": \"+628123456789\",\n      \"photo_url\": \"https://example.com/photo.jpg\",\n      \"role\": \"user\",\n      \"updated_at\": \"2025-01-01T00:00:00\"\n    }\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": true\n}",
+              "code": 201,
+              "name": "201 - Login (Firebase token → JWT) - created",
+              "originalRequest": {},
+              "status": "Created"
+            },
+            {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"VALIDATION_ERROR\",\n    \"details\": [],\n    \"message\": \"Validation failed\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
+              "code": 400,
+              "name": "400 - Validation failed",
+              "originalRequest": {},
+              "status": "Bad Request"
+            },
+            {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"UNAUTHORIZED\",\n    \"details\": [],\n    \"message\": \"Authentication required\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
+              "code": 401,
+              "name": "401 - Authentication required",
+              "originalRequest": {},
+              "status": "Unauthorized"
+            },
+            {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"RATE_LIMITED\",\n    \"details\": [],\n    \"message\": \"Too many requests\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
+              "code": 429,
+              "name": "429 - Too many requests",
+              "originalRequest": {},
+              "status": "Too Many Requests"
+            },
+            {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"INTERNAL_ERROR\",\n    \"details\": [],\n    \"message\": \"Internal server error\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
+              "code": 500,
+              "name": "500 - Internal server error",
+              "originalRequest": {},
+              "status": "Internal Server Error"
+            }
+          ]
+        }
+      ],
+      "name": "auth"
+    },
+    {
+      "item": [
+        {
+          "name": "Create address (auth required)",
+          "request": {
+            "body": {
+              "mode": "raw",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              },
+              "raw": "{\n  \"address\": \"{$randomWord}\",\n  \"label\": \"{$randomWord}\",\n  \"main\": \"true\",\n  \"phone_number\": \"{{$randomPhoneNumber}}\"\n}"
+            },
+            "header": [],
+            "method": "POST",
+            "url": {
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "addresses",
                 "user",
                 "{user_id}"
+              ],
+              "protocol": "https",
+              "raw": "{{base_url}}/addresses/user/{user_id}",
+              "variable": [
+                {
+                  "description": "",
+                  "key": "user_id",
+                  "value": ":user_id"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"data\": {\n    \"address\": \"Jl. Sudirman No. 1\",\n    \"created_at\": \"2025-01-01T00:00:00\",\n    \"id\": \"550e8400-e29b-41d4-a716-446655440000\",\n    \"label\": \"Home\",\n    \"main\": true,\n    \"phone_number\": \"+628123456789\",\n    \"updated_at\": \"2025-01-01T00:00:00\",\n    \"user_id\": \"660e8400-e29b-41d4-a716-446655440001\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": true\n}",
+              "code": 201,
+              "name": "201 - Create address (auth required) - created",
+              "originalRequest": {},
+              "status": "Created"
+            },
+            {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"VALIDATION_ERROR\",\n    \"details\": [],\n    \"message\": \"Validation failed\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
+              "code": 400,
+              "name": "400 - Validation failed",
+              "originalRequest": {},
+              "status": "Bad Request"
+            },
+            {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"RATE_LIMITED\",\n    \"details\": [],\n    \"message\": \"Too many requests\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
+              "code": 429,
+              "name": "429 - Too many requests",
+              "originalRequest": {},
+              "status": "Too Many Requests"
+            },
+            {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"INTERNAL_ERROR\",\n    \"details\": [],\n    \"message\": \"Internal server error\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
+              "code": 500,
+              "name": "500 - Internal server error",
+              "originalRequest": {},
+              "status": "Internal Server Error"
+            }
+          ]
+        },
+        {
+          "name": "Update address (auth required)",
+          "request": {
+            "header": [],
+            "method": "PUT",
+            "url": {
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "addresses",
+                "user",
+                "{user_id}"
+              ],
+              "protocol": "https",
+              "raw": "{{base_url}}/addresses/user/{user_id}",
+              "variable": [
+                {
+                  "description": "",
+                  "key": "user_id",
+                  "value": ":user_id"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"data\": {\n    \"address\": \"Jl. Sudirman No. 1\",\n    \"created_at\": \"2025-01-01T00:00:00\",\n    \"id\": \"550e8400-e29b-41d4-a716-446655440000\",\n    \"label\": \"Home\",\n    \"main\": true,\n    \"phone_number\": \"+628123456789\",\n    \"updated_at\": \"2025-01-01T00:00:00\",\n    \"user_id\": \"660e8400-e29b-41d4-a716-446655440001\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": true\n}",
+              "code": 200,
+              "name": "200 - Update address (auth required) - success",
+              "originalRequest": {},
+              "status": "OK"
+            },
+            {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"VALIDATION_ERROR\",\n    \"details\": [],\n    \"message\": \"Validation failed\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
+              "code": 400,
+              "name": "400 - Validation failed",
+              "originalRequest": {},
+              "status": "Bad Request"
+            },
+            {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"NOT_FOUND\",\n    \"details\": [],\n    \"message\": \"Resource not found\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
+              "code": 404,
+              "name": "404 - Resource not found",
+              "originalRequest": {},
+              "status": "Not Found"
+            },
+            {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"RATE_LIMITED\",\n    \"details\": [],\n    \"message\": \"Too many requests\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
+              "code": 429,
+              "name": "429 - Too many requests",
+              "originalRequest": {},
+              "status": "Too Many Requests"
+            },
+            {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"INTERNAL_ERROR\",\n    \"details\": [],\n    \"message\": \"Internal server error\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
+              "code": 500,
+              "name": "500 - Internal server error",
+              "originalRequest": {},
+              "status": "Internal Server Error"
+            }
+          ]
+        }
+      ],
+      "name": "addresses"
+    },
+    {
+      "item": [
+        {
+          "name": "Get article by ID",
+          "request": {
+            "header": [],
+            "method": "GET",
+            "url": {
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "articles",
+                "{id}"
+              ],
+              "protocol": "https",
+              "raw": "{{base_url}}/articles/{id}",
+              "variable": [
+                {
+                  "description": "",
+                  "key": "id",
+                  "value": ":id"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"data\": {\n    \"content\": \"Full article content here...\",\n    \"created_at\": \"2025-01-01T00:00:00\",\n    \"header\": \"How to Recycle\",\n    \"id\": \"550e8400-e29b-41d4-a716-446655440000\",\n    \"thumbnail\": \"https://example.com/article.jpg\",\n    \"updated_at\": \"2025-01-01T00:00:00\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": true\n}",
+              "code": 200,
+              "name": "200 - Get article by ID - success",
+              "originalRequest": {},
+              "status": "OK"
+            },
+            {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"NOT_FOUND\",\n    \"details\": [],\n    \"message\": \"Resource not found\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
+              "code": 404,
+              "name": "404 - Resource not found",
+              "originalRequest": {},
+              "status": "Not Found"
+            },
+            {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"RATE_LIMITED\",\n    \"details\": [],\n    \"message\": \"Too many requests\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
+              "code": 429,
+              "name": "429 - Too many requests",
+              "originalRequest": {},
+              "status": "Too Many Requests"
+            },
+            {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"INTERNAL_ERROR\",\n    \"details\": [],\n    \"message\": \"Internal server error\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
+              "code": 500,
+              "name": "500 - Internal server error",
+              "originalRequest": {},
+              "status": "Internal Server Error"
+            }
+          ]
+        },
+        {
+          "name": "Update article",
+          "request": {
+            "header": [],
+            "method": "PUT",
+            "url": {
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "articles",
+                "{id}"
+              ],
+              "protocol": "https",
+              "raw": "{{base_url}}/articles/{id}",
+              "variable": [
+                {
+                  "description": "",
+                  "key": "id",
+                  "value": ":id"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"data\": {\n    \"content\": \"Full article content here...\",\n    \"created_at\": \"2025-01-01T00:00:00\",\n    \"header\": \"How to Recycle\",\n    \"id\": \"550e8400-e29b-41d4-a716-446655440000\",\n    \"thumbnail\": \"https://example.com/article.jpg\",\n    \"updated_at\": \"2025-01-01T00:00:00\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": true\n}",
+              "code": 200,
+              "name": "200 - Update article - success",
+              "originalRequest": {},
+              "status": "OK"
+            },
+            {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"VALIDATION_ERROR\",\n    \"details\": [],\n    \"message\": \"Validation failed\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
+              "code": 400,
+              "name": "400 - Validation failed",
+              "originalRequest": {},
+              "status": "Bad Request"
+            },
+            {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"NOT_FOUND\",\n    \"details\": [],\n    \"message\": \"Resource not found\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
+              "code": 404,
+              "name": "404 - Resource not found",
+              "originalRequest": {},
+              "status": "Not Found"
+            },
+            {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"RATE_LIMITED\",\n    \"details\": [],\n    \"message\": \"Too many requests\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
+              "code": 429,
+              "name": "429 - Too many requests",
+              "originalRequest": {},
+              "status": "Too Many Requests"
+            },
+            {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"INTERNAL_ERROR\",\n    \"details\": [],\n    \"message\": \"Internal server error\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
+              "code": 500,
+              "name": "500 - Internal server error",
+              "originalRequest": {},
+              "status": "Internal Server Error"
+            }
+          ]
+        },
+        {
+          "name": "Delete article",
+          "request": {
+            "header": [],
+            "method": "DELETE",
+            "url": {
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "articles",
+                "{id}"
+              ],
+              "protocol": "https",
+              "raw": "{{base_url}}/articles/{id}",
+              "variable": [
+                {
+                  "description": "",
+                  "key": "id",
+                  "value": ":id"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"message\": \"Deleted successfully\",\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": true\n}",
+              "code": 200,
+              "name": "200 - Delete article - success",
+              "originalRequest": {},
+              "status": "OK"
+            },
+            {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"NOT_FOUND\",\n    \"details\": [],\n    \"message\": \"Resource not found\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
+              "code": 404,
+              "name": "404 - Resource not found",
+              "originalRequest": {},
+              "status": "Not Found"
+            },
+            {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"RATE_LIMITED\",\n    \"details\": [],\n    \"message\": \"Too many requests\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
+              "code": 429,
+              "name": "429 - Too many requests",
+              "originalRequest": {},
+              "status": "Too Many Requests"
+            },
+            {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"INTERNAL_ERROR\",\n    \"details\": [],\n    \"message\": \"Internal server error\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
+              "code": 500,
+              "name": "500 - Internal server error",
+              "originalRequest": {},
+              "status": "Internal Server Error"
+            }
+          ]
+        },
+        {
+          "name": "List articles (public)",
+          "request": {
+            "header": [],
+            "method": "GET",
+            "url": {
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "articles"
               ],
               "protocol": "https",
               "query": [
@@ -45,45 +721,46 @@
                   "value": "25"
                 }
               ],
-              "raw": "{{base_url}}/carts/user/{user_id}",
-              "variable": [
-                {
-                  "description": "",
-                  "key": "user_id",
-                  "value": ":user_id"
-                }
-              ]
+              "raw": "{{base_url}}/articles"
             }
           },
           "response": [
             {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"data\": [\n    {\n      \"content\": \"Full article content here...\",\n      \"created_at\": \"2025-01-01T00:00:00\",\n      \"header\": \"How to Recycle\",\n      \"id\": \"550e8400-e29b-41d4-a716-446655440000\",\n      \"thumbnail\": \"https://example.com/article.jpg\",\n      \"updated_at\": \"2025-01-01T00:00:00\"\n    }\n  ],\n  \"meta\": {\n    \"locale\": \"en\",\n    \"pagination\": {\n      \"count\": 25,\n      \"cursor\": \"eyJpZCI6MjV9\",\n      \"has_more\": true\n    }\n  },\n  \"success\": true\n}",
               "code": 200,
-              "name": "200 Get user cart - success",
+              "name": "200 - List articles (public) - paginated",
               "originalRequest": {},
               "status": "OK"
             },
             {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"NOT_FOUND\",\n    \"details\": [],\n    \"message\": \"Resource not found\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
               "code": 404,
-              "name": "404 Resource not found",
+              "name": "404 - Resource not found",
               "originalRequest": {},
               "status": "Not Found"
             },
             {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"RATE_LIMITED\",\n    \"details\": [],\n    \"message\": \"Too many requests\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
               "code": 429,
-              "name": "429 Too many requests",
+              "name": "429 - Too many requests",
               "originalRequest": {},
               "status": "Too Many Requests"
             },
             {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"INTERNAL_ERROR\",\n    \"details\": [],\n    \"message\": \"Internal server error\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
               "code": 500,
-              "name": "500 Internal server error",
+              "name": "500 - Internal server error",
               "originalRequest": {},
               "status": "Internal Server Error"
             }
           ]
         },
         {
-          "name": "Add item to cart",
+          "name": "Create article",
           "request": {
             "body": {
               "mode": "raw",
@@ -92,7 +769,7 @@
                   "language": "json"
                 }
               },
-              "raw": "{\n  \"product_id\": \"{$randomWord}\",\n  \"quantity\": \"{{$randomInt}}\",\n  \"variant_id\": \"{$randomWord}\"\n}"
+              "raw": "{\n  \"content\": \"{$randomWord}\",\n  \"header\": \"{$randomWord}\",\n  \"thumbnail\": \"{$randomWord}\"\n}"
             },
             "header": [],
             "method": "POST",
@@ -101,64 +778,191 @@
                 "{{base_url}}"
               ],
               "path": [
-                "carts",
-                "user",
-                "{user_id}"
+                "articles",
+                "create"
               ],
               "protocol": "https",
-              "raw": "{{base_url}}/carts/user/{user_id}",
-              "variable": [
-                {
-                  "description": "",
-                  "key": "user_id",
-                  "value": ":user_id"
-                }
-              ]
+              "raw": "{{base_url}}/articles/create"
             }
           },
           "response": [
             {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"data\": {\n    \"content\": \"Full article content here...\",\n    \"created_at\": \"2025-01-01T00:00:00\",\n    \"header\": \"How to Recycle\",\n    \"id\": \"550e8400-e29b-41d4-a716-446655440000\",\n    \"thumbnail\": \"https://example.com/article.jpg\",\n    \"updated_at\": \"2025-01-01T00:00:00\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": true\n}",
               "code": 201,
-              "name": "201 Add item to cart - created",
+              "name": "201 - Create article - created",
               "originalRequest": {},
               "status": "Created"
             },
             {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"VALIDATION_ERROR\",\n    \"details\": [],\n    \"message\": \"Validation failed\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
               "code": 400,
-              "name": "400 Validation failed",
+              "name": "400 - Validation failed",
               "originalRequest": {},
               "status": "Bad Request"
             },
             {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"RATE_LIMITED\",\n    \"details\": [],\n    \"message\": \"Too many requests\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
               "code": 429,
-              "name": "429 Too many requests",
+              "name": "429 - Too many requests",
               "originalRequest": {},
               "status": "Too Many Requests"
             },
             {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"INTERNAL_ERROR\",\n    \"details\": [],\n    \"message\": \"Internal server error\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
               "code": 500,
-              "name": "500 Internal server error",
+              "name": "500 - Internal server error",
+              "originalRequest": {},
+              "status": "Internal Server Error"
+            }
+          ]
+        }
+      ],
+      "name": "articles"
+    },
+    {
+      "item": [
+        {
+          "name": "List landfills (public)",
+          "request": {
+            "header": [],
+            "method": "GET",
+            "url": {
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "landfills"
+              ],
+              "protocol": "https",
+              "query": [
+                {
+                  "description": "",
+                  "key": "cursor",
+                  "value": ""
+                },
+                {
+                  "description": "",
+                  "key": "limit",
+                  "value": "25"
+                }
+              ],
+              "raw": "{{base_url}}/landfills"
+            }
+          },
+          "response": [
+            {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"data\": [\n    {\n      \"address\": \"Jl. TB Simatupang\",\n      \"id\": \"550e8400-e29b-41d4-a716-446655440000\",\n      \"name\": \"TPS Jakarta Selatan\"\n    }\n  ],\n  \"meta\": {\n    \"locale\": \"en\",\n    \"pagination\": {\n      \"count\": 25,\n      \"cursor\": \"eyJpZCI6MjV9\",\n      \"has_more\": true\n    }\n  },\n  \"success\": true\n}",
+              "code": 200,
+              "name": "200 - List landfills (public) - paginated",
+              "originalRequest": {},
+              "status": "OK"
+            },
+            {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"NOT_FOUND\",\n    \"details\": [],\n    \"message\": \"Resource not found\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
+              "code": 404,
+              "name": "404 - Resource not found",
+              "originalRequest": {},
+              "status": "Not Found"
+            },
+            {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"RATE_LIMITED\",\n    \"details\": [],\n    \"message\": \"Too many requests\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
+              "code": 429,
+              "name": "429 - Too many requests",
+              "originalRequest": {},
+              "status": "Too Many Requests"
+            },
+            {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"INTERNAL_ERROR\",\n    \"details\": [],\n    \"message\": \"Internal server error\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
+              "code": 500,
+              "name": "500 - Internal server error",
               "originalRequest": {},
               "status": "Internal Server Error"
             }
           ]
         },
         {
-          "name": "Remove cart item",
+          "name": "Create landfill (admin)",
           "request": {
+            "body": {
+              "mode": "raw",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              },
+              "raw": "{\n  \"address\": \"{$randomWord}\",\n  \"name\": \"{{$randomFullName}}\"\n}"
+            },
             "header": [],
-            "method": "DELETE",
+            "method": "POST",
             "url": {
               "host": [
                 "{{base_url}}"
               ],
               "path": [
-                "carts",
-                "item",
+                "landfills"
+              ],
+              "protocol": "https",
+              "raw": "{{base_url}}/landfills"
+            }
+          },
+          "response": [
+            {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"data\": {\n    \"address\": \"Jl. TB Simatupang\",\n    \"id\": \"550e8400-e29b-41d4-a716-446655440000\",\n    \"name\": \"TPS Jakarta Selatan\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": true\n}",
+              "code": 201,
+              "name": "201 - Create landfill (admin) - created",
+              "originalRequest": {},
+              "status": "Created"
+            },
+            {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"VALIDATION_ERROR\",\n    \"details\": [],\n    \"message\": \"Validation failed\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
+              "code": 400,
+              "name": "400 - Validation failed",
+              "originalRequest": {},
+              "status": "Bad Request"
+            },
+            {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"RATE_LIMITED\",\n    \"details\": [],\n    \"message\": \"Too many requests\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
+              "code": 429,
+              "name": "429 - Too many requests",
+              "originalRequest": {},
+              "status": "Too Many Requests"
+            },
+            {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"INTERNAL_ERROR\",\n    \"details\": [],\n    \"message\": \"Internal server error\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
+              "code": 500,
+              "name": "500 - Internal server error",
+              "originalRequest": {},
+              "status": "Internal Server Error"
+            }
+          ]
+        },
+        {
+          "name": "Update landfill (admin)",
+          "request": {
+            "header": [],
+            "method": "PUT",
+            "url": {
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "landfills",
                 "{id}"
               ],
               "protocol": "https",
-              "raw": "{{base_url}}/carts/item/{id}",
+              "raw": "{{base_url}}/landfills/{id}",
               "variable": [
                 {
                   "description": "",
@@ -170,33 +974,555 @@
           },
           "response": [
             {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"data\": {\n    \"address\": \"Jl. TB Simatupang\",\n    \"id\": \"550e8400-e29b-41d4-a716-446655440000\",\n    \"name\": \"TPS Jakarta Selatan\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": true\n}",
               "code": 200,
-              "name": "200 Remove cart item - success",
+              "name": "200 - Update landfill (admin) - success",
               "originalRequest": {},
               "status": "OK"
             },
             {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"VALIDATION_ERROR\",\n    \"details\": [],\n    \"message\": \"Validation failed\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
+              "code": 400,
+              "name": "400 - Validation failed",
+              "originalRequest": {},
+              "status": "Bad Request"
+            },
+            {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"NOT_FOUND\",\n    \"details\": [],\n    \"message\": \"Resource not found\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
               "code": 404,
-              "name": "404 Resource not found",
+              "name": "404 - Resource not found",
               "originalRequest": {},
               "status": "Not Found"
             },
             {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"RATE_LIMITED\",\n    \"details\": [],\n    \"message\": \"Too many requests\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
               "code": 429,
-              "name": "429 Too many requests",
+              "name": "429 - Too many requests",
               "originalRequest": {},
               "status": "Too Many Requests"
             },
             {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"INTERNAL_ERROR\",\n    \"details\": [],\n    \"message\": \"Internal server error\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
               "code": 500,
-              "name": "500 Internal server error",
+              "name": "500 - Internal server error",
+              "originalRequest": {},
+              "status": "Internal Server Error"
+            }
+          ]
+        },
+        {
+          "name": "Delete landfill (admin)",
+          "request": {
+            "header": [],
+            "method": "DELETE",
+            "url": {
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "landfills",
+                "{id}"
+              ],
+              "protocol": "https",
+              "raw": "{{base_url}}/landfills/{id}",
+              "variable": [
+                {
+                  "description": "",
+                  "key": "id",
+                  "value": ":id"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"message\": \"Deleted successfully\",\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": true\n}",
+              "code": 200,
+              "name": "200 - Delete landfill (admin) - success",
+              "originalRequest": {},
+              "status": "OK"
+            },
+            {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"NOT_FOUND\",\n    \"details\": [],\n    \"message\": \"Resource not found\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
+              "code": 404,
+              "name": "404 - Resource not found",
+              "originalRequest": {},
+              "status": "Not Found"
+            },
+            {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"RATE_LIMITED\",\n    \"details\": [],\n    \"message\": \"Too many requests\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
+              "code": 429,
+              "name": "429 - Too many requests",
+              "originalRequest": {},
+              "status": "Too Many Requests"
+            },
+            {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"INTERNAL_ERROR\",\n    \"details\": [],\n    \"message\": \"Internal server error\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
+              "code": 500,
+              "name": "500 - Internal server error",
               "originalRequest": {},
               "status": "Internal Server Error"
             }
           ]
         }
       ],
-      "name": "carts"
+      "name": "landfills"
+    },
+    {
+      "item": [
+        {
+          "name": "Update trash type (admin)",
+          "request": {
+            "header": [],
+            "method": "PUT",
+            "url": {
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "trash",
+                "type",
+                "{id}"
+              ],
+              "protocol": "https",
+              "raw": "{{base_url}}/trash/type/{id}",
+              "variable": [
+                {
+                  "description": "",
+                  "key": "id",
+                  "value": ":id"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"data\": {\n    \"created_at\": \"2025-01-01T00:00:00\",\n    \"id\": \"550e8400-e29b-41d4-a716-446655440000\",\n    \"image\": \"https://example.com/trash.jpg\",\n    \"name\": \"Plastic\",\n    \"updated_at\": \"2025-01-01T00:00:00\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": true\n}",
+              "code": 200,
+              "name": "200 - Update trash type (admin) - success",
+              "originalRequest": {},
+              "status": "OK"
+            },
+            {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"VALIDATION_ERROR\",\n    \"details\": [],\n    \"message\": \"Validation failed\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
+              "code": 400,
+              "name": "400 - Validation failed",
+              "originalRequest": {},
+              "status": "Bad Request"
+            },
+            {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"NOT_FOUND\",\n    \"details\": [],\n    \"message\": \"Resource not found\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
+              "code": 404,
+              "name": "404 - Resource not found",
+              "originalRequest": {},
+              "status": "Not Found"
+            },
+            {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"RATE_LIMITED\",\n    \"details\": [],\n    \"message\": \"Too many requests\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
+              "code": 429,
+              "name": "429 - Too many requests",
+              "originalRequest": {},
+              "status": "Too Many Requests"
+            },
+            {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"INTERNAL_ERROR\",\n    \"details\": [],\n    \"message\": \"Internal server error\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
+              "code": 500,
+              "name": "500 - Internal server error",
+              "originalRequest": {},
+              "status": "Internal Server Error"
+            }
+          ]
+        },
+        {
+          "name": "Delete trash type (admin)",
+          "request": {
+            "header": [],
+            "method": "DELETE",
+            "url": {
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "trash",
+                "type",
+                "{id}"
+              ],
+              "protocol": "https",
+              "raw": "{{base_url}}/trash/type/{id}",
+              "variable": [
+                {
+                  "description": "",
+                  "key": "id",
+                  "value": ":id"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"message\": \"Deleted successfully\",\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": true\n}",
+              "code": 200,
+              "name": "200 - Delete trash type (admin) - success",
+              "originalRequest": {},
+              "status": "OK"
+            },
+            {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"NOT_FOUND\",\n    \"details\": [],\n    \"message\": \"Resource not found\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
+              "code": 404,
+              "name": "404 - Resource not found",
+              "originalRequest": {},
+              "status": "Not Found"
+            },
+            {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"RATE_LIMITED\",\n    \"details\": [],\n    \"message\": \"Too many requests\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
+              "code": 429,
+              "name": "429 - Too many requests",
+              "originalRequest": {},
+              "status": "Too Many Requests"
+            },
+            {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"INTERNAL_ERROR\",\n    \"details\": [],\n    \"message\": \"Internal server error\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
+              "code": 500,
+              "name": "500 - Internal server error",
+              "originalRequest": {},
+              "status": "Internal Server Error"
+            }
+          ]
+        },
+        {
+          "name": "List trash types (public)",
+          "request": {
+            "header": [],
+            "method": "GET",
+            "url": {
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "trash",
+                "types"
+              ],
+              "protocol": "https",
+              "query": [
+                {
+                  "description": "",
+                  "key": "cursor",
+                  "value": ""
+                },
+                {
+                  "description": "",
+                  "key": "limit",
+                  "value": "25"
+                }
+              ],
+              "raw": "{{base_url}}/trash/types"
+            }
+          },
+          "response": [
+            {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"data\": [\n    {\n      \"created_at\": \"2025-01-01T00:00:00\",\n      \"id\": \"550e8400-e29b-41d4-a716-446655440000\",\n      \"image\": \"https://example.com/trash.jpg\",\n      \"name\": \"Plastic\",\n      \"updated_at\": \"2025-01-01T00:00:00\"\n    }\n  ],\n  \"meta\": {\n    \"locale\": \"en\",\n    \"pagination\": {\n      \"count\": 25,\n      \"cursor\": \"eyJpZCI6MjV9\",\n      \"has_more\": true\n    }\n  },\n  \"success\": true\n}",
+              "code": 200,
+              "name": "200 - List trash types (public) - paginated",
+              "originalRequest": {},
+              "status": "OK"
+            },
+            {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"NOT_FOUND\",\n    \"details\": [],\n    \"message\": \"Resource not found\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
+              "code": 404,
+              "name": "404 - Resource not found",
+              "originalRequest": {},
+              "status": "Not Found"
+            },
+            {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"RATE_LIMITED\",\n    \"details\": [],\n    \"message\": \"Too many requests\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
+              "code": 429,
+              "name": "429 - Too many requests",
+              "originalRequest": {},
+              "status": "Too Many Requests"
+            },
+            {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"INTERNAL_ERROR\",\n    \"details\": [],\n    \"message\": \"Internal server error\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
+              "code": 500,
+              "name": "500 - Internal server error",
+              "originalRequest": {},
+              "status": "Internal Server Error"
+            }
+          ]
+        },
+        {
+          "name": "Create trash type (admin)",
+          "request": {
+            "body": {
+              "mode": "raw",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              },
+              "raw": "{\n  \"image\": \"{$randomWord}\",\n  \"name\": \"{{$randomFullName}}\"\n}"
+            },
+            "header": [],
+            "method": "POST",
+            "url": {
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "trash",
+                "types"
+              ],
+              "protocol": "https",
+              "raw": "{{base_url}}/trash/types"
+            }
+          },
+          "response": [
+            {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"data\": {\n    \"created_at\": \"2025-01-01T00:00:00\",\n    \"id\": \"550e8400-e29b-41d4-a716-446655440000\",\n    \"image\": \"https://example.com/trash.jpg\",\n    \"name\": \"Plastic\",\n    \"updated_at\": \"2025-01-01T00:00:00\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": true\n}",
+              "code": 201,
+              "name": "201 - Create trash type (admin) - created",
+              "originalRequest": {},
+              "status": "Created"
+            },
+            {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"VALIDATION_ERROR\",\n    \"details\": [],\n    \"message\": \"Validation failed\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
+              "code": 400,
+              "name": "400 - Validation failed",
+              "originalRequest": {},
+              "status": "Bad Request"
+            },
+            {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"RATE_LIMITED\",\n    \"details\": [],\n    \"message\": \"Too many requests\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
+              "code": 429,
+              "name": "429 - Too many requests",
+              "originalRequest": {},
+              "status": "Too Many Requests"
+            },
+            {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"INTERNAL_ERROR\",\n    \"details\": [],\n    \"message\": \"Internal server error\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
+              "code": 500,
+              "name": "500 - Internal server error",
+              "originalRequest": {},
+              "status": "Internal Server Error"
+            }
+          ]
+        }
+      ],
+      "name": "trash"
+    },
+    {
+      "item": [
+        {
+          "name": "List banners by type",
+          "request": {
+            "header": [],
+            "method": "GET",
+            "url": {
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "banners",
+                "type",
+                "{type}"
+              ],
+              "protocol": "https",
+              "raw": "{{base_url}}/banners/type/{type}",
+              "variable": [
+                {
+                  "description": "",
+                  "key": "type",
+                  "value": ":type"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"data\": [\n    {\n      \"created_at\": \"2025-01-01T00:00:00\",\n      \"description\": \"Up to 50% off\",\n      \"id\": \"550e8400-e29b-41d4-a716-446655440000\",\n      \"image\": \"https://example.com/banner.jpg\",\n      \"title\": \"Summer Sale\",\n      \"type\": \"home\",\n      \"updated_at\": \"2025-01-01T00:00:00\"\n    }\n  ],\n  \"meta\": {\n    \"locale\": \"en\",\n    \"pagination\": {\n      \"count\": 25,\n      \"cursor\": \"eyJpZCI6MjV9\",\n      \"has_more\": true\n    }\n  },\n  \"success\": true\n}",
+              "code": 200,
+              "name": "200 - List banners by type - paginated",
+              "originalRequest": {},
+              "status": "OK"
+            },
+            {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"NOT_FOUND\",\n    \"details\": [],\n    \"message\": \"Resource not found\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
+              "code": 404,
+              "name": "404 - Resource not found",
+              "originalRequest": {},
+              "status": "Not Found"
+            },
+            {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"RATE_LIMITED\",\n    \"details\": [],\n    \"message\": \"Too many requests\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
+              "code": 429,
+              "name": "429 - Too many requests",
+              "originalRequest": {},
+              "status": "Too Many Requests"
+            },
+            {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"INTERNAL_ERROR\",\n    \"details\": [],\n    \"message\": \"Internal server error\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
+              "code": 500,
+              "name": "500 - Internal server error",
+              "originalRequest": {},
+              "status": "Internal Server Error"
+            }
+          ]
+        },
+        {
+          "name": "Create banner",
+          "request": {
+            "body": {
+              "mode": "raw",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              },
+              "raw": "{\n  \"image\": \"{$randomWord}\",\n  \"type\": \"{$randomWord}\"\n}"
+            },
+            "header": [],
+            "method": "POST",
+            "url": {
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "banners",
+                "create"
+              ],
+              "protocol": "https",
+              "raw": "{{base_url}}/banners/create"
+            }
+          },
+          "response": [
+            {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"data\": {\n    \"created_at\": \"2025-01-01T00:00:00\",\n    \"description\": \"Up to 50% off\",\n    \"id\": \"550e8400-e29b-41d4-a716-446655440000\",\n    \"image\": \"https://example.com/banner.jpg\",\n    \"title\": \"Summer Sale\",\n    \"type\": \"home\",\n    \"updated_at\": \"2025-01-01T00:00:00\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": true\n}",
+              "code": 201,
+              "name": "201 - Create banner - created",
+              "originalRequest": {},
+              "status": "Created"
+            },
+            {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"VALIDATION_ERROR\",\n    \"details\": [],\n    \"message\": \"Validation failed\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
+              "code": 400,
+              "name": "400 - Validation failed",
+              "originalRequest": {},
+              "status": "Bad Request"
+            },
+            {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"RATE_LIMITED\",\n    \"details\": [],\n    \"message\": \"Too many requests\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
+              "code": 429,
+              "name": "429 - Too many requests",
+              "originalRequest": {},
+              "status": "Too Many Requests"
+            },
+            {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"INTERNAL_ERROR\",\n    \"details\": [],\n    \"message\": \"Internal server error\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
+              "code": 500,
+              "name": "500 - Internal server error",
+              "originalRequest": {},
+              "status": "Internal Server Error"
+            }
+          ]
+        },
+        {
+          "name": "List all banners (public)",
+          "request": {
+            "header": [],
+            "method": "GET",
+            "url": {
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "banners"
+              ],
+              "protocol": "https",
+              "query": [
+                {
+                  "description": "",
+                  "key": "cursor",
+                  "value": ""
+                },
+                {
+                  "description": "",
+                  "key": "limit",
+                  "value": "25"
+                }
+              ],
+              "raw": "{{base_url}}/banners"
+            }
+          },
+          "response": [
+            {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"data\": [\n    {\n      \"created_at\": \"2025-01-01T00:00:00\",\n      \"description\": \"Up to 50% off\",\n      \"id\": \"550e8400-e29b-41d4-a716-446655440000\",\n      \"image\": \"https://example.com/banner.jpg\",\n      \"title\": \"Summer Sale\",\n      \"type\": \"home\",\n      \"updated_at\": \"2025-01-01T00:00:00\"\n    }\n  ],\n  \"meta\": {\n    \"locale\": \"en\",\n    \"pagination\": {\n      \"count\": 25,\n      \"cursor\": \"eyJpZCI6MjV9\",\n      \"has_more\": true\n    }\n  },\n  \"success\": true\n}",
+              "code": 200,
+              "name": "200 - List all banners (public) - paginated",
+              "originalRequest": {},
+              "status": "OK"
+            },
+            {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"NOT_FOUND\",\n    \"details\": [],\n    \"message\": \"Resource not found\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
+              "code": 404,
+              "name": "404 - Resource not found",
+              "originalRequest": {},
+              "status": "Not Found"
+            },
+            {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"RATE_LIMITED\",\n    \"details\": [],\n    \"message\": \"Too many requests\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
+              "code": 429,
+              "name": "429 - Too many requests",
+              "originalRequest": {},
+              "status": "Too Many Requests"
+            },
+            {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"INTERNAL_ERROR\",\n    \"details\": [],\n    \"message\": \"Internal server error\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
+              "code": 500,
+              "name": "500 - Internal server error",
+              "originalRequest": {},
+              "status": "Internal Server Error"
+            }
+          ]
+        }
+      ],
+      "name": "banners"
     },
     {
       "item": [
@@ -239,26 +1565,34 @@
           },
           "response": [
             {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"data\": {\n    \"available\": 50,\n    \"category\": \"clothing\",\n    \"coin\": 10,\n    \"created_at\": \"2025-01-01T00:00:00\",\n    \"description\": \"Premium cotton t-shirt\",\n    \"discount\": 10.5,\n    \"id\": \"550e8400-e29b-41d4-a716-446655440000\",\n    \"images\": [\n      \"https://example.com/img1.jpg\"\n    ],\n    \"location\": \"Jakarta\",\n    \"name\": \"T-Shirt\",\n    \"price\": 150000,\n    \"rating\": 4.5,\n    \"recommended\": true,\n    \"saller_id\": \"660e8400-e29b-41d4-a716-446655440001\",\n    \"sold\": 50,\n    \"stock\": 100,\n    \"thumbnail\": \"https://example.com/thumb.jpg\",\n    \"updated_at\": \"2025-01-01T00:00:00\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": true\n}",
               "code": 200,
-              "name": "200 Get seller products - success",
+              "name": "200 - Get seller products - success",
               "originalRequest": {},
               "status": "OK"
             },
             {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"NOT_FOUND\",\n    \"details\": [],\n    \"message\": \"Resource not found\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
               "code": 404,
-              "name": "404 Resource not found",
+              "name": "404 - Resource not found",
               "originalRequest": {},
               "status": "Not Found"
             },
             {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"RATE_LIMITED\",\n    \"details\": [],\n    \"message\": \"Too many requests\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
               "code": 429,
-              "name": "429 Too many requests",
+              "name": "429 - Too many requests",
               "originalRequest": {},
               "status": "Too Many Requests"
             },
             {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"INTERNAL_ERROR\",\n    \"details\": [],\n    \"message\": \"Internal server error\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
               "code": 500,
-              "name": "500 Internal server error",
+              "name": "500 - Internal server error",
               "originalRequest": {},
               "status": "Internal Server Error"
             }
@@ -270,7 +1604,7 @@
     {
       "item": [
         {
-          "name": "List landfills (public)",
+          "name": "Get user cart",
           "request": {
             "header": [],
             "method": "GET",
@@ -279,7 +1613,9 @@
                 "{{base_url}}"
               ],
               "path": [
-                "landfills"
+                "carts",
+                "user",
+                "{user_id}"
               ],
               "protocol": "https",
               "query": [
@@ -294,679 +1630,7 @@
                   "value": "25"
                 }
               ],
-              "raw": "{{base_url}}/landfills"
-            }
-          },
-          "response": [
-            {
-              "code": 200,
-              "name": "200 List landfills (public) - paginated",
-              "originalRequest": {},
-              "status": "OK"
-            },
-            {
-              "code": 404,
-              "name": "404 Resource not found",
-              "originalRequest": {},
-              "status": "Not Found"
-            },
-            {
-              "code": 429,
-              "name": "429 Too many requests",
-              "originalRequest": {},
-              "status": "Too Many Requests"
-            },
-            {
-              "code": 500,
-              "name": "500 Internal server error",
-              "originalRequest": {},
-              "status": "Internal Server Error"
-            }
-          ]
-        },
-        {
-          "name": "Create landfill (admin)",
-          "request": {
-            "body": {
-              "mode": "raw",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              },
-              "raw": "{\n  \"address\": \"{$randomWord}\",\n  \"name\": \"{{$randomFullName}}\"\n}"
-            },
-            "header": [],
-            "method": "POST",
-            "url": {
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "landfills"
-              ],
-              "protocol": "https",
-              "raw": "{{base_url}}/landfills"
-            }
-          },
-          "response": [
-            {
-              "code": 201,
-              "name": "201 Create landfill (admin) - created",
-              "originalRequest": {},
-              "status": "Created"
-            },
-            {
-              "code": 400,
-              "name": "400 Validation failed",
-              "originalRequest": {},
-              "status": "Bad Request"
-            },
-            {
-              "code": 429,
-              "name": "429 Too many requests",
-              "originalRequest": {},
-              "status": "Too Many Requests"
-            },
-            {
-              "code": 500,
-              "name": "500 Internal server error",
-              "originalRequest": {},
-              "status": "Internal Server Error"
-            }
-          ]
-        },
-        {
-          "name": "Update landfill (admin)",
-          "request": {
-            "header": [],
-            "method": "PUT",
-            "url": {
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "landfills",
-                "{id}"
-              ],
-              "protocol": "https",
-              "raw": "{{base_url}}/landfills/{id}",
-              "variable": [
-                {
-                  "description": "",
-                  "key": "id",
-                  "value": ":id"
-                }
-              ]
-            }
-          },
-          "response": [
-            {
-              "code": 200,
-              "name": "200 Update landfill (admin) - success",
-              "originalRequest": {},
-              "status": "OK"
-            },
-            {
-              "code": 400,
-              "name": "400 Validation failed",
-              "originalRequest": {},
-              "status": "Bad Request"
-            },
-            {
-              "code": 404,
-              "name": "404 Resource not found",
-              "originalRequest": {},
-              "status": "Not Found"
-            },
-            {
-              "code": 429,
-              "name": "429 Too many requests",
-              "originalRequest": {},
-              "status": "Too Many Requests"
-            },
-            {
-              "code": 500,
-              "name": "500 Internal server error",
-              "originalRequest": {},
-              "status": "Internal Server Error"
-            }
-          ]
-        },
-        {
-          "name": "Delete landfill (admin)",
-          "request": {
-            "header": [],
-            "method": "DELETE",
-            "url": {
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "landfills",
-                "{id}"
-              ],
-              "protocol": "https",
-              "raw": "{{base_url}}/landfills/{id}",
-              "variable": [
-                {
-                  "description": "",
-                  "key": "id",
-                  "value": ":id"
-                }
-              ]
-            }
-          },
-          "response": [
-            {
-              "code": 200,
-              "name": "200 Delete landfill (admin) - success",
-              "originalRequest": {},
-              "status": "OK"
-            },
-            {
-              "code": 404,
-              "name": "404 Resource not found",
-              "originalRequest": {},
-              "status": "Not Found"
-            },
-            {
-              "code": 429,
-              "name": "429 Too many requests",
-              "originalRequest": {},
-              "status": "Too Many Requests"
-            },
-            {
-              "code": 500,
-              "name": "500 Internal server error",
-              "originalRequest": {},
-              "status": "Internal Server Error"
-            }
-          ]
-        }
-      ],
-      "name": "landfills"
-    },
-    {
-      "item": [
-        {
-          "name": "Register new user",
-          "request": {
-            "body": {
-              "mode": "raw",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              },
-              "raw": "{\n  \"email\": \"{{$randomEmail}}\",\n  \"name\": \"{{$randomFullName}}\",\n  \"password\": \"{{$randomWords}}\"\n}"
-            },
-            "header": [],
-            "method": "POST",
-            "url": {
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "auth",
-                "register"
-              ],
-              "protocol": "https",
-              "raw": "{{base_url}}/auth/register"
-            }
-          },
-          "response": [
-            {
-              "code": 201,
-              "name": "201 Register new user - created",
-              "originalRequest": {},
-              "status": "Created"
-            },
-            {
-              "code": 400,
-              "name": "400 Validation failed",
-              "originalRequest": {},
-              "status": "Bad Request"
-            },
-            {
-              "code": 401,
-              "name": "401 Authentication required",
-              "originalRequest": {},
-              "status": "Unauthorized"
-            },
-            {
-              "code": 429,
-              "name": "429 Too many requests",
-              "originalRequest": {},
-              "status": "Too Many Requests"
-            },
-            {
-              "code": 500,
-              "name": "500 Internal server error",
-              "originalRequest": {},
-              "status": "Internal Server Error"
-            }
-          ]
-        },
-        {
-          "name": "Request password reset",
-          "request": {
-            "body": {
-              "mode": "raw",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              },
-              "raw": "{\n  \"email\": \"{{$randomEmail}}\"\n}"
-            },
-            "header": [],
-            "method": "POST",
-            "url": {
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "auth",
-                "reset-password"
-              ],
-              "protocol": "https",
-              "raw": "{{base_url}}/auth/reset-password"
-            }
-          },
-          "response": [
-            {
-              "code": 201,
-              "name": "201 Request password reset - created",
-              "originalRequest": {},
-              "status": "Created"
-            },
-            {
-              "code": 400,
-              "name": "400 Validation failed",
-              "originalRequest": {},
-              "status": "Bad Request"
-            },
-            {
-              "code": 401,
-              "name": "401 Authentication required",
-              "originalRequest": {},
-              "status": "Unauthorized"
-            },
-            {
-              "code": 429,
-              "name": "429 Too many requests",
-              "originalRequest": {},
-              "status": "Too Many Requests"
-            },
-            {
-              "code": 500,
-              "name": "500 Internal server error",
-              "originalRequest": {},
-              "status": "Internal Server Error"
-            }
-          ]
-        },
-        {
-          "name": "Login (Firebase token → JWT)",
-          "request": {
-            "body": {
-              "mode": "raw",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              },
-              "raw": "{}"
-            },
-            "header": [],
-            "method": "POST",
-            "url": {
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "auth"
-              ],
-              "protocol": "https",
-              "raw": "{{base_url}}/auth"
-            }
-          },
-          "response": [
-            {
-              "code": 201,
-              "name": "201 Login (Firebase token → JWT) - created",
-              "originalRequest": {},
-              "status": "Created"
-            },
-            {
-              "code": 400,
-              "name": "400 Validation failed",
-              "originalRequest": {},
-              "status": "Bad Request"
-            },
-            {
-              "code": 401,
-              "name": "401 Authentication required",
-              "originalRequest": {},
-              "status": "Unauthorized"
-            },
-            {
-              "code": 429,
-              "name": "429 Too many requests",
-              "originalRequest": {},
-              "status": "Too Many Requests"
-            },
-            {
-              "code": 500,
-              "name": "500 Internal server error",
-              "originalRequest": {},
-              "status": "Internal Server Error"
-            }
-          ]
-        }
-      ],
-      "name": "auth"
-    },
-    {
-      "item": [
-        {
-          "name": "Get article by ID",
-          "request": {
-            "header": [],
-            "method": "GET",
-            "url": {
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "articles",
-                "{id}"
-              ],
-              "protocol": "https",
-              "raw": "{{base_url}}/articles/{id}",
-              "variable": [
-                {
-                  "description": "",
-                  "key": "id",
-                  "value": ":id"
-                }
-              ]
-            }
-          },
-          "response": [
-            {
-              "code": 200,
-              "name": "200 Get article by ID - success",
-              "originalRequest": {},
-              "status": "OK"
-            },
-            {
-              "code": 404,
-              "name": "404 Resource not found",
-              "originalRequest": {},
-              "status": "Not Found"
-            },
-            {
-              "code": 429,
-              "name": "429 Too many requests",
-              "originalRequest": {},
-              "status": "Too Many Requests"
-            },
-            {
-              "code": 500,
-              "name": "500 Internal server error",
-              "originalRequest": {},
-              "status": "Internal Server Error"
-            }
-          ]
-        },
-        {
-          "name": "Update article",
-          "request": {
-            "header": [],
-            "method": "PUT",
-            "url": {
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "articles",
-                "{id}"
-              ],
-              "protocol": "https",
-              "raw": "{{base_url}}/articles/{id}",
-              "variable": [
-                {
-                  "description": "",
-                  "key": "id",
-                  "value": ":id"
-                }
-              ]
-            }
-          },
-          "response": [
-            {
-              "code": 200,
-              "name": "200 Update article - success",
-              "originalRequest": {},
-              "status": "OK"
-            },
-            {
-              "code": 400,
-              "name": "400 Validation failed",
-              "originalRequest": {},
-              "status": "Bad Request"
-            },
-            {
-              "code": 404,
-              "name": "404 Resource not found",
-              "originalRequest": {},
-              "status": "Not Found"
-            },
-            {
-              "code": 429,
-              "name": "429 Too many requests",
-              "originalRequest": {},
-              "status": "Too Many Requests"
-            },
-            {
-              "code": 500,
-              "name": "500 Internal server error",
-              "originalRequest": {},
-              "status": "Internal Server Error"
-            }
-          ]
-        },
-        {
-          "name": "Delete article",
-          "request": {
-            "header": [],
-            "method": "DELETE",
-            "url": {
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "articles",
-                "{id}"
-              ],
-              "protocol": "https",
-              "raw": "{{base_url}}/articles/{id}",
-              "variable": [
-                {
-                  "description": "",
-                  "key": "id",
-                  "value": ":id"
-                }
-              ]
-            }
-          },
-          "response": [
-            {
-              "code": 200,
-              "name": "200 Delete article - success",
-              "originalRequest": {},
-              "status": "OK"
-            },
-            {
-              "code": 404,
-              "name": "404 Resource not found",
-              "originalRequest": {},
-              "status": "Not Found"
-            },
-            {
-              "code": 429,
-              "name": "429 Too many requests",
-              "originalRequest": {},
-              "status": "Too Many Requests"
-            },
-            {
-              "code": 500,
-              "name": "500 Internal server error",
-              "originalRequest": {},
-              "status": "Internal Server Error"
-            }
-          ]
-        },
-        {
-          "name": "List articles (public)",
-          "request": {
-            "header": [],
-            "method": "GET",
-            "url": {
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "articles"
-              ],
-              "protocol": "https",
-              "query": [
-                {
-                  "description": "",
-                  "key": "cursor",
-                  "value": ""
-                },
-                {
-                  "description": "",
-                  "key": "limit",
-                  "value": "25"
-                }
-              ],
-              "raw": "{{base_url}}/articles"
-            }
-          },
-          "response": [
-            {
-              "code": 200,
-              "name": "200 List articles (public) - paginated",
-              "originalRequest": {},
-              "status": "OK"
-            },
-            {
-              "code": 404,
-              "name": "404 Resource not found",
-              "originalRequest": {},
-              "status": "Not Found"
-            },
-            {
-              "code": 429,
-              "name": "429 Too many requests",
-              "originalRequest": {},
-              "status": "Too Many Requests"
-            },
-            {
-              "code": 500,
-              "name": "500 Internal server error",
-              "originalRequest": {},
-              "status": "Internal Server Error"
-            }
-          ]
-        },
-        {
-          "name": "Create article",
-          "request": {
-            "body": {
-              "mode": "raw",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              },
-              "raw": "{\n  \"content\": \"{$randomWord}\",\n  \"header\": \"{$randomWord}\",\n  \"thumbnail\": \"{$randomWord}\"\n}"
-            },
-            "header": [],
-            "method": "POST",
-            "url": {
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "articles",
-                "create"
-              ],
-              "protocol": "https",
-              "raw": "{{base_url}}/articles/create"
-            }
-          },
-          "response": [
-            {
-              "code": 201,
-              "name": "201 Create article - created",
-              "originalRequest": {},
-              "status": "Created"
-            },
-            {
-              "code": 400,
-              "name": "400 Validation failed",
-              "originalRequest": {},
-              "status": "Bad Request"
-            },
-            {
-              "code": 429,
-              "name": "429 Too many requests",
-              "originalRequest": {},
-              "status": "Too Many Requests"
-            },
-            {
-              "code": 500,
-              "name": "500 Internal server error",
-              "originalRequest": {},
-              "status": "Internal Server Error"
-            }
-          ]
-        }
-      ],
-      "name": "articles"
-    },
-    {
-      "item": [
-        {
-          "name": "Create address (auth required)",
-          "request": {
-            "body": {
-              "mode": "raw",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              },
-              "raw": "{\n  \"address\": \"{$randomWord}\",\n  \"label\": \"{$randomWord}\",\n  \"main\": \"true\",\n  \"phone_number\": \"{{$randomPhoneNumber}}\"\n}"
-            },
-            "header": [],
-            "method": "POST",
-            "url": {
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "addresses",
-                "user",
-                "{user_id}"
-              ],
-              "protocol": "https",
-              "raw": "{{base_url}}/addresses/user/{user_id}",
+              "raw": "{{base_url}}/carts/user/{user_id}",
               "variable": [
                 {
                   "description": "",
@@ -978,47 +1642,64 @@
           },
           "response": [
             {
-              "code": 201,
-              "name": "201 Create address (auth required) - created",
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"data\": {\n    \"created_at\": \"2025-01-01T00:00:00\",\n    \"id\": \"550e8400-e29b-41d4-a716-446655440000\",\n    \"product_id\": \"770e8400-e29b-41d4-a716-446655440002\",\n    \"quantity\": 2,\n    \"updated_at\": \"2025-01-01T00:00:00\",\n    \"user_id\": \"660e8400-e29b-41d4-a716-446655440001\",\n    \"variant_id\": null\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": true\n}",
+              "code": 200,
+              "name": "200 - Get user cart - success",
               "originalRequest": {},
-              "status": "Created"
+              "status": "OK"
             },
             {
-              "code": 400,
-              "name": "400 Validation failed",
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"NOT_FOUND\",\n    \"details\": [],\n    \"message\": \"Resource not found\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
+              "code": 404,
+              "name": "404 - Resource not found",
               "originalRequest": {},
-              "status": "Bad Request"
+              "status": "Not Found"
             },
             {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"RATE_LIMITED\",\n    \"details\": [],\n    \"message\": \"Too many requests\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
               "code": 429,
-              "name": "429 Too many requests",
+              "name": "429 - Too many requests",
               "originalRequest": {},
               "status": "Too Many Requests"
             },
             {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"INTERNAL_ERROR\",\n    \"details\": [],\n    \"message\": \"Internal server error\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
               "code": 500,
-              "name": "500 Internal server error",
+              "name": "500 - Internal server error",
               "originalRequest": {},
               "status": "Internal Server Error"
             }
           ]
         },
         {
-          "name": "Update address (auth required)",
+          "name": "Add item to cart",
           "request": {
+            "body": {
+              "mode": "raw",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              },
+              "raw": "{\n  \"product_id\": \"{$randomWord}\",\n  \"quantity\": \"{{$randomInt}}\",\n  \"variant_id\": \"{$randomWord}\"\n}"
+            },
             "header": [],
-            "method": "PUT",
+            "method": "POST",
             "url": {
               "host": [
                 "{{base_url}}"
               ],
               "path": [
-                "addresses",
+                "carts",
                 "user",
                 "{user_id}"
               ],
               "protocol": "https",
-              "raw": "{{base_url}}/addresses/user/{user_id}",
+              "raw": "{{base_url}}/carts/user/{user_id}",
               "variable": [
                 {
                   "description": "",
@@ -1030,39 +1711,101 @@
           },
           "response": [
             {
-              "code": 200,
-              "name": "200 Update address (auth required) - success",
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"data\": {\n    \"created_at\": \"2025-01-01T00:00:00\",\n    \"id\": \"550e8400-e29b-41d4-a716-446655440000\",\n    \"product_id\": \"770e8400-e29b-41d4-a716-446655440002\",\n    \"quantity\": 2,\n    \"updated_at\": \"2025-01-01T00:00:00\",\n    \"user_id\": \"660e8400-e29b-41d4-a716-446655440001\",\n    \"variant_id\": null\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": true\n}",
+              "code": 201,
+              "name": "201 - Add item to cart - created",
               "originalRequest": {},
-              "status": "OK"
+              "status": "Created"
             },
             {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"VALIDATION_ERROR\",\n    \"details\": [],\n    \"message\": \"Validation failed\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
               "code": 400,
-              "name": "400 Validation failed",
+              "name": "400 - Validation failed",
               "originalRequest": {},
               "status": "Bad Request"
             },
             {
-              "code": 404,
-              "name": "404 Resource not found",
-              "originalRequest": {},
-              "status": "Not Found"
-            },
-            {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"RATE_LIMITED\",\n    \"details\": [],\n    \"message\": \"Too many requests\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
               "code": 429,
-              "name": "429 Too many requests",
+              "name": "429 - Too many requests",
               "originalRequest": {},
               "status": "Too Many Requests"
             },
             {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"INTERNAL_ERROR\",\n    \"details\": [],\n    \"message\": \"Internal server error\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
               "code": 500,
-              "name": "500 Internal server error",
+              "name": "500 - Internal server error",
+              "originalRequest": {},
+              "status": "Internal Server Error"
+            }
+          ]
+        },
+        {
+          "name": "Remove cart item",
+          "request": {
+            "header": [],
+            "method": "DELETE",
+            "url": {
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "carts",
+                "item",
+                "{id}"
+              ],
+              "protocol": "https",
+              "raw": "{{base_url}}/carts/item/{id}",
+              "variable": [
+                {
+                  "description": "",
+                  "key": "id",
+                  "value": ":id"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"message\": \"Deleted successfully\",\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": true\n}",
+              "code": 200,
+              "name": "200 - Remove cart item - success",
+              "originalRequest": {},
+              "status": "OK"
+            },
+            {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"NOT_FOUND\",\n    \"details\": [],\n    \"message\": \"Resource not found\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
+              "code": 404,
+              "name": "404 - Resource not found",
+              "originalRequest": {},
+              "status": "Not Found"
+            },
+            {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"RATE_LIMITED\",\n    \"details\": [],\n    \"message\": \"Too many requests\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
+              "code": 429,
+              "name": "429 - Too many requests",
+              "originalRequest": {},
+              "status": "Too Many Requests"
+            },
+            {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"INTERNAL_ERROR\",\n    \"details\": [],\n    \"message\": \"Internal server error\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
+              "code": 500,
+              "name": "500 - Internal server error",
               "originalRequest": {},
               "status": "Internal Server Error"
             }
           ]
         }
       ],
-      "name": "addresses"
+      "name": "carts"
     },
     {
       "item": [
@@ -1096,26 +1839,34 @@
           },
           "response": [
             {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"data\": [\n    {\n      \"address_id\": \"770e8400-e29b-41d4-a716-446655440002\",\n      \"coin\": 50,\n      \"created_at\": \"2025-01-01T00:00:00\",\n      \"id\": \"550e8400-e29b-41d4-a716-446655440000\",\n      \"images\": [],\n      \"landfill_id\": null,\n      \"pickup_date\": \"2025-01-15\",\n      \"pickup_time\": \"10:00\",\n      \"type\": \"plastic\",\n      \"updated_at\": \"2025-01-01T00:00:00\",\n      \"user_id\": \"660e8400-e29b-41d4-a716-446655440001\"\n    }\n  ],\n  \"meta\": {\n    \"locale\": \"en\",\n    \"pagination\": {\n      \"count\": 25,\n      \"cursor\": \"eyJpZCI6MjV9\",\n      \"has_more\": true\n    }\n  },\n  \"success\": true\n}",
               "code": 200,
-              "name": "200 List all deposites (admin) - paginated",
+              "name": "200 - List all deposites (admin) - paginated",
               "originalRequest": {},
               "status": "OK"
             },
             {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"NOT_FOUND\",\n    \"details\": [],\n    \"message\": \"Resource not found\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
               "code": 404,
-              "name": "404 Resource not found",
+              "name": "404 - Resource not found",
               "originalRequest": {},
               "status": "Not Found"
             },
             {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"RATE_LIMITED\",\n    \"details\": [],\n    \"message\": \"Too many requests\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
               "code": 429,
-              "name": "429 Too many requests",
+              "name": "429 - Too many requests",
               "originalRequest": {},
               "status": "Too Many Requests"
             },
             {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"INTERNAL_ERROR\",\n    \"details\": [],\n    \"message\": \"Internal server error\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
               "code": 500,
-              "name": "500 Internal server error",
+              "name": "500 - Internal server error",
               "originalRequest": {},
               "status": "Internal Server Error"
             }
@@ -1148,26 +1899,34 @@
           },
           "response": [
             {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"data\": {\n    \"address_id\": \"770e8400-e29b-41d4-a716-446655440002\",\n    \"coin\": 50,\n    \"created_at\": \"2025-01-01T00:00:00\",\n    \"id\": \"550e8400-e29b-41d4-a716-446655440000\",\n    \"images\": [],\n    \"landfill_id\": null,\n    \"pickup_date\": \"2025-01-15\",\n    \"pickup_time\": \"10:00\",\n    \"type\": \"plastic\",\n    \"updated_at\": \"2025-01-01T00:00:00\",\n    \"user_id\": \"660e8400-e29b-41d4-a716-446655440001\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": true\n}",
               "code": 201,
-              "name": "201 Create deposite (auth required) - created",
+              "name": "201 - Create deposite (auth required) - created",
               "originalRequest": {},
               "status": "Created"
             },
             {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"VALIDATION_ERROR\",\n    \"details\": [],\n    \"message\": \"Validation failed\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
               "code": 400,
-              "name": "400 Validation failed",
+              "name": "400 - Validation failed",
               "originalRequest": {},
               "status": "Bad Request"
             },
             {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"RATE_LIMITED\",\n    \"details\": [],\n    \"message\": \"Too many requests\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
               "code": 429,
-              "name": "429 Too many requests",
+              "name": "429 - Too many requests",
               "originalRequest": {},
               "status": "Too Many Requests"
             },
             {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"INTERNAL_ERROR\",\n    \"details\": [],\n    \"message\": \"Internal server error\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
               "code": 500,
-              "name": "500 Internal server error",
+              "name": "500 - Internal server error",
               "originalRequest": {},
               "status": "Internal Server Error"
             }
@@ -1207,26 +1966,34 @@
           },
           "response": [
             {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"data\": {\n    \"address_id\": \"770e8400-e29b-41d4-a716-446655440002\",\n    \"coin\": 50,\n    \"created_at\": \"2025-01-01T00:00:00\",\n    \"id\": \"550e8400-e29b-41d4-a716-446655440000\",\n    \"images\": [],\n    \"landfill_id\": null,\n    \"pickup_date\": \"2025-01-15\",\n    \"pickup_time\": \"10:00\",\n    \"type\": \"plastic\",\n    \"updated_at\": \"2025-01-01T00:00:00\",\n    \"user_id\": \"660e8400-e29b-41d4-a716-446655440001\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": true\n}",
               "code": 200,
-              "name": "200 Get user deposites - success",
+              "name": "200 - Get user deposites - success",
               "originalRequest": {},
               "status": "OK"
             },
             {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"NOT_FOUND\",\n    \"details\": [],\n    \"message\": \"Resource not found\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
               "code": 404,
-              "name": "404 Resource not found",
+              "name": "404 - Resource not found",
               "originalRequest": {},
               "status": "Not Found"
             },
             {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"RATE_LIMITED\",\n    \"details\": [],\n    \"message\": \"Too many requests\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
               "code": 429,
-              "name": "429 Too many requests",
+              "name": "429 - Too many requests",
               "originalRequest": {},
               "status": "Too Many Requests"
             },
             {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"INTERNAL_ERROR\",\n    \"details\": [],\n    \"message\": \"Internal server error\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
               "code": 500,
-              "name": "500 Internal server error",
+              "name": "500 - Internal server error",
               "originalRequest": {},
               "status": "Internal Server Error"
             }
@@ -1234,402 +2001,6 @@
         }
       ],
       "name": "deposites"
-    },
-    {
-      "item": [
-        {
-          "name": "List banners by type",
-          "request": {
-            "header": [],
-            "method": "GET",
-            "url": {
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "banners",
-                "type",
-                "{type}"
-              ],
-              "protocol": "https",
-              "raw": "{{base_url}}/banners/type/{type}",
-              "variable": [
-                {
-                  "description": "",
-                  "key": "type",
-                  "value": ":type"
-                }
-              ]
-            }
-          },
-          "response": [
-            {
-              "code": 200,
-              "name": "200 List banners by type - paginated",
-              "originalRequest": {},
-              "status": "OK"
-            },
-            {
-              "code": 404,
-              "name": "404 Resource not found",
-              "originalRequest": {},
-              "status": "Not Found"
-            },
-            {
-              "code": 429,
-              "name": "429 Too many requests",
-              "originalRequest": {},
-              "status": "Too Many Requests"
-            },
-            {
-              "code": 500,
-              "name": "500 Internal server error",
-              "originalRequest": {},
-              "status": "Internal Server Error"
-            }
-          ]
-        },
-        {
-          "name": "Create banner",
-          "request": {
-            "body": {
-              "mode": "raw",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              },
-              "raw": "{\n  \"image\": \"{$randomWord}\",\n  \"type\": \"{$randomWord}\"\n}"
-            },
-            "header": [],
-            "method": "POST",
-            "url": {
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "banners",
-                "create"
-              ],
-              "protocol": "https",
-              "raw": "{{base_url}}/banners/create"
-            }
-          },
-          "response": [
-            {
-              "code": 201,
-              "name": "201 Create banner - created",
-              "originalRequest": {},
-              "status": "Created"
-            },
-            {
-              "code": 400,
-              "name": "400 Validation failed",
-              "originalRequest": {},
-              "status": "Bad Request"
-            },
-            {
-              "code": 429,
-              "name": "429 Too many requests",
-              "originalRequest": {},
-              "status": "Too Many Requests"
-            },
-            {
-              "code": 500,
-              "name": "500 Internal server error",
-              "originalRequest": {},
-              "status": "Internal Server Error"
-            }
-          ]
-        },
-        {
-          "name": "List all banners (public)",
-          "request": {
-            "header": [],
-            "method": "GET",
-            "url": {
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "banners"
-              ],
-              "protocol": "https",
-              "query": [
-                {
-                  "description": "",
-                  "key": "cursor",
-                  "value": ""
-                },
-                {
-                  "description": "",
-                  "key": "limit",
-                  "value": "25"
-                }
-              ],
-              "raw": "{{base_url}}/banners"
-            }
-          },
-          "response": [
-            {
-              "code": 200,
-              "name": "200 List all banners (public) - paginated",
-              "originalRequest": {},
-              "status": "OK"
-            },
-            {
-              "code": 404,
-              "name": "404 Resource not found",
-              "originalRequest": {},
-              "status": "Not Found"
-            },
-            {
-              "code": 429,
-              "name": "429 Too many requests",
-              "originalRequest": {},
-              "status": "Too Many Requests"
-            },
-            {
-              "code": 500,
-              "name": "500 Internal server error",
-              "originalRequest": {},
-              "status": "Internal Server Error"
-            }
-          ]
-        }
-      ],
-      "name": "banners"
-    },
-    {
-      "item": [
-        {
-          "name": "List all orders (admin)",
-          "request": {
-            "header": [],
-            "method": "GET",
-            "url": {
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "orders"
-              ],
-              "protocol": "https",
-              "query": [
-                {
-                  "description": "",
-                  "key": "cursor",
-                  "value": ""
-                },
-                {
-                  "description": "",
-                  "key": "limit",
-                  "value": "25"
-                }
-              ],
-              "raw": "{{base_url}}/orders"
-            }
-          },
-          "response": [
-            {
-              "code": 200,
-              "name": "200 List all orders (admin) - paginated",
-              "originalRequest": {},
-              "status": "OK"
-            },
-            {
-              "code": 404,
-              "name": "404 Resource not found",
-              "originalRequest": {},
-              "status": "Not Found"
-            },
-            {
-              "code": 429,
-              "name": "429 Too many requests",
-              "originalRequest": {},
-              "status": "Too Many Requests"
-            },
-            {
-              "code": 500,
-              "name": "500 Internal server error",
-              "originalRequest": {},
-              "status": "Internal Server Error"
-            }
-          ]
-        },
-        {
-          "name": "Get user orders",
-          "request": {
-            "header": [],
-            "method": "GET",
-            "url": {
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "orders",
-                "user",
-                "{user_id}"
-              ],
-              "protocol": "https",
-              "query": [
-                {
-                  "description": "",
-                  "key": "cursor",
-                  "value": ""
-                }
-              ],
-              "raw": "{{base_url}}/orders/user/{user_id}",
-              "variable": [
-                {
-                  "description": "",
-                  "key": "user_id",
-                  "value": ":user_id"
-                }
-              ]
-            }
-          },
-          "response": [
-            {
-              "code": 200,
-              "name": "200 Get user orders - success",
-              "originalRequest": {},
-              "status": "OK"
-            },
-            {
-              "code": 404,
-              "name": "404 Resource not found",
-              "originalRequest": {},
-              "status": "Not Found"
-            },
-            {
-              "code": 429,
-              "name": "429 Too many requests",
-              "originalRequest": {},
-              "status": "Too Many Requests"
-            },
-            {
-              "code": 500,
-              "name": "500 Internal server error",
-              "originalRequest": {},
-              "status": "Internal Server Error"
-            }
-          ]
-        },
-        {
-          "name": "Create order (auth required)",
-          "request": {
-            "body": {
-              "mode": "raw",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              },
-              "raw": "{\n  \"coin\": \"{{$randomInt}}\",\n  \"payment\": \"{$randomWord}\",\n  \"product_id\": \"{$randomWord}\",\n  \"quantity\": \"{{$randomInt}}\"\n}"
-            },
-            "header": [],
-            "method": "POST",
-            "url": {
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "orders",
-                "user",
-                "{user_id}"
-              ],
-              "protocol": "https",
-              "raw": "{{base_url}}/orders/user/{user_id}",
-              "variable": [
-                {
-                  "description": "",
-                  "key": "user_id",
-                  "value": ":user_id"
-                }
-              ]
-            }
-          },
-          "response": [
-            {
-              "code": 201,
-              "name": "201 Create order (auth required) - created",
-              "originalRequest": {},
-              "status": "Created"
-            },
-            {
-              "code": 400,
-              "name": "400 Validation failed",
-              "originalRequest": {},
-              "status": "Bad Request"
-            },
-            {
-              "code": 429,
-              "name": "429 Too many requests",
-              "originalRequest": {},
-              "status": "Too Many Requests"
-            },
-            {
-              "code": 500,
-              "name": "500 Internal server error",
-              "originalRequest": {},
-              "status": "Internal Server Error"
-            }
-          ]
-        },
-        {
-          "name": "Cancel order (auth required)",
-          "request": {
-            "header": [],
-            "method": "DELETE",
-            "url": {
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "orders",
-                "{id}"
-              ],
-              "protocol": "https",
-              "raw": "{{base_url}}/orders/{id}",
-              "variable": [
-                {
-                  "description": "",
-                  "key": "id",
-                  "value": ":id"
-                }
-              ]
-            }
-          },
-          "response": [
-            {
-              "code": 200,
-              "name": "200 Cancel order (auth required) - success",
-              "originalRequest": {},
-              "status": "OK"
-            },
-            {
-              "code": 404,
-              "name": "404 Resource not found",
-              "originalRequest": {},
-              "status": "Not Found"
-            },
-            {
-              "code": 429,
-              "name": "429 Too many requests",
-              "originalRequest": {},
-              "status": "Too Many Requests"
-            },
-            {
-              "code": 500,
-              "name": "500 Internal server error",
-              "originalRequest": {},
-              "status": "Internal Server Error"
-            }
-          ]
-        }
-      ],
-      "name": "orders"
     },
     {
       "item": [
@@ -1668,32 +2039,42 @@
           },
           "response": [
             {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"data\": {\n    \"comment\": \"Great product!\",\n    \"created_at\": \"2025-01-01T00:00:00\",\n    \"id\": \"550e8400-e29b-41d4-a716-446655440000\",\n    \"images\": [],\n    \"product_id\": \"660e8400-e29b-41d4-a716-446655440001\",\n    \"rating\": 5.0,\n    \"updated_at\": \"2025-01-01T00:00:00\",\n    \"user_id\": \"770e8400-e29b-41d4-a716-446655440002\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": true\n}",
               "code": 200,
-              "name": "200 Update review (auth required) - success",
+              "name": "200 - Update review (auth required) - success",
               "originalRequest": {},
               "status": "OK"
             },
             {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"VALIDATION_ERROR\",\n    \"details\": [],\n    \"message\": \"Validation failed\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
               "code": 400,
-              "name": "400 Validation failed",
+              "name": "400 - Validation failed",
               "originalRequest": {},
               "status": "Bad Request"
             },
             {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"NOT_FOUND\",\n    \"details\": [],\n    \"message\": \"Resource not found\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
               "code": 404,
-              "name": "404 Resource not found",
+              "name": "404 - Resource not found",
               "originalRequest": {},
               "status": "Not Found"
             },
             {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"RATE_LIMITED\",\n    \"details\": [],\n    \"message\": \"Too many requests\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
               "code": 429,
-              "name": "429 Too many requests",
+              "name": "429 - Too many requests",
               "originalRequest": {},
               "status": "Too Many Requests"
             },
             {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"INTERNAL_ERROR\",\n    \"details\": [],\n    \"message\": \"Internal server error\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
               "code": 500,
-              "name": "500 Internal server error",
+              "name": "500 - Internal server error",
               "originalRequest": {},
               "status": "Internal Server Error"
             }
@@ -1726,26 +2107,34 @@
           },
           "response": [
             {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"data\": {\n    \"comment\": \"Great product!\",\n    \"created_at\": \"2025-01-01T00:00:00\",\n    \"id\": \"550e8400-e29b-41d4-a716-446655440000\",\n    \"images\": [],\n    \"product_id\": \"660e8400-e29b-41d4-a716-446655440001\",\n    \"rating\": 5.0,\n    \"updated_at\": \"2025-01-01T00:00:00\",\n    \"user_id\": \"770e8400-e29b-41d4-a716-446655440002\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": true\n}",
               "code": 201,
-              "name": "201 Create review (auth required) - created",
+              "name": "201 - Create review (auth required) - created",
               "originalRequest": {},
               "status": "Created"
             },
             {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"VALIDATION_ERROR\",\n    \"details\": [],\n    \"message\": \"Validation failed\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
               "code": 400,
-              "name": "400 Validation failed",
+              "name": "400 - Validation failed",
               "originalRequest": {},
               "status": "Bad Request"
             },
             {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"RATE_LIMITED\",\n    \"details\": [],\n    \"message\": \"Too many requests\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
               "code": 429,
-              "name": "429 Too many requests",
+              "name": "429 - Too many requests",
               "originalRequest": {},
               "status": "Too Many Requests"
             },
             {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"INTERNAL_ERROR\",\n    \"details\": [],\n    \"message\": \"Internal server error\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
               "code": 500,
-              "name": "500 Internal server error",
+              "name": "500 - Internal server error",
               "originalRequest": {},
               "status": "Internal Server Error"
             }
@@ -1796,26 +2185,34 @@
           },
           "response": [
             {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"data\": [\n    {\n      \"available\": 50,\n      \"category\": \"clothing\",\n      \"coin\": 10,\n      \"created_at\": \"2025-01-01T00:00:00\",\n      \"description\": \"Premium cotton t-shirt\",\n      \"discount\": 10.5,\n      \"id\": \"550e8400-e29b-41d4-a716-446655440000\",\n      \"images\": [\n        \"https://example.com/img1.jpg\"\n      ],\n      \"location\": \"Jakarta\",\n      \"name\": \"T-Shirt\",\n      \"price\": 150000,\n      \"rating\": 4.5,\n      \"recommended\": true,\n      \"saller_id\": \"660e8400-e29b-41d4-a716-446655440001\",\n      \"sold\": 50,\n      \"stock\": 100,\n      \"thumbnail\": \"https://example.com/thumb.jpg\",\n      \"updated_at\": \"2025-01-01T00:00:00\"\n    }\n  ],\n  \"meta\": {\n    \"locale\": \"en\",\n    \"pagination\": {\n      \"count\": 25,\n      \"cursor\": \"eyJpZCI6MjV9\",\n      \"has_more\": true\n    }\n  },\n  \"success\": true\n}",
               "code": 200,
-              "name": "200 List products (public, no auth required) - paginated",
+              "name": "200 - List products (public, no auth required) - paginated",
               "originalRequest": {},
               "status": "OK"
             },
             {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"NOT_FOUND\",\n    \"details\": [],\n    \"message\": \"Resource not found\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
               "code": 404,
-              "name": "404 Resource not found",
+              "name": "404 - Resource not found",
               "originalRequest": {},
               "status": "Not Found"
             },
             {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"RATE_LIMITED\",\n    \"details\": [],\n    \"message\": \"Too many requests\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
               "code": 429,
-              "name": "429 Too many requests",
+              "name": "429 - Too many requests",
               "originalRequest": {},
               "status": "Too Many Requests"
             },
             {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"INTERNAL_ERROR\",\n    \"details\": [],\n    \"message\": \"Internal server error\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
               "code": 500,
-              "name": "500 Internal server error",
+              "name": "500 - Internal server error",
               "originalRequest": {},
               "status": "Internal Server Error"
             }
@@ -1847,26 +2244,34 @@
           },
           "response": [
             {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"data\": {\n    \"available\": 50,\n    \"category\": \"clothing\",\n    \"coin\": 10,\n    \"created_at\": \"2025-01-01T00:00:00\",\n    \"description\": \"Premium cotton t-shirt\",\n    \"discount\": 10.5,\n    \"id\": \"550e8400-e29b-41d4-a716-446655440000\",\n    \"images\": [\n      \"https://example.com/img1.jpg\"\n    ],\n    \"location\": \"Jakarta\",\n    \"name\": \"T-Shirt\",\n    \"price\": 150000,\n    \"rating\": 4.5,\n    \"recommended\": true,\n    \"saller_id\": \"660e8400-e29b-41d4-a716-446655440001\",\n    \"sold\": 50,\n    \"stock\": 100,\n    \"thumbnail\": \"https://example.com/thumb.jpg\",\n    \"updated_at\": \"2025-01-01T00:00:00\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": true\n}",
               "code": 200,
-              "name": "200 Get product by ID - success",
+              "name": "200 - Get product by ID - success",
               "originalRequest": {},
               "status": "OK"
             },
             {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"NOT_FOUND\",\n    \"details\": [],\n    \"message\": \"Resource not found\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
               "code": 404,
-              "name": "404 Resource not found",
+              "name": "404 - Resource not found",
               "originalRequest": {},
               "status": "Not Found"
             },
             {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"RATE_LIMITED\",\n    \"details\": [],\n    \"message\": \"Too many requests\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
               "code": 429,
-              "name": "429 Too many requests",
+              "name": "429 - Too many requests",
               "originalRequest": {},
               "status": "Too Many Requests"
             },
             {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"INTERNAL_ERROR\",\n    \"details\": [],\n    \"message\": \"Internal server error\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
               "code": 500,
-              "name": "500 Internal server error",
+              "name": "500 - Internal server error",
               "originalRequest": {},
               "status": "Internal Server Error"
             }
@@ -1907,32 +2312,42 @@
           },
           "response": [
             {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"data\": {\n    \"available\": 50,\n    \"category\": \"clothing\",\n    \"coin\": 10,\n    \"created_at\": \"2025-01-01T00:00:00\",\n    \"description\": \"Premium cotton t-shirt\",\n    \"discount\": 10.5,\n    \"id\": \"550e8400-e29b-41d4-a716-446655440000\",\n    \"images\": [\n      \"https://example.com/img1.jpg\"\n    ],\n    \"location\": \"Jakarta\",\n    \"name\": \"T-Shirt\",\n    \"price\": 150000,\n    \"rating\": 4.5,\n    \"recommended\": true,\n    \"saller_id\": \"660e8400-e29b-41d4-a716-446655440001\",\n    \"sold\": 50,\n    \"stock\": 100,\n    \"thumbnail\": \"https://example.com/thumb.jpg\",\n    \"updated_at\": \"2025-01-01T00:00:00\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": true\n}",
               "code": 200,
-              "name": "200 Update product - success",
+              "name": "200 - Update product - success",
               "originalRequest": {},
               "status": "OK"
             },
             {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"VALIDATION_ERROR\",\n    \"details\": [],\n    \"message\": \"Validation failed\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
               "code": 400,
-              "name": "400 Validation failed",
+              "name": "400 - Validation failed",
               "originalRequest": {},
               "status": "Bad Request"
             },
             {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"NOT_FOUND\",\n    \"details\": [],\n    \"message\": \"Resource not found\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
               "code": 404,
-              "name": "404 Resource not found",
+              "name": "404 - Resource not found",
               "originalRequest": {},
               "status": "Not Found"
             },
             {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"RATE_LIMITED\",\n    \"details\": [],\n    \"message\": \"Too many requests\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
               "code": 429,
-              "name": "429 Too many requests",
+              "name": "429 - Too many requests",
               "originalRequest": {},
               "status": "Too Many Requests"
             },
             {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"INTERNAL_ERROR\",\n    \"details\": [],\n    \"message\": \"Internal server error\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
               "code": 500,
-              "name": "500 Internal server error",
+              "name": "500 - Internal server error",
               "originalRequest": {},
               "status": "Internal Server Error"
             }
@@ -1964,26 +2379,34 @@
           },
           "response": [
             {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"message\": \"Deleted successfully\",\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": true\n}",
               "code": 200,
-              "name": "200 Delete product - success",
+              "name": "200 - Delete product - success",
               "originalRequest": {},
               "status": "OK"
             },
             {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"NOT_FOUND\",\n    \"details\": [],\n    \"message\": \"Resource not found\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
               "code": 404,
-              "name": "404 Resource not found",
+              "name": "404 - Resource not found",
               "originalRequest": {},
               "status": "Not Found"
             },
             {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"RATE_LIMITED\",\n    \"details\": [],\n    \"message\": \"Too many requests\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
               "code": 429,
-              "name": "429 Too many requests",
+              "name": "429 - Too many requests",
               "originalRequest": {},
               "status": "Too Many Requests"
             },
             {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"INTERNAL_ERROR\",\n    \"details\": [],\n    \"message\": \"Internal server error\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
               "code": 500,
-              "name": "500 Internal server error",
+              "name": "500 - Internal server error",
               "originalRequest": {},
               "status": "Internal Server Error"
             }
@@ -2025,26 +2448,34 @@
           },
           "response": [
             {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"data\": {\n    \"id\": \"770e8400-e29b-41d4-a716-446655440002\",\n    \"image\": \"https://example.com/variant.jpg\",\n    \"name\": \"Size L - Black\",\n    \"price\": 160000,\n    \"product_id\": \"550e8400-e29b-41d4-a716-446655440000\",\n    \"stock\": 30\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": true\n}",
               "code": 201,
-              "name": "201 Add product variant - created",
+              "name": "201 - Add product variant - created",
               "originalRequest": {},
               "status": "Created"
             },
             {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"VALIDATION_ERROR\",\n    \"details\": [],\n    \"message\": \"Validation failed\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
               "code": 400,
-              "name": "400 Validation failed",
+              "name": "400 - Validation failed",
               "originalRequest": {},
               "status": "Bad Request"
             },
             {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"RATE_LIMITED\",\n    \"details\": [],\n    \"message\": \"Too many requests\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
               "code": 429,
-              "name": "429 Too many requests",
+              "name": "429 - Too many requests",
               "originalRequest": {},
               "status": "Too Many Requests"
             },
             {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"INTERNAL_ERROR\",\n    \"details\": [],\n    \"message\": \"Internal server error\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
               "code": 500,
-              "name": "500 Internal server error",
+              "name": "500 - Internal server error",
               "originalRequest": {},
               "status": "Internal Server Error"
             }
@@ -2078,26 +2509,34 @@
           },
           "response": [
             {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"data\": {\n    \"available\": 50,\n    \"category\": \"clothing\",\n    \"coin\": 10,\n    \"created_at\": \"2025-01-01T00:00:00\",\n    \"description\": \"Premium cotton t-shirt\",\n    \"discount\": 10.5,\n    \"id\": \"550e8400-e29b-41d4-a716-446655440000\",\n    \"images\": [\n      \"https://example.com/img1.jpg\"\n    ],\n    \"location\": \"Jakarta\",\n    \"name\": \"T-Shirt\",\n    \"price\": 150000,\n    \"rating\": 4.5,\n    \"recommended\": true,\n    \"saller_id\": \"660e8400-e29b-41d4-a716-446655440001\",\n    \"sold\": 50,\n    \"stock\": 100,\n    \"thumbnail\": \"https://example.com/thumb.jpg\",\n    \"updated_at\": \"2025-01-01T00:00:00\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": true\n}",
               "code": 201,
-              "name": "201 Create product - created",
+              "name": "201 - Create product - created",
               "originalRequest": {},
               "status": "Created"
             },
             {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"VALIDATION_ERROR\",\n    \"details\": [],\n    \"message\": \"Validation failed\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
               "code": 400,
-              "name": "400 Validation failed",
+              "name": "400 - Validation failed",
               "originalRequest": {},
               "status": "Bad Request"
             },
             {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"RATE_LIMITED\",\n    \"details\": [],\n    \"message\": \"Too many requests\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
               "code": 429,
-              "name": "429 Too many requests",
+              "name": "429 - Too many requests",
               "originalRequest": {},
               "status": "Too Many Requests"
             },
             {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"INTERNAL_ERROR\",\n    \"details\": [],\n    \"message\": \"Internal server error\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
               "code": 500,
-              "name": "500 Internal server error",
+              "name": "500 - Internal server error",
               "originalRequest": {},
               "status": "Internal Server Error"
             }
@@ -2109,7 +2548,7 @@
     {
       "item": [
         {
-          "name": "Get user profile",
+          "name": "List all orders (admin)",
           "request": {
             "header": [],
             "method": "GET",
@@ -2118,240 +2557,7 @@
                 "{{base_url}}"
               ],
               "path": [
-                "profile",
-                "{email}"
-              ],
-              "protocol": "https",
-              "raw": "{{base_url}}/profile/{email}",
-              "variable": [
-                {
-                  "description": "",
-                  "key": "email",
-                  "value": ":email"
-                }
-              ]
-            }
-          },
-          "response": [
-            {
-              "code": 200,
-              "name": "200 Get user profile - success",
-              "originalRequest": {},
-              "status": "OK"
-            },
-            {
-              "code": 404,
-              "name": "404 Resource not found",
-              "originalRequest": {},
-              "status": "Not Found"
-            },
-            {
-              "code": 429,
-              "name": "429 Too many requests",
-              "originalRequest": {},
-              "status": "Too Many Requests"
-            },
-            {
-              "code": 500,
-              "name": "500 Internal server error",
-              "originalRequest": {},
-              "status": "Internal Server Error"
-            }
-          ]
-        },
-        {
-          "name": "Update user profile",
-          "request": {
-            "body": {
-              "mode": "raw",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              },
-              "raw": "{\n  \"name\": \"{{$randomFullName}}\",\n  \"phone_number\": \"{{$randomPhoneNumber}}\",\n  \"photo_url\": \"{{$randomUrl}}\",\n  \"role\": \"{$randomWord}\"\n}"
-            },
-            "header": [],
-            "method": "PUT",
-            "url": {
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "profile",
-                "{email}"
-              ],
-              "protocol": "https",
-              "raw": "{{base_url}}/profile/{email}",
-              "variable": [
-                {
-                  "description": "",
-                  "key": "email",
-                  "value": ":email"
-                }
-              ]
-            }
-          },
-          "response": [
-            {
-              "code": 200,
-              "name": "200 Update user profile - success",
-              "originalRequest": {},
-              "status": "OK"
-            },
-            {
-              "code": 400,
-              "name": "400 Validation failed",
-              "originalRequest": {},
-              "status": "Bad Request"
-            },
-            {
-              "code": 404,
-              "name": "404 Resource not found",
-              "originalRequest": {},
-              "status": "Not Found"
-            },
-            {
-              "code": 429,
-              "name": "429 Too many requests",
-              "originalRequest": {},
-              "status": "Too Many Requests"
-            },
-            {
-              "code": 500,
-              "name": "500 Internal server error",
-              "originalRequest": {},
-              "status": "Internal Server Error"
-            }
-          ]
-        }
-      ],
-      "name": "profile"
-    },
-    {
-      "item": [
-        {
-          "name": "Update trash type (admin)",
-          "request": {
-            "header": [],
-            "method": "PUT",
-            "url": {
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "trash",
-                "type",
-                "{id}"
-              ],
-              "protocol": "https",
-              "raw": "{{base_url}}/trash/type/{id}",
-              "variable": [
-                {
-                  "description": "",
-                  "key": "id",
-                  "value": ":id"
-                }
-              ]
-            }
-          },
-          "response": [
-            {
-              "code": 200,
-              "name": "200 Update trash type (admin) - success",
-              "originalRequest": {},
-              "status": "OK"
-            },
-            {
-              "code": 400,
-              "name": "400 Validation failed",
-              "originalRequest": {},
-              "status": "Bad Request"
-            },
-            {
-              "code": 404,
-              "name": "404 Resource not found",
-              "originalRequest": {},
-              "status": "Not Found"
-            },
-            {
-              "code": 429,
-              "name": "429 Too many requests",
-              "originalRequest": {},
-              "status": "Too Many Requests"
-            },
-            {
-              "code": 500,
-              "name": "500 Internal server error",
-              "originalRequest": {},
-              "status": "Internal Server Error"
-            }
-          ]
-        },
-        {
-          "name": "Delete trash type (admin)",
-          "request": {
-            "header": [],
-            "method": "DELETE",
-            "url": {
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "trash",
-                "type",
-                "{id}"
-              ],
-              "protocol": "https",
-              "raw": "{{base_url}}/trash/type/{id}",
-              "variable": [
-                {
-                  "description": "",
-                  "key": "id",
-                  "value": ":id"
-                }
-              ]
-            }
-          },
-          "response": [
-            {
-              "code": 200,
-              "name": "200 Delete trash type (admin) - success",
-              "originalRequest": {},
-              "status": "OK"
-            },
-            {
-              "code": 404,
-              "name": "404 Resource not found",
-              "originalRequest": {},
-              "status": "Not Found"
-            },
-            {
-              "code": 429,
-              "name": "429 Too many requests",
-              "originalRequest": {},
-              "status": "Too Many Requests"
-            },
-            {
-              "code": 500,
-              "name": "500 Internal server error",
-              "originalRequest": {},
-              "status": "Internal Server Error"
-            }
-          ]
-        },
-        {
-          "name": "List trash types (public)",
-          "request": {
-            "header": [],
-            "method": "GET",
-            "url": {
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "trash",
-                "types"
+                "orders"
               ],
               "protocol": "https",
               "query": [
@@ -2366,38 +2572,113 @@
                   "value": "25"
                 }
               ],
-              "raw": "{{base_url}}/trash/types"
+              "raw": "{{base_url}}/orders"
             }
           },
           "response": [
             {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"data\": [\n    {\n      \"coin\": 10,\n      \"created_at\": \"2025-01-01T00:00:00\",\n      \"delivery\": {\n        \"estimated_delivery\": \"2025-01-05T00:00:00\",\n        \"status\": \"processing\",\n        \"tracking_number\": \"\"\n      },\n      \"id\": \"550e8400-e29b-41d4-a716-446655440000\",\n      \"payment\": {\n        \"amount\": 150000.0,\n        \"method\": \"qris\",\n        \"status\": \"pending\"\n      },\n      \"product_id\": \"770e8400-e29b-41d4-a716-446655440002\",\n      \"quantity\": 1,\n      \"updated_at\": \"2025-01-01T00:00:00\",\n      \"user_id\": \"660e8400-e29b-41d4-a716-446655440001\"\n    }\n  ],\n  \"meta\": {\n    \"locale\": \"en\",\n    \"pagination\": {\n      \"count\": 25,\n      \"cursor\": \"eyJpZCI6MjV9\",\n      \"has_more\": true\n    }\n  },\n  \"success\": true\n}",
               "code": 200,
-              "name": "200 List trash types (public) - paginated",
+              "name": "200 - List all orders (admin) - paginated",
               "originalRequest": {},
               "status": "OK"
             },
             {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"NOT_FOUND\",\n    \"details\": [],\n    \"message\": \"Resource not found\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
               "code": 404,
-              "name": "404 Resource not found",
+              "name": "404 - Resource not found",
               "originalRequest": {},
               "status": "Not Found"
             },
             {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"RATE_LIMITED\",\n    \"details\": [],\n    \"message\": \"Too many requests\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
               "code": 429,
-              "name": "429 Too many requests",
+              "name": "429 - Too many requests",
               "originalRequest": {},
               "status": "Too Many Requests"
             },
             {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"INTERNAL_ERROR\",\n    \"details\": [],\n    \"message\": \"Internal server error\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
               "code": 500,
-              "name": "500 Internal server error",
+              "name": "500 - Internal server error",
               "originalRequest": {},
               "status": "Internal Server Error"
             }
           ]
         },
         {
-          "name": "Create trash type (admin)",
+          "name": "Get user orders",
+          "request": {
+            "header": [],
+            "method": "GET",
+            "url": {
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "orders",
+                "user",
+                "{user_id}"
+              ],
+              "protocol": "https",
+              "query": [
+                {
+                  "description": "",
+                  "key": "cursor",
+                  "value": ""
+                }
+              ],
+              "raw": "{{base_url}}/orders/user/{user_id}",
+              "variable": [
+                {
+                  "description": "",
+                  "key": "user_id",
+                  "value": ":user_id"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"data\": {\n    \"coin\": 10,\n    \"created_at\": \"2025-01-01T00:00:00\",\n    \"delivery\": {\n      \"estimated_delivery\": \"2025-01-05T00:00:00\",\n      \"status\": \"processing\",\n      \"tracking_number\": \"\"\n    },\n    \"id\": \"550e8400-e29b-41d4-a716-446655440000\",\n    \"payment\": {\n      \"amount\": 150000.0,\n      \"method\": \"qris\",\n      \"status\": \"pending\"\n    },\n    \"product_id\": \"770e8400-e29b-41d4-a716-446655440002\",\n    \"quantity\": 1,\n    \"updated_at\": \"2025-01-01T00:00:00\",\n    \"user_id\": \"660e8400-e29b-41d4-a716-446655440001\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": true\n}",
+              "code": 200,
+              "name": "200 - Get user orders - success",
+              "originalRequest": {},
+              "status": "OK"
+            },
+            {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"NOT_FOUND\",\n    \"details\": [],\n    \"message\": \"Resource not found\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
+              "code": 404,
+              "name": "404 - Resource not found",
+              "originalRequest": {},
+              "status": "Not Found"
+            },
+            {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"RATE_LIMITED\",\n    \"details\": [],\n    \"message\": \"Too many requests\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
+              "code": 429,
+              "name": "429 - Too many requests",
+              "originalRequest": {},
+              "status": "Too Many Requests"
+            },
+            {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"INTERNAL_ERROR\",\n    \"details\": [],\n    \"message\": \"Internal server error\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
+              "code": 500,
+              "name": "500 - Internal server error",
+              "originalRequest": {},
+              "status": "Internal Server Error"
+            }
+          ]
+        },
+        {
+          "name": "Create order (auth required)",
           "request": {
             "body": {
               "mode": "raw",
@@ -2406,7 +2687,7 @@
                   "language": "json"
                 }
               },
-              "raw": "{\n  \"image\": \"{$randomWord}\",\n  \"name\": \"{{$randomFullName}}\"\n}"
+              "raw": "{\n  \"coin\": \"{{$randomInt}}\",\n  \"payment\": \"{$randomWord}\",\n  \"product_id\": \"{$randomWord}\",\n  \"quantity\": \"{{$randomInt}}\"\n}"
             },
             "header": [],
             "method": "POST",
@@ -2415,42 +2696,117 @@
                 "{{base_url}}"
               ],
               "path": [
-                "trash",
-                "types"
+                "orders",
+                "user",
+                "{user_id}"
               ],
               "protocol": "https",
-              "raw": "{{base_url}}/trash/types"
+              "raw": "{{base_url}}/orders/user/{user_id}",
+              "variable": [
+                {
+                  "description": "",
+                  "key": "user_id",
+                  "value": ":user_id"
+                }
+              ]
             }
           },
           "response": [
             {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"data\": {\n    \"coin\": 10,\n    \"created_at\": \"2025-01-01T00:00:00\",\n    \"delivery\": {\n      \"estimated_delivery\": \"2025-01-05T00:00:00\",\n      \"status\": \"processing\",\n      \"tracking_number\": \"\"\n    },\n    \"id\": \"550e8400-e29b-41d4-a716-446655440000\",\n    \"payment\": {\n      \"amount\": 150000.0,\n      \"method\": \"qris\",\n      \"status\": \"pending\"\n    },\n    \"product_id\": \"770e8400-e29b-41d4-a716-446655440002\",\n    \"quantity\": 1,\n    \"updated_at\": \"2025-01-01T00:00:00\",\n    \"user_id\": \"660e8400-e29b-41d4-a716-446655440001\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": true\n}",
               "code": 201,
-              "name": "201 Create trash type (admin) - created",
+              "name": "201 - Create order (auth required) - created",
               "originalRequest": {},
               "status": "Created"
             },
             {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"VALIDATION_ERROR\",\n    \"details\": [],\n    \"message\": \"Validation failed\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
               "code": 400,
-              "name": "400 Validation failed",
+              "name": "400 - Validation failed",
               "originalRequest": {},
               "status": "Bad Request"
             },
             {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"RATE_LIMITED\",\n    \"details\": [],\n    \"message\": \"Too many requests\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
               "code": 429,
-              "name": "429 Too many requests",
+              "name": "429 - Too many requests",
               "originalRequest": {},
               "status": "Too Many Requests"
             },
             {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"INTERNAL_ERROR\",\n    \"details\": [],\n    \"message\": \"Internal server error\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
               "code": 500,
-              "name": "500 Internal server error",
+              "name": "500 - Internal server error",
+              "originalRequest": {},
+              "status": "Internal Server Error"
+            }
+          ]
+        },
+        {
+          "name": "Cancel order (auth required)",
+          "request": {
+            "header": [],
+            "method": "DELETE",
+            "url": {
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "orders",
+                "{id}"
+              ],
+              "protocol": "https",
+              "raw": "{{base_url}}/orders/{id}",
+              "variable": [
+                {
+                  "description": "",
+                  "key": "id",
+                  "value": ":id"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"message\": \"Deleted successfully\",\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": true\n}",
+              "code": 200,
+              "name": "200 - Cancel order (auth required) - success",
+              "originalRequest": {},
+              "status": "OK"
+            },
+            {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"NOT_FOUND\",\n    \"details\": [],\n    \"message\": \"Resource not found\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
+              "code": 404,
+              "name": "404 - Resource not found",
+              "originalRequest": {},
+              "status": "Not Found"
+            },
+            {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"RATE_LIMITED\",\n    \"details\": [],\n    \"message\": \"Too many requests\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
+              "code": 429,
+              "name": "429 - Too many requests",
+              "originalRequest": {},
+              "status": "Too Many Requests"
+            },
+            {
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"error\": {\n    \"code\": \"INTERNAL_ERROR\",\n    \"details\": [],\n    \"message\": \"Internal server error\"\n  },\n  \"meta\": {\n    \"locale\": \"en\"\n  },\n  \"success\": false\n}",
+              "code": 500,
+              "name": "500 - Internal server error",
               "originalRequest": {},
               "status": "Internal Server Error"
             }
           ]
         }
       ],
-      "name": "trash"
+      "name": "orders"
     }
   ],
   "variable": []

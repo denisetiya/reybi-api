@@ -134,8 +134,8 @@ Authentication (Firebase + JWT)
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| `password` | `string` | ✅ | — |
 | `name` | `string` | ✅ | — |
+| `password` | `string` | ✅ | — |
 | `email` | `string` | ✅ | — |
 
 #### Example cURL
@@ -149,13 +149,97 @@ curl -X POST 'http://localhost:3000/v1/auth/register' \
 
 ##### ✅ 201 `Register new user - created`
 
+*default*
+
+```json
+{
+  "data": {
+    "created_at": "2025-01-01T00:00:00",
+    "email": "newuser@example.com",
+    "fb_id": "firebase-uid-123",
+    "id": "550e8400-e29b-41d4-a716-446655440000",
+    "name": "Jane Doe",
+    "role": "user",
+    "updated_at": "2025-01-01T00:00:00"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": true
+}
+```
+
 ##### ⚠️ 400 `Validation failed`
+
+*default*
+
+```json
+{
+  "error": {
+    "code": "VALIDATION_ERROR",
+    "details": [],
+    "message": "Validation failed"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
 
 ##### ⚠️ 401 `Authentication required`
 
+*default*
+
+```json
+{
+  "error": {
+    "code": "UNAUTHORIZED",
+    "details": [],
+    "message": "Authentication required"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
+
 ##### ⚠️ 429 `Too many requests`
 
+*default*
+
+```json
+{
+  "error": {
+    "code": "RATE_LIMITED",
+    "details": [],
+    "message": "Too many requests"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
+
 ##### ❌ 500 `Internal server error`
+
+*default*
+
+```json
+{
+  "error": {
+    "code": "INTERNAL_ERROR",
+    "details": [],
+    "message": "Internal server error"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
 
 ---
 
@@ -188,13 +272,91 @@ curl -X POST 'http://localhost:3000/v1/auth/reset-password' \
 
 ##### ✅ 201 `Request password reset - created`
 
+*default*
+
+```json
+{
+  "data": {
+    "email": "user@example.com"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": true
+}
+```
+
 ##### ⚠️ 400 `Validation failed`
+
+*default*
+
+```json
+{
+  "error": {
+    "code": "VALIDATION_ERROR",
+    "details": [],
+    "message": "Validation failed"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
 
 ##### ⚠️ 401 `Authentication required`
 
+*default*
+
+```json
+{
+  "error": {
+    "code": "UNAUTHORIZED",
+    "details": [],
+    "message": "Authentication required"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
+
 ##### ⚠️ 429 `Too many requests`
 
+*default*
+
+```json
+{
+  "error": {
+    "code": "RATE_LIMITED",
+    "details": [],
+    "message": "Too many requests"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
+
 ##### ❌ 500 `Internal server error`
+
+*default*
+
+```json
+{
+  "error": {
+    "code": "INTERNAL_ERROR",
+    "details": [],
+    "message": "Internal server error"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
 
 ---
 
@@ -226,13 +388,105 @@ curl -X POST 'http://localhost:3000/v1/auth' \
 
 ##### ✅ 201 `Login (Firebase token → JWT) - created`
 
+*default*
+
+```json
+{
+  "data": {
+    "access_token": "eyJhbGciOiJIUzI1NiIs...",
+    "expires_in": 3600,
+    "refresh_token": "eyJhbGciOiJIUzI1NiIs...",
+    "token_type": "Bearer",
+    "user": {
+      "created_at": "2025-01-01T00:00:00",
+      "email": "user@example.com",
+      "fb_id": "firebase-uid-123",
+      "id": "550e8400-e29b-41d4-a716-446655440000",
+      "name": "John Doe",
+      "phone_number": "+628123456789",
+      "photo_url": "https://example.com/photo.jpg",
+      "role": "user",
+      "updated_at": "2025-01-01T00:00:00"
+    }
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": true
+}
+```
+
 ##### ⚠️ 400 `Validation failed`
+
+*default*
+
+```json
+{
+  "error": {
+    "code": "VALIDATION_ERROR",
+    "details": [],
+    "message": "Validation failed"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
 
 ##### ⚠️ 401 `Authentication required`
 
+*default*
+
+```json
+{
+  "error": {
+    "code": "UNAUTHORIZED",
+    "details": [],
+    "message": "Authentication required"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
+
 ##### ⚠️ 429 `Too many requests`
 
+*default*
+
+```json
+{
+  "error": {
+    "code": "RATE_LIMITED",
+    "details": [],
+    "message": "Too many requests"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
+
 ##### ❌ 500 `Internal server error`
+
+*default*
+
+```json
+{
+  "error": {
+    "code": "INTERNAL_ERROR",
+    "details": [],
+    "message": "Internal server error"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
 
 ---
 
@@ -265,11 +519,99 @@ curl -X GET 'http://localhost:3000/v1/products?cursor=example-cursor&limit=1&cat
 
 ##### ✅ 200 `List products (public, no auth required) - paginated`
 
+*default*
+
+```json
+{
+  "data": [
+    {
+      "available": 50,
+      "category": "clothing",
+      "coin": 10,
+      "created_at": "2025-01-01T00:00:00",
+      "description": "Premium cotton t-shirt",
+      "discount": 10.5,
+      "id": "550e8400-e29b-41d4-a716-446655440000",
+      "images": [
+        "https://example.com/img1.jpg"
+      ],
+      "location": "Jakarta",
+      "name": "T-Shirt",
+      "price": 150000,
+      "rating": 4.5,
+      "recommended": true,
+      "saller_id": "660e8400-e29b-41d4-a716-446655440001",
+      "sold": 50,
+      "stock": 100,
+      "thumbnail": "https://example.com/thumb.jpg",
+      "updated_at": "2025-01-01T00:00:00"
+    }
+  ],
+  "meta": {
+    "locale": "en",
+    "pagination": {
+      "count": 25,
+      "cursor": "eyJpZCI6MjV9",
+      "has_more": true
+    }
+  },
+  "success": true
+}
+```
+
 ##### ⚠️ 404 `Resource not found`
+
+*default*
+
+```json
+{
+  "error": {
+    "code": "NOT_FOUND",
+    "details": [],
+    "message": "Resource not found"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
 
 ##### ⚠️ 429 `Too many requests`
 
+*default*
+
+```json
+{
+  "error": {
+    "code": "RATE_LIMITED",
+    "details": [],
+    "message": "Too many requests"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
+
 ##### ❌ 500 `Internal server error`
+
+*default*
+
+```json
+{
+  "error": {
+    "code": "INTERNAL_ERROR",
+    "details": [],
+    "message": "Internal server error"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
 
 ---
 
@@ -295,11 +637,92 @@ curl -X GET 'http://localhost:3000/v1/products/id-example'
 
 ##### ✅ 200 `Get product by ID - success`
 
+*default*
+
+```json
+{
+  "data": {
+    "available": 50,
+    "category": "clothing",
+    "coin": 10,
+    "created_at": "2025-01-01T00:00:00",
+    "description": "Premium cotton t-shirt",
+    "discount": 10.5,
+    "id": "550e8400-e29b-41d4-a716-446655440000",
+    "images": [
+      "https://example.com/img1.jpg"
+    ],
+    "location": "Jakarta",
+    "name": "T-Shirt",
+    "price": 150000,
+    "rating": 4.5,
+    "recommended": true,
+    "saller_id": "660e8400-e29b-41d4-a716-446655440001",
+    "sold": 50,
+    "stock": 100,
+    "thumbnail": "https://example.com/thumb.jpg",
+    "updated_at": "2025-01-01T00:00:00"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": true
+}
+```
+
 ##### ⚠️ 404 `Resource not found`
+
+*default*
+
+```json
+{
+  "error": {
+    "code": "NOT_FOUND",
+    "details": [],
+    "message": "Resource not found"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
 
 ##### ⚠️ 429 `Too many requests`
 
+*default*
+
+```json
+{
+  "error": {
+    "code": "RATE_LIMITED",
+    "details": [],
+    "message": "Too many requests"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
+
 ##### ❌ 500 `Internal server error`
+
+*default*
+
+```json
+{
+  "error": {
+    "code": "INTERNAL_ERROR",
+    "details": [],
+    "message": "Internal server error"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
 
 ---
 
@@ -337,13 +760,110 @@ curl -X PUT 'http://localhost:3000/v1/products/id-example' \
 
 ##### ✅ 200 `Update product - success`
 
+*default*
+
+```json
+{
+  "data": {
+    "available": 50,
+    "category": "clothing",
+    "coin": 10,
+    "created_at": "2025-01-01T00:00:00",
+    "description": "Premium cotton t-shirt",
+    "discount": 10.5,
+    "id": "550e8400-e29b-41d4-a716-446655440000",
+    "images": [
+      "https://example.com/img1.jpg"
+    ],
+    "location": "Jakarta",
+    "name": "T-Shirt",
+    "price": 150000,
+    "rating": 4.5,
+    "recommended": true,
+    "saller_id": "660e8400-e29b-41d4-a716-446655440001",
+    "sold": 50,
+    "stock": 100,
+    "thumbnail": "https://example.com/thumb.jpg",
+    "updated_at": "2025-01-01T00:00:00"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": true
+}
+```
+
 ##### ⚠️ 400 `Validation failed`
+
+*default*
+
+```json
+{
+  "error": {
+    "code": "VALIDATION_ERROR",
+    "details": [],
+    "message": "Validation failed"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
 
 ##### ⚠️ 404 `Resource not found`
 
+*default*
+
+```json
+{
+  "error": {
+    "code": "NOT_FOUND",
+    "details": [],
+    "message": "Resource not found"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
+
 ##### ⚠️ 429 `Too many requests`
 
+*default*
+
+```json
+{
+  "error": {
+    "code": "RATE_LIMITED",
+    "details": [],
+    "message": "Too many requests"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
+
 ##### ❌ 500 `Internal server error`
+
+*default*
+
+```json
+{
+  "error": {
+    "code": "INTERNAL_ERROR",
+    "details": [],
+    "message": "Internal server error"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
 
 ---
 
@@ -369,11 +889,71 @@ curl -X DELETE 'http://localhost:3000/v1/products/id-example'
 
 ##### ✅ 200 `Delete product - success`
 
+*default*
+
+```json
+{
+  "message": "Deleted successfully",
+  "meta": {
+    "locale": "en"
+  },
+  "success": true
+}
+```
+
 ##### ⚠️ 404 `Resource not found`
+
+*default*
+
+```json
+{
+  "error": {
+    "code": "NOT_FOUND",
+    "details": [],
+    "message": "Resource not found"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
 
 ##### ⚠️ 429 `Too many requests`
 
+*default*
+
+```json
+{
+  "error": {
+    "code": "RATE_LIMITED",
+    "details": [],
+    "message": "Too many requests"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
+
 ##### ❌ 500 `Internal server error`
+
+*default*
+
+```json
+{
+  "error": {
+    "code": "INTERNAL_ERROR",
+    "details": [],
+    "message": "Internal server error"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
 
 ---
 
@@ -399,10 +979,10 @@ curl -X DELETE 'http://localhost:3000/v1/products/id-example'
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| `price` | `integer` | ✅ | — |
 | `name` | `string` | ✅ | — |
-| `image` | `string` | ❌ | — |
+| `price` | `integer` | ✅ | — |
 | `stock` | `integer` | ✅ | — |
+| `image` | `string` | ❌ | — |
 
 #### Example cURL
 
@@ -415,11 +995,78 @@ curl -X POST 'http://localhost:3000/v1/products/variant/id-example' \
 
 ##### ✅ 201 `Add product variant - created`
 
+*default*
+
+```json
+{
+  "data": {
+    "id": "770e8400-e29b-41d4-a716-446655440002",
+    "image": "https://example.com/variant.jpg",
+    "name": "Size L - Black",
+    "price": 160000,
+    "product_id": "550e8400-e29b-41d4-a716-446655440000",
+    "stock": 30
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": true
+}
+```
+
 ##### ⚠️ 400 `Validation failed`
+
+*default*
+
+```json
+{
+  "error": {
+    "code": "VALIDATION_ERROR",
+    "details": [],
+    "message": "Validation failed"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
 
 ##### ⚠️ 429 `Too many requests`
 
+*default*
+
+```json
+{
+  "error": {
+    "code": "RATE_LIMITED",
+    "details": [],
+    "message": "Too many requests"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
+
 ##### ❌ 500 `Internal server error`
+
+*default*
+
+```json
+{
+  "error": {
+    "code": "INTERNAL_ERROR",
+    "details": [],
+    "message": "Internal server error"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
 
 ---
 
@@ -439,18 +1086,18 @@ curl -X POST 'http://localhost:3000/v1/products/variant/id-example' \
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| `category` | `string` | ✅ | — |
-| `saller_id` | `string` | ❌ | — |
 | `recommended` | `boolean` | ❌ | — |
-| `price` | `integer` | ✅ | — |
-| `discount` | `integer` | ❌ | — |
-| `stock` | `integer` | ✅ | — |
 | `images` | `object` | ❌ | — |
-| `location` | `string` | ❌ | — |
-| `description` | `string` | ✅ | — |
 | `thumbnail` | `string` | ❌ | — |
 | `coin` | `integer` | ❌ | — |
+| `category` | `string` | ✅ | — |
+| `discount` | `integer` | ❌ | — |
 | `name` | `string` | ✅ | — |
+| `stock` | `integer` | ✅ | — |
+| `saller_id` | `string` | ❌ | — |
+| `description` | `string` | ✅ | — |
+| `price` | `integer` | ✅ | — |
+| `location` | `string` | ❌ | — |
 
 #### Example cURL
 
@@ -463,11 +1110,92 @@ curl -X POST 'http://localhost:3000/v1/products/create' \
 
 ##### ✅ 201 `Create product - created`
 
+*default*
+
+```json
+{
+  "data": {
+    "available": 50,
+    "category": "clothing",
+    "coin": 10,
+    "created_at": "2025-01-01T00:00:00",
+    "description": "Premium cotton t-shirt",
+    "discount": 10.5,
+    "id": "550e8400-e29b-41d4-a716-446655440000",
+    "images": [
+      "https://example.com/img1.jpg"
+    ],
+    "location": "Jakarta",
+    "name": "T-Shirt",
+    "price": 150000,
+    "rating": 4.5,
+    "recommended": true,
+    "saller_id": "660e8400-e29b-41d4-a716-446655440001",
+    "sold": 50,
+    "stock": 100,
+    "thumbnail": "https://example.com/thumb.jpg",
+    "updated_at": "2025-01-01T00:00:00"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": true
+}
+```
+
 ##### ⚠️ 400 `Validation failed`
+
+*default*
+
+```json
+{
+  "error": {
+    "code": "VALIDATION_ERROR",
+    "details": [],
+    "message": "Validation failed"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
 
 ##### ⚠️ 429 `Too many requests`
 
+*default*
+
+```json
+{
+  "error": {
+    "code": "RATE_LIMITED",
+    "details": [],
+    "message": "Too many requests"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
+
 ##### ❌ 500 `Internal server error`
+
+*default*
+
+```json
+{
+  "error": {
+    "code": "INTERNAL_ERROR",
+    "details": [],
+    "message": "Internal server error"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
 
 ---
 
@@ -497,11 +1225,86 @@ curl -X GET 'http://localhost:3000/v1/banners/type/type-example'
 
 ##### ✅ 200 `List banners by type - paginated`
 
+*default*
+
+```json
+{
+  "data": [
+    {
+      "created_at": "2025-01-01T00:00:00",
+      "description": "Up to 50% off",
+      "id": "550e8400-e29b-41d4-a716-446655440000",
+      "image": "https://example.com/banner.jpg",
+      "title": "Summer Sale",
+      "type": "home",
+      "updated_at": "2025-01-01T00:00:00"
+    }
+  ],
+  "meta": {
+    "locale": "en",
+    "pagination": {
+      "count": 25,
+      "cursor": "eyJpZCI6MjV9",
+      "has_more": true
+    }
+  },
+  "success": true
+}
+```
+
 ##### ⚠️ 404 `Resource not found`
+
+*default*
+
+```json
+{
+  "error": {
+    "code": "NOT_FOUND",
+    "details": [],
+    "message": "Resource not found"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
 
 ##### ⚠️ 429 `Too many requests`
 
+*default*
+
+```json
+{
+  "error": {
+    "code": "RATE_LIMITED",
+    "details": [],
+    "message": "Too many requests"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
+
 ##### ❌ 500 `Internal server error`
+
+*default*
+
+```json
+{
+  "error": {
+    "code": "INTERNAL_ERROR",
+    "details": [],
+    "message": "Internal server error"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
 
 ---
 
@@ -521,8 +1324,8 @@ curl -X GET 'http://localhost:3000/v1/banners/type/type-example'
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| `type` | `string` | ❌ | — |
 | `image` | `string` | ✅ | — |
+| `type` | `string` | ❌ | — |
 
 #### Example cURL
 
@@ -535,11 +1338,79 @@ curl -X POST 'http://localhost:3000/v1/banners/create' \
 
 ##### ✅ 201 `Create banner - created`
 
+*default*
+
+```json
+{
+  "data": {
+    "created_at": "2025-01-01T00:00:00",
+    "description": "Up to 50% off",
+    "id": "550e8400-e29b-41d4-a716-446655440000",
+    "image": "https://example.com/banner.jpg",
+    "title": "Summer Sale",
+    "type": "home",
+    "updated_at": "2025-01-01T00:00:00"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": true
+}
+```
+
 ##### ⚠️ 400 `Validation failed`
+
+*default*
+
+```json
+{
+  "error": {
+    "code": "VALIDATION_ERROR",
+    "details": [],
+    "message": "Validation failed"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
 
 ##### ⚠️ 429 `Too many requests`
 
+*default*
+
+```json
+{
+  "error": {
+    "code": "RATE_LIMITED",
+    "details": [],
+    "message": "Too many requests"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
+
 ##### ❌ 500 `Internal server error`
+
+*default*
+
+```json
+{
+  "error": {
+    "code": "INTERNAL_ERROR",
+    "details": [],
+    "message": "Internal server error"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
 
 ---
 
@@ -566,11 +1437,86 @@ curl -X GET 'http://localhost:3000/v1/banners?cursor=example-cursor&limit=1'
 
 ##### ✅ 200 `List all banners (public) - paginated`
 
+*default*
+
+```json
+{
+  "data": [
+    {
+      "created_at": "2025-01-01T00:00:00",
+      "description": "Up to 50% off",
+      "id": "550e8400-e29b-41d4-a716-446655440000",
+      "image": "https://example.com/banner.jpg",
+      "title": "Summer Sale",
+      "type": "home",
+      "updated_at": "2025-01-01T00:00:00"
+    }
+  ],
+  "meta": {
+    "locale": "en",
+    "pagination": {
+      "count": 25,
+      "cursor": "eyJpZCI6MjV9",
+      "has_more": true
+    }
+  },
+  "success": true
+}
+```
+
 ##### ⚠️ 404 `Resource not found`
+
+*default*
+
+```json
+{
+  "error": {
+    "code": "NOT_FOUND",
+    "details": [],
+    "message": "Resource not found"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
 
 ##### ⚠️ 429 `Too many requests`
 
+*default*
+
+```json
+{
+  "error": {
+    "code": "RATE_LIMITED",
+    "details": [],
+    "message": "Too many requests"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
+
 ##### ❌ 500 `Internal server error`
+
+*default*
+
+```json
+{
+  "error": {
+    "code": "INTERNAL_ERROR",
+    "details": [],
+    "message": "Internal server error"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
 
 ---
 
@@ -600,11 +1546,78 @@ curl -X GET 'http://localhost:3000/v1/articles/id-example'
 
 ##### ✅ 200 `Get article by ID - success`
 
+*default*
+
+```json
+{
+  "data": {
+    "content": "Full article content here...",
+    "created_at": "2025-01-01T00:00:00",
+    "header": "How to Recycle",
+    "id": "550e8400-e29b-41d4-a716-446655440000",
+    "thumbnail": "https://example.com/article.jpg",
+    "updated_at": "2025-01-01T00:00:00"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": true
+}
+```
+
 ##### ⚠️ 404 `Resource not found`
+
+*default*
+
+```json
+{
+  "error": {
+    "code": "NOT_FOUND",
+    "details": [],
+    "message": "Resource not found"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
 
 ##### ⚠️ 429 `Too many requests`
 
+*default*
+
+```json
+{
+  "error": {
+    "code": "RATE_LIMITED",
+    "details": [],
+    "message": "Too many requests"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
+
 ##### ❌ 500 `Internal server error`
+
+*default*
+
+```json
+{
+  "error": {
+    "code": "INTERNAL_ERROR",
+    "details": [],
+    "message": "Internal server error"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
 
 ---
 
@@ -630,13 +1643,96 @@ curl -X PUT 'http://localhost:3000/v1/articles/id-example'
 
 ##### ✅ 200 `Update article - success`
 
+*default*
+
+```json
+{
+  "data": {
+    "content": "Full article content here...",
+    "created_at": "2025-01-01T00:00:00",
+    "header": "How to Recycle",
+    "id": "550e8400-e29b-41d4-a716-446655440000",
+    "thumbnail": "https://example.com/article.jpg",
+    "updated_at": "2025-01-01T00:00:00"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": true
+}
+```
+
 ##### ⚠️ 400 `Validation failed`
+
+*default*
+
+```json
+{
+  "error": {
+    "code": "VALIDATION_ERROR",
+    "details": [],
+    "message": "Validation failed"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
 
 ##### ⚠️ 404 `Resource not found`
 
+*default*
+
+```json
+{
+  "error": {
+    "code": "NOT_FOUND",
+    "details": [],
+    "message": "Resource not found"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
+
 ##### ⚠️ 429 `Too many requests`
 
+*default*
+
+```json
+{
+  "error": {
+    "code": "RATE_LIMITED",
+    "details": [],
+    "message": "Too many requests"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
+
 ##### ❌ 500 `Internal server error`
+
+*default*
+
+```json
+{
+  "error": {
+    "code": "INTERNAL_ERROR",
+    "details": [],
+    "message": "Internal server error"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
 
 ---
 
@@ -662,11 +1758,71 @@ curl -X DELETE 'http://localhost:3000/v1/articles/id-example'
 
 ##### ✅ 200 `Delete article - success`
 
+*default*
+
+```json
+{
+  "message": "Deleted successfully",
+  "meta": {
+    "locale": "en"
+  },
+  "success": true
+}
+```
+
 ##### ⚠️ 404 `Resource not found`
+
+*default*
+
+```json
+{
+  "error": {
+    "code": "NOT_FOUND",
+    "details": [],
+    "message": "Resource not found"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
 
 ##### ⚠️ 429 `Too many requests`
 
+*default*
+
+```json
+{
+  "error": {
+    "code": "RATE_LIMITED",
+    "details": [],
+    "message": "Too many requests"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
+
 ##### ❌ 500 `Internal server error`
+
+*default*
+
+```json
+{
+  "error": {
+    "code": "INTERNAL_ERROR",
+    "details": [],
+    "message": "Internal server error"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
 
 ---
 
@@ -693,11 +1849,85 @@ curl -X GET 'http://localhost:3000/v1/articles?cursor=example-cursor&limit=1'
 
 ##### ✅ 200 `List articles (public) - paginated`
 
+*default*
+
+```json
+{
+  "data": [
+    {
+      "content": "Full article content here...",
+      "created_at": "2025-01-01T00:00:00",
+      "header": "How to Recycle",
+      "id": "550e8400-e29b-41d4-a716-446655440000",
+      "thumbnail": "https://example.com/article.jpg",
+      "updated_at": "2025-01-01T00:00:00"
+    }
+  ],
+  "meta": {
+    "locale": "en",
+    "pagination": {
+      "count": 25,
+      "cursor": "eyJpZCI6MjV9",
+      "has_more": true
+    }
+  },
+  "success": true
+}
+```
+
 ##### ⚠️ 404 `Resource not found`
+
+*default*
+
+```json
+{
+  "error": {
+    "code": "NOT_FOUND",
+    "details": [],
+    "message": "Resource not found"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
 
 ##### ⚠️ 429 `Too many requests`
 
+*default*
+
+```json
+{
+  "error": {
+    "code": "RATE_LIMITED",
+    "details": [],
+    "message": "Too many requests"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
+
 ##### ❌ 500 `Internal server error`
+
+*default*
+
+```json
+{
+  "error": {
+    "code": "INTERNAL_ERROR",
+    "details": [],
+    "message": "Internal server error"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
 
 ---
 
@@ -717,8 +1947,8 @@ curl -X GET 'http://localhost:3000/v1/articles?cursor=example-cursor&limit=1'
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| `content` | `string` | ✅ | — |
 | `header` | `string` | ✅ | — |
+| `content` | `string` | ✅ | — |
 | `thumbnail` | `string` | ✅ | — |
 
 #### Example cURL
@@ -732,11 +1962,78 @@ curl -X POST 'http://localhost:3000/v1/articles/create' \
 
 ##### ✅ 201 `Create article - created`
 
+*default*
+
+```json
+{
+  "data": {
+    "content": "Full article content here...",
+    "created_at": "2025-01-01T00:00:00",
+    "header": "How to Recycle",
+    "id": "550e8400-e29b-41d4-a716-446655440000",
+    "thumbnail": "https://example.com/article.jpg",
+    "updated_at": "2025-01-01T00:00:00"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": true
+}
+```
+
 ##### ⚠️ 400 `Validation failed`
+
+*default*
+
+```json
+{
+  "error": {
+    "code": "VALIDATION_ERROR",
+    "details": [],
+    "message": "Validation failed"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
 
 ##### ⚠️ 429 `Too many requests`
 
+*default*
+
+```json
+{
+  "error": {
+    "code": "RATE_LIMITED",
+    "details": [],
+    "message": "Too many requests"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
+
 ##### ❌ 500 `Internal server error`
+
+*default*
+
+```json
+{
+  "error": {
+    "code": "INTERNAL_ERROR",
+    "details": [],
+    "message": "Internal server error"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
 
 ---
 
@@ -766,11 +2063,78 @@ curl -X GET 'http://localhost:3000/v1/profile/email-example'
 
 ##### ✅ 200 `Get user profile - success`
 
+*default*
+
+```json
+{
+  "data": {
+    "badge": "gold",
+    "coin": 200,
+    "exp": 150.5,
+    "id": "550e8400-e29b-41d4-a716-446655440000",
+    "level": 5,
+    "user_id": "660e8400-e29b-41d4-a716-446655440001"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": true
+}
+```
+
 ##### ⚠️ 404 `Resource not found`
+
+*default*
+
+```json
+{
+  "error": {
+    "code": "NOT_FOUND",
+    "details": [],
+    "message": "Resource not found"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
 
 ##### ⚠️ 429 `Too many requests`
 
+*default*
+
+```json
+{
+  "error": {
+    "code": "RATE_LIMITED",
+    "details": [],
+    "message": "Too many requests"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
+
 ##### ❌ 500 `Internal server error`
+
+*default*
+
+```json
+{
+  "error": {
+    "code": "INTERNAL_ERROR",
+    "details": [],
+    "message": "Internal server error"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
 
 ---
 
@@ -796,10 +2160,10 @@ curl -X GET 'http://localhost:3000/v1/profile/email-example'
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
+| `photo_url` | `string` | ❌ | — |
+| `name` | `string` | ❌ | — |
 | `role` | `string` | ❌ | — |
 | `phone_number` | `string` | ❌ | — |
-| `name` | `string` | ❌ | — |
-| `photo_url` | `string` | ❌ | — |
 
 #### Example cURL
 
@@ -812,13 +2176,96 @@ curl -X PUT 'http://localhost:3000/v1/profile/email-example' \
 
 ##### ✅ 200 `Update user profile - success`
 
+*default*
+
+```json
+{
+  "data": {
+    "badge": "gold",
+    "coin": 200,
+    "exp": 150.5,
+    "id": "550e8400-e29b-41d4-a716-446655440000",
+    "level": 5,
+    "user_id": "660e8400-e29b-41d4-a716-446655440001"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": true
+}
+```
+
 ##### ⚠️ 400 `Validation failed`
+
+*default*
+
+```json
+{
+  "error": {
+    "code": "VALIDATION_ERROR",
+    "details": [],
+    "message": "Validation failed"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
 
 ##### ⚠️ 404 `Resource not found`
 
+*default*
+
+```json
+{
+  "error": {
+    "code": "NOT_FOUND",
+    "details": [],
+    "message": "Resource not found"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
+
 ##### ⚠️ 429 `Too many requests`
 
+*default*
+
+```json
+{
+  "error": {
+    "code": "RATE_LIMITED",
+    "details": [],
+    "message": "Too many requests"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
+
 ##### ❌ 500 `Internal server error`
+
+*default*
+
+```json
+{
+  "error": {
+    "code": "INTERNAL_ERROR",
+    "details": [],
+    "message": "Internal server error"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
 
 ---
 
@@ -848,8 +2295,8 @@ Product reviews
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| `rating` | `integer` | ❌ | — |
 | `comment` | `string` | ❌ | — |
+| `rating` | `integer` | ❌ | — |
 
 #### Example cURL
 
@@ -862,13 +2309,98 @@ curl -X PUT 'http://localhost:3000/v1/reviews/id-example' \
 
 ##### ✅ 200 `Update review (auth required) - success`
 
+*default*
+
+```json
+{
+  "data": {
+    "comment": "Great product!",
+    "created_at": "2025-01-01T00:00:00",
+    "id": "550e8400-e29b-41d4-a716-446655440000",
+    "images": [],
+    "product_id": "660e8400-e29b-41d4-a716-446655440001",
+    "rating": 5.0,
+    "updated_at": "2025-01-01T00:00:00",
+    "user_id": "770e8400-e29b-41d4-a716-446655440002"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": true
+}
+```
+
 ##### ⚠️ 400 `Validation failed`
+
+*default*
+
+```json
+{
+  "error": {
+    "code": "VALIDATION_ERROR",
+    "details": [],
+    "message": "Validation failed"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
 
 ##### ⚠️ 404 `Resource not found`
 
+*default*
+
+```json
+{
+  "error": {
+    "code": "NOT_FOUND",
+    "details": [],
+    "message": "Resource not found"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
+
 ##### ⚠️ 429 `Too many requests`
 
+*default*
+
+```json
+{
+  "error": {
+    "code": "RATE_LIMITED",
+    "details": [],
+    "message": "Too many requests"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
+
 ##### ❌ 500 `Internal server error`
+
+*default*
+
+```json
+{
+  "error": {
+    "code": "INTERNAL_ERROR",
+    "details": [],
+    "message": "Internal server error"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
 
 ---
 
@@ -888,10 +2420,10 @@ curl -X PUT 'http://localhost:3000/v1/reviews/id-example' \
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| `product_id` | `string` | ✅ | — |
-| `comment` | `string` | ✅ | — |
 | `rating` | `integer` | ✅ | — |
 | `images` | `object` | ❌ | — |
+| `comment` | `string` | ✅ | — |
+| `product_id` | `string` | ✅ | — |
 
 #### Example cURL
 
@@ -904,11 +2436,80 @@ curl -X POST 'http://localhost:3000/v1/reviews' \
 
 ##### ✅ 201 `Create review (auth required) - created`
 
+*default*
+
+```json
+{
+  "data": {
+    "comment": "Great product!",
+    "created_at": "2025-01-01T00:00:00",
+    "id": "550e8400-e29b-41d4-a716-446655440000",
+    "images": [],
+    "product_id": "660e8400-e29b-41d4-a716-446655440001",
+    "rating": 5.0,
+    "updated_at": "2025-01-01T00:00:00",
+    "user_id": "770e8400-e29b-41d4-a716-446655440002"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": true
+}
+```
+
 ##### ⚠️ 400 `Validation failed`
+
+*default*
+
+```json
+{
+  "error": {
+    "code": "VALIDATION_ERROR",
+    "details": [],
+    "message": "Validation failed"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
 
 ##### ⚠️ 429 `Too many requests`
 
+*default*
+
+```json
+{
+  "error": {
+    "code": "RATE_LIMITED",
+    "details": [],
+    "message": "Too many requests"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
+
 ##### ❌ 500 `Internal server error`
+
+*default*
+
+```json
+{
+  "error": {
+    "code": "INTERNAL_ERROR",
+    "details": [],
+    "message": "Internal server error"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
 
 ---
 
@@ -945,11 +2546,79 @@ curl -X GET 'http://localhost:3000/v1/carts/user/user_id-example?cursor=example-
 
 ##### ✅ 200 `Get user cart - success`
 
+*default*
+
+```json
+{
+  "data": {
+    "created_at": "2025-01-01T00:00:00",
+    "id": "550e8400-e29b-41d4-a716-446655440000",
+    "product_id": "770e8400-e29b-41d4-a716-446655440002",
+    "quantity": 2,
+    "updated_at": "2025-01-01T00:00:00",
+    "user_id": "660e8400-e29b-41d4-a716-446655440001",
+    "variant_id": null
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": true
+}
+```
+
 ##### ⚠️ 404 `Resource not found`
+
+*default*
+
+```json
+{
+  "error": {
+    "code": "NOT_FOUND",
+    "details": [],
+    "message": "Resource not found"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
 
 ##### ⚠️ 429 `Too many requests`
 
+*default*
+
+```json
+{
+  "error": {
+    "code": "RATE_LIMITED",
+    "details": [],
+    "message": "Too many requests"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
+
 ##### ❌ 500 `Internal server error`
+
+*default*
+
+```json
+{
+  "error": {
+    "code": "INTERNAL_ERROR",
+    "details": [],
+    "message": "Internal server error"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
 
 ---
 
@@ -975,8 +2644,8 @@ curl -X GET 'http://localhost:3000/v1/carts/user/user_id-example?cursor=example-
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| `variant_id` | `string` | ❌ | — |
 | `product_id` | `string` | ✅ | — |
+| `variant_id` | `string` | ❌ | — |
 | `quantity` | `integer` | ✅ | — |
 
 #### Example cURL
@@ -990,11 +2659,79 @@ curl -X POST 'http://localhost:3000/v1/carts/user/user_id-example' \
 
 ##### ✅ 201 `Add item to cart - created`
 
+*default*
+
+```json
+{
+  "data": {
+    "created_at": "2025-01-01T00:00:00",
+    "id": "550e8400-e29b-41d4-a716-446655440000",
+    "product_id": "770e8400-e29b-41d4-a716-446655440002",
+    "quantity": 2,
+    "updated_at": "2025-01-01T00:00:00",
+    "user_id": "660e8400-e29b-41d4-a716-446655440001",
+    "variant_id": null
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": true
+}
+```
+
 ##### ⚠️ 400 `Validation failed`
+
+*default*
+
+```json
+{
+  "error": {
+    "code": "VALIDATION_ERROR",
+    "details": [],
+    "message": "Validation failed"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
 
 ##### ⚠️ 429 `Too many requests`
 
+*default*
+
+```json
+{
+  "error": {
+    "code": "RATE_LIMITED",
+    "details": [],
+    "message": "Too many requests"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
+
 ##### ❌ 500 `Internal server error`
+
+*default*
+
+```json
+{
+  "error": {
+    "code": "INTERNAL_ERROR",
+    "details": [],
+    "message": "Internal server error"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
 
 ---
 
@@ -1020,11 +2757,71 @@ curl -X DELETE 'http://localhost:3000/v1/carts/item/id-example'
 
 ##### ✅ 200 `Remove cart item - success`
 
+*default*
+
+```json
+{
+  "message": "Deleted successfully",
+  "meta": {
+    "locale": "en"
+  },
+  "success": true
+}
+```
+
 ##### ⚠️ 404 `Resource not found`
+
+*default*
+
+```json
+{
+  "error": {
+    "code": "NOT_FOUND",
+    "details": [],
+    "message": "Resource not found"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
 
 ##### ⚠️ 429 `Too many requests`
 
+*default*
+
+```json
+{
+  "error": {
+    "code": "RATE_LIMITED",
+    "details": [],
+    "message": "Too many requests"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
+
 ##### ❌ 500 `Internal server error`
+
+*default*
+
+```json
+{
+  "error": {
+    "code": "INTERNAL_ERROR",
+    "details": [],
+    "message": "Internal server error"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
 
 ---
 
@@ -1055,11 +2852,96 @@ curl -X GET 'http://localhost:3000/v1/orders?cursor=example-cursor&limit=1'
 
 ##### ✅ 200 `List all orders (admin) - paginated`
 
+*default*
+
+```json
+{
+  "data": [
+    {
+      "coin": 10,
+      "created_at": "2025-01-01T00:00:00",
+      "delivery": {
+        "estimated_delivery": "2025-01-05T00:00:00",
+        "status": "processing",
+        "tracking_number": ""
+      },
+      "id": "550e8400-e29b-41d4-a716-446655440000",
+      "payment": {
+        "amount": 150000.0,
+        "method": "qris",
+        "status": "pending"
+      },
+      "product_id": "770e8400-e29b-41d4-a716-446655440002",
+      "quantity": 1,
+      "updated_at": "2025-01-01T00:00:00",
+      "user_id": "660e8400-e29b-41d4-a716-446655440001"
+    }
+  ],
+  "meta": {
+    "locale": "en",
+    "pagination": {
+      "count": 25,
+      "cursor": "eyJpZCI6MjV9",
+      "has_more": true
+    }
+  },
+  "success": true
+}
+```
+
 ##### ⚠️ 404 `Resource not found`
+
+*default*
+
+```json
+{
+  "error": {
+    "code": "NOT_FOUND",
+    "details": [],
+    "message": "Resource not found"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
 
 ##### ⚠️ 429 `Too many requests`
 
+*default*
+
+```json
+{
+  "error": {
+    "code": "RATE_LIMITED",
+    "details": [],
+    "message": "Too many requests"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
+
 ##### ❌ 500 `Internal server error`
+
+*default*
+
+```json
+{
+  "error": {
+    "code": "INTERNAL_ERROR",
+    "details": [],
+    "message": "Internal server error"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
 
 ---
 
@@ -1091,11 +2973,89 @@ curl -X GET 'http://localhost:3000/v1/orders/user/user_id-example?cursor=example
 
 ##### ✅ 200 `Get user orders - success`
 
+*default*
+
+```json
+{
+  "data": {
+    "coin": 10,
+    "created_at": "2025-01-01T00:00:00",
+    "delivery": {
+      "estimated_delivery": "2025-01-05T00:00:00",
+      "status": "processing",
+      "tracking_number": ""
+    },
+    "id": "550e8400-e29b-41d4-a716-446655440000",
+    "payment": {
+      "amount": 150000.0,
+      "method": "qris",
+      "status": "pending"
+    },
+    "product_id": "770e8400-e29b-41d4-a716-446655440002",
+    "quantity": 1,
+    "updated_at": "2025-01-01T00:00:00",
+    "user_id": "660e8400-e29b-41d4-a716-446655440001"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": true
+}
+```
+
 ##### ⚠️ 404 `Resource not found`
+
+*default*
+
+```json
+{
+  "error": {
+    "code": "NOT_FOUND",
+    "details": [],
+    "message": "Resource not found"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
 
 ##### ⚠️ 429 `Too many requests`
 
+*default*
+
+```json
+{
+  "error": {
+    "code": "RATE_LIMITED",
+    "details": [],
+    "message": "Too many requests"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
+
 ##### ❌ 500 `Internal server error`
+
+*default*
+
+```json
+{
+  "error": {
+    "code": "INTERNAL_ERROR",
+    "details": [],
+    "message": "Internal server error"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
 
 ---
 
@@ -1122,9 +3082,9 @@ curl -X GET 'http://localhost:3000/v1/orders/user/user_id-example?cursor=example
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
 | `payment` | `object` | ✅ | — |
+| `product_id` | `string` | ✅ | — |
 | `coin` | `integer` | ❌ | — |
 | `quantity` | `integer` | ✅ | — |
-| `product_id` | `string` | ✅ | — |
 
 #### Example cURL
 
@@ -1137,11 +3097,89 @@ curl -X POST 'http://localhost:3000/v1/orders/user/user_id-example' \
 
 ##### ✅ 201 `Create order (auth required) - created`
 
+*default*
+
+```json
+{
+  "data": {
+    "coin": 10,
+    "created_at": "2025-01-01T00:00:00",
+    "delivery": {
+      "estimated_delivery": "2025-01-05T00:00:00",
+      "status": "processing",
+      "tracking_number": ""
+    },
+    "id": "550e8400-e29b-41d4-a716-446655440000",
+    "payment": {
+      "amount": 150000.0,
+      "method": "qris",
+      "status": "pending"
+    },
+    "product_id": "770e8400-e29b-41d4-a716-446655440002",
+    "quantity": 1,
+    "updated_at": "2025-01-01T00:00:00",
+    "user_id": "660e8400-e29b-41d4-a716-446655440001"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": true
+}
+```
+
 ##### ⚠️ 400 `Validation failed`
+
+*default*
+
+```json
+{
+  "error": {
+    "code": "VALIDATION_ERROR",
+    "details": [],
+    "message": "Validation failed"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
 
 ##### ⚠️ 429 `Too many requests`
 
+*default*
+
+```json
+{
+  "error": {
+    "code": "RATE_LIMITED",
+    "details": [],
+    "message": "Too many requests"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
+
 ##### ❌ 500 `Internal server error`
+
+*default*
+
+```json
+{
+  "error": {
+    "code": "INTERNAL_ERROR",
+    "details": [],
+    "message": "Internal server error"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
 
 ---
 
@@ -1167,11 +3205,71 @@ curl -X DELETE 'http://localhost:3000/v1/orders/id-example'
 
 ##### ✅ 200 `Cancel order (auth required) - success`
 
+*default*
+
+```json
+{
+  "message": "Deleted successfully",
+  "meta": {
+    "locale": "en"
+  },
+  "success": true
+}
+```
+
 ##### ⚠️ 404 `Resource not found`
+
+*default*
+
+```json
+{
+  "error": {
+    "code": "NOT_FOUND",
+    "details": [],
+    "message": "Resource not found"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
 
 ##### ⚠️ 429 `Too many requests`
 
+*default*
+
+```json
+{
+  "error": {
+    "code": "RATE_LIMITED",
+    "details": [],
+    "message": "Too many requests"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
+
 ##### ❌ 500 `Internal server error`
+
+*default*
+
+```json
+{
+  "error": {
+    "code": "INTERNAL_ERROR",
+    "details": [],
+    "message": "Internal server error"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
 
 ---
 
@@ -1202,11 +3300,90 @@ curl -X GET 'http://localhost:3000/v1/deposites?cursor=example-cursor&limit=1'
 
 ##### ✅ 200 `List all deposites (admin) - paginated`
 
+*default*
+
+```json
+{
+  "data": [
+    {
+      "address_id": "770e8400-e29b-41d4-a716-446655440002",
+      "coin": 50,
+      "created_at": "2025-01-01T00:00:00",
+      "id": "550e8400-e29b-41d4-a716-446655440000",
+      "images": [],
+      "landfill_id": null,
+      "pickup_date": "2025-01-15",
+      "pickup_time": "10:00",
+      "type": "plastic",
+      "updated_at": "2025-01-01T00:00:00",
+      "user_id": "660e8400-e29b-41d4-a716-446655440001"
+    }
+  ],
+  "meta": {
+    "locale": "en",
+    "pagination": {
+      "count": 25,
+      "cursor": "eyJpZCI6MjV9",
+      "has_more": true
+    }
+  },
+  "success": true
+}
+```
+
 ##### ⚠️ 404 `Resource not found`
+
+*default*
+
+```json
+{
+  "error": {
+    "code": "NOT_FOUND",
+    "details": [],
+    "message": "Resource not found"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
 
 ##### ⚠️ 429 `Too many requests`
 
+*default*
+
+```json
+{
+  "error": {
+    "code": "RATE_LIMITED",
+    "details": [],
+    "message": "Too many requests"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
+
 ##### ❌ 500 `Internal server error`
+
+*default*
+
+```json
+{
+  "error": {
+    "code": "INTERNAL_ERROR",
+    "details": [],
+    "message": "Internal server error"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
 
 ---
 
@@ -1226,14 +3403,14 @@ curl -X GET 'http://localhost:3000/v1/deposites?cursor=example-cursor&limit=1'
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| `landfill_id` | `string` | ❌ | — |
+| `coin` | `integer` | ❌ | — |
+| `type` | `string` | ✅ | — |
+| `address_id` | `string` | ✅ | — |
+| `pickup_date` | `string` | ✅ | — |
 | `garbage_type` | `array` | ✅ | — |
 | `pickup_time` | `string` | ✅ | — |
-| `type` | `string` | ✅ | — |
-| `pickup_date` | `string` | ✅ | — |
-| `address_id` | `string` | ✅ | — |
 | `images` | `object` | ❌ | — |
-| `coin` | `integer` | ❌ | — |
+| `landfill_id` | `string` | ❌ | — |
 
 #### Example cURL
 
@@ -1246,11 +3423,83 @@ curl -X POST 'http://localhost:3000/v1/deposites' \
 
 ##### ✅ 201 `Create deposite (auth required) - created`
 
+*default*
+
+```json
+{
+  "data": {
+    "address_id": "770e8400-e29b-41d4-a716-446655440002",
+    "coin": 50,
+    "created_at": "2025-01-01T00:00:00",
+    "id": "550e8400-e29b-41d4-a716-446655440000",
+    "images": [],
+    "landfill_id": null,
+    "pickup_date": "2025-01-15",
+    "pickup_time": "10:00",
+    "type": "plastic",
+    "updated_at": "2025-01-01T00:00:00",
+    "user_id": "660e8400-e29b-41d4-a716-446655440001"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": true
+}
+```
+
 ##### ⚠️ 400 `Validation failed`
+
+*default*
+
+```json
+{
+  "error": {
+    "code": "VALIDATION_ERROR",
+    "details": [],
+    "message": "Validation failed"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
 
 ##### ⚠️ 429 `Too many requests`
 
+*default*
+
+```json
+{
+  "error": {
+    "code": "RATE_LIMITED",
+    "details": [],
+    "message": "Too many requests"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
+
 ##### ❌ 500 `Internal server error`
+
+*default*
+
+```json
+{
+  "error": {
+    "code": "INTERNAL_ERROR",
+    "details": [],
+    "message": "Internal server error"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
 
 ---
 
@@ -1282,11 +3531,83 @@ curl -X GET 'http://localhost:3000/v1/deposites/user/id-example?cursor=example-c
 
 ##### ✅ 200 `Get user deposites - success`
 
+*default*
+
+```json
+{
+  "data": {
+    "address_id": "770e8400-e29b-41d4-a716-446655440002",
+    "coin": 50,
+    "created_at": "2025-01-01T00:00:00",
+    "id": "550e8400-e29b-41d4-a716-446655440000",
+    "images": [],
+    "landfill_id": null,
+    "pickup_date": "2025-01-15",
+    "pickup_time": "10:00",
+    "type": "plastic",
+    "updated_at": "2025-01-01T00:00:00",
+    "user_id": "660e8400-e29b-41d4-a716-446655440001"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": true
+}
+```
+
 ##### ⚠️ 404 `Resource not found`
+
+*default*
+
+```json
+{
+  "error": {
+    "code": "NOT_FOUND",
+    "details": [],
+    "message": "Resource not found"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
 
 ##### ⚠️ 429 `Too many requests`
 
+*default*
+
+```json
+{
+  "error": {
+    "code": "RATE_LIMITED",
+    "details": [],
+    "message": "Too many requests"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
+
 ##### ❌ 500 `Internal server error`
+
+*default*
+
+```json
+{
+  "error": {
+    "code": "INTERNAL_ERROR",
+    "details": [],
+    "message": "Internal server error"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
 
 ---
 
@@ -1317,11 +3638,82 @@ curl -X GET 'http://localhost:3000/v1/landfills?cursor=example-cursor&limit=1'
 
 ##### ✅ 200 `List landfills (public) - paginated`
 
+*default*
+
+```json
+{
+  "data": [
+    {
+      "address": "Jl. TB Simatupang",
+      "id": "550e8400-e29b-41d4-a716-446655440000",
+      "name": "TPS Jakarta Selatan"
+    }
+  ],
+  "meta": {
+    "locale": "en",
+    "pagination": {
+      "count": 25,
+      "cursor": "eyJpZCI6MjV9",
+      "has_more": true
+    }
+  },
+  "success": true
+}
+```
+
 ##### ⚠️ 404 `Resource not found`
+
+*default*
+
+```json
+{
+  "error": {
+    "code": "NOT_FOUND",
+    "details": [],
+    "message": "Resource not found"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
 
 ##### ⚠️ 429 `Too many requests`
 
+*default*
+
+```json
+{
+  "error": {
+    "code": "RATE_LIMITED",
+    "details": [],
+    "message": "Too many requests"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
+
 ##### ❌ 500 `Internal server error`
+
+*default*
+
+```json
+{
+  "error": {
+    "code": "INTERNAL_ERROR",
+    "details": [],
+    "message": "Internal server error"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
 
 ---
 
@@ -1355,11 +3747,75 @@ curl -X POST 'http://localhost:3000/v1/landfills' \
 
 ##### ✅ 201 `Create landfill (admin) - created`
 
+*default*
+
+```json
+{
+  "data": {
+    "address": "Jl. TB Simatupang",
+    "id": "550e8400-e29b-41d4-a716-446655440000",
+    "name": "TPS Jakarta Selatan"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": true
+}
+```
+
 ##### ⚠️ 400 `Validation failed`
+
+*default*
+
+```json
+{
+  "error": {
+    "code": "VALIDATION_ERROR",
+    "details": [],
+    "message": "Validation failed"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
 
 ##### ⚠️ 429 `Too many requests`
 
+*default*
+
+```json
+{
+  "error": {
+    "code": "RATE_LIMITED",
+    "details": [],
+    "message": "Too many requests"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
+
 ##### ❌ 500 `Internal server error`
+
+*default*
+
+```json
+{
+  "error": {
+    "code": "INTERNAL_ERROR",
+    "details": [],
+    "message": "Internal server error"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
 
 ---
 
@@ -1385,13 +3841,93 @@ curl -X PUT 'http://localhost:3000/v1/landfills/id-example'
 
 ##### ✅ 200 `Update landfill (admin) - success`
 
+*default*
+
+```json
+{
+  "data": {
+    "address": "Jl. TB Simatupang",
+    "id": "550e8400-e29b-41d4-a716-446655440000",
+    "name": "TPS Jakarta Selatan"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": true
+}
+```
+
 ##### ⚠️ 400 `Validation failed`
+
+*default*
+
+```json
+{
+  "error": {
+    "code": "VALIDATION_ERROR",
+    "details": [],
+    "message": "Validation failed"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
 
 ##### ⚠️ 404 `Resource not found`
 
+*default*
+
+```json
+{
+  "error": {
+    "code": "NOT_FOUND",
+    "details": [],
+    "message": "Resource not found"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
+
 ##### ⚠️ 429 `Too many requests`
 
+*default*
+
+```json
+{
+  "error": {
+    "code": "RATE_LIMITED",
+    "details": [],
+    "message": "Too many requests"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
+
 ##### ❌ 500 `Internal server error`
+
+*default*
+
+```json
+{
+  "error": {
+    "code": "INTERNAL_ERROR",
+    "details": [],
+    "message": "Internal server error"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
 
 ---
 
@@ -1417,11 +3953,71 @@ curl -X DELETE 'http://localhost:3000/v1/landfills/id-example'
 
 ##### ✅ 200 `Delete landfill (admin) - success`
 
+*default*
+
+```json
+{
+  "message": "Deleted successfully",
+  "meta": {
+    "locale": "en"
+  },
+  "success": true
+}
+```
+
 ##### ⚠️ 404 `Resource not found`
+
+*default*
+
+```json
+{
+  "error": {
+    "code": "NOT_FOUND",
+    "details": [],
+    "message": "Resource not found"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
 
 ##### ⚠️ 429 `Too many requests`
 
+*default*
+
+```json
+{
+  "error": {
+    "code": "RATE_LIMITED",
+    "details": [],
+    "message": "Too many requests"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
+
 ##### ❌ 500 `Internal server error`
+
+*default*
+
+```json
+{
+  "error": {
+    "code": "INTERNAL_ERROR",
+    "details": [],
+    "message": "Internal server error"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
 
 ---
 
@@ -1451,13 +4047,95 @@ curl -X PUT 'http://localhost:3000/v1/trash/type/id-example'
 
 ##### ✅ 200 `Update trash type (admin) - success`
 
+*default*
+
+```json
+{
+  "data": {
+    "created_at": "2025-01-01T00:00:00",
+    "id": "550e8400-e29b-41d4-a716-446655440000",
+    "image": "https://example.com/trash.jpg",
+    "name": "Plastic",
+    "updated_at": "2025-01-01T00:00:00"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": true
+}
+```
+
 ##### ⚠️ 400 `Validation failed`
+
+*default*
+
+```json
+{
+  "error": {
+    "code": "VALIDATION_ERROR",
+    "details": [],
+    "message": "Validation failed"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
 
 ##### ⚠️ 404 `Resource not found`
 
+*default*
+
+```json
+{
+  "error": {
+    "code": "NOT_FOUND",
+    "details": [],
+    "message": "Resource not found"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
+
 ##### ⚠️ 429 `Too many requests`
 
+*default*
+
+```json
+{
+  "error": {
+    "code": "RATE_LIMITED",
+    "details": [],
+    "message": "Too many requests"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
+
 ##### ❌ 500 `Internal server error`
+
+*default*
+
+```json
+{
+  "error": {
+    "code": "INTERNAL_ERROR",
+    "details": [],
+    "message": "Internal server error"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
 
 ---
 
@@ -1483,11 +4161,71 @@ curl -X DELETE 'http://localhost:3000/v1/trash/type/id-example'
 
 ##### ✅ 200 `Delete trash type (admin) - success`
 
+*default*
+
+```json
+{
+  "message": "Deleted successfully",
+  "meta": {
+    "locale": "en"
+  },
+  "success": true
+}
+```
+
 ##### ⚠️ 404 `Resource not found`
+
+*default*
+
+```json
+{
+  "error": {
+    "code": "NOT_FOUND",
+    "details": [],
+    "message": "Resource not found"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
 
 ##### ⚠️ 429 `Too many requests`
 
+*default*
+
+```json
+{
+  "error": {
+    "code": "RATE_LIMITED",
+    "details": [],
+    "message": "Too many requests"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
+
 ##### ❌ 500 `Internal server error`
+
+*default*
+
+```json
+{
+  "error": {
+    "code": "INTERNAL_ERROR",
+    "details": [],
+    "message": "Internal server error"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
 
 ---
 
@@ -1514,11 +4252,84 @@ curl -X GET 'http://localhost:3000/v1/trash/types?cursor=example-cursor&limit=1'
 
 ##### ✅ 200 `List trash types (public) - paginated`
 
+*default*
+
+```json
+{
+  "data": [
+    {
+      "created_at": "2025-01-01T00:00:00",
+      "id": "550e8400-e29b-41d4-a716-446655440000",
+      "image": "https://example.com/trash.jpg",
+      "name": "Plastic",
+      "updated_at": "2025-01-01T00:00:00"
+    }
+  ],
+  "meta": {
+    "locale": "en",
+    "pagination": {
+      "count": 25,
+      "cursor": "eyJpZCI6MjV9",
+      "has_more": true
+    }
+  },
+  "success": true
+}
+```
+
 ##### ⚠️ 404 `Resource not found`
+
+*default*
+
+```json
+{
+  "error": {
+    "code": "NOT_FOUND",
+    "details": [],
+    "message": "Resource not found"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
 
 ##### ⚠️ 429 `Too many requests`
 
+*default*
+
+```json
+{
+  "error": {
+    "code": "RATE_LIMITED",
+    "details": [],
+    "message": "Too many requests"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
+
 ##### ❌ 500 `Internal server error`
+
+*default*
+
+```json
+{
+  "error": {
+    "code": "INTERNAL_ERROR",
+    "details": [],
+    "message": "Internal server error"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
 
 ---
 
@@ -1552,11 +4363,77 @@ curl -X POST 'http://localhost:3000/v1/trash/types' \
 
 ##### ✅ 201 `Create trash type (admin) - created`
 
+*default*
+
+```json
+{
+  "data": {
+    "created_at": "2025-01-01T00:00:00",
+    "id": "550e8400-e29b-41d4-a716-446655440000",
+    "image": "https://example.com/trash.jpg",
+    "name": "Plastic",
+    "updated_at": "2025-01-01T00:00:00"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": true
+}
+```
+
 ##### ⚠️ 400 `Validation failed`
+
+*default*
+
+```json
+{
+  "error": {
+    "code": "VALIDATION_ERROR",
+    "details": [],
+    "message": "Validation failed"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
 
 ##### ⚠️ 429 `Too many requests`
 
+*default*
+
+```json
+{
+  "error": {
+    "code": "RATE_LIMITED",
+    "details": [],
+    "message": "Too many requests"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
+
 ##### ❌ 500 `Internal server error`
+
+*default*
+
+```json
+{
+  "error": {
+    "code": "INTERNAL_ERROR",
+    "details": [],
+    "message": "Internal server error"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
 
 ---
 
@@ -1586,10 +4463,10 @@ User addresses
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| `address` | `string` | ✅ | — |
 | `phone_number` | `string` | ✅ | — |
 | `main` | `boolean` | ❌ | — |
 | `label` | `string` | ✅ | — |
+| `address` | `string` | ✅ | — |
 
 #### Example cURL
 
@@ -1602,11 +4479,80 @@ curl -X POST 'http://localhost:3000/v1/addresses/user/user_id-example' \
 
 ##### ✅ 201 `Create address (auth required) - created`
 
+*default*
+
+```json
+{
+  "data": {
+    "address": "Jl. Sudirman No. 1",
+    "created_at": "2025-01-01T00:00:00",
+    "id": "550e8400-e29b-41d4-a716-446655440000",
+    "label": "Home",
+    "main": true,
+    "phone_number": "+628123456789",
+    "updated_at": "2025-01-01T00:00:00",
+    "user_id": "660e8400-e29b-41d4-a716-446655440001"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": true
+}
+```
+
 ##### ⚠️ 400 `Validation failed`
+
+*default*
+
+```json
+{
+  "error": {
+    "code": "VALIDATION_ERROR",
+    "details": [],
+    "message": "Validation failed"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
 
 ##### ⚠️ 429 `Too many requests`
 
+*default*
+
+```json
+{
+  "error": {
+    "code": "RATE_LIMITED",
+    "details": [],
+    "message": "Too many requests"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
+
 ##### ❌ 500 `Internal server error`
+
+*default*
+
+```json
+{
+  "error": {
+    "code": "INTERNAL_ERROR",
+    "details": [],
+    "message": "Internal server error"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
 
 ---
 
@@ -1632,13 +4578,98 @@ curl -X PUT 'http://localhost:3000/v1/addresses/user/user_id-example'
 
 ##### ✅ 200 `Update address (auth required) - success`
 
+*default*
+
+```json
+{
+  "data": {
+    "address": "Jl. Sudirman No. 1",
+    "created_at": "2025-01-01T00:00:00",
+    "id": "550e8400-e29b-41d4-a716-446655440000",
+    "label": "Home",
+    "main": true,
+    "phone_number": "+628123456789",
+    "updated_at": "2025-01-01T00:00:00",
+    "user_id": "660e8400-e29b-41d4-a716-446655440001"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": true
+}
+```
+
 ##### ⚠️ 400 `Validation failed`
+
+*default*
+
+```json
+{
+  "error": {
+    "code": "VALIDATION_ERROR",
+    "details": [],
+    "message": "Validation failed"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
 
 ##### ⚠️ 404 `Resource not found`
 
+*default*
+
+```json
+{
+  "error": {
+    "code": "NOT_FOUND",
+    "details": [],
+    "message": "Resource not found"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
+
 ##### ⚠️ 429 `Too many requests`
 
+*default*
+
+```json
+{
+  "error": {
+    "code": "RATE_LIMITED",
+    "details": [],
+    "message": "Too many requests"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
+
 ##### ❌ 500 `Internal server error`
+
+*default*
+
+```json
+{
+  "error": {
+    "code": "INTERNAL_ERROR",
+    "details": [],
+    "message": "Internal server error"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
 
 ---
 
@@ -1675,11 +4706,92 @@ curl -X GET 'http://localhost:3000/v1/sallers/products/id-example?cursor=example
 
 ##### ✅ 200 `Get seller products - success`
 
+*default*
+
+```json
+{
+  "data": {
+    "available": 50,
+    "category": "clothing",
+    "coin": 10,
+    "created_at": "2025-01-01T00:00:00",
+    "description": "Premium cotton t-shirt",
+    "discount": 10.5,
+    "id": "550e8400-e29b-41d4-a716-446655440000",
+    "images": [
+      "https://example.com/img1.jpg"
+    ],
+    "location": "Jakarta",
+    "name": "T-Shirt",
+    "price": 150000,
+    "rating": 4.5,
+    "recommended": true,
+    "saller_id": "660e8400-e29b-41d4-a716-446655440001",
+    "sold": 50,
+    "stock": 100,
+    "thumbnail": "https://example.com/thumb.jpg",
+    "updated_at": "2025-01-01T00:00:00"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": true
+}
+```
+
 ##### ⚠️ 404 `Resource not found`
+
+*default*
+
+```json
+{
+  "error": {
+    "code": "NOT_FOUND",
+    "details": [],
+    "message": "Resource not found"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
 
 ##### ⚠️ 429 `Too many requests`
 
+*default*
+
+```json
+{
+  "error": {
+    "code": "RATE_LIMITED",
+    "details": [],
+    "message": "Too many requests"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
+
 ##### ❌ 500 `Internal server error`
+
+*default*
+
+```json
+{
+  "error": {
+    "code": "INTERNAL_ERROR",
+    "details": [],
+    "message": "Internal server error"
+  },
+  "meta": {
+    "locale": "en"
+  },
+  "success": false
+}
+```
 
 ---
 

@@ -178,64 +178,68 @@ endpoints:
   responses:
   - status: 200
     description: Get seller products - success
-    content_type: application/json
-    body:
-      success: true
-      data: &id003
-        id: 550e8400-e29b-41d4-a716-446655440000
-        name: T-Shirt
-        price: 150000
-        coin: 10
-        description: Premium cotton t-shirt
-        thumbnail: https://example.com/thumb.jpg
-        images:
-        - https://example.com/img1.jpg
-        stock: 100
-        location: Jakarta
-        category: clothing
-        discount: 10.5
-        sold: 50
-        available: 50
-        rating: 4.5
-        saller_id: 660e8400-e29b-41d4-a716-446655440001
-        recommended: true
-        created_at: '2025-01-01T00:00:00'
-        updated_at: '2025-01-01T00:00:00'
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: true
+        data: &id003
+          id: 550e8400-e29b-41d4-a716-446655440000
+          name: T-Shirt
+          price: 150000
+          coin: 10
+          description: Premium cotton t-shirt
+          thumbnail: https://example.com/thumb.jpg
+          images:
+          - https://example.com/img1.jpg
+          stock: 100
+          location: Jakarta
+          category: clothing
+          discount: 10.5
+          sold: 50
+          available: 50
+          rating: 4.5
+          saller_id: 660e8400-e29b-41d4-a716-446655440001
+          recommended: true
+          created_at: '2025-01-01T00:00:00'
+          updated_at: '2025-01-01T00:00:00'
+        meta:
+          locale: en
   - status: 404
     description: Resource not found
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: NOT_FOUND
-        message: Resource not found
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: NOT_FOUND
+          message: Resource not found
+          details: []
+        meta:
+          locale: en
   - status: 429
     description: Too many requests
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: RATE_LIMITED
-        message: Too many requests
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: RATE_LIMITED
+          message: Too many requests
+          details: []
+        meta:
+          locale: en
   - status: 500
     description: Internal server error
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: INTERNAL_ERROR
-        message: Internal server error
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: INTERNAL_ERROR
+          message: Internal server error
+          details: []
+        meta:
+          locale: en
 - id: post-addresses-user-{user_id}
   name: Create address (auth required)
   group: addresses
@@ -343,53 +347,57 @@ endpoints:
   responses:
   - status: 201
     description: Create address (auth required) - created
-    content_type: application/json
-    body:
-      success: true
-      data: &id001
-        id: 550e8400-e29b-41d4-a716-446655440000
-        user_id: 660e8400-e29b-41d4-a716-446655440001
-        address: Jl. Sudirman No. 1
-        label: Home
-        phone_number: '+628123456789'
-        main: true
-        created_at: '2025-01-01T00:00:00'
-        updated_at: '2025-01-01T00:00:00'
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: true
+        data: &id001
+          id: 550e8400-e29b-41d4-a716-446655440000
+          user_id: 660e8400-e29b-41d4-a716-446655440001
+          address: Jl. Sudirman No. 1
+          label: Home
+          phone_number: '+628123456789'
+          main: true
+          created_at: '2025-01-01T00:00:00'
+          updated_at: '2025-01-01T00:00:00'
+        meta:
+          locale: en
   - status: 400
     description: Validation failed
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: VALIDATION_ERROR
-        message: Validation failed
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: VALIDATION_ERROR
+          message: Validation failed
+          details: []
+        meta:
+          locale: en
   - status: 429
     description: Too many requests
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: RATE_LIMITED
-        message: Too many requests
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: RATE_LIMITED
+          message: Too many requests
+          details: []
+        meta:
+          locale: en
   - status: 500
     description: Internal server error
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: INTERNAL_ERROR
-        message: Internal server error
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: INTERNAL_ERROR
+          message: Internal server error
+          details: []
+        meta:
+          locale: en
 - id: put-addresses-user-{user_id}
   name: Update address (auth required)
   group: addresses
@@ -428,56 +436,61 @@ endpoints:
   responses:
   - status: 200
     description: Update address (auth required) - success
-    content_type: application/json
-    body:
-      success: true
-      data: *id001
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: true
+        data: *id001
+        meta:
+          locale: en
   - status: 400
     description: Validation failed
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: VALIDATION_ERROR
-        message: Validation failed
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: VALIDATION_ERROR
+          message: Validation failed
+          details: []
+        meta:
+          locale: en
   - status: 404
     description: Resource not found
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: NOT_FOUND
-        message: Resource not found
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: NOT_FOUND
+          message: Resource not found
+          details: []
+        meta:
+          locale: en
   - status: 429
     description: Too many requests
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: RATE_LIMITED
-        message: Too many requests
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: RATE_LIMITED
+          message: Too many requests
+          details: []
+        meta:
+          locale: en
   - status: 500
     description: Internal server error
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: INTERNAL_ERROR
-        message: Internal server error
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: INTERNAL_ERROR
+          message: Internal server error
+          details: []
+        meta:
+          locale: en
 - id: post-auth-register
   name: Register new user
   group: auth
@@ -552,63 +565,68 @@ endpoints:
   responses:
   - status: 201
     description: Register new user - created
-    content_type: application/json
-    body:
-      success: true
-      data:
-        id: 550e8400-e29b-41d4-a716-446655440000
-        fb_id: firebase-uid-123
-        email: newuser@example.com
-        name: Jane Doe
-        role: user
-        created_at: '2025-01-01T00:00:00'
-        updated_at: '2025-01-01T00:00:00'
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: true
+        data:
+          id: 550e8400-e29b-41d4-a716-446655440000
+          fb_id: firebase-uid-123
+          email: newuser@example.com
+          name: Jane Doe
+          role: user
+          created_at: '2025-01-01T00:00:00'
+          updated_at: '2025-01-01T00:00:00'
+        meta:
+          locale: en
   - status: 400
     description: Validation failed
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: VALIDATION_ERROR
-        message: Validation failed
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: VALIDATION_ERROR
+          message: Validation failed
+          details: []
+        meta:
+          locale: en
   - status: 401
     description: Authentication required
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: UNAUTHORIZED
-        message: Authentication required
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: UNAUTHORIZED
+          message: Authentication required
+          details: []
+        meta:
+          locale: en
   - status: 429
     description: Too many requests
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: RATE_LIMITED
-        message: Too many requests
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: RATE_LIMITED
+          message: Too many requests
+          details: []
+        meta:
+          locale: en
   - status: 500
     description: Internal server error
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: INTERNAL_ERROR
-        message: Internal server error
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: INTERNAL_ERROR
+          message: Internal server error
+          details: []
+        meta:
+          locale: en
 - id: get-articles-{id}
   name: Get article by ID
   group: articles
@@ -647,51 +665,55 @@ endpoints:
   responses:
   - status: 200
     description: Get article by ID - success
-    content_type: application/json
-    body:
-      success: true
-      data: &id002
-        id: 550e8400-e29b-41d4-a716-446655440000
-        thumbnail: https://example.com/article.jpg
-        header: How to Recycle
-        content: Full article content here...
-        created_at: '2025-01-01T00:00:00'
-        updated_at: '2025-01-01T00:00:00'
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: true
+        data: &id002
+          id: 550e8400-e29b-41d4-a716-446655440000
+          thumbnail: https://example.com/article.jpg
+          header: How to Recycle
+          content: Full article content here...
+          created_at: '2025-01-01T00:00:00'
+          updated_at: '2025-01-01T00:00:00'
+        meta:
+          locale: en
   - status: 404
     description: Resource not found
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: NOT_FOUND
-        message: Resource not found
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: NOT_FOUND
+          message: Resource not found
+          details: []
+        meta:
+          locale: en
   - status: 429
     description: Too many requests
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: RATE_LIMITED
-        message: Too many requests
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: RATE_LIMITED
+          message: Too many requests
+          details: []
+        meta:
+          locale: en
   - status: 500
     description: Internal server error
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: INTERNAL_ERROR
-        message: Internal server error
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: INTERNAL_ERROR
+          message: Internal server error
+          details: []
+        meta:
+          locale: en
 - id: put-articles-{id}
   name: Update article
   group: articles
@@ -730,56 +752,61 @@ endpoints:
   responses:
   - status: 200
     description: Update article - success
-    content_type: application/json
-    body:
-      success: true
-      data: *id002
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: true
+        data: *id002
+        meta:
+          locale: en
   - status: 400
     description: Validation failed
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: VALIDATION_ERROR
-        message: Validation failed
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: VALIDATION_ERROR
+          message: Validation failed
+          details: []
+        meta:
+          locale: en
   - status: 404
     description: Resource not found
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: NOT_FOUND
-        message: Resource not found
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: NOT_FOUND
+          message: Resource not found
+          details: []
+        meta:
+          locale: en
   - status: 429
     description: Too many requests
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: RATE_LIMITED
-        message: Too many requests
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: RATE_LIMITED
+          message: Too many requests
+          details: []
+        meta:
+          locale: en
   - status: 500
     description: Internal server error
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: INTERNAL_ERROR
-        message: Internal server error
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: INTERNAL_ERROR
+          message: Internal server error
+          details: []
+        meta:
+          locale: en
 - id: delete-articles-{id}
   name: Delete article
   group: articles
@@ -818,45 +845,49 @@ endpoints:
   responses:
   - status: 200
     description: Delete article - success
-    content_type: application/json
-    body:
-      success: true
-      message: Deleted successfully
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: true
+        message: Deleted successfully
+        meta:
+          locale: en
   - status: 404
     description: Resource not found
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: NOT_FOUND
-        message: Resource not found
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: NOT_FOUND
+          message: Resource not found
+          details: []
+        meta:
+          locale: en
   - status: 429
     description: Too many requests
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: RATE_LIMITED
-        message: Too many requests
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: RATE_LIMITED
+          message: Too many requests
+          details: []
+        meta:
+          locale: en
   - status: 500
     description: Internal server error
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: INTERNAL_ERROR
-        message: Internal server error
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: INTERNAL_ERROR
+          message: Internal server error
+          details: []
+        meta:
+          locale: en
 - id: get-orders
   name: List all orders (admin)
   group: orders
@@ -913,65 +944,69 @@ endpoints:
   responses:
   - status: 200
     description: List all orders (admin) - paginated
-    content_type: application/json
-    body:
-      success: true
-      data:
-      - &id009
-        id: 550e8400-e29b-41d4-a716-446655440000
-        user_id: 660e8400-e29b-41d4-a716-446655440001
-        product_id: 770e8400-e29b-41d4-a716-446655440002
-        quantity: 1
-        coin: 10
-        payment:
-          method: qris
-          status: pending
-          amount: 150000.0
-        delivery:
-          status: processing
-          tracking_number: ''
-          estimated_delivery: '2025-01-05T00:00:00'
-        created_at: '2025-01-01T00:00:00'
-        updated_at: '2025-01-01T00:00:00'
-      meta:
-        locale: en
-        pagination:
-          cursor: eyJpZCI6MjV9
-          has_more: true
-          count: 25
+    examples:
+    - name: default
+      value:
+        success: true
+        data:
+        - &id009
+          id: 550e8400-e29b-41d4-a716-446655440000
+          user_id: 660e8400-e29b-41d4-a716-446655440001
+          product_id: 770e8400-e29b-41d4-a716-446655440002
+          quantity: 1
+          coin: 10
+          payment:
+            method: qris
+            status: pending
+            amount: 150000.0
+          delivery:
+            status: processing
+            tracking_number: ''
+            estimated_delivery: '2025-01-05T00:00:00'
+          created_at: '2025-01-01T00:00:00'
+          updated_at: '2025-01-01T00:00:00'
+        meta:
+          locale: en
+          pagination:
+            cursor: eyJpZCI6MjV9
+            has_more: true
+            count: 25
   - status: 404
     description: Resource not found
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: NOT_FOUND
-        message: Resource not found
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: NOT_FOUND
+          message: Resource not found
+          details: []
+        meta:
+          locale: en
   - status: 429
     description: Too many requests
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: RATE_LIMITED
-        message: Too many requests
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: RATE_LIMITED
+          message: Too many requests
+          details: []
+        meta:
+          locale: en
   - status: 500
     description: Internal server error
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: INTERNAL_ERROR
-        message: Internal server error
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: INTERNAL_ERROR
+          message: Internal server error
+          details: []
+        meta:
+          locale: en
 - id: get-articles
   name: List articles (public)
   group: articles
@@ -1028,50 +1063,54 @@ endpoints:
   responses:
   - status: 200
     description: List articles (public) - paginated
-    content_type: application/json
-    body:
-      success: true
-      data:
-      - *id002
-      meta:
-        locale: en
-        pagination:
-          cursor: eyJpZCI6MjV9
-          has_more: true
-          count: 25
+    examples:
+    - name: default
+      value:
+        success: true
+        data:
+        - *id002
+        meta:
+          locale: en
+          pagination:
+            cursor: eyJpZCI6MjV9
+            has_more: true
+            count: 25
   - status: 404
     description: Resource not found
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: NOT_FOUND
-        message: Resource not found
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: NOT_FOUND
+          message: Resource not found
+          details: []
+        meta:
+          locale: en
   - status: 429
     description: Too many requests
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: RATE_LIMITED
-        message: Too many requests
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: RATE_LIMITED
+          message: Too many requests
+          details: []
+        meta:
+          locale: en
   - status: 500
     description: Internal server error
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: INTERNAL_ERROR
-        message: Internal server error
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: INTERNAL_ERROR
+          message: Internal server error
+          details: []
+        meta:
+          locale: en
 - id: get-products
   name: List products (public, no auth required)
   group: products
@@ -1164,50 +1203,54 @@ endpoints:
   responses:
   - status: 200
     description: List products (public, no auth required) - paginated
-    content_type: application/json
-    body:
-      success: true
-      data:
-      - *id003
-      meta:
-        locale: en
-        pagination:
-          cursor: eyJpZCI6MjV9
-          has_more: true
-          count: 25
+    examples:
+    - name: default
+      value:
+        success: true
+        data:
+        - *id003
+        meta:
+          locale: en
+          pagination:
+            cursor: eyJpZCI6MjV9
+            has_more: true
+            count: 25
   - status: 404
     description: Resource not found
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: NOT_FOUND
-        message: Resource not found
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: NOT_FOUND
+          message: Resource not found
+          details: []
+        meta:
+          locale: en
   - status: 429
     description: Too many requests
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: RATE_LIMITED
-        message: Too many requests
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: RATE_LIMITED
+          message: Too many requests
+          details: []
+        meta:
+          locale: en
   - status: 500
     description: Internal server error
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: INTERNAL_ERROR
-        message: Internal server error
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: INTERNAL_ERROR
+          message: Internal server error
+          details: []
+        meta:
+          locale: en
 - id: get-deposites
   name: List all deposites (admin)
   group: deposites
@@ -1264,61 +1307,65 @@ endpoints:
   responses:
   - status: 200
     description: List all deposites (admin) - paginated
-    content_type: application/json
-    body:
-      success: true
-      data:
-      - &id004
-        id: 550e8400-e29b-41d4-a716-446655440000
-        user_id: 660e8400-e29b-41d4-a716-446655440001
-        address_id: 770e8400-e29b-41d4-a716-446655440002
-        type: plastic
-        pickup_date: '2025-01-15'
-        pickup_time: '10:00'
-        coin: 50
-        images: []
-        landfill_id: null
-        created_at: '2025-01-01T00:00:00'
-        updated_at: '2025-01-01T00:00:00'
-      meta:
-        locale: en
-        pagination:
-          cursor: eyJpZCI6MjV9
-          has_more: true
-          count: 25
+    examples:
+    - name: default
+      value:
+        success: true
+        data:
+        - &id004
+          id: 550e8400-e29b-41d4-a716-446655440000
+          user_id: 660e8400-e29b-41d4-a716-446655440001
+          address_id: 770e8400-e29b-41d4-a716-446655440002
+          type: plastic
+          pickup_date: '2025-01-15'
+          pickup_time: '10:00'
+          coin: 50
+          images: []
+          landfill_id: null
+          created_at: '2025-01-01T00:00:00'
+          updated_at: '2025-01-01T00:00:00'
+        meta:
+          locale: en
+          pagination:
+            cursor: eyJpZCI6MjV9
+            has_more: true
+            count: 25
   - status: 404
     description: Resource not found
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: NOT_FOUND
-        message: Resource not found
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: NOT_FOUND
+          message: Resource not found
+          details: []
+        meta:
+          locale: en
   - status: 429
     description: Too many requests
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: RATE_LIMITED
-        message: Too many requests
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: RATE_LIMITED
+          message: Too many requests
+          details: []
+        meta:
+          locale: en
   - status: 500
     description: Internal server error
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: INTERNAL_ERROR
-        message: Internal server error
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: INTERNAL_ERROR
+          message: Internal server error
+          details: []
+        meta:
+          locale: en
 - id: post-deposites
   name: Create deposite (auth required)
   group: deposites
@@ -1468,45 +1515,49 @@ endpoints:
   responses:
   - status: 201
     description: Create deposite (auth required) - created
-    content_type: application/json
-    body:
-      success: true
-      data: *id004
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: true
+        data: *id004
+        meta:
+          locale: en
   - status: 400
     description: Validation failed
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: VALIDATION_ERROR
-        message: Validation failed
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: VALIDATION_ERROR
+          message: Validation failed
+          details: []
+        meta:
+          locale: en
   - status: 429
     description: Too many requests
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: RATE_LIMITED
-        message: Too many requests
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: RATE_LIMITED
+          message: Too many requests
+          details: []
+        meta:
+          locale: en
   - status: 500
     description: Internal server error
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: INTERNAL_ERROR
-        message: Internal server error
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: INTERNAL_ERROR
+          message: Internal server error
+          details: []
+        meta:
+          locale: en
 - id: get-profile-{email}
   name: Get user profile
   group: profile
@@ -1545,51 +1596,55 @@ endpoints:
   responses:
   - status: 200
     description: Get user profile - success
-    content_type: application/json
-    body:
-      success: true
-      data: &id005
-        id: 550e8400-e29b-41d4-a716-446655440000
-        user_id: 660e8400-e29b-41d4-a716-446655440001
-        exp: 150.5
-        level: 5
-        coin: 200
-        badge: gold
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: true
+        data: &id005
+          id: 550e8400-e29b-41d4-a716-446655440000
+          user_id: 660e8400-e29b-41d4-a716-446655440001
+          exp: 150.5
+          level: 5
+          coin: 200
+          badge: gold
+        meta:
+          locale: en
   - status: 404
     description: Resource not found
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: NOT_FOUND
-        message: Resource not found
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: NOT_FOUND
+          message: Resource not found
+          details: []
+        meta:
+          locale: en
   - status: 429
     description: Too many requests
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: RATE_LIMITED
-        message: Too many requests
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: RATE_LIMITED
+          message: Too many requests
+          details: []
+        meta:
+          locale: en
   - status: 500
     description: Internal server error
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: INTERNAL_ERROR
-        message: Internal server error
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: INTERNAL_ERROR
+          message: Internal server error
+          details: []
+        meta:
+          locale: en
 - id: put-profile-{email}
   name: Update user profile
   group: profile
@@ -1697,56 +1752,61 @@ endpoints:
   responses:
   - status: 200
     description: Update user profile - success
-    content_type: application/json
-    body:
-      success: true
-      data: *id005
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: true
+        data: *id005
+        meta:
+          locale: en
   - status: 400
     description: Validation failed
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: VALIDATION_ERROR
-        message: Validation failed
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: VALIDATION_ERROR
+          message: Validation failed
+          details: []
+        meta:
+          locale: en
   - status: 404
     description: Resource not found
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: NOT_FOUND
-        message: Resource not found
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: NOT_FOUND
+          message: Resource not found
+          details: []
+        meta:
+          locale: en
   - status: 429
     description: Too many requests
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: RATE_LIMITED
-        message: Too many requests
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: RATE_LIMITED
+          message: Too many requests
+          details: []
+        meta:
+          locale: en
   - status: 500
     description: Internal server error
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: INTERNAL_ERROR
-        message: Internal server error
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: INTERNAL_ERROR
+          message: Internal server error
+          details: []
+        meta:
+          locale: en
 - id: get-products-{id}
   name: Get product by ID
   group: products
@@ -1785,45 +1845,49 @@ endpoints:
   responses:
   - status: 200
     description: Get product by ID - success
-    content_type: application/json
-    body:
-      success: true
-      data: *id003
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: true
+        data: *id003
+        meta:
+          locale: en
   - status: 404
     description: Resource not found
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: NOT_FOUND
-        message: Resource not found
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: NOT_FOUND
+          message: Resource not found
+          details: []
+        meta:
+          locale: en
   - status: 429
     description: Too many requests
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: RATE_LIMITED
-        message: Too many requests
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: RATE_LIMITED
+          message: Too many requests
+          details: []
+        meta:
+          locale: en
   - status: 500
     description: Internal server error
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: INTERNAL_ERROR
-        message: Internal server error
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: INTERNAL_ERROR
+          message: Internal server error
+          details: []
+        meta:
+          locale: en
 - id: put-products-{id}
   name: Update product
   group: products
@@ -1871,56 +1935,61 @@ endpoints:
   responses:
   - status: 200
     description: Update product - success
-    content_type: application/json
-    body:
-      success: true
-      data: *id003
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: true
+        data: *id003
+        meta:
+          locale: en
   - status: 400
     description: Validation failed
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: VALIDATION_ERROR
-        message: Validation failed
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: VALIDATION_ERROR
+          message: Validation failed
+          details: []
+        meta:
+          locale: en
   - status: 404
     description: Resource not found
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: NOT_FOUND
-        message: Resource not found
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: NOT_FOUND
+          message: Resource not found
+          details: []
+        meta:
+          locale: en
   - status: 429
     description: Too many requests
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: RATE_LIMITED
-        message: Too many requests
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: RATE_LIMITED
+          message: Too many requests
+          details: []
+        meta:
+          locale: en
   - status: 500
     description: Internal server error
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: INTERNAL_ERROR
-        message: Internal server error
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: INTERNAL_ERROR
+          message: Internal server error
+          details: []
+        meta:
+          locale: en
 - id: delete-products-{id}
   name: Delete product
   group: products
@@ -1959,45 +2028,49 @@ endpoints:
   responses:
   - status: 200
     description: Delete product - success
-    content_type: application/json
-    body:
-      success: true
-      message: Deleted successfully
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: true
+        message: Deleted successfully
+        meta:
+          locale: en
   - status: 404
     description: Resource not found
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: NOT_FOUND
-        message: Resource not found
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: NOT_FOUND
+          message: Resource not found
+          details: []
+        meta:
+          locale: en
   - status: 429
     description: Too many requests
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: RATE_LIMITED
-        message: Too many requests
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: RATE_LIMITED
+          message: Too many requests
+          details: []
+        meta:
+          locale: en
   - status: 500
     description: Internal server error
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: INTERNAL_ERROR
-        message: Internal server error
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: INTERNAL_ERROR
+          message: Internal server error
+          details: []
+        meta:
+          locale: en
 - id: get-landfills
   name: List landfills (public)
   group: landfills
@@ -2054,53 +2127,57 @@ endpoints:
   responses:
   - status: 200
     description: List landfills (public) - paginated
-    content_type: application/json
-    body:
-      success: true
-      data:
-      - &id006
-        id: 550e8400-e29b-41d4-a716-446655440000
-        name: TPS Jakarta Selatan
-        address: Jl. TB Simatupang
-      meta:
-        locale: en
-        pagination:
-          cursor: eyJpZCI6MjV9
-          has_more: true
-          count: 25
+    examples:
+    - name: default
+      value:
+        success: true
+        data:
+        - &id006
+          id: 550e8400-e29b-41d4-a716-446655440000
+          name: TPS Jakarta Selatan
+          address: Jl. TB Simatupang
+        meta:
+          locale: en
+          pagination:
+            cursor: eyJpZCI6MjV9
+            has_more: true
+            count: 25
   - status: 404
     description: Resource not found
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: NOT_FOUND
-        message: Resource not found
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: NOT_FOUND
+          message: Resource not found
+          details: []
+        meta:
+          locale: en
   - status: 429
     description: Too many requests
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: RATE_LIMITED
-        message: Too many requests
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: RATE_LIMITED
+          message: Too many requests
+          details: []
+        meta:
+          locale: en
   - status: 500
     description: Internal server error
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: INTERNAL_ERROR
-        message: Internal server error
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: INTERNAL_ERROR
+          message: Internal server error
+          details: []
+        meta:
+          locale: en
 - id: post-landfills
   name: Create landfill (admin)
   group: landfills
@@ -2160,45 +2237,49 @@ endpoints:
   responses:
   - status: 201
     description: Create landfill (admin) - created
-    content_type: application/json
-    body:
-      success: true
-      data: *id006
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: true
+        data: *id006
+        meta:
+          locale: en
   - status: 400
     description: Validation failed
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: VALIDATION_ERROR
-        message: Validation failed
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: VALIDATION_ERROR
+          message: Validation failed
+          details: []
+        meta:
+          locale: en
   - status: 429
     description: Too many requests
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: RATE_LIMITED
-        message: Too many requests
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: RATE_LIMITED
+          message: Too many requests
+          details: []
+        meta:
+          locale: en
   - status: 500
     description: Internal server error
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: INTERNAL_ERROR
-        message: Internal server error
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: INTERNAL_ERROR
+          message: Internal server error
+          details: []
+        meta:
+          locale: en
 - id: put-trash-type-{id}
   name: Update trash type (admin)
   group: trash
@@ -2237,61 +2318,66 @@ endpoints:
   responses:
   - status: 200
     description: Update trash type (admin) - success
-    content_type: application/json
-    body:
-      success: true
-      data: &id008
-        id: 550e8400-e29b-41d4-a716-446655440000
-        name: Plastic
-        image: https://example.com/trash.jpg
-        created_at: '2025-01-01T00:00:00'
-        updated_at: '2025-01-01T00:00:00'
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: true
+        data: &id008
+          id: 550e8400-e29b-41d4-a716-446655440000
+          name: Plastic
+          image: https://example.com/trash.jpg
+          created_at: '2025-01-01T00:00:00'
+          updated_at: '2025-01-01T00:00:00'
+        meta:
+          locale: en
   - status: 400
     description: Validation failed
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: VALIDATION_ERROR
-        message: Validation failed
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: VALIDATION_ERROR
+          message: Validation failed
+          details: []
+        meta:
+          locale: en
   - status: 404
     description: Resource not found
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: NOT_FOUND
-        message: Resource not found
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: NOT_FOUND
+          message: Resource not found
+          details: []
+        meta:
+          locale: en
   - status: 429
     description: Too many requests
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: RATE_LIMITED
-        message: Too many requests
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: RATE_LIMITED
+          message: Too many requests
+          details: []
+        meta:
+          locale: en
   - status: 500
     description: Internal server error
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: INTERNAL_ERROR
-        message: Internal server error
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: INTERNAL_ERROR
+          message: Internal server error
+          details: []
+        meta:
+          locale: en
 - id: delete-trash-type-{id}
   name: Delete trash type (admin)
   group: trash
@@ -2330,45 +2416,49 @@ endpoints:
   responses:
   - status: 200
     description: Delete trash type (admin) - success
-    content_type: application/json
-    body:
-      success: true
-      message: Deleted successfully
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: true
+        message: Deleted successfully
+        meta:
+          locale: en
   - status: 404
     description: Resource not found
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: NOT_FOUND
-        message: Resource not found
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: NOT_FOUND
+          message: Resource not found
+          details: []
+        meta:
+          locale: en
   - status: 429
     description: Too many requests
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: RATE_LIMITED
-        message: Too many requests
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: RATE_LIMITED
+          message: Too many requests
+          details: []
+        meta:
+          locale: en
   - status: 500
     description: Internal server error
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: INTERNAL_ERROR
-        message: Internal server error
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: INTERNAL_ERROR
+          message: Internal server error
+          details: []
+        meta:
+          locale: en
 - id: get-carts-user-{user_id}
   name: Get user cart
   group: carts
@@ -2443,52 +2533,56 @@ endpoints:
   responses:
   - status: 200
     description: Get user cart - success
-    content_type: application/json
-    body:
-      success: true
-      data: &id007
-        id: 550e8400-e29b-41d4-a716-446655440000
-        user_id: 660e8400-e29b-41d4-a716-446655440001
-        product_id: 770e8400-e29b-41d4-a716-446655440002
-        quantity: 2
-        variant_id: null
-        created_at: '2025-01-01T00:00:00'
-        updated_at: '2025-01-01T00:00:00'
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: true
+        data: &id007
+          id: 550e8400-e29b-41d4-a716-446655440000
+          user_id: 660e8400-e29b-41d4-a716-446655440001
+          product_id: 770e8400-e29b-41d4-a716-446655440002
+          quantity: 2
+          variant_id: null
+          created_at: '2025-01-01T00:00:00'
+          updated_at: '2025-01-01T00:00:00'
+        meta:
+          locale: en
   - status: 404
     description: Resource not found
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: NOT_FOUND
-        message: Resource not found
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: NOT_FOUND
+          message: Resource not found
+          details: []
+        meta:
+          locale: en
   - status: 429
     description: Too many requests
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: RATE_LIMITED
-        message: Too many requests
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: RATE_LIMITED
+          message: Too many requests
+          details: []
+        meta:
+          locale: en
   - status: 500
     description: Internal server error
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: INTERNAL_ERROR
-        message: Internal server error
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: INTERNAL_ERROR
+          message: Internal server error
+          details: []
+        meta:
+          locale: en
 - id: post-carts-user-{user_id}
   name: Add item to cart
   group: carts
@@ -2581,45 +2675,49 @@ endpoints:
   responses:
   - status: 201
     description: Add item to cart - created
-    content_type: application/json
-    body:
-      success: true
-      data: *id007
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: true
+        data: *id007
+        meta:
+          locale: en
   - status: 400
     description: Validation failed
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: VALIDATION_ERROR
-        message: Validation failed
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: VALIDATION_ERROR
+          message: Validation failed
+          details: []
+        meta:
+          locale: en
   - status: 429
     description: Too many requests
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: RATE_LIMITED
-        message: Too many requests
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: RATE_LIMITED
+          message: Too many requests
+          details: []
+        meta:
+          locale: en
   - status: 500
     description: Internal server error
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: INTERNAL_ERROR
-        message: Internal server error
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: INTERNAL_ERROR
+          message: Internal server error
+          details: []
+        meta:
+          locale: en
 - id: get-trash-types
   name: List trash types (public)
   group: trash
@@ -2676,50 +2774,54 @@ endpoints:
   responses:
   - status: 200
     description: List trash types (public) - paginated
-    content_type: application/json
-    body:
-      success: true
-      data:
-      - *id008
-      meta:
-        locale: en
-        pagination:
-          cursor: eyJpZCI6MjV9
-          has_more: true
-          count: 25
+    examples:
+    - name: default
+      value:
+        success: true
+        data:
+        - *id008
+        meta:
+          locale: en
+          pagination:
+            cursor: eyJpZCI6MjV9
+            has_more: true
+            count: 25
   - status: 404
     description: Resource not found
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: NOT_FOUND
-        message: Resource not found
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: NOT_FOUND
+          message: Resource not found
+          details: []
+        meta:
+          locale: en
   - status: 429
     description: Too many requests
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: RATE_LIMITED
-        message: Too many requests
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: RATE_LIMITED
+          message: Too many requests
+          details: []
+        meta:
+          locale: en
   - status: 500
     description: Internal server error
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: INTERNAL_ERROR
-        message: Internal server error
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: INTERNAL_ERROR
+          message: Internal server error
+          details: []
+        meta:
+          locale: en
 - id: post-trash-types
   name: Create trash type (admin)
   group: trash
@@ -2779,45 +2881,49 @@ endpoints:
   responses:
   - status: 201
     description: Create trash type (admin) - created
-    content_type: application/json
-    body:
-      success: true
-      data: *id008
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: true
+        data: *id008
+        meta:
+          locale: en
   - status: 400
     description: Validation failed
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: VALIDATION_ERROR
-        message: Validation failed
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: VALIDATION_ERROR
+          message: Validation failed
+          details: []
+        meta:
+          locale: en
   - status: 429
     description: Too many requests
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: RATE_LIMITED
-        message: Too many requests
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: RATE_LIMITED
+          message: Too many requests
+          details: []
+        meta:
+          locale: en
   - status: 500
     description: Internal server error
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: INTERNAL_ERROR
-        message: Internal server error
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: INTERNAL_ERROR
+          message: Internal server error
+          details: []
+        meta:
+          locale: en
 - id: get-orders-user-{user_id}
   name: Get user orders
   group: orders
@@ -2874,45 +2980,49 @@ endpoints:
   responses:
   - status: 200
     description: Get user orders - success
-    content_type: application/json
-    body:
-      success: true
-      data: *id009
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: true
+        data: *id009
+        meta:
+          locale: en
   - status: 404
     description: Resource not found
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: NOT_FOUND
-        message: Resource not found
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: NOT_FOUND
+          message: Resource not found
+          details: []
+        meta:
+          locale: en
   - status: 429
     description: Too many requests
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: RATE_LIMITED
-        message: Too many requests
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: RATE_LIMITED
+          message: Too many requests
+          details: []
+        meta:
+          locale: en
   - status: 500
     description: Internal server error
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: INTERNAL_ERROR
-        message: Internal server error
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: INTERNAL_ERROR
+          message: Internal server error
+          details: []
+        meta:
+          locale: en
 - id: post-orders-user-{user_id}
   name: Create order (auth required)
   group: orders
@@ -3020,45 +3130,49 @@ endpoints:
   responses:
   - status: 201
     description: Create order (auth required) - created
-    content_type: application/json
-    body:
-      success: true
-      data: *id009
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: true
+        data: *id009
+        meta:
+          locale: en
   - status: 400
     description: Validation failed
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: VALIDATION_ERROR
-        message: Validation failed
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: VALIDATION_ERROR
+          message: Validation failed
+          details: []
+        meta:
+          locale: en
   - status: 429
     description: Too many requests
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: RATE_LIMITED
-        message: Too many requests
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: RATE_LIMITED
+          message: Too many requests
+          details: []
+        meta:
+          locale: en
   - status: 500
     description: Internal server error
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: INTERNAL_ERROR
-        message: Internal server error
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: INTERNAL_ERROR
+          message: Internal server error
+          details: []
+        meta:
+          locale: en
 - id: post-products-variant-{id}
   name: Add product variant
   group: products
@@ -3166,51 +3280,55 @@ endpoints:
   responses:
   - status: 201
     description: Add product variant - created
-    content_type: application/json
-    body:
-      success: true
-      data:
-        id: 770e8400-e29b-41d4-a716-446655440002
-        product_id: 550e8400-e29b-41d4-a716-446655440000
-        name: Size L - Black
-        price: 160000
-        stock: 30
-        image: https://example.com/variant.jpg
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: true
+        data:
+          id: 770e8400-e29b-41d4-a716-446655440002
+          product_id: 550e8400-e29b-41d4-a716-446655440000
+          name: Size L - Black
+          price: 160000
+          stock: 30
+          image: https://example.com/variant.jpg
+        meta:
+          locale: en
   - status: 400
     description: Validation failed
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: VALIDATION_ERROR
-        message: Validation failed
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: VALIDATION_ERROR
+          message: Validation failed
+          details: []
+        meta:
+          locale: en
   - status: 429
     description: Too many requests
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: RATE_LIMITED
-        message: Too many requests
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: RATE_LIMITED
+          message: Too many requests
+          details: []
+        meta:
+          locale: en
   - status: 500
     description: Internal server error
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: INTERNAL_ERROR
-        message: Internal server error
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: INTERNAL_ERROR
+          message: Internal server error
+          details: []
+        meta:
+          locale: en
 - id: post-products-create
   name: Create product
   group: products
@@ -3420,45 +3538,49 @@ endpoints:
   responses:
   - status: 201
     description: Create product - created
-    content_type: application/json
-    body:
-      success: true
-      data: *id003
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: true
+        data: *id003
+        meta:
+          locale: en
   - status: 400
     description: Validation failed
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: VALIDATION_ERROR
-        message: Validation failed
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: VALIDATION_ERROR
+          message: Validation failed
+          details: []
+        meta:
+          locale: en
   - status: 429
     description: Too many requests
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: RATE_LIMITED
-        message: Too many requests
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: RATE_LIMITED
+          message: Too many requests
+          details: []
+        meta:
+          locale: en
   - status: 500
     description: Internal server error
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: INTERNAL_ERROR
-        message: Internal server error
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: INTERNAL_ERROR
+          message: Internal server error
+          details: []
+        meta:
+          locale: en
 - id: delete-orders-{id}
   name: Cancel order (auth required)
   group: orders
@@ -3497,45 +3619,49 @@ endpoints:
   responses:
   - status: 200
     description: Cancel order (auth required) - success
-    content_type: application/json
-    body:
-      success: true
-      message: Deleted successfully
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: true
+        message: Deleted successfully
+        meta:
+          locale: en
   - status: 404
     description: Resource not found
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: NOT_FOUND
-        message: Resource not found
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: NOT_FOUND
+          message: Resource not found
+          details: []
+        meta:
+          locale: en
   - status: 429
     description: Too many requests
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: RATE_LIMITED
-        message: Too many requests
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: RATE_LIMITED
+          message: Too many requests
+          details: []
+        meta:
+          locale: en
   - status: 500
     description: Internal server error
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: INTERNAL_ERROR
-        message: Internal server error
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: INTERNAL_ERROR
+          message: Internal server error
+          details: []
+        meta:
+          locale: en
 - id: get-banners-type-{type}
   name: List banners by type
   group: banners
@@ -3574,57 +3700,61 @@ endpoints:
   responses:
   - status: 200
     description: List banners by type - paginated
-    content_type: application/json
-    body:
-      success: true
-      data:
-      - &id011
-        id: 550e8400-e29b-41d4-a716-446655440000
-        image: https://example.com/banner.jpg
-        type: home
-        title: Summer Sale
-        description: Up to 50% off
-        created_at: '2025-01-01T00:00:00'
-        updated_at: '2025-01-01T00:00:00'
-      meta:
-        locale: en
-        pagination:
-          cursor: eyJpZCI6MjV9
-          has_more: true
-          count: 25
+    examples:
+    - name: default
+      value:
+        success: true
+        data:
+        - &id011
+          id: 550e8400-e29b-41d4-a716-446655440000
+          image: https://example.com/banner.jpg
+          type: home
+          title: Summer Sale
+          description: Up to 50% off
+          created_at: '2025-01-01T00:00:00'
+          updated_at: '2025-01-01T00:00:00'
+        meta:
+          locale: en
+          pagination:
+            cursor: eyJpZCI6MjV9
+            has_more: true
+            count: 25
   - status: 404
     description: Resource not found
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: NOT_FOUND
-        message: Resource not found
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: NOT_FOUND
+          message: Resource not found
+          details: []
+        meta:
+          locale: en
   - status: 429
     description: Too many requests
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: RATE_LIMITED
-        message: Too many requests
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: RATE_LIMITED
+          message: Too many requests
+          details: []
+        meta:
+          locale: en
   - status: 500
     description: Internal server error
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: INTERNAL_ERROR
-        message: Internal server error
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: INTERNAL_ERROR
+          message: Internal server error
+          details: []
+        meta:
+          locale: en
 - id: put-reviews-{id}
   name: Update review (auth required)
   group: reviews
@@ -3702,64 +3832,69 @@ endpoints:
   responses:
   - status: 200
     description: Update review (auth required) - success
-    content_type: application/json
-    body:
-      success: true
-      data: &id010
-        id: 550e8400-e29b-41d4-a716-446655440000
-        product_id: 660e8400-e29b-41d4-a716-446655440001
-        user_id: 770e8400-e29b-41d4-a716-446655440002
-        comment: Great product!
-        images: []
-        rating: 5.0
-        created_at: '2025-01-01T00:00:00'
-        updated_at: '2025-01-01T00:00:00'
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: true
+        data: &id010
+          id: 550e8400-e29b-41d4-a716-446655440000
+          product_id: 660e8400-e29b-41d4-a716-446655440001
+          user_id: 770e8400-e29b-41d4-a716-446655440002
+          comment: Great product!
+          images: []
+          rating: 5.0
+          created_at: '2025-01-01T00:00:00'
+          updated_at: '2025-01-01T00:00:00'
+        meta:
+          locale: en
   - status: 400
     description: Validation failed
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: VALIDATION_ERROR
-        message: Validation failed
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: VALIDATION_ERROR
+          message: Validation failed
+          details: []
+        meta:
+          locale: en
   - status: 404
     description: Resource not found
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: NOT_FOUND
-        message: Resource not found
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: NOT_FOUND
+          message: Resource not found
+          details: []
+        meta:
+          locale: en
   - status: 429
     description: Too many requests
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: RATE_LIMITED
-        message: Too many requests
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: RATE_LIMITED
+          message: Too many requests
+          details: []
+        meta:
+          locale: en
   - status: 500
     description: Internal server error
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: INTERNAL_ERROR
-        message: Internal server error
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: INTERNAL_ERROR
+          message: Internal server error
+          details: []
+        meta:
+          locale: en
 - id: post-articles-create
   name: Create article
   group: articles
@@ -3834,45 +3969,49 @@ endpoints:
   responses:
   - status: 201
     description: Create article - created
-    content_type: application/json
-    body:
-      success: true
-      data: *id002
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: true
+        data: *id002
+        meta:
+          locale: en
   - status: 400
     description: Validation failed
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: VALIDATION_ERROR
-        message: Validation failed
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: VALIDATION_ERROR
+          message: Validation failed
+          details: []
+        meta:
+          locale: en
   - status: 429
     description: Too many requests
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: RATE_LIMITED
-        message: Too many requests
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: RATE_LIMITED
+          message: Too many requests
+          details: []
+        meta:
+          locale: en
   - status: 500
     description: Internal server error
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: INTERNAL_ERROR
-        message: Internal server error
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: INTERNAL_ERROR
+          message: Internal server error
+          details: []
+        meta:
+          locale: en
 - id: post-reviews
   name: Create review (auth required)
   group: reviews
@@ -3962,45 +4101,49 @@ endpoints:
   responses:
   - status: 201
     description: Create review (auth required) - created
-    content_type: application/json
-    body:
-      success: true
-      data: *id010
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: true
+        data: *id010
+        meta:
+          locale: en
   - status: 400
     description: Validation failed
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: VALIDATION_ERROR
-        message: Validation failed
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: VALIDATION_ERROR
+          message: Validation failed
+          details: []
+        meta:
+          locale: en
   - status: 429
     description: Too many requests
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: RATE_LIMITED
-        message: Too many requests
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: RATE_LIMITED
+          message: Too many requests
+          details: []
+        meta:
+          locale: en
   - status: 500
     description: Internal server error
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: INTERNAL_ERROR
-        message: Internal server error
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: INTERNAL_ERROR
+          message: Internal server error
+          details: []
+        meta:
+          locale: en
 - id: post-auth-reset-password
   name: Request password reset
   group: auth
@@ -4045,57 +4188,62 @@ endpoints:
   responses:
   - status: 201
     description: Request password reset - created
-    content_type: application/json
-    body:
-      success: true
-      data:
-        email: user@example.com
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: true
+        data:
+          email: user@example.com
+        meta:
+          locale: en
   - status: 400
     description: Validation failed
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: VALIDATION_ERROR
-        message: Validation failed
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: VALIDATION_ERROR
+          message: Validation failed
+          details: []
+        meta:
+          locale: en
   - status: 401
     description: Authentication required
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: UNAUTHORIZED
-        message: Authentication required
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: UNAUTHORIZED
+          message: Authentication required
+          details: []
+        meta:
+          locale: en
   - status: 429
     description: Too many requests
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: RATE_LIMITED
-        message: Too many requests
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: RATE_LIMITED
+          message: Too many requests
+          details: []
+        meta:
+          locale: en
   - status: 500
     description: Internal server error
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: INTERNAL_ERROR
-        message: Internal server error
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: INTERNAL_ERROR
+          message: Internal server error
+          details: []
+        meta:
+          locale: en
 - id: delete-carts-item-{id}
   name: Remove cart item
   group: carts
@@ -4134,45 +4282,49 @@ endpoints:
   responses:
   - status: 200
     description: Remove cart item - success
-    content_type: application/json
-    body:
-      success: true
-      message: Deleted successfully
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: true
+        message: Deleted successfully
+        meta:
+          locale: en
   - status: 404
     description: Resource not found
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: NOT_FOUND
-        message: Resource not found
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: NOT_FOUND
+          message: Resource not found
+          details: []
+        meta:
+          locale: en
   - status: 429
     description: Too many requests
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: RATE_LIMITED
-        message: Too many requests
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: RATE_LIMITED
+          message: Too many requests
+          details: []
+        meta:
+          locale: en
   - status: 500
     description: Internal server error
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: INTERNAL_ERROR
-        message: Internal server error
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: INTERNAL_ERROR
+          message: Internal server error
+          details: []
+        meta:
+          locale: en
 - id: get-deposites-user-{id}
   name: Get user deposites
   group: deposites
@@ -4229,45 +4381,49 @@ endpoints:
   responses:
   - status: 200
     description: Get user deposites - success
-    content_type: application/json
-    body:
-      success: true
-      data: *id004
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: true
+        data: *id004
+        meta:
+          locale: en
   - status: 404
     description: Resource not found
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: NOT_FOUND
-        message: Resource not found
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: NOT_FOUND
+          message: Resource not found
+          details: []
+        meta:
+          locale: en
   - status: 429
     description: Too many requests
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: RATE_LIMITED
-        message: Too many requests
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: RATE_LIMITED
+          message: Too many requests
+          details: []
+        meta:
+          locale: en
   - status: 500
     description: Internal server error
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: INTERNAL_ERROR
-        message: Internal server error
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: INTERNAL_ERROR
+          message: Internal server error
+          details: []
+        meta:
+          locale: en
 - id: post-auth
   name: Login (Firebase token → JWT)
   group: auth
@@ -4297,70 +4453,75 @@ endpoints:
   responses:
   - status: 201
     description: Login (Firebase token → JWT) - created
-    content_type: application/json
-    body:
-      success: true
-      data:
-        access_token: eyJhbGciOiJIUzI1NiIs...
-        refresh_token: eyJhbGciOiJIUzI1NiIs...
-        token_type: Bearer
-        expires_in: 3600
-        user:
-          id: 550e8400-e29b-41d4-a716-446655440000
-          fb_id: firebase-uid-123
-          email: user@example.com
-          name: John Doe
-          role: user
-          phone_number: '+628123456789'
-          photo_url: https://example.com/photo.jpg
-          created_at: '2025-01-01T00:00:00'
-          updated_at: '2025-01-01T00:00:00'
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: true
+        data:
+          access_token: eyJhbGciOiJIUzI1NiIs...
+          refresh_token: eyJhbGciOiJIUzI1NiIs...
+          token_type: Bearer
+          expires_in: 3600
+          user:
+            id: 550e8400-e29b-41d4-a716-446655440000
+            fb_id: firebase-uid-123
+            email: user@example.com
+            name: John Doe
+            role: user
+            phone_number: '+628123456789'
+            photo_url: https://example.com/photo.jpg
+            created_at: '2025-01-01T00:00:00'
+            updated_at: '2025-01-01T00:00:00'
+        meta:
+          locale: en
   - status: 400
     description: Validation failed
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: VALIDATION_ERROR
-        message: Validation failed
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: VALIDATION_ERROR
+          message: Validation failed
+          details: []
+        meta:
+          locale: en
   - status: 401
     description: Authentication required
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: UNAUTHORIZED
-        message: Authentication required
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: UNAUTHORIZED
+          message: Authentication required
+          details: []
+        meta:
+          locale: en
   - status: 429
     description: Too many requests
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: RATE_LIMITED
-        message: Too many requests
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: RATE_LIMITED
+          message: Too many requests
+          details: []
+        meta:
+          locale: en
   - status: 500
     description: Internal server error
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: INTERNAL_ERROR
-        message: Internal server error
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: INTERNAL_ERROR
+          message: Internal server error
+          details: []
+        meta:
+          locale: en
 - id: put-landfills-{id}
   name: Update landfill (admin)
   group: landfills
@@ -4399,56 +4560,61 @@ endpoints:
   responses:
   - status: 200
     description: Update landfill (admin) - success
-    content_type: application/json
-    body:
-      success: true
-      data: *id006
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: true
+        data: *id006
+        meta:
+          locale: en
   - status: 400
     description: Validation failed
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: VALIDATION_ERROR
-        message: Validation failed
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: VALIDATION_ERROR
+          message: Validation failed
+          details: []
+        meta:
+          locale: en
   - status: 404
     description: Resource not found
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: NOT_FOUND
-        message: Resource not found
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: NOT_FOUND
+          message: Resource not found
+          details: []
+        meta:
+          locale: en
   - status: 429
     description: Too many requests
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: RATE_LIMITED
-        message: Too many requests
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: RATE_LIMITED
+          message: Too many requests
+          details: []
+        meta:
+          locale: en
   - status: 500
     description: Internal server error
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: INTERNAL_ERROR
-        message: Internal server error
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: INTERNAL_ERROR
+          message: Internal server error
+          details: []
+        meta:
+          locale: en
 - id: delete-landfills-{id}
   name: Delete landfill (admin)
   group: landfills
@@ -4487,45 +4653,49 @@ endpoints:
   responses:
   - status: 200
     description: Delete landfill (admin) - success
-    content_type: application/json
-    body:
-      success: true
-      message: Deleted successfully
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: true
+        message: Deleted successfully
+        meta:
+          locale: en
   - status: 404
     description: Resource not found
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: NOT_FOUND
-        message: Resource not found
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: NOT_FOUND
+          message: Resource not found
+          details: []
+        meta:
+          locale: en
   - status: 429
     description: Too many requests
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: RATE_LIMITED
-        message: Too many requests
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: RATE_LIMITED
+          message: Too many requests
+          details: []
+        meta:
+          locale: en
   - status: 500
     description: Internal server error
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: INTERNAL_ERROR
-        message: Internal server error
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: INTERNAL_ERROR
+          message: Internal server error
+          details: []
+        meta:
+          locale: en
 - id: post-banners-create
   name: Create banner
   group: banners
@@ -4585,45 +4755,49 @@ endpoints:
   responses:
   - status: 201
     description: Create banner - created
-    content_type: application/json
-    body:
-      success: true
-      data: *id011
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: true
+        data: *id011
+        meta:
+          locale: en
   - status: 400
     description: Validation failed
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: VALIDATION_ERROR
-        message: Validation failed
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: VALIDATION_ERROR
+          message: Validation failed
+          details: []
+        meta:
+          locale: en
   - status: 429
     description: Too many requests
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: RATE_LIMITED
-        message: Too many requests
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: RATE_LIMITED
+          message: Too many requests
+          details: []
+        meta:
+          locale: en
   - status: 500
     description: Internal server error
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: INTERNAL_ERROR
-        message: Internal server error
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: INTERNAL_ERROR
+          message: Internal server error
+          details: []
+        meta:
+          locale: en
 - id: get-banners
   name: List all banners (public)
   group: banners
@@ -4680,50 +4854,54 @@ endpoints:
   responses:
   - status: 200
     description: List all banners (public) - paginated
-    content_type: application/json
-    body:
-      success: true
-      data:
-      - *id011
-      meta:
-        locale: en
-        pagination:
-          cursor: eyJpZCI6MjV9
-          has_more: true
-          count: 25
+    examples:
+    - name: default
+      value:
+        success: true
+        data:
+        - *id011
+        meta:
+          locale: en
+          pagination:
+            cursor: eyJpZCI6MjV9
+            has_more: true
+            count: 25
   - status: 404
     description: Resource not found
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: NOT_FOUND
-        message: Resource not found
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: NOT_FOUND
+          message: Resource not found
+          details: []
+        meta:
+          locale: en
   - status: 429
     description: Too many requests
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: RATE_LIMITED
-        message: Too many requests
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: RATE_LIMITED
+          message: Too many requests
+          details: []
+        meta:
+          locale: en
   - status: 500
     description: Internal server error
-    content_type: application/json
-    body:
-      success: false
-      error:
-        code: INTERNAL_ERROR
-        message: Internal server error
-        details: []
-      meta:
-        locale: en
+    examples:
+    - name: default
+      value:
+        success: false
+        error:
+          code: INTERNAL_ERROR
+          message: Internal server error
+          details: []
+        meta:
+          locale: en
 includes: []
 changelog: []
 error_responses: null

@@ -80,9 +80,9 @@
                   }
                 },
                 "required": [
-                  "address",
                   "phone_number",
-                  "label"
+                  "label",
+                  "address"
                 ],
                 "type": "object"
               }
@@ -91,16 +91,85 @@
         },
         "responses": {
           "201": {
-            "description": "Create address (auth required) - created"
+            "description": "Create address (auth required) - created",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "data": {
+                    "address": "Jl. Sudirman No. 1",
+                    "created_at": "2025-01-01T00:00:00",
+                    "id": "550e8400-e29b-41d4-a716-446655440000",
+                    "label": "Home",
+                    "main": true,
+                    "phone_number": "+628123456789",
+                    "updated_at": "2025-01-01T00:00:00",
+                    "user_id": "660e8400-e29b-41d4-a716-446655440001"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": true
+                }
+              }
+            }
           },
           "400": {
-            "description": "Validation failed"
+            "description": "Validation failed",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "VALIDATION_ERROR",
+                    "details": [],
+                    "message": "Validation failed"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           },
           "429": {
-            "description": "Too many requests"
+            "description": "Too many requests",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "details": [],
+                    "message": "Too many requests"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           },
           "500": {
-            "description": "Internal server error"
+            "description": "Internal server error",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "INTERNAL_ERROR",
+                    "details": [],
+                    "message": "Internal server error"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           }
         },
         "summary": "Create address (auth required)",
@@ -122,19 +191,104 @@
         ],
         "responses": {
           "200": {
-            "description": "Update address (auth required) - success"
+            "description": "Update address (auth required) - success",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "data": {
+                    "address": "Jl. Sudirman No. 1",
+                    "created_at": "2025-01-01T00:00:00",
+                    "id": "550e8400-e29b-41d4-a716-446655440000",
+                    "label": "Home",
+                    "main": true,
+                    "phone_number": "+628123456789",
+                    "updated_at": "2025-01-01T00:00:00",
+                    "user_id": "660e8400-e29b-41d4-a716-446655440001"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": true
+                }
+              }
+            }
           },
           "400": {
-            "description": "Validation failed"
+            "description": "Validation failed",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "VALIDATION_ERROR",
+                    "details": [],
+                    "message": "Validation failed"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           },
           "404": {
-            "description": "Resource not found"
+            "description": "Resource not found",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "NOT_FOUND",
+                    "details": [],
+                    "message": "Resource not found"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           },
           "429": {
-            "description": "Too many requests"
+            "description": "Too many requests",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "details": [],
+                    "message": "Too many requests"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           },
           "500": {
-            "description": "Internal server error"
+            "description": "Internal server error",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "INTERNAL_ERROR",
+                    "details": [],
+                    "message": "Internal server error"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           }
         },
         "summary": "Update address (auth required)",
@@ -166,16 +320,90 @@
         ],
         "responses": {
           "200": {
-            "description": "List articles (public) - paginated"
+            "description": "List articles (public) - paginated",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "data": [
+                    {
+                      "content": "Full article content here...",
+                      "created_at": "2025-01-01T00:00:00",
+                      "header": "How to Recycle",
+                      "id": "550e8400-e29b-41d4-a716-446655440000",
+                      "thumbnail": "https://example.com/article.jpg",
+                      "updated_at": "2025-01-01T00:00:00"
+                    }
+                  ],
+                  "meta": {
+                    "locale": "en",
+                    "pagination": {
+                      "count": 25,
+                      "cursor": "eyJpZCI6MjV9",
+                      "has_more": true
+                    }
+                  },
+                  "success": true
+                }
+              }
+            }
           },
           "404": {
-            "description": "Resource not found"
+            "description": "Resource not found",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "NOT_FOUND",
+                    "details": [],
+                    "message": "Resource not found"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           },
           "429": {
-            "description": "Too many requests"
+            "description": "Too many requests",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "details": [],
+                    "message": "Too many requests"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           },
           "500": {
-            "description": "Internal server error"
+            "description": "Internal server error",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "INTERNAL_ERROR",
+                    "details": [],
+                    "message": "Internal server error"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           }
         },
         "summary": "List articles (public)",
@@ -203,8 +431,8 @@
                   }
                 },
                 "required": [
-                  "content",
                   "header",
+                  "content",
                   "thumbnail"
                 ],
                 "type": "object"
@@ -214,16 +442,83 @@
         },
         "responses": {
           "201": {
-            "description": "Create article - created"
+            "description": "Create article - created",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "data": {
+                    "content": "Full article content here...",
+                    "created_at": "2025-01-01T00:00:00",
+                    "header": "How to Recycle",
+                    "id": "550e8400-e29b-41d4-a716-446655440000",
+                    "thumbnail": "https://example.com/article.jpg",
+                    "updated_at": "2025-01-01T00:00:00"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": true
+                }
+              }
+            }
           },
           "400": {
-            "description": "Validation failed"
+            "description": "Validation failed",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "VALIDATION_ERROR",
+                    "details": [],
+                    "message": "Validation failed"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           },
           "429": {
-            "description": "Too many requests"
+            "description": "Too many requests",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "details": [],
+                    "message": "Too many requests"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           },
           "500": {
-            "description": "Internal server error"
+            "description": "Internal server error",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "INTERNAL_ERROR",
+                    "details": [],
+                    "message": "Internal server error"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           }
         },
         "summary": "Create article",
@@ -247,16 +542,76 @@
         ],
         "responses": {
           "200": {
-            "description": "Delete article - success"
+            "description": "Delete article - success",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "message": "Deleted successfully",
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": true
+                }
+              }
+            }
           },
           "404": {
-            "description": "Resource not found"
+            "description": "Resource not found",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "NOT_FOUND",
+                    "details": [],
+                    "message": "Resource not found"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           },
           "429": {
-            "description": "Too many requests"
+            "description": "Too many requests",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "details": [],
+                    "message": "Too many requests"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           },
           "500": {
-            "description": "Internal server error"
+            "description": "Internal server error",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "INTERNAL_ERROR",
+                    "details": [],
+                    "message": "Internal server error"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           }
         },
         "summary": "Delete article",
@@ -278,16 +633,83 @@
         ],
         "responses": {
           "200": {
-            "description": "Get article by ID - success"
+            "description": "Get article by ID - success",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "data": {
+                    "content": "Full article content here...",
+                    "created_at": "2025-01-01T00:00:00",
+                    "header": "How to Recycle",
+                    "id": "550e8400-e29b-41d4-a716-446655440000",
+                    "thumbnail": "https://example.com/article.jpg",
+                    "updated_at": "2025-01-01T00:00:00"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": true
+                }
+              }
+            }
           },
           "404": {
-            "description": "Resource not found"
+            "description": "Resource not found",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "NOT_FOUND",
+                    "details": [],
+                    "message": "Resource not found"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           },
           "429": {
-            "description": "Too many requests"
+            "description": "Too many requests",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "details": [],
+                    "message": "Too many requests"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           },
           "500": {
-            "description": "Internal server error"
+            "description": "Internal server error",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "INTERNAL_ERROR",
+                    "details": [],
+                    "message": "Internal server error"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           }
         },
         "summary": "Get article by ID",
@@ -309,19 +731,102 @@
         ],
         "responses": {
           "200": {
-            "description": "Update article - success"
+            "description": "Update article - success",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "data": {
+                    "content": "Full article content here...",
+                    "created_at": "2025-01-01T00:00:00",
+                    "header": "How to Recycle",
+                    "id": "550e8400-e29b-41d4-a716-446655440000",
+                    "thumbnail": "https://example.com/article.jpg",
+                    "updated_at": "2025-01-01T00:00:00"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": true
+                }
+              }
+            }
           },
           "400": {
-            "description": "Validation failed"
+            "description": "Validation failed",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "VALIDATION_ERROR",
+                    "details": [],
+                    "message": "Validation failed"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           },
           "404": {
-            "description": "Resource not found"
+            "description": "Resource not found",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "NOT_FOUND",
+                    "details": [],
+                    "message": "Resource not found"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           },
           "429": {
-            "description": "Too many requests"
+            "description": "Too many requests",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "details": [],
+                    "message": "Too many requests"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           },
           "500": {
-            "description": "Internal server error"
+            "description": "Internal server error",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "INTERNAL_ERROR",
+                    "details": [],
+                    "message": "Internal server error"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           }
         },
         "summary": "Update article",
@@ -345,19 +850,111 @@
         },
         "responses": {
           "201": {
-            "description": "Login (Firebase token → JWT) - created"
+            "description": "Login (Firebase token → JWT) - created",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "data": {
+                    "access_token": "eyJhbGciOiJIUzI1NiIs...",
+                    "expires_in": 3600,
+                    "refresh_token": "eyJhbGciOiJIUzI1NiIs...",
+                    "token_type": "Bearer",
+                    "user": {
+                      "created_at": "2025-01-01T00:00:00",
+                      "email": "user@example.com",
+                      "fb_id": "firebase-uid-123",
+                      "id": "550e8400-e29b-41d4-a716-446655440000",
+                      "name": "John Doe",
+                      "phone_number": "+628123456789",
+                      "photo_url": "https://example.com/photo.jpg",
+                      "role": "user",
+                      "updated_at": "2025-01-01T00:00:00"
+                    }
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": true
+                }
+              }
+            }
           },
           "400": {
-            "description": "Validation failed"
+            "description": "Validation failed",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "VALIDATION_ERROR",
+                    "details": [],
+                    "message": "Validation failed"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           },
           "401": {
-            "description": "Authentication required"
+            "description": "Authentication required",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "UNAUTHORIZED",
+                    "details": [],
+                    "message": "Authentication required"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           },
           "429": {
-            "description": "Too many requests"
+            "description": "Too many requests",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "details": [],
+                    "message": "Too many requests"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           },
           "500": {
-            "description": "Internal server error"
+            "description": "Internal server error",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "INTERNAL_ERROR",
+                    "details": [],
+                    "message": "Internal server error"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           }
         },
         "summary": "Login (Firebase token → JWT)",
@@ -385,8 +982,8 @@
                   }
                 },
                 "required": [
-                  "password",
                   "name",
+                  "password",
                   "email"
                 ],
                 "type": "object"
@@ -396,19 +993,103 @@
         },
         "responses": {
           "201": {
-            "description": "Register new user - created"
+            "description": "Register new user - created",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "data": {
+                    "created_at": "2025-01-01T00:00:00",
+                    "email": "newuser@example.com",
+                    "fb_id": "firebase-uid-123",
+                    "id": "550e8400-e29b-41d4-a716-446655440000",
+                    "name": "Jane Doe",
+                    "role": "user",
+                    "updated_at": "2025-01-01T00:00:00"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": true
+                }
+              }
+            }
           },
           "400": {
-            "description": "Validation failed"
+            "description": "Validation failed",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "VALIDATION_ERROR",
+                    "details": [],
+                    "message": "Validation failed"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           },
           "401": {
-            "description": "Authentication required"
+            "description": "Authentication required",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "UNAUTHORIZED",
+                    "details": [],
+                    "message": "Authentication required"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           },
           "429": {
-            "description": "Too many requests"
+            "description": "Too many requests",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "details": [],
+                    "message": "Too many requests"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           },
           "500": {
-            "description": "Internal server error"
+            "description": "Internal server error",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "INTERNAL_ERROR",
+                    "details": [],
+                    "message": "Internal server error"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           }
         },
         "summary": "Register new user",
@@ -439,19 +1120,97 @@
         },
         "responses": {
           "201": {
-            "description": "Request password reset - created"
+            "description": "Request password reset - created",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "data": {
+                    "email": "user@example.com"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": true
+                }
+              }
+            }
           },
           "400": {
-            "description": "Validation failed"
+            "description": "Validation failed",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "VALIDATION_ERROR",
+                    "details": [],
+                    "message": "Validation failed"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           },
           "401": {
-            "description": "Authentication required"
+            "description": "Authentication required",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "UNAUTHORIZED",
+                    "details": [],
+                    "message": "Authentication required"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           },
           "429": {
-            "description": "Too many requests"
+            "description": "Too many requests",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "details": [],
+                    "message": "Too many requests"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           },
           "500": {
-            "description": "Internal server error"
+            "description": "Internal server error",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "INTERNAL_ERROR",
+                    "details": [],
+                    "message": "Internal server error"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           }
         },
         "summary": "Request password reset",
@@ -483,16 +1242,91 @@
         ],
         "responses": {
           "200": {
-            "description": "List all banners (public) - paginated"
+            "description": "List all banners (public) - paginated",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "data": [
+                    {
+                      "created_at": "2025-01-01T00:00:00",
+                      "description": "Up to 50% off",
+                      "id": "550e8400-e29b-41d4-a716-446655440000",
+                      "image": "https://example.com/banner.jpg",
+                      "title": "Summer Sale",
+                      "type": "home",
+                      "updated_at": "2025-01-01T00:00:00"
+                    }
+                  ],
+                  "meta": {
+                    "locale": "en",
+                    "pagination": {
+                      "count": 25,
+                      "cursor": "eyJpZCI6MjV9",
+                      "has_more": true
+                    }
+                  },
+                  "success": true
+                }
+              }
+            }
           },
           "404": {
-            "description": "Resource not found"
+            "description": "Resource not found",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "NOT_FOUND",
+                    "details": [],
+                    "message": "Resource not found"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           },
           "429": {
-            "description": "Too many requests"
+            "description": "Too many requests",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "details": [],
+                    "message": "Too many requests"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           },
           "500": {
-            "description": "Internal server error"
+            "description": "Internal server error",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "INTERNAL_ERROR",
+                    "details": [],
+                    "message": "Internal server error"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           }
         },
         "summary": "List all banners (public)",
@@ -526,16 +1360,84 @@
         },
         "responses": {
           "201": {
-            "description": "Create banner - created"
+            "description": "Create banner - created",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "data": {
+                    "created_at": "2025-01-01T00:00:00",
+                    "description": "Up to 50% off",
+                    "id": "550e8400-e29b-41d4-a716-446655440000",
+                    "image": "https://example.com/banner.jpg",
+                    "title": "Summer Sale",
+                    "type": "home",
+                    "updated_at": "2025-01-01T00:00:00"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": true
+                }
+              }
+            }
           },
           "400": {
-            "description": "Validation failed"
+            "description": "Validation failed",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "VALIDATION_ERROR",
+                    "details": [],
+                    "message": "Validation failed"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           },
           "429": {
-            "description": "Too many requests"
+            "description": "Too many requests",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "details": [],
+                    "message": "Too many requests"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           },
           "500": {
-            "description": "Internal server error"
+            "description": "Internal server error",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "INTERNAL_ERROR",
+                    "details": [],
+                    "message": "Internal server error"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           }
         },
         "summary": "Create banner",
@@ -559,16 +1461,91 @@
         ],
         "responses": {
           "200": {
-            "description": "List banners by type - paginated"
+            "description": "List banners by type - paginated",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "data": [
+                    {
+                      "created_at": "2025-01-01T00:00:00",
+                      "description": "Up to 50% off",
+                      "id": "550e8400-e29b-41d4-a716-446655440000",
+                      "image": "https://example.com/banner.jpg",
+                      "title": "Summer Sale",
+                      "type": "home",
+                      "updated_at": "2025-01-01T00:00:00"
+                    }
+                  ],
+                  "meta": {
+                    "locale": "en",
+                    "pagination": {
+                      "count": 25,
+                      "cursor": "eyJpZCI6MjV9",
+                      "has_more": true
+                    }
+                  },
+                  "success": true
+                }
+              }
+            }
           },
           "404": {
-            "description": "Resource not found"
+            "description": "Resource not found",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "NOT_FOUND",
+                    "details": [],
+                    "message": "Resource not found"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           },
           "429": {
-            "description": "Too many requests"
+            "description": "Too many requests",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "details": [],
+                    "message": "Too many requests"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           },
           "500": {
-            "description": "Internal server error"
+            "description": "Internal server error",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "INTERNAL_ERROR",
+                    "details": [],
+                    "message": "Internal server error"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           }
         },
         "summary": "List banners by type",
@@ -592,16 +1569,76 @@
         ],
         "responses": {
           "200": {
-            "description": "Remove cart item - success"
+            "description": "Remove cart item - success",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "message": "Deleted successfully",
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": true
+                }
+              }
+            }
           },
           "404": {
-            "description": "Resource not found"
+            "description": "Resource not found",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "NOT_FOUND",
+                    "details": [],
+                    "message": "Resource not found"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           },
           "429": {
-            "description": "Too many requests"
+            "description": "Too many requests",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "details": [],
+                    "message": "Too many requests"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           },
           "500": {
-            "description": "Internal server error"
+            "description": "Internal server error",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "INTERNAL_ERROR",
+                    "details": [],
+                    "message": "Internal server error"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           }
         },
         "summary": "Remove cart item",
@@ -641,16 +1678,84 @@
         ],
         "responses": {
           "200": {
-            "description": "Get user cart - success"
+            "description": "Get user cart - success",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "data": {
+                    "created_at": "2025-01-01T00:00:00",
+                    "id": "550e8400-e29b-41d4-a716-446655440000",
+                    "product_id": "770e8400-e29b-41d4-a716-446655440002",
+                    "quantity": 2,
+                    "updated_at": "2025-01-01T00:00:00",
+                    "user_id": "660e8400-e29b-41d4-a716-446655440001",
+                    "variant_id": null
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": true
+                }
+              }
+            }
           },
           "404": {
-            "description": "Resource not found"
+            "description": "Resource not found",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "NOT_FOUND",
+                    "details": [],
+                    "message": "Resource not found"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           },
           "429": {
-            "description": "Too many requests"
+            "description": "Too many requests",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "details": [],
+                    "message": "Too many requests"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           },
           "500": {
-            "description": "Internal server error"
+            "description": "Internal server error",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "INTERNAL_ERROR",
+                    "details": [],
+                    "message": "Internal server error"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           }
         },
         "summary": "Get user cart",
@@ -696,16 +1801,84 @@
         },
         "responses": {
           "201": {
-            "description": "Add item to cart - created"
+            "description": "Add item to cart - created",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "data": {
+                    "created_at": "2025-01-01T00:00:00",
+                    "id": "550e8400-e29b-41d4-a716-446655440000",
+                    "product_id": "770e8400-e29b-41d4-a716-446655440002",
+                    "quantity": 2,
+                    "updated_at": "2025-01-01T00:00:00",
+                    "user_id": "660e8400-e29b-41d4-a716-446655440001",
+                    "variant_id": null
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": true
+                }
+              }
+            }
           },
           "400": {
-            "description": "Validation failed"
+            "description": "Validation failed",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "VALIDATION_ERROR",
+                    "details": [],
+                    "message": "Validation failed"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           },
           "429": {
-            "description": "Too many requests"
+            "description": "Too many requests",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "details": [],
+                    "message": "Too many requests"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           },
           "500": {
-            "description": "Internal server error"
+            "description": "Internal server error",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "INTERNAL_ERROR",
+                    "details": [],
+                    "message": "Internal server error"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           }
         },
         "summary": "Add item to cart",
@@ -737,16 +1910,95 @@
         ],
         "responses": {
           "200": {
-            "description": "List all deposites (admin) - paginated"
+            "description": "List all deposites (admin) - paginated",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "data": [
+                    {
+                      "address_id": "770e8400-e29b-41d4-a716-446655440002",
+                      "coin": 50,
+                      "created_at": "2025-01-01T00:00:00",
+                      "id": "550e8400-e29b-41d4-a716-446655440000",
+                      "images": [],
+                      "landfill_id": null,
+                      "pickup_date": "2025-01-15",
+                      "pickup_time": "10:00",
+                      "type": "plastic",
+                      "updated_at": "2025-01-01T00:00:00",
+                      "user_id": "660e8400-e29b-41d4-a716-446655440001"
+                    }
+                  ],
+                  "meta": {
+                    "locale": "en",
+                    "pagination": {
+                      "count": 25,
+                      "cursor": "eyJpZCI6MjV9",
+                      "has_more": true
+                    }
+                  },
+                  "success": true
+                }
+              }
+            }
           },
           "404": {
-            "description": "Resource not found"
+            "description": "Resource not found",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "NOT_FOUND",
+                    "details": [],
+                    "message": "Resource not found"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           },
           "429": {
-            "description": "Too many requests"
+            "description": "Too many requests",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "details": [],
+                    "message": "Too many requests"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           },
           "500": {
-            "description": "Internal server error"
+            "description": "Internal server error",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "INTERNAL_ERROR",
+                    "details": [],
+                    "message": "Internal server error"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           }
         },
         "summary": "List all deposites (admin)",
@@ -787,11 +2039,11 @@
                   }
                 },
                 "required": [
-                  "garbage_type",
-                  "pickup_time",
                   "type",
+                  "address_id",
                   "pickup_date",
-                  "address_id"
+                  "garbage_type",
+                  "pickup_time"
                 ],
                 "type": "object"
               }
@@ -800,16 +2052,88 @@
         },
         "responses": {
           "201": {
-            "description": "Create deposite (auth required) - created"
+            "description": "Create deposite (auth required) - created",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "data": {
+                    "address_id": "770e8400-e29b-41d4-a716-446655440002",
+                    "coin": 50,
+                    "created_at": "2025-01-01T00:00:00",
+                    "id": "550e8400-e29b-41d4-a716-446655440000",
+                    "images": [],
+                    "landfill_id": null,
+                    "pickup_date": "2025-01-15",
+                    "pickup_time": "10:00",
+                    "type": "plastic",
+                    "updated_at": "2025-01-01T00:00:00",
+                    "user_id": "660e8400-e29b-41d4-a716-446655440001"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": true
+                }
+              }
+            }
           },
           "400": {
-            "description": "Validation failed"
+            "description": "Validation failed",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "VALIDATION_ERROR",
+                    "details": [],
+                    "message": "Validation failed"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           },
           "429": {
-            "description": "Too many requests"
+            "description": "Too many requests",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "details": [],
+                    "message": "Too many requests"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           },
           "500": {
-            "description": "Internal server error"
+            "description": "Internal server error",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "INTERNAL_ERROR",
+                    "details": [],
+                    "message": "Internal server error"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           }
         },
         "summary": "Create deposite (auth required)",
@@ -841,16 +2165,88 @@
         ],
         "responses": {
           "200": {
-            "description": "Get user deposites - success"
+            "description": "Get user deposites - success",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "data": {
+                    "address_id": "770e8400-e29b-41d4-a716-446655440002",
+                    "coin": 50,
+                    "created_at": "2025-01-01T00:00:00",
+                    "id": "550e8400-e29b-41d4-a716-446655440000",
+                    "images": [],
+                    "landfill_id": null,
+                    "pickup_date": "2025-01-15",
+                    "pickup_time": "10:00",
+                    "type": "plastic",
+                    "updated_at": "2025-01-01T00:00:00",
+                    "user_id": "660e8400-e29b-41d4-a716-446655440001"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": true
+                }
+              }
+            }
           },
           "404": {
-            "description": "Resource not found"
+            "description": "Resource not found",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "NOT_FOUND",
+                    "details": [],
+                    "message": "Resource not found"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           },
           "429": {
-            "description": "Too many requests"
+            "description": "Too many requests",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "details": [],
+                    "message": "Too many requests"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           },
           "500": {
-            "description": "Internal server error"
+            "description": "Internal server error",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "INTERNAL_ERROR",
+                    "details": [],
+                    "message": "Internal server error"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           }
         },
         "summary": "Get user deposites",
@@ -882,16 +2278,87 @@
         ],
         "responses": {
           "200": {
-            "description": "List landfills (public) - paginated"
+            "description": "List landfills (public) - paginated",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "data": [
+                    {
+                      "address": "Jl. TB Simatupang",
+                      "id": "550e8400-e29b-41d4-a716-446655440000",
+                      "name": "TPS Jakarta Selatan"
+                    }
+                  ],
+                  "meta": {
+                    "locale": "en",
+                    "pagination": {
+                      "count": 25,
+                      "cursor": "eyJpZCI6MjV9",
+                      "has_more": true
+                    }
+                  },
+                  "success": true
+                }
+              }
+            }
           },
           "404": {
-            "description": "Resource not found"
+            "description": "Resource not found",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "NOT_FOUND",
+                    "details": [],
+                    "message": "Resource not found"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           },
           "429": {
-            "description": "Too many requests"
+            "description": "Too many requests",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "details": [],
+                    "message": "Too many requests"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           },
           "500": {
-            "description": "Internal server error"
+            "description": "Internal server error",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "INTERNAL_ERROR",
+                    "details": [],
+                    "message": "Internal server error"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           }
         },
         "summary": "List landfills (public)",
@@ -924,16 +2391,80 @@
         },
         "responses": {
           "201": {
-            "description": "Create landfill (admin) - created"
+            "description": "Create landfill (admin) - created",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "data": {
+                    "address": "Jl. TB Simatupang",
+                    "id": "550e8400-e29b-41d4-a716-446655440000",
+                    "name": "TPS Jakarta Selatan"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": true
+                }
+              }
+            }
           },
           "400": {
-            "description": "Validation failed"
+            "description": "Validation failed",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "VALIDATION_ERROR",
+                    "details": [],
+                    "message": "Validation failed"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           },
           "429": {
-            "description": "Too many requests"
+            "description": "Too many requests",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "details": [],
+                    "message": "Too many requests"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           },
           "500": {
-            "description": "Internal server error"
+            "description": "Internal server error",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "INTERNAL_ERROR",
+                    "details": [],
+                    "message": "Internal server error"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           }
         },
         "summary": "Create landfill (admin)",
@@ -957,16 +2488,76 @@
         ],
         "responses": {
           "200": {
-            "description": "Delete landfill (admin) - success"
+            "description": "Delete landfill (admin) - success",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "message": "Deleted successfully",
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": true
+                }
+              }
+            }
           },
           "404": {
-            "description": "Resource not found"
+            "description": "Resource not found",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "NOT_FOUND",
+                    "details": [],
+                    "message": "Resource not found"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           },
           "429": {
-            "description": "Too many requests"
+            "description": "Too many requests",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "details": [],
+                    "message": "Too many requests"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           },
           "500": {
-            "description": "Internal server error"
+            "description": "Internal server error",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "INTERNAL_ERROR",
+                    "details": [],
+                    "message": "Internal server error"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           }
         },
         "summary": "Delete landfill (admin)",
@@ -988,19 +2579,99 @@
         ],
         "responses": {
           "200": {
-            "description": "Update landfill (admin) - success"
+            "description": "Update landfill (admin) - success",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "data": {
+                    "address": "Jl. TB Simatupang",
+                    "id": "550e8400-e29b-41d4-a716-446655440000",
+                    "name": "TPS Jakarta Selatan"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": true
+                }
+              }
+            }
           },
           "400": {
-            "description": "Validation failed"
+            "description": "Validation failed",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "VALIDATION_ERROR",
+                    "details": [],
+                    "message": "Validation failed"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           },
           "404": {
-            "description": "Resource not found"
+            "description": "Resource not found",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "NOT_FOUND",
+                    "details": [],
+                    "message": "Resource not found"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           },
           "429": {
-            "description": "Too many requests"
+            "description": "Too many requests",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "details": [],
+                    "message": "Too many requests"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           },
           "500": {
-            "description": "Internal server error"
+            "description": "Internal server error",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "INTERNAL_ERROR",
+                    "details": [],
+                    "message": "Internal server error"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           }
         },
         "summary": "Update landfill (admin)",
@@ -1032,16 +2703,101 @@
         ],
         "responses": {
           "200": {
-            "description": "List all orders (admin) - paginated"
+            "description": "List all orders (admin) - paginated",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "data": [
+                    {
+                      "coin": 10,
+                      "created_at": "2025-01-01T00:00:00",
+                      "delivery": {
+                        "estimated_delivery": "2025-01-05T00:00:00",
+                        "status": "processing",
+                        "tracking_number": ""
+                      },
+                      "id": "550e8400-e29b-41d4-a716-446655440000",
+                      "payment": {
+                        "amount": 150000.0,
+                        "method": "qris",
+                        "status": "pending"
+                      },
+                      "product_id": "770e8400-e29b-41d4-a716-446655440002",
+                      "quantity": 1,
+                      "updated_at": "2025-01-01T00:00:00",
+                      "user_id": "660e8400-e29b-41d4-a716-446655440001"
+                    }
+                  ],
+                  "meta": {
+                    "locale": "en",
+                    "pagination": {
+                      "count": 25,
+                      "cursor": "eyJpZCI6MjV9",
+                      "has_more": true
+                    }
+                  },
+                  "success": true
+                }
+              }
+            }
           },
           "404": {
-            "description": "Resource not found"
+            "description": "Resource not found",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "NOT_FOUND",
+                    "details": [],
+                    "message": "Resource not found"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           },
           "429": {
-            "description": "Too many requests"
+            "description": "Too many requests",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "details": [],
+                    "message": "Too many requests"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           },
           "500": {
-            "description": "Internal server error"
+            "description": "Internal server error",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "INTERNAL_ERROR",
+                    "details": [],
+                    "message": "Internal server error"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           }
         },
         "summary": "List all orders (admin)",
@@ -1073,16 +2829,94 @@
         ],
         "responses": {
           "200": {
-            "description": "Get user orders - success"
+            "description": "Get user orders - success",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "data": {
+                    "coin": 10,
+                    "created_at": "2025-01-01T00:00:00",
+                    "delivery": {
+                      "estimated_delivery": "2025-01-05T00:00:00",
+                      "status": "processing",
+                      "tracking_number": ""
+                    },
+                    "id": "550e8400-e29b-41d4-a716-446655440000",
+                    "payment": {
+                      "amount": 150000.0,
+                      "method": "qris",
+                      "status": "pending"
+                    },
+                    "product_id": "770e8400-e29b-41d4-a716-446655440002",
+                    "quantity": 1,
+                    "updated_at": "2025-01-01T00:00:00",
+                    "user_id": "660e8400-e29b-41d4-a716-446655440001"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": true
+                }
+              }
+            }
           },
           "404": {
-            "description": "Resource not found"
+            "description": "Resource not found",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "NOT_FOUND",
+                    "details": [],
+                    "message": "Resource not found"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           },
           "429": {
-            "description": "Too many requests"
+            "description": "Too many requests",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "details": [],
+                    "message": "Too many requests"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           },
           "500": {
-            "description": "Internal server error"
+            "description": "Internal server error",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "INTERNAL_ERROR",
+                    "details": [],
+                    "message": "Internal server error"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           }
         },
         "summary": "Get user orders",
@@ -1122,8 +2956,8 @@
                 },
                 "required": [
                   "payment",
-                  "quantity",
-                  "product_id"
+                  "product_id",
+                  "quantity"
                 ],
                 "type": "object"
               }
@@ -1132,16 +2966,94 @@
         },
         "responses": {
           "201": {
-            "description": "Create order (auth required) - created"
+            "description": "Create order (auth required) - created",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "data": {
+                    "coin": 10,
+                    "created_at": "2025-01-01T00:00:00",
+                    "delivery": {
+                      "estimated_delivery": "2025-01-05T00:00:00",
+                      "status": "processing",
+                      "tracking_number": ""
+                    },
+                    "id": "550e8400-e29b-41d4-a716-446655440000",
+                    "payment": {
+                      "amount": 150000.0,
+                      "method": "qris",
+                      "status": "pending"
+                    },
+                    "product_id": "770e8400-e29b-41d4-a716-446655440002",
+                    "quantity": 1,
+                    "updated_at": "2025-01-01T00:00:00",
+                    "user_id": "660e8400-e29b-41d4-a716-446655440001"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": true
+                }
+              }
+            }
           },
           "400": {
-            "description": "Validation failed"
+            "description": "Validation failed",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "VALIDATION_ERROR",
+                    "details": [],
+                    "message": "Validation failed"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           },
           "429": {
-            "description": "Too many requests"
+            "description": "Too many requests",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "details": [],
+                    "message": "Too many requests"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           },
           "500": {
-            "description": "Internal server error"
+            "description": "Internal server error",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "INTERNAL_ERROR",
+                    "details": [],
+                    "message": "Internal server error"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           }
         },
         "summary": "Create order (auth required)",
@@ -1165,16 +3077,76 @@
         ],
         "responses": {
           "200": {
-            "description": "Cancel order (auth required) - success"
+            "description": "Cancel order (auth required) - success",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "message": "Deleted successfully",
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": true
+                }
+              }
+            }
           },
           "404": {
-            "description": "Resource not found"
+            "description": "Resource not found",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "NOT_FOUND",
+                    "details": [],
+                    "message": "Resource not found"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           },
           "429": {
-            "description": "Too many requests"
+            "description": "Too many requests",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "details": [],
+                    "message": "Too many requests"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           },
           "500": {
-            "description": "Internal server error"
+            "description": "Internal server error",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "INTERNAL_ERROR",
+                    "details": [],
+                    "message": "Internal server error"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           }
         },
         "summary": "Cancel order (auth required)",
@@ -1222,16 +3194,104 @@
         ],
         "responses": {
           "200": {
-            "description": "List products (public, no auth required) - paginated"
+            "description": "List products (public, no auth required) - paginated",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "data": [
+                    {
+                      "available": 50,
+                      "category": "clothing",
+                      "coin": 10,
+                      "created_at": "2025-01-01T00:00:00",
+                      "description": "Premium cotton t-shirt",
+                      "discount": 10.5,
+                      "id": "550e8400-e29b-41d4-a716-446655440000",
+                      "images": [
+                        "https://example.com/img1.jpg"
+                      ],
+                      "location": "Jakarta",
+                      "name": "T-Shirt",
+                      "price": 150000,
+                      "rating": 4.5,
+                      "recommended": true,
+                      "saller_id": "660e8400-e29b-41d4-a716-446655440001",
+                      "sold": 50,
+                      "stock": 100,
+                      "thumbnail": "https://example.com/thumb.jpg",
+                      "updated_at": "2025-01-01T00:00:00"
+                    }
+                  ],
+                  "meta": {
+                    "locale": "en",
+                    "pagination": {
+                      "count": 25,
+                      "cursor": "eyJpZCI6MjV9",
+                      "has_more": true
+                    }
+                  },
+                  "success": true
+                }
+              }
+            }
           },
           "404": {
-            "description": "Resource not found"
+            "description": "Resource not found",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "NOT_FOUND",
+                    "details": [],
+                    "message": "Resource not found"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           },
           "429": {
-            "description": "Too many requests"
+            "description": "Too many requests",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "details": [],
+                    "message": "Too many requests"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           },
           "500": {
-            "description": "Internal server error"
+            "description": "Internal server error",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "INTERNAL_ERROR",
+                    "details": [],
+                    "message": "Internal server error"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           }
         },
         "summary": "List products (public, no auth required)",
@@ -1287,10 +3347,10 @@
                 },
                 "required": [
                   "category",
-                  "price",
+                  "name",
                   "stock",
                   "description",
-                  "name"
+                  "price"
                 ],
                 "type": "object"
               }
@@ -1299,16 +3359,97 @@
         },
         "responses": {
           "201": {
-            "description": "Create product - created"
+            "description": "Create product - created",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "data": {
+                    "available": 50,
+                    "category": "clothing",
+                    "coin": 10,
+                    "created_at": "2025-01-01T00:00:00",
+                    "description": "Premium cotton t-shirt",
+                    "discount": 10.5,
+                    "id": "550e8400-e29b-41d4-a716-446655440000",
+                    "images": [
+                      "https://example.com/img1.jpg"
+                    ],
+                    "location": "Jakarta",
+                    "name": "T-Shirt",
+                    "price": 150000,
+                    "rating": 4.5,
+                    "recommended": true,
+                    "saller_id": "660e8400-e29b-41d4-a716-446655440001",
+                    "sold": 50,
+                    "stock": 100,
+                    "thumbnail": "https://example.com/thumb.jpg",
+                    "updated_at": "2025-01-01T00:00:00"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": true
+                }
+              }
+            }
           },
           "400": {
-            "description": "Validation failed"
+            "description": "Validation failed",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "VALIDATION_ERROR",
+                    "details": [],
+                    "message": "Validation failed"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           },
           "429": {
-            "description": "Too many requests"
+            "description": "Too many requests",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "details": [],
+                    "message": "Too many requests"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           },
           "500": {
-            "description": "Internal server error"
+            "description": "Internal server error",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "INTERNAL_ERROR",
+                    "details": [],
+                    "message": "Internal server error"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           }
         },
         "summary": "Create product",
@@ -1349,8 +3490,8 @@
                   }
                 },
                 "required": [
-                  "price",
                   "name",
+                  "price",
                   "stock"
                 ],
                 "type": "object"
@@ -1360,16 +3501,83 @@
         },
         "responses": {
           "201": {
-            "description": "Add product variant - created"
+            "description": "Add product variant - created",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "data": {
+                    "id": "770e8400-e29b-41d4-a716-446655440002",
+                    "image": "https://example.com/variant.jpg",
+                    "name": "Size L - Black",
+                    "price": 160000,
+                    "product_id": "550e8400-e29b-41d4-a716-446655440000",
+                    "stock": 30
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": true
+                }
+              }
+            }
           },
           "400": {
-            "description": "Validation failed"
+            "description": "Validation failed",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "VALIDATION_ERROR",
+                    "details": [],
+                    "message": "Validation failed"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           },
           "429": {
-            "description": "Too many requests"
+            "description": "Too many requests",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "details": [],
+                    "message": "Too many requests"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           },
           "500": {
-            "description": "Internal server error"
+            "description": "Internal server error",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "INTERNAL_ERROR",
+                    "details": [],
+                    "message": "Internal server error"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           }
         },
         "summary": "Add product variant",
@@ -1393,16 +3601,76 @@
         ],
         "responses": {
           "200": {
-            "description": "Delete product - success"
+            "description": "Delete product - success",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "message": "Deleted successfully",
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": true
+                }
+              }
+            }
           },
           "404": {
-            "description": "Resource not found"
+            "description": "Resource not found",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "NOT_FOUND",
+                    "details": [],
+                    "message": "Resource not found"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           },
           "429": {
-            "description": "Too many requests"
+            "description": "Too many requests",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "details": [],
+                    "message": "Too many requests"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           },
           "500": {
-            "description": "Internal server error"
+            "description": "Internal server error",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "INTERNAL_ERROR",
+                    "details": [],
+                    "message": "Internal server error"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           }
         },
         "summary": "Delete product",
@@ -1424,16 +3692,97 @@
         ],
         "responses": {
           "200": {
-            "description": "Get product by ID - success"
+            "description": "Get product by ID - success",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "data": {
+                    "available": 50,
+                    "category": "clothing",
+                    "coin": 10,
+                    "created_at": "2025-01-01T00:00:00",
+                    "description": "Premium cotton t-shirt",
+                    "discount": 10.5,
+                    "id": "550e8400-e29b-41d4-a716-446655440000",
+                    "images": [
+                      "https://example.com/img1.jpg"
+                    ],
+                    "location": "Jakarta",
+                    "name": "T-Shirt",
+                    "price": 150000,
+                    "rating": 4.5,
+                    "recommended": true,
+                    "saller_id": "660e8400-e29b-41d4-a716-446655440001",
+                    "sold": 50,
+                    "stock": 100,
+                    "thumbnail": "https://example.com/thumb.jpg",
+                    "updated_at": "2025-01-01T00:00:00"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": true
+                }
+              }
+            }
           },
           "404": {
-            "description": "Resource not found"
+            "description": "Resource not found",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "NOT_FOUND",
+                    "details": [],
+                    "message": "Resource not found"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           },
           "429": {
-            "description": "Too many requests"
+            "description": "Too many requests",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "details": [],
+                    "message": "Too many requests"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           },
           "500": {
-            "description": "Internal server error"
+            "description": "Internal server error",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "INTERNAL_ERROR",
+                    "details": [],
+                    "message": "Internal server error"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           }
         },
         "summary": "Get product by ID",
@@ -1465,19 +3814,116 @@
         },
         "responses": {
           "200": {
-            "description": "Update product - success"
+            "description": "Update product - success",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "data": {
+                    "available": 50,
+                    "category": "clothing",
+                    "coin": 10,
+                    "created_at": "2025-01-01T00:00:00",
+                    "description": "Premium cotton t-shirt",
+                    "discount": 10.5,
+                    "id": "550e8400-e29b-41d4-a716-446655440000",
+                    "images": [
+                      "https://example.com/img1.jpg"
+                    ],
+                    "location": "Jakarta",
+                    "name": "T-Shirt",
+                    "price": 150000,
+                    "rating": 4.5,
+                    "recommended": true,
+                    "saller_id": "660e8400-e29b-41d4-a716-446655440001",
+                    "sold": 50,
+                    "stock": 100,
+                    "thumbnail": "https://example.com/thumb.jpg",
+                    "updated_at": "2025-01-01T00:00:00"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": true
+                }
+              }
+            }
           },
           "400": {
-            "description": "Validation failed"
+            "description": "Validation failed",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "VALIDATION_ERROR",
+                    "details": [],
+                    "message": "Validation failed"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           },
           "404": {
-            "description": "Resource not found"
+            "description": "Resource not found",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "NOT_FOUND",
+                    "details": [],
+                    "message": "Resource not found"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           },
           "429": {
-            "description": "Too many requests"
+            "description": "Too many requests",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "details": [],
+                    "message": "Too many requests"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           },
           "500": {
-            "description": "Internal server error"
+            "description": "Internal server error",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "INTERNAL_ERROR",
+                    "details": [],
+                    "message": "Internal server error"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           }
         },
         "summary": "Update product",
@@ -1501,16 +3947,83 @@
         ],
         "responses": {
           "200": {
-            "description": "Get user profile - success"
+            "description": "Get user profile - success",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "data": {
+                    "badge": "gold",
+                    "coin": 200,
+                    "exp": 150.5,
+                    "id": "550e8400-e29b-41d4-a716-446655440000",
+                    "level": 5,
+                    "user_id": "660e8400-e29b-41d4-a716-446655440001"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": true
+                }
+              }
+            }
           },
           "404": {
-            "description": "Resource not found"
+            "description": "Resource not found",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "NOT_FOUND",
+                    "details": [],
+                    "message": "Resource not found"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           },
           "429": {
-            "description": "Too many requests"
+            "description": "Too many requests",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "details": [],
+                    "message": "Too many requests"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           },
           "500": {
-            "description": "Internal server error"
+            "description": "Internal server error",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "INTERNAL_ERROR",
+                    "details": [],
+                    "message": "Internal server error"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           }
         },
         "summary": "Get user profile",
@@ -1555,19 +4068,102 @@
         },
         "responses": {
           "200": {
-            "description": "Update user profile - success"
+            "description": "Update user profile - success",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "data": {
+                    "badge": "gold",
+                    "coin": 200,
+                    "exp": 150.5,
+                    "id": "550e8400-e29b-41d4-a716-446655440000",
+                    "level": 5,
+                    "user_id": "660e8400-e29b-41d4-a716-446655440001"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": true
+                }
+              }
+            }
           },
           "400": {
-            "description": "Validation failed"
+            "description": "Validation failed",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "VALIDATION_ERROR",
+                    "details": [],
+                    "message": "Validation failed"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           },
           "404": {
-            "description": "Resource not found"
+            "description": "Resource not found",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "NOT_FOUND",
+                    "details": [],
+                    "message": "Resource not found"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           },
           "429": {
-            "description": "Too many requests"
+            "description": "Too many requests",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "details": [],
+                    "message": "Too many requests"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           },
           "500": {
-            "description": "Internal server error"
+            "description": "Internal server error",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "INTERNAL_ERROR",
+                    "details": [],
+                    "message": "Internal server error"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           }
         },
         "summary": "Update user profile",
@@ -1598,9 +4194,9 @@
                   }
                 },
                 "required": [
-                  "product_id",
+                  "rating",
                   "comment",
-                  "rating"
+                  "product_id"
                 ],
                 "type": "object"
               }
@@ -1609,16 +4205,85 @@
         },
         "responses": {
           "201": {
-            "description": "Create review (auth required) - created"
+            "description": "Create review (auth required) - created",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "data": {
+                    "comment": "Great product!",
+                    "created_at": "2025-01-01T00:00:00",
+                    "id": "550e8400-e29b-41d4-a716-446655440000",
+                    "images": [],
+                    "product_id": "660e8400-e29b-41d4-a716-446655440001",
+                    "rating": 5.0,
+                    "updated_at": "2025-01-01T00:00:00",
+                    "user_id": "770e8400-e29b-41d4-a716-446655440002"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": true
+                }
+              }
+            }
           },
           "400": {
-            "description": "Validation failed"
+            "description": "Validation failed",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "VALIDATION_ERROR",
+                    "details": [],
+                    "message": "Validation failed"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           },
           "429": {
-            "description": "Too many requests"
+            "description": "Too many requests",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "details": [],
+                    "message": "Too many requests"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           },
           "500": {
-            "description": "Internal server error"
+            "description": "Internal server error",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "INTERNAL_ERROR",
+                    "details": [],
+                    "message": "Internal server error"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           }
         },
         "summary": "Create review (auth required)",
@@ -1659,19 +4324,104 @@
         },
         "responses": {
           "200": {
-            "description": "Update review (auth required) - success"
+            "description": "Update review (auth required) - success",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "data": {
+                    "comment": "Great product!",
+                    "created_at": "2025-01-01T00:00:00",
+                    "id": "550e8400-e29b-41d4-a716-446655440000",
+                    "images": [],
+                    "product_id": "660e8400-e29b-41d4-a716-446655440001",
+                    "rating": 5.0,
+                    "updated_at": "2025-01-01T00:00:00",
+                    "user_id": "770e8400-e29b-41d4-a716-446655440002"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": true
+                }
+              }
+            }
           },
           "400": {
-            "description": "Validation failed"
+            "description": "Validation failed",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "VALIDATION_ERROR",
+                    "details": [],
+                    "message": "Validation failed"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           },
           "404": {
-            "description": "Resource not found"
+            "description": "Resource not found",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "NOT_FOUND",
+                    "details": [],
+                    "message": "Resource not found"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           },
           "429": {
-            "description": "Too many requests"
+            "description": "Too many requests",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "details": [],
+                    "message": "Too many requests"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           },
           "500": {
-            "description": "Internal server error"
+            "description": "Internal server error",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "INTERNAL_ERROR",
+                    "details": [],
+                    "message": "Internal server error"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           }
         },
         "summary": "Update review (auth required)",
@@ -1711,16 +4461,97 @@
         ],
         "responses": {
           "200": {
-            "description": "Get seller products - success"
+            "description": "Get seller products - success",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "data": {
+                    "available": 50,
+                    "category": "clothing",
+                    "coin": 10,
+                    "created_at": "2025-01-01T00:00:00",
+                    "description": "Premium cotton t-shirt",
+                    "discount": 10.5,
+                    "id": "550e8400-e29b-41d4-a716-446655440000",
+                    "images": [
+                      "https://example.com/img1.jpg"
+                    ],
+                    "location": "Jakarta",
+                    "name": "T-Shirt",
+                    "price": 150000,
+                    "rating": 4.5,
+                    "recommended": true,
+                    "saller_id": "660e8400-e29b-41d4-a716-446655440001",
+                    "sold": 50,
+                    "stock": 100,
+                    "thumbnail": "https://example.com/thumb.jpg",
+                    "updated_at": "2025-01-01T00:00:00"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": true
+                }
+              }
+            }
           },
           "404": {
-            "description": "Resource not found"
+            "description": "Resource not found",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "NOT_FOUND",
+                    "details": [],
+                    "message": "Resource not found"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           },
           "429": {
-            "description": "Too many requests"
+            "description": "Too many requests",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "details": [],
+                    "message": "Too many requests"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           },
           "500": {
-            "description": "Internal server error"
+            "description": "Internal server error",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "INTERNAL_ERROR",
+                    "details": [],
+                    "message": "Internal server error"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           }
         },
         "summary": "Get seller products",
@@ -1744,16 +4575,76 @@
         ],
         "responses": {
           "200": {
-            "description": "Delete trash type (admin) - success"
+            "description": "Delete trash type (admin) - success",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "message": "Deleted successfully",
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": true
+                }
+              }
+            }
           },
           "404": {
-            "description": "Resource not found"
+            "description": "Resource not found",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "NOT_FOUND",
+                    "details": [],
+                    "message": "Resource not found"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           },
           "429": {
-            "description": "Too many requests"
+            "description": "Too many requests",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "details": [],
+                    "message": "Too many requests"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           },
           "500": {
-            "description": "Internal server error"
+            "description": "Internal server error",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "INTERNAL_ERROR",
+                    "details": [],
+                    "message": "Internal server error"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           }
         },
         "summary": "Delete trash type (admin)",
@@ -1775,19 +4666,101 @@
         ],
         "responses": {
           "200": {
-            "description": "Update trash type (admin) - success"
+            "description": "Update trash type (admin) - success",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "data": {
+                    "created_at": "2025-01-01T00:00:00",
+                    "id": "550e8400-e29b-41d4-a716-446655440000",
+                    "image": "https://example.com/trash.jpg",
+                    "name": "Plastic",
+                    "updated_at": "2025-01-01T00:00:00"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": true
+                }
+              }
+            }
           },
           "400": {
-            "description": "Validation failed"
+            "description": "Validation failed",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "VALIDATION_ERROR",
+                    "details": [],
+                    "message": "Validation failed"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           },
           "404": {
-            "description": "Resource not found"
+            "description": "Resource not found",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "NOT_FOUND",
+                    "details": [],
+                    "message": "Resource not found"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           },
           "429": {
-            "description": "Too many requests"
+            "description": "Too many requests",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "details": [],
+                    "message": "Too many requests"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           },
           "500": {
-            "description": "Internal server error"
+            "description": "Internal server error",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "INTERNAL_ERROR",
+                    "details": [],
+                    "message": "Internal server error"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           }
         },
         "summary": "Update trash type (admin)",
@@ -1819,16 +4792,89 @@
         ],
         "responses": {
           "200": {
-            "description": "List trash types (public) - paginated"
+            "description": "List trash types (public) - paginated",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "data": [
+                    {
+                      "created_at": "2025-01-01T00:00:00",
+                      "id": "550e8400-e29b-41d4-a716-446655440000",
+                      "image": "https://example.com/trash.jpg",
+                      "name": "Plastic",
+                      "updated_at": "2025-01-01T00:00:00"
+                    }
+                  ],
+                  "meta": {
+                    "locale": "en",
+                    "pagination": {
+                      "count": 25,
+                      "cursor": "eyJpZCI6MjV9",
+                      "has_more": true
+                    }
+                  },
+                  "success": true
+                }
+              }
+            }
           },
           "404": {
-            "description": "Resource not found"
+            "description": "Resource not found",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "NOT_FOUND",
+                    "details": [],
+                    "message": "Resource not found"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           },
           "429": {
-            "description": "Too many requests"
+            "description": "Too many requests",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "details": [],
+                    "message": "Too many requests"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           },
           "500": {
-            "description": "Internal server error"
+            "description": "Internal server error",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "INTERNAL_ERROR",
+                    "details": [],
+                    "message": "Internal server error"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           }
         },
         "summary": "List trash types (public)",
@@ -1860,16 +4906,82 @@
         },
         "responses": {
           "201": {
-            "description": "Create trash type (admin) - created"
+            "description": "Create trash type (admin) - created",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "data": {
+                    "created_at": "2025-01-01T00:00:00",
+                    "id": "550e8400-e29b-41d4-a716-446655440000",
+                    "image": "https://example.com/trash.jpg",
+                    "name": "Plastic",
+                    "updated_at": "2025-01-01T00:00:00"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": true
+                }
+              }
+            }
           },
           "400": {
-            "description": "Validation failed"
+            "description": "Validation failed",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "VALIDATION_ERROR",
+                    "details": [],
+                    "message": "Validation failed"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           },
           "429": {
-            "description": "Too many requests"
+            "description": "Too many requests",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "details": [],
+                    "message": "Too many requests"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           },
           "500": {
-            "description": "Internal server error"
+            "description": "Internal server error",
+            "examples": {
+              "default": {
+                "summary": "default",
+                "value": {
+                  "error": {
+                    "code": "INTERNAL_ERROR",
+                    "details": [],
+                    "message": "Internal server error"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
+              }
+            }
           }
         },
         "summary": "Create trash type (admin)",

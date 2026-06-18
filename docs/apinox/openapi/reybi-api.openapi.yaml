@@ -115,12 +115,89 @@ paths:
       responses:
         '200':
           description: Get seller products - success
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "data": {
+                    "available": 50,
+                    "category": "clothing",
+                    "coin": 10,
+                    "created_at": "2025-01-01T00:00:00",
+                    "description": "Premium cotton t-shirt",
+                    "discount": 10.5,
+                    "id": "550e8400-e29b-41d4-a716-446655440000",
+                    "images": [
+                      "https://example.com/img1.jpg"
+                    ],
+                    "location": "Jakarta",
+                    "name": "T-Shirt",
+                    "price": 150000,
+                    "rating": 4.5,
+                    "recommended": true,
+                    "saller_id": "660e8400-e29b-41d4-a716-446655440001",
+                    "sold": 50,
+                    "stock": 100,
+                    "thumbnail": "https://example.com/thumb.jpg",
+                    "updated_at": "2025-01-01T00:00:00"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": true
+                }
         '404':
           description: Resource not found
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "NOT_FOUND",
+                    "details": [],
+                    "message": "Resource not found"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
         '429':
           description: Too many requests
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "details": [],
+                    "message": "Too many requests"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
         '500':
           description: Internal server error
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "INTERNAL_ERROR",
+                    "details": [],
+                    "message": "Internal server error"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
   /addresses/user/{user_id}:
     post:
       operationId: post-addresses-user-{user_id}
@@ -139,27 +216,92 @@ paths:
             schema:
               type: object
               properties:
-                address:
-                  type: string
                 phone_number:
                   type: string
                 main:
                   type: boolean
                 label:
                   type: string
+                address:
+                  type: string
               required:
-              - address
               - phone_number
               - label
+              - address
       responses:
         '201':
           description: Create address (auth required) - created
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "data": {
+                    "address": "Jl. Sudirman No. 1",
+                    "created_at": "2025-01-01T00:00:00",
+                    "id": "550e8400-e29b-41d4-a716-446655440000",
+                    "label": "Home",
+                    "main": true,
+                    "phone_number": "+628123456789",
+                    "updated_at": "2025-01-01T00:00:00",
+                    "user_id": "660e8400-e29b-41d4-a716-446655440001"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": true
+                }
         '400':
           description: Validation failed
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "VALIDATION_ERROR",
+                    "details": [],
+                    "message": "Validation failed"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
         '429':
           description: Too many requests
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "details": [],
+                    "message": "Too many requests"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
         '500':
           description: Internal server error
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "INTERNAL_ERROR",
+                    "details": [],
+                    "message": "Internal server error"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
     put:
       operationId: put-addresses-user-{user_id}
       summary: Update address (auth required)
@@ -174,14 +316,94 @@ paths:
       responses:
         '200':
           description: Update address (auth required) - success
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "data": {
+                    "address": "Jl. Sudirman No. 1",
+                    "created_at": "2025-01-01T00:00:00",
+                    "id": "550e8400-e29b-41d4-a716-446655440000",
+                    "label": "Home",
+                    "main": true,
+                    "phone_number": "+628123456789",
+                    "updated_at": "2025-01-01T00:00:00",
+                    "user_id": "660e8400-e29b-41d4-a716-446655440001"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": true
+                }
         '400':
           description: Validation failed
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "VALIDATION_ERROR",
+                    "details": [],
+                    "message": "Validation failed"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
         '404':
           description: Resource not found
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "NOT_FOUND",
+                    "details": [],
+                    "message": "Resource not found"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
         '429':
           description: Too many requests
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "details": [],
+                    "message": "Too many requests"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
         '500':
           description: Internal server error
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "INTERNAL_ERROR",
+                    "details": [],
+                    "message": "Internal server error"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
   /auth/register:
     post:
       operationId: post-auth-register
@@ -194,27 +416,106 @@ paths:
             schema:
               type: object
               properties:
-                password:
-                  type: string
                 name:
+                  type: string
+                password:
                   type: string
                 email:
                   type: string
               required:
-              - password
               - name
+              - password
               - email
       responses:
         '201':
           description: Register new user - created
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "data": {
+                    "created_at": "2025-01-01T00:00:00",
+                    "email": "newuser@example.com",
+                    "fb_id": "firebase-uid-123",
+                    "id": "550e8400-e29b-41d4-a716-446655440000",
+                    "name": "Jane Doe",
+                    "role": "user",
+                    "updated_at": "2025-01-01T00:00:00"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": true
+                }
         '400':
           description: Validation failed
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "VALIDATION_ERROR",
+                    "details": [],
+                    "message": "Validation failed"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
         '401':
           description: Authentication required
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "UNAUTHORIZED",
+                    "details": [],
+                    "message": "Authentication required"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
         '429':
           description: Too many requests
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "details": [],
+                    "message": "Too many requests"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
         '500':
           description: Internal server error
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "INTERNAL_ERROR",
+                    "details": [],
+                    "message": "Internal server error"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
   /articles/{id}:
     get:
       operationId: get-articles-{id}
@@ -230,12 +531,75 @@ paths:
       responses:
         '200':
           description: Get article by ID - success
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "data": {
+                    "content": "Full article content here...",
+                    "created_at": "2025-01-01T00:00:00",
+                    "header": "How to Recycle",
+                    "id": "550e8400-e29b-41d4-a716-446655440000",
+                    "thumbnail": "https://example.com/article.jpg",
+                    "updated_at": "2025-01-01T00:00:00"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": true
+                }
         '404':
           description: Resource not found
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "NOT_FOUND",
+                    "details": [],
+                    "message": "Resource not found"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
         '429':
           description: Too many requests
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "details": [],
+                    "message": "Too many requests"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
         '500':
           description: Internal server error
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "INTERNAL_ERROR",
+                    "details": [],
+                    "message": "Internal server error"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
     put:
       operationId: put-articles-{id}
       summary: Update article
@@ -250,14 +614,92 @@ paths:
       responses:
         '200':
           description: Update article - success
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "data": {
+                    "content": "Full article content here...",
+                    "created_at": "2025-01-01T00:00:00",
+                    "header": "How to Recycle",
+                    "id": "550e8400-e29b-41d4-a716-446655440000",
+                    "thumbnail": "https://example.com/article.jpg",
+                    "updated_at": "2025-01-01T00:00:00"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": true
+                }
         '400':
           description: Validation failed
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "VALIDATION_ERROR",
+                    "details": [],
+                    "message": "Validation failed"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
         '404':
           description: Resource not found
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "NOT_FOUND",
+                    "details": [],
+                    "message": "Resource not found"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
         '429':
           description: Too many requests
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "details": [],
+                    "message": "Too many requests"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
         '500':
           description: Internal server error
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "INTERNAL_ERROR",
+                    "details": [],
+                    "message": "Internal server error"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
     delete:
       operationId: delete-articles-{id}
       summary: Delete article
@@ -272,12 +714,68 @@ paths:
       responses:
         '200':
           description: Delete article - success
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "message": "Deleted successfully",
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": true
+                }
         '404':
           description: Resource not found
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "NOT_FOUND",
+                    "details": [],
+                    "message": "Resource not found"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
         '429':
           description: Too many requests
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "details": [],
+                    "message": "Too many requests"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
         '500':
           description: Internal server error
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "INTERNAL_ERROR",
+                    "details": [],
+                    "message": "Internal server error"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
   /orders:
     get:
       operationId: get-orders
@@ -298,12 +796,93 @@ paths:
       responses:
         '200':
           description: List all orders (admin) - paginated
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "data": [
+                    {
+                      "coin": 10,
+                      "created_at": "2025-01-01T00:00:00",
+                      "delivery": {
+                        "estimated_delivery": "2025-01-05T00:00:00",
+                        "status": "processing",
+                        "tracking_number": ""
+                      },
+                      "id": "550e8400-e29b-41d4-a716-446655440000",
+                      "payment": {
+                        "amount": 150000.0,
+                        "method": "qris",
+                        "status": "pending"
+                      },
+                      "product_id": "770e8400-e29b-41d4-a716-446655440002",
+                      "quantity": 1,
+                      "updated_at": "2025-01-01T00:00:00",
+                      "user_id": "660e8400-e29b-41d4-a716-446655440001"
+                    }
+                  ],
+                  "meta": {
+                    "locale": "en",
+                    "pagination": {
+                      "count": 25,
+                      "cursor": "eyJpZCI6MjV9",
+                      "has_more": true
+                    }
+                  },
+                  "success": true
+                }
         '404':
           description: Resource not found
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "NOT_FOUND",
+                    "details": [],
+                    "message": "Resource not found"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
         '429':
           description: Too many requests
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "details": [],
+                    "message": "Too many requests"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
         '500':
           description: Internal server error
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "INTERNAL_ERROR",
+                    "details": [],
+                    "message": "Internal server error"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
   /articles:
     get:
       operationId: get-articles
@@ -324,12 +903,82 @@ paths:
       responses:
         '200':
           description: List articles (public) - paginated
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "data": [
+                    {
+                      "content": "Full article content here...",
+                      "created_at": "2025-01-01T00:00:00",
+                      "header": "How to Recycle",
+                      "id": "550e8400-e29b-41d4-a716-446655440000",
+                      "thumbnail": "https://example.com/article.jpg",
+                      "updated_at": "2025-01-01T00:00:00"
+                    }
+                  ],
+                  "meta": {
+                    "locale": "en",
+                    "pagination": {
+                      "count": 25,
+                      "cursor": "eyJpZCI6MjV9",
+                      "has_more": true
+                    }
+                  },
+                  "success": true
+                }
         '404':
           description: Resource not found
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "NOT_FOUND",
+                    "details": [],
+                    "message": "Resource not found"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
         '429':
           description: Too many requests
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "details": [],
+                    "message": "Too many requests"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
         '500':
           description: Internal server error
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "INTERNAL_ERROR",
+                    "details": [],
+                    "message": "Internal server error"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
   /products:
     get:
       operationId: get-products
@@ -360,12 +1009,96 @@ paths:
       responses:
         '200':
           description: List products (public, no auth required) - paginated
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "data": [
+                    {
+                      "available": 50,
+                      "category": "clothing",
+                      "coin": 10,
+                      "created_at": "2025-01-01T00:00:00",
+                      "description": "Premium cotton t-shirt",
+                      "discount": 10.5,
+                      "id": "550e8400-e29b-41d4-a716-446655440000",
+                      "images": [
+                        "https://example.com/img1.jpg"
+                      ],
+                      "location": "Jakarta",
+                      "name": "T-Shirt",
+                      "price": 150000,
+                      "rating": 4.5,
+                      "recommended": true,
+                      "saller_id": "660e8400-e29b-41d4-a716-446655440001",
+                      "sold": 50,
+                      "stock": 100,
+                      "thumbnail": "https://example.com/thumb.jpg",
+                      "updated_at": "2025-01-01T00:00:00"
+                    }
+                  ],
+                  "meta": {
+                    "locale": "en",
+                    "pagination": {
+                      "count": 25,
+                      "cursor": "eyJpZCI6MjV9",
+                      "has_more": true
+                    }
+                  },
+                  "success": true
+                }
         '404':
           description: Resource not found
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "NOT_FOUND",
+                    "details": [],
+                    "message": "Resource not found"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
         '429':
           description: Too many requests
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "details": [],
+                    "message": "Too many requests"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
         '500':
           description: Internal server error
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "INTERNAL_ERROR",
+                    "details": [],
+                    "message": "Internal server error"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
   /deposites:
     get:
       operationId: get-deposites
@@ -386,12 +1119,87 @@ paths:
       responses:
         '200':
           description: List all deposites (admin) - paginated
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "data": [
+                    {
+                      "address_id": "770e8400-e29b-41d4-a716-446655440002",
+                      "coin": 50,
+                      "created_at": "2025-01-01T00:00:00",
+                      "id": "550e8400-e29b-41d4-a716-446655440000",
+                      "images": [],
+                      "landfill_id": null,
+                      "pickup_date": "2025-01-15",
+                      "pickup_time": "10:00",
+                      "type": "plastic",
+                      "updated_at": "2025-01-01T00:00:00",
+                      "user_id": "660e8400-e29b-41d4-a716-446655440001"
+                    }
+                  ],
+                  "meta": {
+                    "locale": "en",
+                    "pagination": {
+                      "count": 25,
+                      "cursor": "eyJpZCI6MjV9",
+                      "has_more": true
+                    }
+                  },
+                  "success": true
+                }
         '404':
           description: Resource not found
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "NOT_FOUND",
+                    "details": [],
+                    "message": "Resource not found"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
         '429':
           description: Too many requests
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "details": [],
+                    "message": "Too many requests"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
         '500':
           description: Internal server error
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "INTERNAL_ERROR",
+                    "details": [],
+                    "message": "Internal server error"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
     post:
       operationId: post-deposites
       summary: Create deposite (auth required)
@@ -403,37 +1211,105 @@ paths:
             schema:
               type: object
               properties:
-                landfill_id:
+                coin:
+                  type: integer
+                type:
+                  type: string
+                address_id:
+                  type: string
+                pickup_date:
                   type: string
                 garbage_type:
                   type: array
                 pickup_time:
                   type: string
-                type:
-                  type: string
-                pickup_date:
-                  type: string
-                address_id:
-                  type: string
                 images:
                   type: object
-                coin:
-                  type: integer
+                landfill_id:
+                  type: string
               required:
+              - type
+              - address_id
+              - pickup_date
               - garbage_type
               - pickup_time
-              - type
-              - pickup_date
-              - address_id
       responses:
         '201':
           description: Create deposite (auth required) - created
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "data": {
+                    "address_id": "770e8400-e29b-41d4-a716-446655440002",
+                    "coin": 50,
+                    "created_at": "2025-01-01T00:00:00",
+                    "id": "550e8400-e29b-41d4-a716-446655440000",
+                    "images": [],
+                    "landfill_id": null,
+                    "pickup_date": "2025-01-15",
+                    "pickup_time": "10:00",
+                    "type": "plastic",
+                    "updated_at": "2025-01-01T00:00:00",
+                    "user_id": "660e8400-e29b-41d4-a716-446655440001"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": true
+                }
         '400':
           description: Validation failed
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "VALIDATION_ERROR",
+                    "details": [],
+                    "message": "Validation failed"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
         '429':
           description: Too many requests
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "details": [],
+                    "message": "Too many requests"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
         '500':
           description: Internal server error
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "INTERNAL_ERROR",
+                    "details": [],
+                    "message": "Internal server error"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
   /profile/{email}:
     get:
       operationId: get-profile-{email}
@@ -449,12 +1325,75 @@ paths:
       responses:
         '200':
           description: Get user profile - success
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "data": {
+                    "badge": "gold",
+                    "coin": 200,
+                    "exp": 150.5,
+                    "id": "550e8400-e29b-41d4-a716-446655440000",
+                    "level": 5,
+                    "user_id": "660e8400-e29b-41d4-a716-446655440001"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": true
+                }
         '404':
           description: Resource not found
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "NOT_FOUND",
+                    "details": [],
+                    "message": "Resource not found"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
         '429':
           description: Too many requests
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "details": [],
+                    "message": "Too many requests"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
         '500':
           description: Internal server error
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "INTERNAL_ERROR",
+                    "details": [],
+                    "message": "Internal server error"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
     put:
       operationId: put-profile-{email}
       summary: Update user profile
@@ -472,25 +1411,103 @@ paths:
             schema:
               type: object
               properties:
+                photo_url:
+                  type: string
+                name:
+                  type: string
                 role:
                   type: string
                 phone_number:
                   type: string
-                name:
-                  type: string
-                photo_url:
-                  type: string
       responses:
         '200':
           description: Update user profile - success
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "data": {
+                    "badge": "gold",
+                    "coin": 200,
+                    "exp": 150.5,
+                    "id": "550e8400-e29b-41d4-a716-446655440000",
+                    "level": 5,
+                    "user_id": "660e8400-e29b-41d4-a716-446655440001"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": true
+                }
         '400':
           description: Validation failed
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "VALIDATION_ERROR",
+                    "details": [],
+                    "message": "Validation failed"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
         '404':
           description: Resource not found
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "NOT_FOUND",
+                    "details": [],
+                    "message": "Resource not found"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
         '429':
           description: Too many requests
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "details": [],
+                    "message": "Too many requests"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
         '500':
           description: Internal server error
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "INTERNAL_ERROR",
+                    "details": [],
+                    "message": "Internal server error"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
   /products/{id}:
     get:
       operationId: get-products-{id}
@@ -506,12 +1523,89 @@ paths:
       responses:
         '200':
           description: Get product by ID - success
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "data": {
+                    "available": 50,
+                    "category": "clothing",
+                    "coin": 10,
+                    "created_at": "2025-01-01T00:00:00",
+                    "description": "Premium cotton t-shirt",
+                    "discount": 10.5,
+                    "id": "550e8400-e29b-41d4-a716-446655440000",
+                    "images": [
+                      "https://example.com/img1.jpg"
+                    ],
+                    "location": "Jakarta",
+                    "name": "T-Shirt",
+                    "price": 150000,
+                    "rating": 4.5,
+                    "recommended": true,
+                    "saller_id": "660e8400-e29b-41d4-a716-446655440001",
+                    "sold": 50,
+                    "stock": 100,
+                    "thumbnail": "https://example.com/thumb.jpg",
+                    "updated_at": "2025-01-01T00:00:00"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": true
+                }
         '404':
           description: Resource not found
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "NOT_FOUND",
+                    "details": [],
+                    "message": "Resource not found"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
         '429':
           description: Too many requests
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "details": [],
+                    "message": "Too many requests"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
         '500':
           description: Internal server error
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "INTERNAL_ERROR",
+                    "details": [],
+                    "message": "Internal server error"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
     put:
       operationId: put-products-{id}
       summary: Update product
@@ -532,14 +1626,106 @@ paths:
       responses:
         '200':
           description: Update product - success
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "data": {
+                    "available": 50,
+                    "category": "clothing",
+                    "coin": 10,
+                    "created_at": "2025-01-01T00:00:00",
+                    "description": "Premium cotton t-shirt",
+                    "discount": 10.5,
+                    "id": "550e8400-e29b-41d4-a716-446655440000",
+                    "images": [
+                      "https://example.com/img1.jpg"
+                    ],
+                    "location": "Jakarta",
+                    "name": "T-Shirt",
+                    "price": 150000,
+                    "rating": 4.5,
+                    "recommended": true,
+                    "saller_id": "660e8400-e29b-41d4-a716-446655440001",
+                    "sold": 50,
+                    "stock": 100,
+                    "thumbnail": "https://example.com/thumb.jpg",
+                    "updated_at": "2025-01-01T00:00:00"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": true
+                }
         '400':
           description: Validation failed
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "VALIDATION_ERROR",
+                    "details": [],
+                    "message": "Validation failed"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
         '404':
           description: Resource not found
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "NOT_FOUND",
+                    "details": [],
+                    "message": "Resource not found"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
         '429':
           description: Too many requests
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "details": [],
+                    "message": "Too many requests"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
         '500':
           description: Internal server error
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "INTERNAL_ERROR",
+                    "details": [],
+                    "message": "Internal server error"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
     delete:
       operationId: delete-products-{id}
       summary: Delete product
@@ -554,12 +1740,68 @@ paths:
       responses:
         '200':
           description: Delete product - success
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "message": "Deleted successfully",
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": true
+                }
         '404':
           description: Resource not found
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "NOT_FOUND",
+                    "details": [],
+                    "message": "Resource not found"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
         '429':
           description: Too many requests
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "details": [],
+                    "message": "Too many requests"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
         '500':
           description: Internal server error
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "INTERNAL_ERROR",
+                    "details": [],
+                    "message": "Internal server error"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
   /landfills:
     get:
       operationId: get-landfills
@@ -580,12 +1822,79 @@ paths:
       responses:
         '200':
           description: List landfills (public) - paginated
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "data": [
+                    {
+                      "address": "Jl. TB Simatupang",
+                      "id": "550e8400-e29b-41d4-a716-446655440000",
+                      "name": "TPS Jakarta Selatan"
+                    }
+                  ],
+                  "meta": {
+                    "locale": "en",
+                    "pagination": {
+                      "count": 25,
+                      "cursor": "eyJpZCI6MjV9",
+                      "has_more": true
+                    }
+                  },
+                  "success": true
+                }
         '404':
           description: Resource not found
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "NOT_FOUND",
+                    "details": [],
+                    "message": "Resource not found"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
         '429':
           description: Too many requests
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "details": [],
+                    "message": "Too many requests"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
         '500':
           description: Internal server error
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "INTERNAL_ERROR",
+                    "details": [],
+                    "message": "Internal server error"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
     post:
       operationId: post-landfills
       summary: Create landfill (admin)
@@ -607,12 +1916,72 @@ paths:
       responses:
         '201':
           description: Create landfill (admin) - created
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "data": {
+                    "address": "Jl. TB Simatupang",
+                    "id": "550e8400-e29b-41d4-a716-446655440000",
+                    "name": "TPS Jakarta Selatan"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": true
+                }
         '400':
           description: Validation failed
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "VALIDATION_ERROR",
+                    "details": [],
+                    "message": "Validation failed"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
         '429':
           description: Too many requests
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "details": [],
+                    "message": "Too many requests"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
         '500':
           description: Internal server error
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "INTERNAL_ERROR",
+                    "details": [],
+                    "message": "Internal server error"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
   /trash/type/{id}:
     put:
       operationId: put-trash-type-{id}
@@ -628,14 +1997,91 @@ paths:
       responses:
         '200':
           description: Update trash type (admin) - success
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "data": {
+                    "created_at": "2025-01-01T00:00:00",
+                    "id": "550e8400-e29b-41d4-a716-446655440000",
+                    "image": "https://example.com/trash.jpg",
+                    "name": "Plastic",
+                    "updated_at": "2025-01-01T00:00:00"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": true
+                }
         '400':
           description: Validation failed
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "VALIDATION_ERROR",
+                    "details": [],
+                    "message": "Validation failed"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
         '404':
           description: Resource not found
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "NOT_FOUND",
+                    "details": [],
+                    "message": "Resource not found"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
         '429':
           description: Too many requests
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "details": [],
+                    "message": "Too many requests"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
         '500':
           description: Internal server error
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "INTERNAL_ERROR",
+                    "details": [],
+                    "message": "Internal server error"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
     delete:
       operationId: delete-trash-type-{id}
       summary: Delete trash type (admin)
@@ -650,12 +2096,68 @@ paths:
       responses:
         '200':
           description: Delete trash type (admin) - success
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "message": "Deleted successfully",
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": true
+                }
         '404':
           description: Resource not found
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "NOT_FOUND",
+                    "details": [],
+                    "message": "Resource not found"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
         '429':
           description: Too many requests
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "details": [],
+                    "message": "Too many requests"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
         '500':
           description: Internal server error
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "INTERNAL_ERROR",
+                    "details": [],
+                    "message": "Internal server error"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
   /carts/user/{user_id}:
     get:
       operationId: get-carts-user-{user_id}
@@ -681,12 +2183,76 @@ paths:
       responses:
         '200':
           description: Get user cart - success
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "data": {
+                    "created_at": "2025-01-01T00:00:00",
+                    "id": "550e8400-e29b-41d4-a716-446655440000",
+                    "product_id": "770e8400-e29b-41d4-a716-446655440002",
+                    "quantity": 2,
+                    "updated_at": "2025-01-01T00:00:00",
+                    "user_id": "660e8400-e29b-41d4-a716-446655440001",
+                    "variant_id": null
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": true
+                }
         '404':
           description: Resource not found
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "NOT_FOUND",
+                    "details": [],
+                    "message": "Resource not found"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
         '429':
           description: Too many requests
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "details": [],
+                    "message": "Too many requests"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
         '500':
           description: Internal server error
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "INTERNAL_ERROR",
+                    "details": [],
+                    "message": "Internal server error"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
     post:
       operationId: post-carts-user-{user_id}
       summary: Add item to cart
@@ -704,9 +2270,9 @@ paths:
             schema:
               type: object
               properties:
-                variant_id:
-                  type: string
                 product_id:
+                  type: string
+                variant_id:
                   type: string
                 quantity:
                   type: integer
@@ -716,12 +2282,76 @@ paths:
       responses:
         '201':
           description: Add item to cart - created
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "data": {
+                    "created_at": "2025-01-01T00:00:00",
+                    "id": "550e8400-e29b-41d4-a716-446655440000",
+                    "product_id": "770e8400-e29b-41d4-a716-446655440002",
+                    "quantity": 2,
+                    "updated_at": "2025-01-01T00:00:00",
+                    "user_id": "660e8400-e29b-41d4-a716-446655440001",
+                    "variant_id": null
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": true
+                }
         '400':
           description: Validation failed
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "VALIDATION_ERROR",
+                    "details": [],
+                    "message": "Validation failed"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
         '429':
           description: Too many requests
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "details": [],
+                    "message": "Too many requests"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
         '500':
           description: Internal server error
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "INTERNAL_ERROR",
+                    "details": [],
+                    "message": "Internal server error"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
   /trash/types:
     get:
       operationId: get-trash-types
@@ -742,12 +2372,81 @@ paths:
       responses:
         '200':
           description: List trash types (public) - paginated
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "data": [
+                    {
+                      "created_at": "2025-01-01T00:00:00",
+                      "id": "550e8400-e29b-41d4-a716-446655440000",
+                      "image": "https://example.com/trash.jpg",
+                      "name": "Plastic",
+                      "updated_at": "2025-01-01T00:00:00"
+                    }
+                  ],
+                  "meta": {
+                    "locale": "en",
+                    "pagination": {
+                      "count": 25,
+                      "cursor": "eyJpZCI6MjV9",
+                      "has_more": true
+                    }
+                  },
+                  "success": true
+                }
         '404':
           description: Resource not found
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "NOT_FOUND",
+                    "details": [],
+                    "message": "Resource not found"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
         '429':
           description: Too many requests
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "details": [],
+                    "message": "Too many requests"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
         '500':
           description: Internal server error
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "INTERNAL_ERROR",
+                    "details": [],
+                    "message": "Internal server error"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
     post:
       operationId: post-trash-types
       summary: Create trash type (admin)
@@ -768,12 +2467,74 @@ paths:
       responses:
         '201':
           description: Create trash type (admin) - created
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "data": {
+                    "created_at": "2025-01-01T00:00:00",
+                    "id": "550e8400-e29b-41d4-a716-446655440000",
+                    "image": "https://example.com/trash.jpg",
+                    "name": "Plastic",
+                    "updated_at": "2025-01-01T00:00:00"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": true
+                }
         '400':
           description: Validation failed
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "VALIDATION_ERROR",
+                    "details": [],
+                    "message": "Validation failed"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
         '429':
           description: Too many requests
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "details": [],
+                    "message": "Too many requests"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
         '500':
           description: Internal server error
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "INTERNAL_ERROR",
+                    "details": [],
+                    "message": "Internal server error"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
   /orders/user/{user_id}:
     get:
       operationId: get-orders-user-{user_id}
@@ -794,12 +2555,86 @@ paths:
       responses:
         '200':
           description: Get user orders - success
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "data": {
+                    "coin": 10,
+                    "created_at": "2025-01-01T00:00:00",
+                    "delivery": {
+                      "estimated_delivery": "2025-01-05T00:00:00",
+                      "status": "processing",
+                      "tracking_number": ""
+                    },
+                    "id": "550e8400-e29b-41d4-a716-446655440000",
+                    "payment": {
+                      "amount": 150000.0,
+                      "method": "qris",
+                      "status": "pending"
+                    },
+                    "product_id": "770e8400-e29b-41d4-a716-446655440002",
+                    "quantity": 1,
+                    "updated_at": "2025-01-01T00:00:00",
+                    "user_id": "660e8400-e29b-41d4-a716-446655440001"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": true
+                }
         '404':
           description: Resource not found
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "NOT_FOUND",
+                    "details": [],
+                    "message": "Resource not found"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
         '429':
           description: Too many requests
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "details": [],
+                    "message": "Too many requests"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
         '500':
           description: Internal server error
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "INTERNAL_ERROR",
+                    "details": [],
+                    "message": "Internal server error"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
     post:
       operationId: post-orders-user-{user_id}
       summary: Create order (auth required)
@@ -819,25 +2654,99 @@ paths:
               properties:
                 payment:
                   type: object
+                product_id:
+                  type: string
                 coin:
                   type: integer
                 quantity:
                   type: integer
-                product_id:
-                  type: string
               required:
               - payment
-              - quantity
               - product_id
+              - quantity
       responses:
         '201':
           description: Create order (auth required) - created
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "data": {
+                    "coin": 10,
+                    "created_at": "2025-01-01T00:00:00",
+                    "delivery": {
+                      "estimated_delivery": "2025-01-05T00:00:00",
+                      "status": "processing",
+                      "tracking_number": ""
+                    },
+                    "id": "550e8400-e29b-41d4-a716-446655440000",
+                    "payment": {
+                      "amount": 150000.0,
+                      "method": "qris",
+                      "status": "pending"
+                    },
+                    "product_id": "770e8400-e29b-41d4-a716-446655440002",
+                    "quantity": 1,
+                    "updated_at": "2025-01-01T00:00:00",
+                    "user_id": "660e8400-e29b-41d4-a716-446655440001"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": true
+                }
         '400':
           description: Validation failed
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "VALIDATION_ERROR",
+                    "details": [],
+                    "message": "Validation failed"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
         '429':
           description: Too many requests
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "details": [],
+                    "message": "Too many requests"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
         '500':
           description: Internal server error
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "INTERNAL_ERROR",
+                    "details": [],
+                    "message": "Internal server error"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
   /products/variant/{id}:
     post:
       operationId: post-products-variant-{id}
@@ -856,27 +2765,90 @@ paths:
             schema:
               type: object
               properties:
-                price:
-                  type: integer
                 name:
                   type: string
-                image:
-                  type: string
+                price:
+                  type: integer
                 stock:
                   type: integer
+                image:
+                  type: string
               required:
-              - price
               - name
+              - price
               - stock
       responses:
         '201':
           description: Add product variant - created
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "data": {
+                    "id": "770e8400-e29b-41d4-a716-446655440002",
+                    "image": "https://example.com/variant.jpg",
+                    "name": "Size L - Black",
+                    "price": 160000,
+                    "product_id": "550e8400-e29b-41d4-a716-446655440000",
+                    "stock": 30
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": true
+                }
         '400':
           description: Validation failed
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "VALIDATION_ERROR",
+                    "details": [],
+                    "message": "Validation failed"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
         '429':
           description: Too many requests
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "details": [],
+                    "message": "Too many requests"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
         '500':
           description: Internal server error
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "INTERNAL_ERROR",
+                    "details": [],
+                    "message": "Internal server error"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
   /products/create:
     post:
       operationId: post-products-create
@@ -889,45 +2861,122 @@ paths:
             schema:
               type: object
               properties:
-                category:
-                  type: string
-                saller_id:
-                  type: string
                 recommended:
                   type: boolean
-                price:
-                  type: integer
-                discount:
-                  type: integer
-                stock:
-                  type: integer
                 images:
                   type: object
-                location:
-                  type: string
-                description:
-                  type: string
                 thumbnail:
                   type: string
                 coin:
                   type: integer
+                category:
+                  type: string
+                discount:
+                  type: integer
                 name:
+                  type: string
+                stock:
+                  type: integer
+                saller_id:
+                  type: string
+                description:
+                  type: string
+                price:
+                  type: integer
+                location:
                   type: string
               required:
               - category
-              - price
+              - name
               - stock
               - description
-              - name
+              - price
       responses:
         '201':
           description: Create product - created
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "data": {
+                    "available": 50,
+                    "category": "clothing",
+                    "coin": 10,
+                    "created_at": "2025-01-01T00:00:00",
+                    "description": "Premium cotton t-shirt",
+                    "discount": 10.5,
+                    "id": "550e8400-e29b-41d4-a716-446655440000",
+                    "images": [
+                      "https://example.com/img1.jpg"
+                    ],
+                    "location": "Jakarta",
+                    "name": "T-Shirt",
+                    "price": 150000,
+                    "rating": 4.5,
+                    "recommended": true,
+                    "saller_id": "660e8400-e29b-41d4-a716-446655440001",
+                    "sold": 50,
+                    "stock": 100,
+                    "thumbnail": "https://example.com/thumb.jpg",
+                    "updated_at": "2025-01-01T00:00:00"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": true
+                }
         '400':
           description: Validation failed
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "VALIDATION_ERROR",
+                    "details": [],
+                    "message": "Validation failed"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
         '429':
           description: Too many requests
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "details": [],
+                    "message": "Too many requests"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
         '500':
           description: Internal server error
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "INTERNAL_ERROR",
+                    "details": [],
+                    "message": "Internal server error"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
   /orders/{id}:
     delete:
       operationId: delete-orders-{id}
@@ -943,12 +2992,68 @@ paths:
       responses:
         '200':
           description: Cancel order (auth required) - success
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "message": "Deleted successfully",
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": true
+                }
         '404':
           description: Resource not found
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "NOT_FOUND",
+                    "details": [],
+                    "message": "Resource not found"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
         '429':
           description: Too many requests
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "details": [],
+                    "message": "Too many requests"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
         '500':
           description: Internal server error
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "INTERNAL_ERROR",
+                    "details": [],
+                    "message": "Internal server error"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
   /banners/type/{type}:
     get:
       operationId: get-banners-type-{type}
@@ -964,12 +3069,83 @@ paths:
       responses:
         '200':
           description: List banners by type - paginated
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "data": [
+                    {
+                      "created_at": "2025-01-01T00:00:00",
+                      "description": "Up to 50% off",
+                      "id": "550e8400-e29b-41d4-a716-446655440000",
+                      "image": "https://example.com/banner.jpg",
+                      "title": "Summer Sale",
+                      "type": "home",
+                      "updated_at": "2025-01-01T00:00:00"
+                    }
+                  ],
+                  "meta": {
+                    "locale": "en",
+                    "pagination": {
+                      "count": 25,
+                      "cursor": "eyJpZCI6MjV9",
+                      "has_more": true
+                    }
+                  },
+                  "success": true
+                }
         '404':
           description: Resource not found
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "NOT_FOUND",
+                    "details": [],
+                    "message": "Resource not found"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
         '429':
           description: Too many requests
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "details": [],
+                    "message": "Too many requests"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
         '500':
           description: Internal server error
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "INTERNAL_ERROR",
+                    "details": [],
+                    "message": "Internal server error"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
   /reviews/{id}:
     put:
       operationId: put-reviews-{id}
@@ -988,21 +3164,101 @@ paths:
             schema:
               type: object
               properties:
-                rating:
-                  type: integer
                 comment:
                   type: string
+                rating:
+                  type: integer
       responses:
         '200':
           description: Update review (auth required) - success
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "data": {
+                    "comment": "Great product!",
+                    "created_at": "2025-01-01T00:00:00",
+                    "id": "550e8400-e29b-41d4-a716-446655440000",
+                    "images": [],
+                    "product_id": "660e8400-e29b-41d4-a716-446655440001",
+                    "rating": 5.0,
+                    "updated_at": "2025-01-01T00:00:00",
+                    "user_id": "770e8400-e29b-41d4-a716-446655440002"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": true
+                }
         '400':
           description: Validation failed
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "VALIDATION_ERROR",
+                    "details": [],
+                    "message": "Validation failed"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
         '404':
           description: Resource not found
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "NOT_FOUND",
+                    "details": [],
+                    "message": "Resource not found"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
         '429':
           description: Too many requests
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "details": [],
+                    "message": "Too many requests"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
         '500':
           description: Internal server error
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "INTERNAL_ERROR",
+                    "details": [],
+                    "message": "Internal server error"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
   /articles/create:
     post:
       operationId: post-articles-create
@@ -1015,25 +3271,88 @@ paths:
             schema:
               type: object
               properties:
-                content:
-                  type: string
                 header:
+                  type: string
+                content:
                   type: string
                 thumbnail:
                   type: string
               required:
-              - content
               - header
+              - content
               - thumbnail
       responses:
         '201':
           description: Create article - created
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "data": {
+                    "content": "Full article content here...",
+                    "created_at": "2025-01-01T00:00:00",
+                    "header": "How to Recycle",
+                    "id": "550e8400-e29b-41d4-a716-446655440000",
+                    "thumbnail": "https://example.com/article.jpg",
+                    "updated_at": "2025-01-01T00:00:00"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": true
+                }
         '400':
           description: Validation failed
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "VALIDATION_ERROR",
+                    "details": [],
+                    "message": "Validation failed"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
         '429':
           description: Too many requests
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "details": [],
+                    "message": "Too many requests"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
         '500':
           description: Internal server error
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "INTERNAL_ERROR",
+                    "details": [],
+                    "message": "Internal server error"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
   /reviews:
     post:
       operationId: post-reviews
@@ -1046,27 +3365,92 @@ paths:
             schema:
               type: object
               properties:
-                product_id:
-                  type: string
-                comment:
-                  type: string
                 rating:
                   type: integer
                 images:
                   type: object
+                comment:
+                  type: string
+                product_id:
+                  type: string
               required:
-              - product_id
-              - comment
               - rating
+              - comment
+              - product_id
       responses:
         '201':
           description: Create review (auth required) - created
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "data": {
+                    "comment": "Great product!",
+                    "created_at": "2025-01-01T00:00:00",
+                    "id": "550e8400-e29b-41d4-a716-446655440000",
+                    "images": [],
+                    "product_id": "660e8400-e29b-41d4-a716-446655440001",
+                    "rating": 5.0,
+                    "updated_at": "2025-01-01T00:00:00",
+                    "user_id": "770e8400-e29b-41d4-a716-446655440002"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": true
+                }
         '400':
           description: Validation failed
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "VALIDATION_ERROR",
+                    "details": [],
+                    "message": "Validation failed"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
         '429':
           description: Too many requests
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "details": [],
+                    "message": "Too many requests"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
         '500':
           description: Internal server error
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "INTERNAL_ERROR",
+                    "details": [],
+                    "message": "Internal server error"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
   /auth/reset-password:
     post:
       operationId: post-auth-reset-password
@@ -1086,14 +3470,87 @@ paths:
       responses:
         '201':
           description: Request password reset - created
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "data": {
+                    "email": "user@example.com"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": true
+                }
         '400':
           description: Validation failed
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "VALIDATION_ERROR",
+                    "details": [],
+                    "message": "Validation failed"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
         '401':
           description: Authentication required
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "UNAUTHORIZED",
+                    "details": [],
+                    "message": "Authentication required"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
         '429':
           description: Too many requests
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "details": [],
+                    "message": "Too many requests"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
         '500':
           description: Internal server error
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "INTERNAL_ERROR",
+                    "details": [],
+                    "message": "Internal server error"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
   /carts/item/{id}:
     delete:
       operationId: delete-carts-item-{id}
@@ -1109,12 +3566,68 @@ paths:
       responses:
         '200':
           description: Remove cart item - success
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "message": "Deleted successfully",
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": true
+                }
         '404':
           description: Resource not found
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "NOT_FOUND",
+                    "details": [],
+                    "message": "Resource not found"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
         '429':
           description: Too many requests
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "details": [],
+                    "message": "Too many requests"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
         '500':
           description: Internal server error
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "INTERNAL_ERROR",
+                    "details": [],
+                    "message": "Internal server error"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
   /deposites/user/{id}:
     get:
       operationId: get-deposites-user-{id}
@@ -1135,12 +3648,80 @@ paths:
       responses:
         '200':
           description: Get user deposites - success
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "data": {
+                    "address_id": "770e8400-e29b-41d4-a716-446655440002",
+                    "coin": 50,
+                    "created_at": "2025-01-01T00:00:00",
+                    "id": "550e8400-e29b-41d4-a716-446655440000",
+                    "images": [],
+                    "landfill_id": null,
+                    "pickup_date": "2025-01-15",
+                    "pickup_time": "10:00",
+                    "type": "plastic",
+                    "updated_at": "2025-01-01T00:00:00",
+                    "user_id": "660e8400-e29b-41d4-a716-446655440001"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": true
+                }
         '404':
           description: Resource not found
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "NOT_FOUND",
+                    "details": [],
+                    "message": "Resource not found"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
         '429':
           description: Too many requests
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "details": [],
+                    "message": "Too many requests"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
         '500':
           description: Internal server error
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "INTERNAL_ERROR",
+                    "details": [],
+                    "message": "Internal server error"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
   /auth:
     post:
       operationId: post-auth
@@ -1156,14 +3737,101 @@ paths:
       responses:
         '201':
           description: Login (Firebase token → JWT) - created
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "data": {
+                    "access_token": "eyJhbGciOiJIUzI1NiIs...",
+                    "expires_in": 3600,
+                    "refresh_token": "eyJhbGciOiJIUzI1NiIs...",
+                    "token_type": "Bearer",
+                    "user": {
+                      "created_at": "2025-01-01T00:00:00",
+                      "email": "user@example.com",
+                      "fb_id": "firebase-uid-123",
+                      "id": "550e8400-e29b-41d4-a716-446655440000",
+                      "name": "John Doe",
+                      "phone_number": "+628123456789",
+                      "photo_url": "https://example.com/photo.jpg",
+                      "role": "user",
+                      "updated_at": "2025-01-01T00:00:00"
+                    }
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": true
+                }
         '400':
           description: Validation failed
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "VALIDATION_ERROR",
+                    "details": [],
+                    "message": "Validation failed"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
         '401':
           description: Authentication required
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "UNAUTHORIZED",
+                    "details": [],
+                    "message": "Authentication required"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
         '429':
           description: Too many requests
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "details": [],
+                    "message": "Too many requests"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
         '500':
           description: Internal server error
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "INTERNAL_ERROR",
+                    "details": [],
+                    "message": "Internal server error"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
   /landfills/{id}:
     put:
       operationId: put-landfills-{id}
@@ -1179,14 +3847,89 @@ paths:
       responses:
         '200':
           description: Update landfill (admin) - success
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "data": {
+                    "address": "Jl. TB Simatupang",
+                    "id": "550e8400-e29b-41d4-a716-446655440000",
+                    "name": "TPS Jakarta Selatan"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": true
+                }
         '400':
           description: Validation failed
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "VALIDATION_ERROR",
+                    "details": [],
+                    "message": "Validation failed"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
         '404':
           description: Resource not found
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "NOT_FOUND",
+                    "details": [],
+                    "message": "Resource not found"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
         '429':
           description: Too many requests
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "details": [],
+                    "message": "Too many requests"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
         '500':
           description: Internal server error
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "INTERNAL_ERROR",
+                    "details": [],
+                    "message": "Internal server error"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
     delete:
       operationId: delete-landfills-{id}
       summary: Delete landfill (admin)
@@ -1201,12 +3944,68 @@ paths:
       responses:
         '200':
           description: Delete landfill (admin) - success
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "message": "Deleted successfully",
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": true
+                }
         '404':
           description: Resource not found
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "NOT_FOUND",
+                    "details": [],
+                    "message": "Resource not found"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
         '429':
           description: Too many requests
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "details": [],
+                    "message": "Too many requests"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
         '500':
           description: Internal server error
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "INTERNAL_ERROR",
+                    "details": [],
+                    "message": "Internal server error"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
   /banners/create:
     post:
       operationId: post-banners-create
@@ -1219,21 +4018,85 @@ paths:
             schema:
               type: object
               properties:
-                type:
-                  type: string
                 image:
+                  type: string
+                type:
                   type: string
               required:
               - image
       responses:
         '201':
           description: Create banner - created
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "data": {
+                    "created_at": "2025-01-01T00:00:00",
+                    "description": "Up to 50% off",
+                    "id": "550e8400-e29b-41d4-a716-446655440000",
+                    "image": "https://example.com/banner.jpg",
+                    "title": "Summer Sale",
+                    "type": "home",
+                    "updated_at": "2025-01-01T00:00:00"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": true
+                }
         '400':
           description: Validation failed
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "VALIDATION_ERROR",
+                    "details": [],
+                    "message": "Validation failed"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
         '429':
           description: Too many requests
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "details": [],
+                    "message": "Too many requests"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
         '500':
           description: Internal server error
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "INTERNAL_ERROR",
+                    "details": [],
+                    "message": "Internal server error"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
   /banners:
     get:
       operationId: get-banners
@@ -1254,9 +4117,80 @@ paths:
       responses:
         '200':
           description: List all banners (public) - paginated
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "data": [
+                    {
+                      "created_at": "2025-01-01T00:00:00",
+                      "description": "Up to 50% off",
+                      "id": "550e8400-e29b-41d4-a716-446655440000",
+                      "image": "https://example.com/banner.jpg",
+                      "title": "Summer Sale",
+                      "type": "home",
+                      "updated_at": "2025-01-01T00:00:00"
+                    }
+                  ],
+                  "meta": {
+                    "locale": "en",
+                    "pagination": {
+                      "count": 25,
+                      "cursor": "eyJpZCI6MjV9",
+                      "has_more": true
+                    }
+                  },
+                  "success": true
+                }
         '404':
           description: Resource not found
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "NOT_FOUND",
+                    "details": [],
+                    "message": "Resource not found"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
         '429':
           description: Too many requests
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "details": [],
+                    "message": "Too many requests"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
         '500':
           description: Internal server error
+          examples:
+            default:
+              summary: default
+              value: |-
+                {
+                  "error": {
+                    "code": "INTERNAL_ERROR",
+                    "details": [],
+                    "message": "Internal server error"
+                  },
+                  "meta": {
+                    "locale": "en"
+                  },
+                  "success": false
+                }
