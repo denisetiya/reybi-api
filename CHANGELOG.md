@@ -16,6 +16,10 @@
 - **Removed dead module**: `src/dto` reference in lib.rs (superseded by per-module dto)
 - **cargo update** — 62 transitive crates removed from lockfile
 
+### Fixed
+- **clippy `manual_clamp`** — `.min(100).max(1)` → `.clamp(1, 100)` in pagination.rs + product/service.rs
+- **clippy `too_many_arguments`** — refactored `ProductService::create()`/`update()` to accept DTO struct directly (was 13 individual params → 2)
+
 ## [1.0.0] - 2026-06-17
 
 ### Added
