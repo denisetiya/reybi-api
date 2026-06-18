@@ -5,6 +5,7 @@ use tower_http::compression::CompressionLayer;
 use tower_http::trace::TraceLayer;
 
 use reybi_api::config::{AppConfig, AppState};
+use reybi_api::common::locale;
 use reybi_api::middleware;
 
 #[tokio::main]
@@ -47,6 +48,7 @@ async fn main() {
     let app = Router::new()
         .nest("/v1", api_routes)
         .layer(mw::from_fn_with_state(state.clone(), middleware::jwt_auth))
+        .layer(mw::from_fn(locale::locale_middleware))
         .layer(CompressionLayer::new())
         .layer(CorsLayer::permissive())
         .layer(TraceLayer::new_for_http())

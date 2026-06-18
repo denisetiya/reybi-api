@@ -8,5 +8,5 @@ use super::service::SallerService;
 pub async fn list_products(State(state): State<AppState>, Path(id): Path<Uuid>, Query(pq): Query<PaginationQuery>) -> AppResult<Json<serde_json::Value>> {
     let items = SallerService::get_products(&state.db, id, pq.take()).await?;
     let (data, cursor, has_more) = paginate(&items, pq.take());
-    Ok(Json(ok_paginated(data, cursor, has_more)))
+    Ok(Json(ok_paginated(data, cursor, has_more, "en")))
 }

@@ -343,8 +343,8 @@ curl -X DELETE 'http://localhost:3000/v1/products/id-example'
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| `image` | `string` | ❌ | — |
 | `stock` | `integer` | ✅ | — |
+| `image` | `string` | ❌ | — |
 | `name` | `string` | ✅ | — |
 | `price` | `integer` | ✅ | — |
 
@@ -377,17 +377,17 @@ curl -X POST 'http://localhost:3000/v1/products/variant/id-example' \
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| `saller_id` | `string` | ❌ | — |
-| `price` | `integer` | ✅ | — |
-| `stock` | `integer` | ✅ | — |
-| `thumbnail` | `string` | ❌ | — |
-| `location` | `string` | ❌ | — |
-| `category` | `string` | ✅ | — |
 | `discount` | `integer` | ❌ | — |
+| `thumbnail` | `string` | ❌ | — |
 | `images` | `object` | ❌ | — |
-| `description` | `string` | ✅ | — |
-| `recommended` | `boolean` | ❌ | — |
 | `coin` | `integer` | ❌ | — |
+| `description` | `string` | ✅ | — |
+| `price` | `integer` | ✅ | — |
+| `saller_id` | `string` | ❌ | — |
+| `stock` | `integer` | ✅ | — |
+| `category` | `string` | ✅ | — |
+| `recommended` | `boolean` | ❌ | — |
+| `location` | `string` | ❌ | — |
 | `name` | `string` | ✅ | — |
 
 #### Example cURL
@@ -443,8 +443,8 @@ curl -X GET 'http://localhost:3000/v1/banners/type/type-example'
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| `image` | `string` | ✅ | — |
 | `type` | `string` | ❌ | — |
+| `image` | `string` | ✅ | — |
 
 #### Example cURL
 
@@ -585,9 +585,9 @@ curl -X GET 'http://localhost:3000/v1/articles?cursor=example-cursor&limit=1'
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| `thumbnail` | `string` | ✅ | — |
-| `content` | `string` | ✅ | — |
 | `header` | `string` | ✅ | — |
+| `content` | `string` | ✅ | — |
+| `thumbnail` | `string` | ✅ | — |
 
 #### Example cURL
 
@@ -644,9 +644,9 @@ curl -X GET 'http://localhost:3000/v1/profile/email-example'
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| `phone_number` | `string` | ❌ | — |
-| `name` | `string` | ❌ | — |
 | `role` | `string` | ❌ | — |
+| `name` | `string` | ❌ | — |
+| `phone_number` | `string` | ❌ | — |
 | `photo_url` | `string` | ❌ | — |
 
 #### Example cURL
@@ -712,10 +712,10 @@ curl -X PUT 'http://localhost:3000/v1/reviews/id-example' \
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| `comment` | `string` | ✅ | — |
-| `product_id` | `string` | ✅ | — |
 | `images` | `object` | ❌ | — |
 | `rating` | `integer` | ✅ | — |
+| `comment` | `string` | ✅ | — |
+| `product_id` | `string` | ✅ | — |
 
 #### Example cURL
 
@@ -885,10 +885,10 @@ curl -X GET 'http://localhost:3000/v1/orders/user/user_id-example?cursor=example
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| `product_id` | `string` | ✅ | — |
 | `quantity` | `integer` | ✅ | — |
-| `coin` | `integer` | ❌ | — |
+| `product_id` | `string` | ✅ | — |
 | `payment` | `object` | ✅ | — |
+| `coin` | `integer` | ❌ | — |
 
 #### Example cURL
 
@@ -960,14 +960,14 @@ curl -X GET 'http://localhost:3000/v1/deposites?cursor=example-cursor&limit=1'
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| `landfill_id` | `string` | ❌ | — |
 | `address_id` | `string` | ✅ | — |
-| `pickup_time` | `string` | ✅ | — |
 | `garbage_type` | `array` | ✅ | — |
+| `images` | `object` | ❌ | — |
+| `pickup_date` | `string` | ✅ | — |
+| `pickup_time` | `string` | ✅ | — |
+| `landfill_id` | `string` | ❌ | — |
 | `coin` | `integer` | ❌ | — |
 | `type` | `string` | ✅ | — |
-| `pickup_date` | `string` | ✅ | — |
-| `images` | `object` | ❌ | — |
 
 #### Example cURL
 
@@ -1216,10 +1216,10 @@ User addresses
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| `main` | `boolean` | ❌ | — |
-| `address` | `string` | ✅ | — |
 | `label` | `string` | ✅ | — |
+| `main` | `boolean` | ❌ | — |
 | `phone_number` | `string` | ✅ | — |
+| `address` | `string` | ✅ | — |
 
 #### Example cURL
 

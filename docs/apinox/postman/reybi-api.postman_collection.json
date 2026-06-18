@@ -19,75 +19,7 @@
     {
       "item": [
         {
-          "name": "Create address (auth required)",
-          "request": {
-            "body": {
-              "mode": "raw",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              },
-              "raw": "{\n  \"address\": \"{$randomWord}\",\n  \"label\": \"{$randomWord}\",\n  \"main\": \"true\",\n  \"phone_number\": \"{{$randomPhoneNumber}}\"\n}"
-            },
-            "header": [],
-            "method": "POST",
-            "url": {
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "addresses",
-                "user",
-                "{user_id}"
-              ],
-              "protocol": "https",
-              "raw": "{{base_url}}/addresses/user/{user_id}",
-              "variable": [
-                {
-                  "description": "",
-                  "key": "user_id",
-                  "value": ":user_id"
-                }
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Update address (auth required)",
-          "request": {
-            "header": [],
-            "method": "PUT",
-            "url": {
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "addresses",
-                "user",
-                "{user_id}"
-              ],
-              "protocol": "https",
-              "raw": "{{base_url}}/addresses/user/{user_id}",
-              "variable": [
-                {
-                  "description": "",
-                  "key": "user_id",
-                  "value": ":user_id"
-                }
-              ]
-            }
-          },
-          "response": []
-        }
-      ],
-      "name": "addresses"
-    },
-    {
-      "item": [
-        {
-          "name": "List banners by type",
+          "name": "Get seller products",
           "request": {
             "header": [],
             "method": "GET",
@@ -96,62 +28,9 @@
                 "{{base_url}}"
               ],
               "path": [
-                "banners",
-                "type",
-                "{type}"
-              ],
-              "protocol": "https",
-              "raw": "{{base_url}}/banners/type/{type}",
-              "variable": [
-                {
-                  "description": "",
-                  "key": "type",
-                  "value": ":type"
-                }
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Create banner",
-          "request": {
-            "body": {
-              "mode": "raw",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              },
-              "raw": "{\n  \"image\": \"{$randomWord}\",\n  \"type\": \"{$randomWord}\"\n}"
-            },
-            "header": [],
-            "method": "POST",
-            "url": {
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "banners",
-                "create"
-              ],
-              "protocol": "https",
-              "raw": "{{base_url}}/banners/create"
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "List all banners (public)",
-          "request": {
-            "header": [],
-            "method": "GET",
-            "url": {
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "banners"
+                "sallers",
+                "products",
+                "{id}"
               ],
               "protocol": "https",
               "query": [
@@ -166,20 +45,20 @@
                   "value": "25"
                 }
               ],
-              "raw": "{{base_url}}/banners"
+              "raw": "{{base_url}}/sallers/products/{id}",
+              "variable": [
+                {
+                  "description": "",
+                  "key": "id",
+                  "value": ":id"
+                }
+              ]
             }
           },
-          "response": [
-            {
-              "code": 200,
-              "name": "200 Banners",
-              "originalRequest": {},
-              "status": "OK"
-            }
-          ]
+          "response": []
         }
       ],
-      "name": "banners"
+      "name": "sallers"
     },
     {
       "item": [
@@ -332,92 +211,7 @@
     {
       "item": [
         {
-          "name": "Update trash type (admin)",
-          "request": {
-            "header": [],
-            "method": "PUT",
-            "url": {
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "trash",
-                "type",
-                "{id}"
-              ],
-              "protocol": "https",
-              "raw": "{{base_url}}/trash/type/{id}",
-              "variable": [
-                {
-                  "description": "",
-                  "key": "id",
-                  "value": ":id"
-                }
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Delete trash type (admin)",
-          "request": {
-            "header": [],
-            "method": "DELETE",
-            "url": {
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "trash",
-                "type",
-                "{id}"
-              ],
-              "protocol": "https",
-              "raw": "{{base_url}}/trash/type/{id}",
-              "variable": [
-                {
-                  "description": "",
-                  "key": "id",
-                  "value": ":id"
-                }
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "List trash types (public)",
-          "request": {
-            "header": [],
-            "method": "GET",
-            "url": {
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "trash",
-                "types"
-              ],
-              "protocol": "https",
-              "query": [
-                {
-                  "description": "",
-                  "key": "cursor",
-                  "value": ""
-                },
-                {
-                  "description": "",
-                  "key": "limit",
-                  "value": "25"
-                }
-              ],
-              "raw": "{{base_url}}/trash/types"
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Create trash type (admin)",
+          "name": "Register new user",
           "request": {
             "body": {
               "mode": "raw",
@@ -426,7 +220,7 @@
                   "language": "json"
                 }
               },
-              "raw": "{\n  \"image\": \"{$randomWord}\",\n  \"name\": \"{{$randomFullName}}\"\n}"
+              "raw": "{\n  \"email\": \"{{$randomEmail}}\",\n  \"name\": \"{{$randomFullName}}\",\n  \"password\": \"{{$randomWords}}\"\n}"
             },
             "header": [],
             "method": "POST",
@@ -435,96 +229,17 @@
                 "{{base_url}}"
               ],
               "path": [
-                "trash",
-                "types"
+                "auth",
+                "register"
               ],
               "protocol": "https",
-              "raw": "{{base_url}}/trash/types"
-            }
-          },
-          "response": []
-        }
-      ],
-      "name": "trash"
-    },
-    {
-      "item": [
-        {
-          "name": "Get seller products",
-          "request": {
-            "header": [],
-            "method": "GET",
-            "url": {
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "sallers",
-                "products",
-                "{id}"
-              ],
-              "protocol": "https",
-              "query": [
-                {
-                  "description": "",
-                  "key": "cursor",
-                  "value": ""
-                },
-                {
-                  "description": "",
-                  "key": "limit",
-                  "value": "25"
-                }
-              ],
-              "raw": "{{base_url}}/sallers/products/{id}",
-              "variable": [
-                {
-                  "description": "",
-                  "key": "id",
-                  "value": ":id"
-                }
-              ]
-            }
-          },
-          "response": []
-        }
-      ],
-      "name": "sallers"
-    },
-    {
-      "item": [
-        {
-          "name": "List landfills (public)",
-          "request": {
-            "header": [],
-            "method": "GET",
-            "url": {
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "landfills"
-              ],
-              "protocol": "https",
-              "query": [
-                {
-                  "description": "",
-                  "key": "cursor",
-                  "value": ""
-                },
-                {
-                  "description": "",
-                  "key": "limit",
-                  "value": "25"
-                }
-              ],
-              "raw": "{{base_url}}/landfills"
+              "raw": "{{base_url}}/auth/register"
             }
           },
           "response": []
         },
         {
-          "name": "Create landfill (admin)",
+          "name": "Request password reset",
           "request": {
             "body": {
               "mode": "raw",
@@ -533,7 +248,7 @@
                   "language": "json"
                 }
               },
-              "raw": "{\n  \"address\": \"{$randomWord}\",\n  \"name\": \"{{$randomFullName}}\"\n}"
+              "raw": "{\n  \"email\": \"{{$randomEmail}}\"\n}"
             },
             "header": [],
             "method": "POST",
@@ -542,103 +257,17 @@
                 "{{base_url}}"
               ],
               "path": [
-                "landfills"
+                "auth",
+                "reset-password"
               ],
               "protocol": "https",
-              "raw": "{{base_url}}/landfills"
+              "raw": "{{base_url}}/auth/reset-password"
             }
           },
           "response": []
         },
         {
-          "name": "Update landfill (admin)",
-          "request": {
-            "header": [],
-            "method": "PUT",
-            "url": {
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "landfills",
-                "{id}"
-              ],
-              "protocol": "https",
-              "raw": "{{base_url}}/landfills/{id}",
-              "variable": [
-                {
-                  "description": "",
-                  "key": "id",
-                  "value": ":id"
-                }
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Delete landfill (admin)",
-          "request": {
-            "header": [],
-            "method": "DELETE",
-            "url": {
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "landfills",
-                "{id}"
-              ],
-              "protocol": "https",
-              "raw": "{{base_url}}/landfills/{id}",
-              "variable": [
-                {
-                  "description": "",
-                  "key": "id",
-                  "value": ":id"
-                }
-              ]
-            }
-          },
-          "response": []
-        }
-      ],
-      "name": "landfills"
-    },
-    {
-      "item": [
-        {
-          "name": "List all deposites (admin)",
-          "request": {
-            "header": [],
-            "method": "GET",
-            "url": {
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "deposites"
-              ],
-              "protocol": "https",
-              "query": [
-                {
-                  "description": "",
-                  "key": "cursor",
-                  "value": ""
-                },
-                {
-                  "description": "",
-                  "key": "limit",
-                  "value": "25"
-                }
-              ],
-              "raw": "{{base_url}}/deposites"
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Create deposite (auth required)",
+          "name": "Login (Firebase token → JWT)",
           "request": {
             "body": {
               "mode": "raw",
@@ -647,7 +276,7 @@
                   "language": "json"
                 }
               },
-              "raw": "{\n  \"address_id\": \"{$randomWord}\",\n  \"coin\": \"{{$randomInt}}\",\n  \"garbage_type\": [\n    \"item1\",\n    \"item2\"\n  ],\n  \"images\": \"{$randomWord}\",\n  \"landfill_id\": \"{$randomWord}\",\n  \"pickup_date\": \"{$randomWord}\",\n  \"pickup_time\": \"{$randomWord}\",\n  \"type\": \"{$randomWord}\"\n}"
+              "raw": "{}"
             },
             "header": [],
             "method": "POST",
@@ -656,42 +285,83 @@
                 "{{base_url}}"
               ],
               "path": [
-                "deposites"
+                "auth"
               ],
               "protocol": "https",
-              "raw": "{{base_url}}/deposites"
+              "raw": "{{base_url}}/auth"
             }
           },
-          "response": []
-        },
+          "response": [
+            {
+              "code": 200,
+              "name": "200 JWT tokens + user data",
+              "originalRequest": {},
+              "status": "OK"
+            }
+          ]
+        }
+      ],
+      "name": "auth"
+    },
+    {
+      "item": [
         {
-          "name": "Get user deposites",
+          "name": "Create address (auth required)",
           "request": {
+            "body": {
+              "mode": "raw",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              },
+              "raw": "{\n  \"address\": \"{$randomWord}\",\n  \"label\": \"{$randomWord}\",\n  \"main\": \"true\",\n  \"phone_number\": \"{{$randomPhoneNumber}}\"\n}"
+            },
             "header": [],
-            "method": "GET",
+            "method": "POST",
             "url": {
               "host": [
                 "{{base_url}}"
               ],
               "path": [
-                "deposites",
+                "addresses",
                 "user",
-                "{id}"
+                "{user_id}"
               ],
               "protocol": "https",
-              "query": [
-                {
-                  "description": "",
-                  "key": "cursor",
-                  "value": ""
-                }
-              ],
-              "raw": "{{base_url}}/deposites/user/{id}",
+              "raw": "{{base_url}}/addresses/user/{user_id}",
               "variable": [
                 {
                   "description": "",
-                  "key": "id",
-                  "value": ":id"
+                  "key": "user_id",
+                  "value": ":user_id"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update address (auth required)",
+          "request": {
+            "header": [],
+            "method": "PUT",
+            "url": {
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "addresses",
+                "user",
+                "{user_id}"
+              ],
+              "protocol": "https",
+              "raw": "{{base_url}}/addresses/user/{user_id}",
+              "variable": [
+                {
+                  "description": "",
+                  "key": "user_id",
+                  "value": ":user_id"
                 }
               ]
             }
@@ -699,7 +369,7 @@
           "response": []
         }
       ],
-      "name": "deposites"
+      "name": "addresses"
     },
     {
       "item": [
@@ -948,6 +618,210 @@
     {
       "item": [
         {
+          "name": "Get user cart",
+          "request": {
+            "header": [],
+            "method": "GET",
+            "url": {
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "carts",
+                "user",
+                "{user_id}"
+              ],
+              "protocol": "https",
+              "query": [
+                {
+                  "description": "",
+                  "key": "cursor",
+                  "value": ""
+                },
+                {
+                  "description": "",
+                  "key": "limit",
+                  "value": "25"
+                }
+              ],
+              "raw": "{{base_url}}/carts/user/{user_id}",
+              "variable": [
+                {
+                  "description": "",
+                  "key": "user_id",
+                  "value": ":user_id"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Add item to cart",
+          "request": {
+            "body": {
+              "mode": "raw",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              },
+              "raw": "{\n  \"product_id\": \"{$randomWord}\",\n  \"quantity\": \"{{$randomInt}}\",\n  \"variant_id\": \"{$randomWord}\"\n}"
+            },
+            "header": [],
+            "method": "POST",
+            "url": {
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "carts",
+                "user",
+                "{user_id}"
+              ],
+              "protocol": "https",
+              "raw": "{{base_url}}/carts/user/{user_id}",
+              "variable": [
+                {
+                  "description": "",
+                  "key": "user_id",
+                  "value": ":user_id"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Remove cart item",
+          "request": {
+            "header": [],
+            "method": "DELETE",
+            "url": {
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "carts",
+                "item",
+                "{id}"
+              ],
+              "protocol": "https",
+              "raw": "{{base_url}}/carts/item/{id}",
+              "variable": [
+                {
+                  "description": "",
+                  "key": "id",
+                  "value": ":id"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ],
+      "name": "carts"
+    },
+    {
+      "item": [
+        {
+          "name": "List banners by type",
+          "request": {
+            "header": [],
+            "method": "GET",
+            "url": {
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "banners",
+                "type",
+                "{type}"
+              ],
+              "protocol": "https",
+              "raw": "{{base_url}}/banners/type/{type}",
+              "variable": [
+                {
+                  "description": "",
+                  "key": "type",
+                  "value": ":type"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create banner",
+          "request": {
+            "body": {
+              "mode": "raw",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              },
+              "raw": "{\n  \"image\": \"{$randomWord}\",\n  \"type\": \"{$randomWord}\"\n}"
+            },
+            "header": [],
+            "method": "POST",
+            "url": {
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "banners",
+                "create"
+              ],
+              "protocol": "https",
+              "raw": "{{base_url}}/banners/create"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "List all banners (public)",
+          "request": {
+            "header": [],
+            "method": "GET",
+            "url": {
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "banners"
+              ],
+              "protocol": "https",
+              "query": [
+                {
+                  "description": "",
+                  "key": "cursor",
+                  "value": ""
+                },
+                {
+                  "description": "",
+                  "key": "limit",
+                  "value": "25"
+                }
+              ],
+              "raw": "{{base_url}}/banners"
+            }
+          },
+          "response": [
+            {
+              "code": 200,
+              "name": "200 Banners",
+              "originalRequest": {},
+              "status": "OK"
+            }
+          ]
+        }
+      ],
+      "name": "banners"
+    },
+    {
+      "item": [
+        {
           "name": "List all orders (admin)",
           "request": {
             "header": [],
@@ -1079,113 +953,6 @@
     {
       "item": [
         {
-          "name": "Get user cart",
-          "request": {
-            "header": [],
-            "method": "GET",
-            "url": {
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "carts",
-                "user",
-                "{user_id}"
-              ],
-              "protocol": "https",
-              "query": [
-                {
-                  "description": "",
-                  "key": "cursor",
-                  "value": ""
-                },
-                {
-                  "description": "",
-                  "key": "limit",
-                  "value": "25"
-                }
-              ],
-              "raw": "{{base_url}}/carts/user/{user_id}",
-              "variable": [
-                {
-                  "description": "",
-                  "key": "user_id",
-                  "value": ":user_id"
-                }
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Add item to cart",
-          "request": {
-            "body": {
-              "mode": "raw",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              },
-              "raw": "{\n  \"product_id\": \"{$randomWord}\",\n  \"quantity\": \"{{$randomInt}}\",\n  \"variant_id\": \"{$randomWord}\"\n}"
-            },
-            "header": [],
-            "method": "POST",
-            "url": {
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "carts",
-                "user",
-                "{user_id}"
-              ],
-              "protocol": "https",
-              "raw": "{{base_url}}/carts/user/{user_id}",
-              "variable": [
-                {
-                  "description": "",
-                  "key": "user_id",
-                  "value": ":user_id"
-                }
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Remove cart item",
-          "request": {
-            "header": [],
-            "method": "DELETE",
-            "url": {
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "carts",
-                "item",
-                "{id}"
-              ],
-              "protocol": "https",
-              "raw": "{{base_url}}/carts/item/{id}",
-              "variable": [
-                {
-                  "description": "",
-                  "key": "id",
-                  "value": ":id"
-                }
-              ]
-            }
-          },
-          "response": []
-        }
-      ],
-      "name": "carts"
-    },
-    {
-      "item": [
-        {
           "name": "Update review (auth required)",
           "request": {
             "body": {
@@ -1253,63 +1020,92 @@
     {
       "item": [
         {
-          "name": "Register new user",
+          "name": "Update trash type (admin)",
           "request": {
-            "body": {
-              "mode": "raw",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              },
-              "raw": "{\n  \"email\": \"{{$randomEmail}}\",\n  \"name\": \"{{$randomFullName}}\",\n  \"password\": \"{{$randomWords}}\"\n}"
-            },
             "header": [],
-            "method": "POST",
+            "method": "PUT",
             "url": {
               "host": [
                 "{{base_url}}"
               ],
               "path": [
-                "auth",
-                "register"
+                "trash",
+                "type",
+                "{id}"
               ],
               "protocol": "https",
-              "raw": "{{base_url}}/auth/register"
+              "raw": "{{base_url}}/trash/type/{id}",
+              "variable": [
+                {
+                  "description": "",
+                  "key": "id",
+                  "value": ":id"
+                }
+              ]
             }
           },
           "response": []
         },
         {
-          "name": "Request password reset",
+          "name": "Delete trash type (admin)",
           "request": {
-            "body": {
-              "mode": "raw",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              },
-              "raw": "{\n  \"email\": \"{{$randomEmail}}\"\n}"
-            },
             "header": [],
-            "method": "POST",
+            "method": "DELETE",
             "url": {
               "host": [
                 "{{base_url}}"
               ],
               "path": [
-                "auth",
-                "reset-password"
+                "trash",
+                "type",
+                "{id}"
               ],
               "protocol": "https",
-              "raw": "{{base_url}}/auth/reset-password"
+              "raw": "{{base_url}}/trash/type/{id}",
+              "variable": [
+                {
+                  "description": "",
+                  "key": "id",
+                  "value": ":id"
+                }
+              ]
             }
           },
           "response": []
         },
         {
-          "name": "Login (Firebase token → JWT)",
+          "name": "List trash types (public)",
+          "request": {
+            "header": [],
+            "method": "GET",
+            "url": {
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "trash",
+                "types"
+              ],
+              "protocol": "https",
+              "query": [
+                {
+                  "description": "",
+                  "key": "cursor",
+                  "value": ""
+                },
+                {
+                  "description": "",
+                  "key": "limit",
+                  "value": "25"
+                }
+              ],
+              "raw": "{{base_url}}/trash/types"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create trash type (admin)",
           "request": {
             "body": {
               "mode": "raw",
@@ -1318,7 +1114,7 @@
                   "language": "json"
                 }
               },
-              "raw": "{}"
+              "raw": "{\n  \"image\": \"{$randomWord}\",\n  \"name\": \"{{$randomFullName}}\"\n}"
             },
             "header": [],
             "method": "POST",
@@ -1327,23 +1123,17 @@
                 "{{base_url}}"
               ],
               "path": [
-                "auth"
+                "trash",
+                "types"
               ],
               "protocol": "https",
-              "raw": "{{base_url}}/auth"
+              "raw": "{{base_url}}/trash/types"
             }
           },
-          "response": [
-            {
-              "code": 200,
-              "name": "200 JWT tokens + user data",
-              "originalRequest": {},
-              "status": "OK"
-            }
-          ]
+          "response": []
         }
       ],
-      "name": "auth"
+      "name": "trash"
     },
     {
       "item": [
@@ -1410,6 +1200,216 @@
         }
       ],
       "name": "profile"
+    },
+    {
+      "item": [
+        {
+          "name": "List all deposites (admin)",
+          "request": {
+            "header": [],
+            "method": "GET",
+            "url": {
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "deposites"
+              ],
+              "protocol": "https",
+              "query": [
+                {
+                  "description": "",
+                  "key": "cursor",
+                  "value": ""
+                },
+                {
+                  "description": "",
+                  "key": "limit",
+                  "value": "25"
+                }
+              ],
+              "raw": "{{base_url}}/deposites"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create deposite (auth required)",
+          "request": {
+            "body": {
+              "mode": "raw",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              },
+              "raw": "{\n  \"address_id\": \"{$randomWord}\",\n  \"coin\": \"{{$randomInt}}\",\n  \"garbage_type\": [\n    \"item1\",\n    \"item2\"\n  ],\n  \"images\": \"{$randomWord}\",\n  \"landfill_id\": \"{$randomWord}\",\n  \"pickup_date\": \"{$randomWord}\",\n  \"pickup_time\": \"{$randomWord}\",\n  \"type\": \"{$randomWord}\"\n}"
+            },
+            "header": [],
+            "method": "POST",
+            "url": {
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "deposites"
+              ],
+              "protocol": "https",
+              "raw": "{{base_url}}/deposites"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get user deposites",
+          "request": {
+            "header": [],
+            "method": "GET",
+            "url": {
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "deposites",
+                "user",
+                "{id}"
+              ],
+              "protocol": "https",
+              "query": [
+                {
+                  "description": "",
+                  "key": "cursor",
+                  "value": ""
+                }
+              ],
+              "raw": "{{base_url}}/deposites/user/{id}",
+              "variable": [
+                {
+                  "description": "",
+                  "key": "id",
+                  "value": ":id"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ],
+      "name": "deposites"
+    },
+    {
+      "item": [
+        {
+          "name": "List landfills (public)",
+          "request": {
+            "header": [],
+            "method": "GET",
+            "url": {
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "landfills"
+              ],
+              "protocol": "https",
+              "query": [
+                {
+                  "description": "",
+                  "key": "cursor",
+                  "value": ""
+                },
+                {
+                  "description": "",
+                  "key": "limit",
+                  "value": "25"
+                }
+              ],
+              "raw": "{{base_url}}/landfills"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create landfill (admin)",
+          "request": {
+            "body": {
+              "mode": "raw",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              },
+              "raw": "{\n  \"address\": \"{$randomWord}\",\n  \"name\": \"{{$randomFullName}}\"\n}"
+            },
+            "header": [],
+            "method": "POST",
+            "url": {
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "landfills"
+              ],
+              "protocol": "https",
+              "raw": "{{base_url}}/landfills"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update landfill (admin)",
+          "request": {
+            "header": [],
+            "method": "PUT",
+            "url": {
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "landfills",
+                "{id}"
+              ],
+              "protocol": "https",
+              "raw": "{{base_url}}/landfills/{id}",
+              "variable": [
+                {
+                  "description": "",
+                  "key": "id",
+                  "value": ":id"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete landfill (admin)",
+          "request": {
+            "header": [],
+            "method": "DELETE",
+            "url": {
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "landfills",
+                "{id}"
+              ],
+              "protocol": "https",
+              "raw": "{{base_url}}/landfills/{id}",
+              "variable": [
+                {
+                  "description": "",
+                  "key": "id",
+                  "value": ":id"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ],
+      "name": "landfills"
     }
   ],
   "variable": []

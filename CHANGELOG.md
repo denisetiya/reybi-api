@@ -8,6 +8,9 @@
 - **Apinox schema** (`docs/apinox-schema.yml`) — imported from OpenAPI 3.0 for multi-format doc generation
 - Cursor params on all 11 list endpoints in OpenAPI schema
 - **profile/dto.rs** — `UpdateProfileRequest` struct (was missing from module restructure)
+- **i18n documentation** in README — switch language via `?locale=id` or `Accept-Language: id` header
+- **i18n message catalog** — 25+ EN/ID locale keys in `src/i18n/messages.rs`
+- **i18n middleware** — `common::locale::locale_middleware` extracts locale from request
 
 ### Changed
 - **Apinox docs regenerated** — tutorial embedded in Markdown, Scalar, OpenAPI, Postman, Insomnia, Hurl outputs
@@ -15,6 +18,8 @@
 - **Removed unused deps**: `rand`, `image`, `urlencoding`, `mime_guess` — no code references
 - **Removed dead module**: `src/dto` reference in lib.rs (superseded by per-module dto)
 - **cargo update** — 62 transitive crates removed from lockfile
+- **i18n: response builders** now accept `locale` param (`ok()`, `ok_paginated()`, `message()`)
+- **i18n: locale middleware** — `common::locale` module with Accept-Language header + `?locale=` query param support
 
 ### Fixed
 - **clippy `manual_clamp`** — `.min(100).max(1)` → `.clamp(1, 100)` in pagination.rs + product/service.rs

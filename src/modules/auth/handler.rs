@@ -11,7 +11,7 @@ pub async fn login(
     let token = extract_bearer_token(&headers)
         .ok_or(crate::errors::AppError::Unauthorized)?;
     let response = AuthService::login(&state.db, &state.config, &token).await?;
-    Ok(Json(crate::common::response::ok(response)))
+    Ok(Json(crate::common::response::ok(response, "en")))
 }
 
 pub async fn register(

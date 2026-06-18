@@ -365,6 +365,74 @@ Every file ≤ 500 lines. Use `wc -l src/**/*.rs` to verify.
 
 ---
 
+## Internationalization (i18n)
+
+API supports **English (EN)** and **Bahasa Indonesia (ID)** responses.
+
+### Switch Language
+
+Priority order:
+1. **Query param** `?locale=id` (highest priority)
+2. **Header** `Accept-Language: id`
+3. **Default** → English (`en`)
+
+### Example
+
+```bash
+# English (default)
+curl https://api.example.com/v1/products
+
+# Indonesian via query param
+curl https://api.example.com/v1/products?locale=id
+
+# Indonesian via header
+curl -H "Accept-Language: id" https://api.example.com/v1/products
+```
+
+### Response Format
+
+```json
+{
+  "success": true,
+  "data": [...],
+  "meta": { "locale": "id" }
+}
+```
+
+### Error Response (ID)
+
+```json
+{
+  "success": false,
+  "error": {
+    "code": "VALIDATION_ERROR",
+    "message": "Validasi gagal",
+    "details": []
+  },
+  "meta": { "locale": "id" }
+}
+```
+
+### Available Keys (25+)
+
+| Key | EN | ID |
+|-----|----|----|
+| VALIDATION_ERROR | Validation failed | Validasi gagal |
+| NOT_FOUND | Resource not found | Sumber daya tidak ditemukan |
+| UNAUTHORIZED | Authentication required | Autentikasi diperlukan |
+| FORBIDDEN | Access denied | Akses ditolak |
+| CONFLICT | Resource conflict | Konflik sumber daya |
+| RATE_LIMITED | Too many requests | Terlalu banyak permintaan |
+| INTERNAL_ERROR | Internal server error | Kesalahan server internal |
+| TOKEN_EXPIRED | Invalid or expired token | Token tidak valid atau kedaluwarsa |
+| TOKEN_MISSING | Access token not provided | Token akses tidak disediakan |
+| PRODUCT_NOT_FOUND | Product not found | Produk tidak ditemukan |
+| ORDER_NOT_FOUND | Order not found | Pesanan tidak ditemukan |
+| REGISTER_SUCCESS | Registration successful | Pendaftaran berhasil |
+| PAYMENT_PENDING | Payment is pending | Pembayaran sedang diproses |
+
+---
+
 ## Changelog
 
 See [CHANGELOG.md](./CHANGELOG.md)

@@ -11,7 +11,7 @@ pub async fn list(
     let limit = pq.take();
     let banners = BannerService::list(&state.db, None, limit).await?;
     let (data, cursor, has_more) = paginate(&banners, limit);
-    Ok(Json(ok_paginated(data, cursor, has_more)))
+    Ok(Json(ok_paginated(data, cursor, has_more, "en")))
 }
 
 pub async fn list_by_type(
@@ -22,7 +22,7 @@ pub async fn list_by_type(
     let limit = pq.take();
     let banners = BannerService::list(&state.db, Some(&r#type), limit).await?;
     let (data, cursor, has_more) = paginate(&banners, limit);
-    Ok(Json(ok_paginated(data, cursor, has_more)))
+    Ok(Json(ok_paginated(data, cursor, has_more, "en")))
 }
 
 pub async fn create(
@@ -30,5 +30,5 @@ pub async fn create(
     Json(body): Json<CreateBannerRequest>,
 ) -> AppResult<Json<serde_json::Value>> {
     let banner = BannerService::create(&state.db, &body.image, body.r#type.as_deref()).await?;
-    Ok(Json(ok(banner)))
+    Ok(Json(ok(banner, "en")))
 }

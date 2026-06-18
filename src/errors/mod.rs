@@ -59,7 +59,7 @@ impl IntoResponse for AppError {
             AppError::Validation(d) => (
                 StatusCode::BAD_REQUEST,
                 "VALIDATION_ERROR",
-                "Validation failed".to_string(),
+                crate::i18n::messages::t("en", "VALIDATION_ERROR"),
                 d,
             ),
             AppError::NotFound(m) => (
@@ -71,7 +71,7 @@ impl IntoResponse for AppError {
             AppError::Unauthorized => (
                 StatusCode::UNAUTHORIZED,
                 "UNAUTHORIZED",
-                "Authentication required".to_string(),
+                crate::i18n::messages::t("en", "UNAUTHORIZED"),
                 vec![],
             ),
             AppError::Forbidden(m) => (
@@ -89,7 +89,7 @@ impl IntoResponse for AppError {
             AppError::RateLimited => (
                 StatusCode::TOO_MANY_REQUESTS,
                 "RATE_LIMITED",
-                "Too many requests".to_string(),
+                crate::i18n::messages::t("en", "RATE_LIMITED"),
                 vec![],
             ),
             AppError::Internal(e) => {
@@ -97,7 +97,7 @@ impl IntoResponse for AppError {
                 (
                     StatusCode::INTERNAL_SERVER_ERROR,
                     "INTERNAL_ERROR",
-                    "Internal server error".to_string(),
+                    crate::i18n::messages::t("en", "INTERNAL_ERROR"),
                     vec![],
                 )
             }

@@ -130,18 +130,18 @@ paths:
             schema:
               type: object
               properties:
-                main:
-                  type: boolean
-                address:
-                  type: string
                 label:
                   type: string
+                main:
+                  type: boolean
                 phone_number:
                   type: string
+                address:
+                  type: string
               required:
-              - address
               - label
               - phone_number
+              - address
     put:
       operationId: put-addresses-user-{user_id}
       summary: Update address (auth required)
@@ -304,28 +304,28 @@ paths:
             schema:
               type: object
               properties:
-                landfill_id:
-                  type: string
                 address_id:
-                  type: string
-                pickup_time:
                   type: string
                 garbage_type:
                   type: array
+                images:
+                  type: object
+                pickup_date:
+                  type: string
+                pickup_time:
+                  type: string
+                landfill_id:
+                  type: string
                 coin:
                   type: integer
                 type:
                   type: string
-                pickup_date:
-                  type: string
-                images:
-                  type: object
               required:
               - address_id
-              - pickup_time
               - garbage_type
-              - type
               - pickup_date
+              - pickup_time
+              - type
   /profile/{email}:
     get:
       operationId: get-profile-{email}
@@ -355,11 +355,11 @@ paths:
             schema:
               type: object
               properties:
-                phone_number:
+                role:
                   type: string
                 name:
                   type: string
-                role:
+                phone_number:
                   type: string
                 photo_url:
                   type: string
@@ -588,17 +588,17 @@ paths:
             schema:
               type: object
               properties:
-                product_id:
-                  type: string
                 quantity:
                   type: integer
-                coin:
-                  type: integer
+                product_id:
+                  type: string
                 payment:
                   type: object
+                coin:
+                  type: integer
               required:
-              - product_id
               - quantity
+              - product_id
               - payment
   /products/variant/{id}:
     post:
@@ -618,10 +618,10 @@ paths:
             schema:
               type: object
               properties:
-                image:
-                  type: string
                 stock:
                   type: integer
+                image:
+                  type: string
                 name:
                   type: string
                 price:
@@ -645,35 +645,35 @@ paths:
             schema:
               type: object
               properties:
-                saller_id:
-                  type: string
-                price:
-                  type: integer
-                stock:
+                discount:
                   type: integer
                 thumbnail:
                   type: string
-                location:
-                  type: string
-                category:
-                  type: string
-                discount:
-                  type: integer
                 images:
                   type: object
+                coin:
+                  type: integer
                 description:
+                  type: string
+                price:
+                  type: integer
+                saller_id:
+                  type: string
+                stock:
+                  type: integer
+                category:
                   type: string
                 recommended:
                   type: boolean
-                coin:
-                  type: integer
+                location:
+                  type: string
                 name:
                   type: string
               required:
+              - description
               - price
               - stock
               - category
-              - description
               - name
       responses:
         '201':
@@ -736,16 +736,16 @@ paths:
             schema:
               type: object
               properties:
-                thumbnail:
+                header:
                   type: string
                 content:
                   type: string
-                header:
+                thumbnail:
                   type: string
               required:
-              - thumbnail
-              - content
               - header
+              - content
+              - thumbnail
   /reviews:
     post:
       operationId: post-reviews
@@ -758,18 +758,18 @@ paths:
             schema:
               type: object
               properties:
-                comment:
-                  type: string
-                product_id:
-                  type: string
                 images:
                   type: object
                 rating:
                   type: integer
+                comment:
+                  type: string
+                product_id:
+                  type: string
               required:
+              - rating
               - comment
               - product_id
-              - rating
   /auth/reset-password:
     post:
       operationId: post-auth-reset-password
@@ -865,9 +865,9 @@ paths:
             schema:
               type: object
               properties:
-                image:
-                  type: string
                 type:
+                  type: string
+                image:
                   type: string
               required:
               - image

@@ -14,11 +14,11 @@ pub struct PaginationMeta {
     pub count: usize,
 }
 
-pub fn ok<T: Serialize>(data: T) -> serde_json::Value {
+pub fn ok<T: Serialize>(data: T, locale: &str) -> serde_json::Value {
     serde_json::json!({
         "success": true,
         "data": data,
-        "meta": { "locale": "en" }
+        "meta": { "locale": locale }
     })
 }
 
@@ -26,12 +26,13 @@ pub fn ok_paginated<T: Serialize>(
     data: Vec<T>,
     cursor: Option<String>,
     has_more: bool,
+    locale: &str,
 ) -> serde_json::Value {
     serde_json::json!({
         "success": true,
         "data": data,
         "meta": {
-            "locale": "en",
+            "locale": locale,
             "pagination": {
                 "cursor": cursor,
                 "has_more": has_more,
@@ -41,10 +42,10 @@ pub fn ok_paginated<T: Serialize>(
     })
 }
 
-pub fn message(msg: &str) -> serde_json::Value {
+pub fn message(msg: &str, locale: &str) -> serde_json::Value {
     serde_json::json!({
         "success": true,
         "message": msg,
-        "meta": { "locale": "en" }
+        "meta": { "locale": locale }
     })
 }
