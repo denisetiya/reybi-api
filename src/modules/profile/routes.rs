@@ -1,7 +1,9 @@
-use axum::{routing::{get, put}, Router};
+use axum::{routing::get, Router};
 use crate::config::AppState;
 use super::handler;
 
 pub fn routes() -> Router<AppState> {
-    Router::new().route("/:email", get(handler::get).put(handler::update))
+    Router::new()
+        .route("/:email", get(handler::get))
+        .route("/:email", axum::routing::put(handler::update))
 }

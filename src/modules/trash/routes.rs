@@ -1,10 +1,11 @@
-use axum::{routing::{get, post, put, delete}, Router};
+use axum::{routing::get, Router};
 use crate::config::AppState;
 use super::handler;
 
 pub fn routes() -> Router<AppState> {
     Router::new()
         .route("/types", get(handler::list))
-        .route("/type", post(handler::create))
-        .route("/type/:id", put(handler::update).delete(handler::delete))
+        .route("/type", axum::routing::post(handler::create))
+        .route("/type/:id", axum::routing::put(handler::update))
+        .route("/type/:id", axum::routing::delete(handler::delete))
 }
