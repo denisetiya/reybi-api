@@ -202,10 +202,26 @@ jobs:
           envs: IMAGE,IMAGE_LOCAL,API_PORT,POSTGRES_USER,POSTGRES_PASSWORD,POSTGRES_DB,REDIS_HOST,REDIS_PASSWORD,KEY_SERVER,JWT_ACCESS_SECRET,JWT_REFRESH_SECRET,FIREBASE_PROJECT_ID,MIDTRANS_SERVER_KEY,MIDTRANS_CLIENT_KEY,MIDTRANS_IS_PRODUCTION,CLOUDFLARE_TUNNEL_TOKEN,RUN_SEED,GITHUB_TOKEN
           script: |
             set -euo pipefail
-            # default IMAGE if runner didn't forward it (avoids `set -u` crash)
+            # defaults for vars that may be missing from GH secrets
             IMAGE="${IMAGE:-reybi-api:local}"
-            # default API_PORT if not forwarded
+            IMAGE_LOCAL="${IMAGE_LOCAL:-reybi-api:local}"
             API_PORT="${API_PORT:-3000}"
+            POSTGRES_USER="${POSTGRES_USER:-reybi_app}"
+            POSTGRES_PASSWORD="${POSTGRES_PASSWORD:-}"
+            POSTGRES_DB="${POSTGRES_DB:-reybi}"
+            REDIS_HOST="${REDIS_HOST:-infra-redis}"
+            REDIS_PASSWORD="${REDIS_PASSWORD:-}"
+            KEY_SERVER="${KEY_SERVER:-change-me}"
+            JWT_ACCESS_SECRET="${JWT_ACCESS_SECRET:-}"
+            JWT_REFRESH_SECRET="${JWT_REFRESH_SECRET:-}"
+            FIREBASE_PROJECT_ID="${FIREBASE_PROJECT_ID:-}"
+            MIDTRANS_SERVER_KEY="${MIDTRANS_SERVER_KEY:-}"
+            MIDTRANS_CLIENT_KEY="${MIDTRANS_CLIENT_KEY:-}"
+            MIDTRANS_IS_PRODUCTION="${MIDTRANS_IS_PRODUCTION:-false}"
+            CLOUDFLARE_TUNNEL_TOKEN="${CLOUDFLARE_TUNNEL_TOKEN:-}"
+            RUN_SEED="${RUN_SEED:-false}"
+            GHCR_PAT="${GHCR_PAT:-}"
+            GITHUB_TOKEN="${GITHUB_TOKEN:-}"
             DEPLOY_PATH="${{ secrets.DEPLOY_PATH }}"
             cd "$DEPLOY_PATH"
 
