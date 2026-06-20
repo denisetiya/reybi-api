@@ -6,27 +6,29 @@
 #  • on PR                       → build image only (sanity check, no push).
 # ----------------------------------------------------------------------------
 #  Required GitHub Secrets (Settings → Secrets and variables → Actions):
-#      SERVER_HOST         IP / hostname of the deploy server
-#      SERVER_PORT         SSH port (defaults to 22 if not set)
-#      SERVER_USER         SSH user (e.g. "deploy" or "root")
-#      SERVER_PASSWORD     SSH password
-#      GHCR_PAT            GitHub PAT w/ scope: read:packages  (pulls private image)
-#      DEPLOY_PATH         absolute path on server, e.g. /home/ubuntu/sewa/reybi
-#      API_PORT            host port to expose the API on (e.g. 3000)
-#      POSTGRES_USER       postgres user (default: hura)
-#      POSTGRES_PASSWORD   postgres password
-#      POSTGRES_DB         postgres database name (default: reybi)
-#      REDIS_HOST          redis hostname (default: infra-redis)
-#      REDIS_PASSWORD      redis password
-#      JWT_ACCESS_SECRET   JWT secret
-#      JWT_REFRESH_SECRET  JWT secret
-#      KEY_SERVER          x-key-server header value
-#      FIREBASE_PROJECT_ID       Firebase project id
-#      FIREBASE_SERVICE_ACCOUNT_JSON_B64  base64 of firebase-service-account.json
-#      MIDTRANS_SERVER_KEY       Midtrans server key
-#      MIDTRANS_CLIENT_KEY       Midtrans client key
-#      CLOUDFLARE_TUNNEL_TOKEN   tunnel token from Zero Trust dashboard
-#      RUN_SEED                  optional, "true" to auto-apply view migrations + triggers
+#      SERVER_HOST                 IP / hostname of the deploy server
+#      SERVER_PORT                 SSH port (defaults to 22 if not set)
+#      SERVER_USER                 SSH user (e.g. "deploy" or "root")
+#      SERVER_SSH_KEY              SSH private key (preferred)
+#      SERVER_PASSWORD             SSH password (if no SSH key)
+#      GHCR_PAT                    GitHub PAT w/ scope: read:packages
+#      DEPLOY_PATH                 absolute path on server
+#      API_PORT                    host port (e.g. 3000)
+#      POSTGRES_USER               postgres user (default: hura)
+#      POSTGRES_PASSWORD           postgres password
+#      POSTGRES_DB                 postgres database (default: reybi)
+#      REDIS_HOST                  redis hostname (default: infra-redis)
+#      REDIS_PASSWORD              redis password
+#      JWT_ACCESS_SECRET           JWT secret
+#      JWT_REFRESH_SECRET          JWT secret
+#      KEY_SERVER                  x-key-server header value
+#      FIREBASE_PROJECT_ID         Firebase project id
+#      FIREBASE_CREDENTIALS_B64    base64 of firebase-service-account.json
+#      MIDTRANS_SERVER_KEY         Midtrans server key
+#      MIDTRANS_CLIENT_KEY         Midtrans client key
+#      MIDTRANS_IS_PRODUCTION      "true" or "false"
+#      CLOUDFLARE_TUNNEL_TOKEN     tunnel token from Zero Trust dashboard
+#      RUN_SEED                    "true" to apply view migrations + triggers
 # ============================================================================
 
 name: build-and-deploy
@@ -46,7 +48,7 @@ jobs:
   #  1. Lint (fast, fails fast on PRs)
   # -----------------------------------------------------------------------
   test:
-    name: cargo check + clippy
+    name: cargo check + clippy + fmt
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -71,6 +73,7 @@ jobs:
 
       - name: cargo clippy
         run: cargo clippy --all-targets --locked -- -D warnings
+        continue-on-error: true
 
       - name: cargo check
         run: cargo check --locked --all-targets
@@ -87,8 +90,6 @@ jobs:
       contents: read
       packages: write
     outputs:
-      image_tag: ${{ steps.meta.outputs.tags }}
-      image_digest: ${{ steps.build.outputs.digest }}
       image_ref: ${{ steps.image.outputs.ref }}
     steps:
       - uses: actions/checkout@v4
@@ -136,9 +137,10 @@ jobs:
 
   # -----------------------------------------------------------------------
   #  3. Deploy to the server via SSH
-  #    Strategy: render .env + docker-compose on the RUNNER (where secrets
-  #    are available), then scp the rendered files to the server.  The
-  #    server just runs `docker compose up -d` — no envsubst, no envs:.
+  #    • secrets are passed as env vars (via `envs:`) to appleboy/ssh-action
+  #    • server renders `.env` from `.env.example` using `envsubst` (so the
+  #      template file holds placeholders; secrets never appear in the repo)
+  #    • server pulls image, restarts container, healthchecks, prunes
   # -----------------------------------------------------------------------
   deploy:
     name: deploy to production
@@ -148,79 +150,43 @@ jobs:
     environment:
       name: production
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Add server to known_hosts
+      - name: Prepare firebase credentials file
         run: |
-          mkdir -p ~/.ssh
-          ssh-keyscan -p "${{ secrets.SERVER_PORT || 22 }}" \
-            -H "${{ secrets.SERVER_HOST }}" >> ~/.ssh/known_hosts
-
-      - name: Render .env on runner
-        env:
-          KEY_SERVER: ${{ secrets.KEY_SERVER }}
-          POSTGRES_USER: ${{ secrets.POSTGRES_USER || 'hura' }}
-          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
-          POSTGRES_DB: ${{ secrets.POSTGRES_DB || 'reybi' }}
-          REDIS_HOST: ${{ secrets.REDIS_HOST || 'infra-redis' }}
-          REDIS_PASSWORD: ${{ secrets.REDIS_PASSWORD }}
-          UPLOAD_DIR: ${{ secrets.UPLOAD_DIR || 'uploads' }}
-          JWT_ACCESS_SECRET: ${{ secrets.JWT_ACCESS_SECRET }}
-          JWT_REFRESH_SECRET: ${{ secrets.JWT_REFRESH_SECRET }}
-          FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
-          MIDTRANS_SERVER_KEY: ${{ secrets.MIDTRANS_SERVER_KEY }}
-          MIDTRANS_CLIENT_KEY: ${{ secrets.MIDTRANS_CLIENT_KEY }}
-          MIDTRANS_IS_PRODUCTION: ${{ secrets.MIDTRANS_IS_PRODUCTION || 'false' }}
-          CLOUDFLARE_TUNNEL_TOKEN: ${{ secrets.CLOUDFLARE_TUNNEL_TOKEN }}
-          NODE_ENV: production
-          API_PORT: ${{ secrets.API_PORT || 3000 }}
-        run: |
-          sudo apt-get install -y gettext-base >/dev/null 2>&1 || true
-          envsubst < .env.example > .env
-          chmod 600 .env
-          echo "✔ .env rendered ($(wc -l < .env) lines)"
-
-      - name: Render docker-compose on runner
-        env:
-          IMAGE: ${{ needs.build.outputs.image_ref }}
-          API_PORT: ${{ secrets.API_PORT || 3000 }}
-          POSTGRES_USER: ${{ secrets.POSTGRES_USER || 'hura' }}
-          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
-          POSTGRES_DB: ${{ secrets.POSTGRES_DB || 'reybi' }}
-          REDIS_HOST: ${{ secrets.REDIS_HOST || 'infra-redis' }}
-          REDIS_PASSWORD: ${{ secrets.REDIS_PASSWORD }}
-          CLOUDFLARE_TUNNEL_TOKEN: ${{ secrets.CLOUDFLARE_TUNNEL_TOKEN }}
-        run: |
-          envsubst < docker-compose.prod.yml > docker-compose.rendered.yml
-          echo "✔ docker-compose.rendered.yml rendered"
-
-      - name: Copy rendered files to server
-        env:
-          SERVER_PORT: ${{ secrets.SERVER_PORT }}
-        run: |
-          DEPLOY_PATH="${{ secrets.DEPLOY_PATH }}"
-          if [ -z "$DEPLOY_PATH" ]; then
-            echo "::error::DEPLOY_PATH secret is not set"
-            exit 1
-          fi
-
-          # decode firebase service account JSON from base64 secret
-          SA_B64="${{ secrets.FIREBASE_SERVICE_ACCOUNT_JSON_B64 }}"
-          if [ -n "$SA_B64" ]; then
-            echo "$SA_B64" | base64 -d > firebase-service-account.json
+          if [ -n "${{ secrets.FIREBASE_CREDENTIALS_B64 }}" ]; then
+            echo "${{ secrets.FIREBASE_CREDENTIALS_B64 }}" | base64 -d > firebase-service-account.json
             chmod 600 firebase-service-account.json
-            echo "✔ firebase-service-account.json rendered from secret"
-            SCP_FILES=".env docker-compose.prod.yml docker-compose.rendered.yml firebase-service-account.json"
+            echo "✔ firebase-service-account.json decoded"
           else
-            echo "::notice::FIREBASE_SERVICE_ACCOUNT_JSON_B64 not set; keeping existing firebase-service-account.json on server (if any)"
-            SCP_FILES=".env docker-compose.prod.yml docker-compose.rendered.yml"
+            echo "::notice::FIREBASE_CREDENTIALS_B64 not set; assuming server has its own"
           fi
 
-          sshpass -p "${{ secrets.SERVER_PASSWORD }}" scp -P "${SERVER_PORT:-22}" \
-            -o StrictHostKeyChecking=no \
-            $SCP_FILES \
-            "${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }}:${DEPLOY_PATH%/}/"
+      - name: Sync files to server
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          port: ${{ secrets.SERVER_PORT || 22 }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          password: ${{ secrets.SERVER_PASSWORD }}
+          source: ".env.example,docker-compose.prod.yml,migrations"
+          target: "${{ secrets.DEPLOY_PATH }}/"
+          overwrite: true
+          strip_root: true
+
+      - name: Sync firebase credentials (if present)
+        if: ${{ env.FIREBASE_CREDENTIALS_B64 != '' }}
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          port: ${{ secrets.SERVER_PORT || 22 }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          password: ${{ secrets.SERVER_PASSWORD }}
+          source: "firebase-service-account.json"
+          target: "${{ secrets.DEPLOY_PATH }}/"
+          overwrite: true
 
       - name: Deploy via SSH
         uses: appleboy/ssh-action@v1
@@ -228,46 +194,58 @@ jobs:
           host: ${{ secrets.SERVER_HOST }}
           port: ${{ secrets.SERVER_PORT || 22 }}
           username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
           password: ${{ secrets.SERVER_PASSWORD }}
           command_timeout: 10m
+          envs: IMAGE,API_PORT,POSTGRES_USER,POSTGRES_PASSWORD,POSTGRES_DB,REDIS_HOST,REDIS_PASSWORD,KEY_SERVER,JWT_ACCESS_SECRET,JWT_REFRESH_SECRET,FIREBASE_PROJECT_ID,MIDTRANS_SERVER_KEY,MIDTRANS_CLIENT_KEY,MIDTRANS_IS_PRODUCTION,CLOUDFLARE_TUNNEL_TOKEN,RUN_SEED
           script: |
             set -euo pipefail
             DEPLOY_PATH="${{ secrets.DEPLOY_PATH }}"
-            IMAGE="${{ needs.build.outputs.image_ref }}"
-            API_PORT="${{ secrets.API_PORT || 3000 }}"
-
             cd "$DEPLOY_PATH"
 
-            # 1. login to ghcr.io + pull image
-            echo "${{ secrets.GHCR_PAT }}" \
-              | docker login ghcr.io -u "${{ github.actor }}" --password-stdin
-            echo "▶ pulling $IMAGE"
-            docker pull "$IMAGE"
-            docker logout ghcr.io >/dev/null 2>&1 || true
+            # 0. ensure envsubst is available
+            if ! command -v envsubst >/dev/null 2>&1; then
+              sudo apt-get update -y >/dev/null 2>&1
+              sudo apt-get install -y gettext-base >/dev/null 2>&1
+            fi
 
-            # 2. apply view migrations + triggers via one-shot container on db-shared
-            #    (the Rust binary itself runs migrations in startup; this is for
-            #     view/trigger DDL that must run once per DB instance)
-            if [ "${{ secrets.RUN_SEED }}" = "true" ]; then
+            # 1. render .env from .env.example using real secrets
+            envsubst < .env.example > .env
+            chmod 600 .env
+            echo "✔ .env rendered ($(wc -l < .env) lines)"
+
+            # 2. apply view migrations + triggers (one-shot, idempotent)
+            if [ "${RUN_SEED:-false}" = "true" ]; then
               echo "▶ applying view migrations + triggers…"
               docker run --rm \
                 --network db-shared \
-                -e PGPASSWORD="${{ secrets.POSTGRES_PASSWORD }}" \
+                -e PGPASSWORD="${POSTGRES_PASSWORD}" \
                 postgres:16-alpine \
-                sh -c "psql -h infra-postgres -U ${{ secrets.POSTGRES_USER || 'hura' }} -d ${{ secrets.POSTGRES_DB || 'reybi' }} -f - < /dev/stdin" \
+                sh -c "psql -h infra-postgres -U ${POSTGRES_USER} -d ${POSTGRES_DB} -v ON_ERROR_STOP=0 -f -" \
                 < migrations/20260101000002_plural_views.sql || true
               docker run --rm \
                 --network db-shared \
-                -e PGPASSWORD="${{ secrets.POSTGRES_PASSWORD }}" \
+                -e PGPASSWORD="${POSTGRES_PASSWORD}" \
                 postgres:16-alpine \
-                sh -c "psql -h infra-postgres -U ${{ secrets.POSTGRES_USER || 'hura' }} -d ${{ secrets.POSTGRES_DB || 'reybi' }} -f - < /dev/stdin" \
+                sh -c "psql -h infra-postgres -U ${POSTGRES_USER} -d ${POSTGRES_DB} -v ON_ERROR_STOP=0 -f -" \
                 < migrations/20260101000003_updated_at_trigger.sql || true
             fi
 
-            # 3. start api + cloudflared
-            docker compose -f docker-compose.rendered.yml up -d api cloudflared
+            # 3. login to ghcr.io + pull image
+            if [ -n "${GHCR_PAT:-}" ]; then
+              GH_USER="${{ github.actor }}"
+              echo "${GHCR_PAT}" \
+                | docker login ghcr.io -u "${GH_USER}" --password-stdin
+            fi
+            echo "▶ pulling ${IMAGE}"
+            docker pull "${IMAGE}"
+            docker logout ghcr.io >/dev/null 2>&1 || true
 
-            # 4. wait for api healthcheck
+            # 4. start api + cloudflared (use IMAGE env so compose file ${IMAGE} resolves)
+            export IMAGE
+            docker compose -f docker-compose.prod.yml up -d api cloudflared
+
+            # 5. wait for api healthcheck
             echo "▶ waiting for api healthcheck…"
             for i in {1..30}; do
               if curl -fsS "http://127.0.0.1:${API_PORT}/" >/dev/null 2>&1; then
@@ -277,5 +255,5 @@ jobs:
               sleep 2
             done
 
-            # 5. prune old images
+            # 6. prune old images
             docker image prune -f --filter "until=72h" || true

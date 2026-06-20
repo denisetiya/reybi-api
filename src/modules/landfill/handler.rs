@@ -21,7 +21,7 @@ pub async fn list(State(state): State<AppState>,
     let items: Vec<Landfill> = state
         .cache
         .get_or_load(&cache_key, Duration::from_secs(300), || async {
-            LandfillService::list(&state.db, limit).await
+            LandfillService::list(&state.db, pq.cursor.as_deref(), limit).await
         })
         .await?;
 
