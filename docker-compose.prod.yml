@@ -46,7 +46,8 @@ services:
     image: cloudflare/cloudflared:latest
     container_name: reybi-cloudflared
     restart: unless-stopped
-    command: tunnel --no-autoupdate run
+    # token-based auth: TUNNEL_TOKEN env contains both tunnel id + secret
+    command: tunnel --no-autoupdate run --token ${CLOUDFLARE_TUNNEL_TOKEN}
     environment:
       - TUNNEL_TOKEN=${CLOUDFLARE_TUNNEL_TOKEN}
     networks:
