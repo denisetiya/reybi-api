@@ -12,6 +12,7 @@ pub mod etag;
 pub struct Claims {
     pub id: String,
     pub email: String,
+    pub role: String,
     pub exp: usize,
     pub iat: usize,
 }
@@ -79,6 +80,7 @@ pub async fn jwt_auth(
             let new_claims = Claims {
                 id: token_data.claims.id,
                 email: token_data.claims.email,
+                role: token_data.claims.role,
                 iat: chrono::Utc::now().timestamp() as usize,
                 exp: (chrono::Utc::now() + chrono::Duration::hours(3)).timestamp() as usize,
             };
@@ -102,5 +104,50 @@ pub async fn jwt_auth(
         }
     }
 
+    Err(AppError::Unauthorized)
+}
+
+/// Middleware: requires a valid JWT **and** role == "admin".
+///
+/// If `jwt_auth` middleware already populated the request extensions with
+/// verified `Claims` (the normal path for admin routes, since they're
+/// nested under user_routes), we reuse them — no second JWT decode.
+/// Falls back to decoding the bearer header ourselves only if the claim
+/// wasn't already attached (e.g. when the route is mounted directly under
+/// a public subtree).
+pub async fn require_admin(
+    req: Request,
+    next: Next,
+) -> Result<Response, AppError> {
+    if let Some(claims) = req.extensions().get::<Claims>().cloned() {
+        if claims.role == "admin" {
+            return Ok(next.run(req).await);
+        }
+        return Err(AppError::Forbidden("Admin access required".into()));
+    }
+
+    // Fallback: re-decode JWT (rare; admin_routes should always have claims
+    // injected by `jwt_auth` first).
+    let token = crate::utils::helpers::extract_bearer_token(req.headers());
+    if let Some(token) = token {
+        let validation = Validation::default();
+        if let Ok(token_data) = decode::<Claims>(
+            &token,
+            &DecodingKey::from_secret(
+                req.extensions()
+                    .get::<crate::config::AppState>()
+                    .map(|s| s.config.jwt_access_secret.as_bytes())
+                    .unwrap_or(&[]),
+            ),
+            &validation,
+        ) {
+            if token_data.claims.role == "admin" {
+                let mut req = req;
+                req.extensions_mut().insert(token_data.claims);
+                return Ok(next.run(req).await);
+            }
+            return Err(AppError::Forbidden("Admin access required".into()));
+        }
+    }
     Err(AppError::Unauthorized)
 }

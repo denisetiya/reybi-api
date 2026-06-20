@@ -5,14 +5,22 @@ use axum::{
     Router,
 };
 
-pub fn routes() -> Router<AppState> {
+/// GET routes — public, no auth required.
+pub fn public_routes() -> Router<AppState> {
     Router::new()
         .route("/", get(handler::list))
+        .route(
+            "/{id}",
+            get(handler::get),
+        )
+}
+
+/// Write routes — JWT required.
+pub fn protected_routes() -> Router<AppState> {
+    Router::new()
         .route("/create", post(handler::create))
         .route(
             "/{id}",
-            get(handler::get)
-                .put(handler::update)
-                .delete(handler::delete),
+            axum::routing::put(handler::update).delete(handler::delete),
         )
 }

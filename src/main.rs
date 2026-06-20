@@ -14,6 +14,7 @@ use reybi_api::common::locale;
 use reybi_api::config::{AppConfig, AppState};
 use reybi_api::middleware;
 use reybi_api::utils::cache::Cache;
+use reybi_api::utils::firebase::FirebaseVerifier;
 
 /// Multi-threaded heap allocator with better scaling than the system malloc
 /// under concurrent load — fewer locks, fewer cross-thread bounces.  This is
@@ -77,38 +78,69 @@ async fn main() {
     tracing::info!("✓ database migrations applied");
 
     let cache = Cache::connect(&config.redis_url).await;
-    let state = AppState::new(pool, config.clone(), cache);
+    let firebase = FirebaseVerifier::new(&config.firebase_project_id).await;
+    let state = AppState::new(pool, config.clone(), cache, firebase);
+
+    // Admin seeding — promote the email in ADMIN_EMAIL env to role='admin'.
+    // Idempotent: a no-op if the user doesn't exist yet (they'll be created
+    // on first Firebase login and the role assignment will be reapplied).
+    if let Ok(admin_email) = std::env::var("ADMIN_EMAIL") {
+        if !admin_email.is_empty() {
+            match sqlx::query(
+                "UPDATE users SET role = 'admin' WHERE email = $1 AND (role IS NULL OR role <> 'admin')",
+            )
+            .bind(&admin_email)
+            .execute(&state.db)
+            .await
+            {
+                Ok(r) if r.rows_affected() > 0 => {
+                    tracing::info!("✓ admin role granted to {}", admin_email);
+                }
+                Ok(_) => {
+                    tracing::debug!("admin {} already up-to-date or not yet registered", admin_email);
+                }
+                Err(e) => tracing::warn!("admin seed failed: {}", e),
+            }
+        }
+    }
 
     // Public routes — no JWT required.  Skip auth/locale middleware for these.
     let public_routes = Router::new()
         .nest("/auth", reybi_api::modules::auth::routes::routes())
-        .nest(
-            "/products",
-            reybi_api::modules::product::routes::public_routes(),
-        )
-        .nest("/banners", reybi_api::modules::banner::routes::routes())
-        .nest("/articles", reybi_api::modules::article::routes::routes());
+        .nest("/products", reybi_api::modules::product::routes::public_routes())
+        .nest("/banners", reybi_api::modules::banner::routes::public_routes())
+        .nest("/articles", reybi_api::modules::article::routes::public_routes());
 
-    // Protected routes — JWT required.
-    let protected_routes = Router::new()
-        .nest(
-            "/products",
-            reybi_api::modules::product::routes::protected_routes(),
-        )
-        .nest("/profile", reybi_api::modules::profile::routes::routes())
-        .nest("/reviews", reybi_api::modules::review::routes::routes())
-        .nest("/carts", reybi_api::modules::cart::routes::routes())
-        .nest("/orders", reybi_api::modules::order::routes::routes())
-        .nest("/deposites", reybi_api::modules::deposite::routes::routes())
+    // Admin-only routes — JWT + role == "admin".  Mounted INSIDE user_routes
+    // so the `jwt_auth` middleware decodes the JWT once and `require_admin`
+    // reuses the injected `Claims` from the request extensions.
+    let admin_routes = Router::new()
+        .nest("/banners", reybi_api::modules::banner::routes::protected_routes())
+        .nest("/articles", reybi_api::modules::article::routes::protected_routes())
         .nest("/landfills", reybi_api::modules::landfill::routes::routes())
         .nest("/trash", reybi_api::modules::trash::routes::routes())
-        .nest("/addresses", reybi_api::modules::address::routes::routes())
+        .nest("/orders", reybi_api::modules::order::routes::admin_routes())
+        .nest("/deposites", reybi_api::modules::deposite::routes::admin_routes())
         .nest("/sallers", reybi_api::modules::saller::routes::routes())
+        .route_layer(mw::from_fn(middleware::require_admin));
+
+    // Authenticated user routes — any valid JWT.
+    let user_routes = Router::new()
+        .nest("/products", reybi_api::modules::product::routes::protected_routes())
+        .nest("/profile", reybi_api::modules::profile::routes::routes())
+        .nest("/carts", reybi_api::modules::cart::routes::routes())
+        .nest("/orders", reybi_api::modules::order::routes::user_routes())
+        .nest("/deposites", reybi_api::modules::deposite::routes::user_routes())
+        .nest("/addresses", reybi_api::modules::address::routes::routes())
+        .nest("/reviews", reybi_api::modules::review::routes::routes())
         .nest("/payments", reybi_api::modules::payment::routes::routes())
+        .merge(admin_routes)
         .route_layer(mw::from_fn_with_state(state.clone(), middleware::jwt_auth))
         .layer(mw::from_fn(locale::locale_middleware));
 
-    let api_routes = Router::new().merge(public_routes).merge(protected_routes);
+    let api_routes = Router::new()
+        .merge(public_routes)
+        .merge(user_routes);
 
     // Static file serving — uploads/images served straight off disk by
     // `tower-http::services::ServeDir`.  Bypasses the router / middleware
@@ -144,8 +176,8 @@ async fn main() {
         .layer(CorsLayer::permissive())
         .layer(
             TraceLayer::new_for_http()
-                .make_span_with(DefaultMakeSpan::new().level(tracing::Level::DEBUG))
-                .on_response(DefaultOnResponse::new().level(tracing::Level::DEBUG)),
+                .make_span_with(DefaultMakeSpan::new().level(tracing::Level::INFO))
+                .on_response(DefaultOnResponse::new().level(tracing::Level::INFO)),
         )
         .with_state(state.clone());
 

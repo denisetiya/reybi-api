@@ -12,7 +12,7 @@ pub async fn login(
     headers: axum::http::HeaderMap,
 ) -> AppResult<AppResponse<serde_json::Value>> {
     let token = extract_bearer_token(&headers).ok_or(crate::errors::AppError::Unauthorized)?;
-    let response = AuthService::login(&state.db, &state.config, &token).await?;
+    let response = AuthService::login(&state.db, &state.config, &state.firebase, &token).await?;
     Ok(ok(response, &locale))
 }
 
@@ -20,11 +20,15 @@ pub async fn register(
     State(state): State<AppState>,
     Locale(_locale): Locale,
     headers: axum::http::HeaderMap,
-    Json(body): Json<RegisterRequest>,
+    body: Option<Json<RegisterRequest>>,
 ) -> AppResult<AppResponse<serde_json::Value>> {
-    let _token = extract_bearer_token(&headers).ok_or(crate::errors::AppError::Unauthorized)?;
-    let result = AuthService::register(&state.db, &_token, body).await?;
-    Ok(message("Registered"))
+    // Firebase idToken comes via Authorization: Bearer header.
+    let token = extract_bearer_token(&headers).ok_or(crate::errors::AppError::Unauthorized)?;
+    let overrides = body.map(|Json(b)| b).unwrap_or_default();
+    let response =
+        AuthService::register(&state.db, &state.config, &state.firebase, &token, overrides)
+            .await?;
+    Ok(ok(response, &_locale))
 }
 
 pub async fn reset_password(

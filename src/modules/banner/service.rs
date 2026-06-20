@@ -68,4 +68,35 @@ impl BannerService {
         .await
         .map_err(|e| AppError::Internal(e.into()))
     }
+
+    pub async fn update(
+        db: &PgPool,
+        id: &str,
+        image: Option<&str>,
+        r#type: Option<&str>,
+    ) -> AppResult<Banner> {
+        sqlx::query_as::<_, Banner>(
+            r#"UPDATE banners
+               SET image = COALESCE($2, image),
+                   type  = COALESCE($3, type)
+               WHERE id = $1
+               RETURNING *"#,
+        )
+        .bind(id)
+        .bind(image)
+        .bind(r#type)
+        .fetch_optional(db)
+        .await
+        .map_err(|e| AppError::Internal(e.into()))?
+        .ok_or(AppError::NotFound(format!("banner {id} not found")))
+    }
+
+    pub async fn delete(db: &PgPool, id: &str) -> AppResult<u64> {
+        let res = sqlx::query("DELETE FROM banners WHERE id = $1")
+            .bind(id)
+            .execute(db)
+            .await
+            .map_err(|e| AppError::Internal(e.into()))?;
+        Ok(res.rows_affected())
+    }
 }

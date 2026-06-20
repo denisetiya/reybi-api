@@ -78,3 +78,35 @@ pub async fn create(
 
     Ok(ok(banner, &locale))
 }
+
+pub async fn update(
+    State(state): State<AppState>,
+    Locale(locale): Locale,
+    Path(id): Path<String>,
+    Json(body): Json<CreateBannerRequest>,
+) -> AppResult<AppResponse<serde_json::Value>> {
+    let banner =
+        BannerService::update(&state.db, &id, Some(&body.image), body.r#type.as_deref()).await?;
+
+    state
+        .cache
+        .invalidate_pattern(keys::banners_pattern())
+        .await;
+
+    Ok(ok(banner, &locale))
+}
+
+pub async fn delete(
+    State(state): State<AppState>,
+    Locale(locale): Locale,
+    Path(id): Path<String>,
+) -> AppResult<AppResponse<serde_json::Value>> {
+    let n = BannerService::delete(&state.db, &id).await?;
+
+    state
+        .cache
+        .invalidate_pattern(keys::banners_pattern())
+        .await;
+
+    Ok(ok(serde_json::json!({ "deleted": n }), &locale))
+}
