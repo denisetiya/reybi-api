@@ -198,10 +198,14 @@ jobs:
           password: ${{ secrets.SERVER_PASSWORD }}
           command_timeout: 10m
           envs: IMAGE,API_PORT,POSTGRES_USER,POSTGRES_PASSWORD,POSTGRES_DB,REDIS_HOST,REDIS_PASSWORD,KEY_SERVER,JWT_ACCESS_SECRET,JWT_REFRESH_SECRET,FIREBASE_PROJECT_ID,MIDTRANS_SERVER_KEY,MIDTRANS_CLIENT_KEY,MIDTRANS_IS_PRODUCTION,CLOUDFLARE_TUNNEL_TOKEN,RUN_SEED
-          script: |
-            set -euo pipefail
-            DEPLOY_PATH="${{ secrets.DEPLOY_PATH }}"
-            cd "$DEPLOY_PATH"
+        env:
+          IMAGE: ${{ needs.build.outputs.image_ref || 'reybi-api:local' }}
+        script: |
+          set -euo pipefail
+          # default IMAGE if runner didn't forward it (avoids `set -u` crash)
+          IMAGE="${IMAGE:-reybi-api:local}"
+          DEPLOY_PATH="${{ secrets.DEPLOY_PATH }}"
+          cd "$DEPLOY_PATH"
 
             # 0. ensure envsubst is available
             if ! command -v envsubst >/dev/null 2>&1; then
