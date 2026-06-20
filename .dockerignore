@@ -1,40 +1,12 @@
-# ============================================================================
-#  Cargo build artefacts
-# ============================================================================
 target/
-**/target/
-Cargo.lock.bak
-
-# ============================================================================
-#  Local env / secrets
-# ============================================================================
-.env
-.env.*
-!.env.example
-**/*.pem
-**/*.key
-firebase-credentials.json
-**/firebase-credentials.json
-**/firebase-service-account.json
-
-# ============================================================================
-#  Git / IDE
-# ============================================================================
-.git/
+Dockerfile
+.dockerignore
+.git
 .gitignore
-.gitattributes
-.idea/
-.vscode/
-*.swp
-.DS_Store
-
-# ============================================================================
-#  Docs / scripts (kept locally, not needed in image)
-# ============================================================================
-docs/
-*.md
+.github
 README.md
-CHANGELOG.md
-
-# Old build-only dockerfile (Cargo check harness, not production)
-Dockerfile.build
+*.md
+tests/
+test/
+.env
+.env.local

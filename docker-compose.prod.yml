@@ -1,0 +1,73 @@
+name: reybi-api
+
+# This compose file is rendered on the server by .github/workflows/deploy.yml
+# with `envsubst`.  Every ${VAR} is replaced at deploy time with the value of
+# the matching env var on the runner (which gets them from GitHub Secrets).
+#
+# `api` and `cloudflared` live here.  We point at the SHARED infra
+# (`db-shared` external network → infra-postgres + infra-redis) instead of
+# running our own postgres/redis containers.
+
+services:
+  api:
+    image: ${IMAGE}
+    container_name: reybi-api
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      # override DATABASE_URL → shared infra-postgres
+      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@infra-postgres:5432/${POSTGRES_DB}?schema=public
+      REDIS_URL: redis://:*** @${REDIS_HOST}:6379/
+      FIREBASE_SERVICE_ACCOUNT_PATH: /app/firebase-credentials.json
+      HOST: 0.0.0.0
+      PORT: "3000"
+      RUST_LOG: "reybi_api=info,tower_http=info,sqlx=warn"
+    volumes:
+      - ./firebase-service-account.json:/app/firebase-credentials.json:ro
+      - uploads_data:/app/uploads
+    expose:
+      - "3000"
+    networks:
+      - reybi-net
+      - db-shared
+    healthcheck:
+      test: ["CMD", "curl", "-sS", "http://127.0.0.1:3000/"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+    logging:
+      driver: json-file
+      options:
+        max-size: "20m"
+        max-file: "5"
+
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    container_name: reybi-cloudflared
+    restart: unless-stopped
+    command: tunnel --no-autoupdate run
+    environment:
+      - TUNNEL_TOKEN=${CLOUDFLARE_TUNNEL_TOKEN}
+    networks:
+      - reybi-net
+    depends_on:
+      api:
+        condition: service_healthy
+    logging:
+      driver: json-file
+      options:
+        max-size: "20m"
+        max-file: "5"
+
+networks:
+  reybi-net:
+    name: reybi-net
+  db-shared:
+    external: true
+    name: db-shared
+
+volumes:
+  uploads_data:
+    driver: local
