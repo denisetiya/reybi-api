@@ -18,5 +18,8 @@ pub fn protected_routes() -> Router<AppState> {
     Router::new()
         .route("/create", post(handler::create))
         .route("/variant/{id}", post(handler::create_variant))
-        .route("/{id}", axum::routing::put(handler::update).delete(handler::delete))
+        .route(
+            "/{id}",
+            axum::routing::put(handler::update).delete(handler::delete),
+        )
 }

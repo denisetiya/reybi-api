@@ -49,10 +49,8 @@ async fn main() {
             move |conn, _meta| {
                 Box::pin(async move {
                     use sqlx::Executor;
-                    conn.execute(
-                        format!("SET statement_timeout = {ms}").as_str(),
-                    )
-                    .await?;
+                    conn.execute(format!("SET statement_timeout = {ms}").as_str())
+                        .await?;
                     Ok(())
                 })
             }
@@ -110,9 +108,7 @@ async fn main() {
         .route_layer(mw::from_fn_with_state(state.clone(), middleware::jwt_auth))
         .layer(mw::from_fn(locale::locale_middleware));
 
-    let api_routes = Router::new()
-        .merge(public_routes)
-        .merge(protected_routes);
+    let api_routes = Router::new().merge(public_routes).merge(protected_routes);
 
     // Static file serving — uploads/images served straight off disk by
     // `tower-http::services::ServeDir`.  Bypasses the router / middleware
