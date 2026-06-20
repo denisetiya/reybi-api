@@ -120,17 +120,26 @@ async fn main() {
         .nest("/landfills", reybi_api::modules::landfill::routes::routes())
         .nest("/trash", reybi_api::modules::trash::routes::routes())
         .nest("/orders", reybi_api::modules::order::routes::admin_routes())
-        .nest("/deposites", reybi_api::modules::deposite::routes::admin_routes())
+        .nest(
+            "/deposites",
+            reybi_api::modules::deposite::routes::admin_routes(),
+        )
         .nest("/sallers", reybi_api::modules::saller::routes::routes())
         .route_layer(mw::from_fn(middleware::require_admin));
 
     // Authenticated user routes — any valid JWT.
     let user_routes = Router::new()
-        .nest("/products", reybi_api::modules::product::routes::protected_routes())
+        .nest(
+            "/products",
+            reybi_api::modules::product::routes::protected_routes(),
+        )
         .nest("/profile", reybi_api::modules::profile::routes::routes())
         .nest("/carts", reybi_api::modules::cart::routes::routes())
         .nest("/orders", reybi_api::modules::order::routes::user_routes())
-        .nest("/deposites", reybi_api::modules::deposite::routes::user_routes())
+        .nest(
+            "/deposites",
+            reybi_api::modules::deposite::routes::user_routes(),
+        )
         .nest("/addresses", reybi_api::modules::address::routes::routes())
         .nest("/reviews", reybi_api::modules::review::routes::routes())
         .nest("/payments", reybi_api::modules::payment::routes::routes())
@@ -138,9 +147,7 @@ async fn main() {
         .route_layer(mw::from_fn_with_state(state.clone(), middleware::jwt_auth))
         .layer(mw::from_fn(locale::locale_middleware));
 
-    let api_routes = Router::new()
-        .merge(public_routes)
-        .merge(user_routes);
+    let api_routes = Router::new().merge(public_routes).merge(user_routes);
 
     // Static file serving — uploads/images served straight off disk by
     // `tower-http::services::ServeDir`.  Bypasses the router / middleware
