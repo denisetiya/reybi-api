@@ -9,10 +9,7 @@ use crate::config::AppState;
 use crate::errors::AppResult;
 use crate::models::Product;
 use crate::utils::cache::keys;
-use axum::{
-    extract::{Path, Query, State},
-    Json,
-};
+use axum::extract::{Path, Query, State};
 use std::time::Duration;
 
 pub async fn list_products(

@@ -115,10 +115,7 @@ pub async fn jwt_auth(
 /// Falls back to decoding the bearer header ourselves only if the claim
 /// wasn't already attached (e.g. when the route is mounted directly under
 /// a public subtree).
-pub async fn require_admin(
-    req: Request,
-    next: Next,
-) -> Result<Response, AppError> {
+pub async fn require_admin(req: Request, next: Next) -> Result<Response, AppError> {
     if let Some(claims) = req.extensions().get::<Claims>().cloned() {
         if claims.role == "admin" {
             return Ok(next.run(req).await);

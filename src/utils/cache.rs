@@ -62,10 +62,10 @@ impl Cache {
 
     /// SETEX (set + expiry).  Best-effort.
     pub async fn set_ex(&self, key: &str, value: &str, ttl: Duration) {
-        let Some(mut conn) = self.inner.as_ref().map(|c| c.clone()) else {
+        let Some(mut conn) = self.inner.clone() else {
             return;
         };
-        let ttl_secs = ttl.as_secs() as u64;
+        let ttl_secs = ttl.as_secs();
         if let Err(e) = conn.set_ex::<_, _, ()>(key, value, ttl_secs).await {
             debug!(error = %e, key, "redis set_ex failed");
         }
@@ -73,7 +73,7 @@ impl Cache {
 
     /// DEL single key.
     pub async fn invalidate(&self, key: &str) {
-        let Some(mut conn) = self.inner.as_ref().map(|c| c.clone()) else {
+        let Some(mut conn) = self.inner.clone() else {
             return;
         };
         let n: u64 = match conn.del(key).await {
@@ -91,7 +91,7 @@ impl Cache {
     /// DEL all keys matching `pattern` (uses SCAN, safe for prod).
     /// Used by write endpoints to drop collection caches.
     pub async fn invalidate_pattern(&self, pattern: &str) {
-        let Some(mut conn) = self.inner.as_ref().map(|c| c.clone()) else {
+        let Some(mut conn) = self.inner.clone() else {
             return;
         };
 

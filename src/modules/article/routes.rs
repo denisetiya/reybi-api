@@ -9,18 +9,13 @@ use axum::{
 pub fn public_routes() -> Router<AppState> {
     Router::new()
         .route("/", get(handler::list))
-        .route(
-            "/{id}",
-            get(handler::get),
-        )
+        .route("/{id}", get(handler::get))
 }
 
 /// Write routes — JWT required.
 pub fn protected_routes() -> Router<AppState> {
-    Router::new()
-        .route("/create", post(handler::create))
-        .route(
-            "/{id}",
-            axum::routing::put(handler::update).delete(handler::delete),
-        )
+    Router::new().route("/create", post(handler::create)).route(
+        "/{id}",
+        axum::routing::put(handler::update).delete(handler::delete),
+    )
 }

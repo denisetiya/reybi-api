@@ -26,13 +26,12 @@ pub async fn register(
     let token = extract_bearer_token(&headers).ok_or(crate::errors::AppError::Unauthorized)?;
     let overrides = body.map(|Json(b)| b).unwrap_or_default();
     let response =
-        AuthService::register(&state.db, &state.config, &state.firebase, &token, overrides)
-            .await?;
+        AuthService::register(&state.db, &state.config, &state.firebase, &token, overrides).await?;
     Ok(ok(response, &_locale))
 }
 
 pub async fn reset_password(
-    Json(body): Json<ResetPasswordRequest>,
+    Json(_body): Json<ResetPasswordRequest>,
 ) -> AppResult<AppResponse<serde_json::Value>> {
     // Localised message via t() — keep the structured response shape.
     Ok(message("Password reset link sent"))

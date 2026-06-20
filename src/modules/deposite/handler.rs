@@ -35,7 +35,7 @@ pub async fn list_user(
     Query(pq): Query<PaginationQuery>,
 ) -> AppResult<AppResponse<serde_json::Value>> {
     let limit = pq.take();
-    let scope = format!("u:{}", id);
+    let scope = format!("u:{id}");
     let cache_key = format!(
         "{}:p{}:l{}",
         keys::deposite_list(&scope),

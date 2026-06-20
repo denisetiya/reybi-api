@@ -60,7 +60,7 @@ impl MidtransClient {
         let resp = self
             .http
             .post(&url)
-            .header("Authorization", format!("Basic {}", token))
+            .header("Authorization", format!("Basic {token}"))
             .header("Accept", "application/json")
             .header("Content-Type", "application/json")
             .json(&body)
@@ -103,7 +103,7 @@ impl MidtransClient {
         gross_amount: &str,
         signature_key: &str,
     ) -> bool {
-        let payload = format!("{}{}{}{}", order_id, status_code, gross_amount, server_key);
+        let payload = format!("{order_id}{status_code}{gross_amount}{server_key}");
         let mut hasher = Sha512::new();
         hasher.update(payload.as_bytes());
         let got = hex::encode(hasher.finalize());

@@ -1,3 +1,4 @@
+use axum::http::StatusCode;
 use axum::{middleware as mw, Router};
 use mimalloc::MiMalloc;
 use sqlx::postgres::PgPoolOptions;
@@ -107,16 +108,31 @@ async fn main() {
     // Public routes — no JWT required.  Skip auth/locale middleware for these.
     let public_routes = Router::new()
         .nest("/auth", reybi_api::modules::auth::routes::routes())
-        .nest("/products", reybi_api::modules::product::routes::public_routes())
-        .nest("/banners", reybi_api::modules::banner::routes::public_routes())
-        .nest("/articles", reybi_api::modules::article::routes::public_routes());
+        .nest(
+            "/products",
+            reybi_api::modules::product::routes::public_routes(),
+        )
+        .nest(
+            "/banners",
+            reybi_api::modules::banner::routes::public_routes(),
+        )
+        .nest(
+            "/articles",
+            reybi_api::modules::article::routes::public_routes(),
+        );
 
     // Admin-only routes — JWT + role == "admin".  Mounted INSIDE user_routes
     // so the `jwt_auth` middleware decodes the JWT once and `require_admin`
     // reuses the injected `Claims` from the request extensions.
     let admin_routes = Router::new()
-        .nest("/banners", reybi_api::modules::banner::routes::protected_routes())
-        .nest("/articles", reybi_api::modules::article::routes::protected_routes())
+        .nest(
+            "/banners",
+            reybi_api::modules::banner::routes::protected_routes(),
+        )
+        .nest(
+            "/articles",
+            reybi_api::modules::article::routes::protected_routes(),
+        )
         .nest("/landfills", reybi_api::modules::landfill::routes::routes())
         .nest("/trash", reybi_api::modules::trash::routes::routes())
         .nest("/orders", reybi_api::modules::order::routes::admin_routes())
@@ -164,7 +180,10 @@ async fn main() {
     let app = Router::new()
         .merge(uploads_route)
         .nest("/v1", api_routes)
-        .route_layer(TimeoutLayer::new(Duration::from_secs(30)))
+        .route_layer(TimeoutLayer::with_status_code(
+            StatusCode::REQUEST_TIMEOUT,
+            Duration::from_secs(30),
+        ))
         .route_layer(RequestBodyLimitLayer::new(5 * 1024 * 1024)) // 5 MB
         // ETag / 304 — buffers GET bodies, returns 304 on If-None-Match hit.
         // Placed inside compression so the hash is over the uncompressed body.
