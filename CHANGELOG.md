@@ -70,13 +70,35 @@
   the endpoint.
 - **Tooling: `benchmark.sh`** — cold/warm latency + ETag 304 + Redis key count. Located at
   `deploy/benchmark.sh` next to `docker-compose.prod.yml`.
+- **RBAC: admin role on JWT** — `Claims.role` field populated at login; defaults to `"user"`.
+  Existing tokens keep working (role defaults to `"user"` on missing claim).
+- **RBAC: `require_admin` middleware** — layered on admin-only routes (POST/PUT/DELETE
+  on `/v1/banners/*`, `/v1/articles/*`, `/v1/landfills/*`, `/v1/trash/*`, `/v1/sallers/*`,
+  plus `GET /v1/orders` (all), `GET /v1/deposites` (all)). Returns `403 Forbidden`
+  for non-admin authenticated users, `401` for unauthenticated.
+- **RBAC: admin seed via env** — `ADMIN_EMAIL=denisetiyareybi@gmail.com` promotes that
+  user's role to `"admin"` on every login (idempotent). No DB migration needed.
+- **Auth: Firebase verifier via `project_id` only** — replaces Identity Toolkit REST
+  lookup + `KEY_SERVER`. Server-side `firebase-auth` crate validates the ID token
+  signature against Google's JWKS (cached, 1h TTL). `KEY_SERVER` now reserved for other
+  API key use.
+- **Auth: `require_admin` reuses `Claims` from `jwt_auth` middleware** — no double
+  JWT decode for admin routes. Saves ~1-2ms per admin request.
+- **Performance: trace at INFO level only** — was DEBUG (every payload logged). Now headers only.
+  Concurrency p95 latency improved **-22%** under 5-parallel load (338ms → 265ms).
+- **Migration: `20260101000005_product_images_to_array.sql`** — `Product.images` JSONB object
+  → `text[]` array. Aligns with `Product.images: Vec<String>` in Rust model. Applied.
 
 ### Removed
 - **`use axum::Json;`** from all 14 handler files (no longer needed)
 - **Unnecessary `Value` allocations** in handler return paths
+- **Identity Toolkit REST lookup** in `validate_firebase_token` — replaced with local JWKS verifier
 
 ### Performance Impact (estimated, smoke-tested)
 - **Response time**: cold 19ms → ~14ms (typed response), warm 3.2ms → ~2.5ms (single encode)
+- **Tunnel seq p95**: 174ms → 182ms (≈ same; tunnel+TLS dominates)
+- **Tunnel conc(5) p95**: 338ms → 265ms (**-22%** via Claim reuse + INFO tracing)
+- **Origin p50/p95**: 6-14ms (Rust+Redis cache, local)
 - **DB queries**: index-only scans enabled for `id < cursor` patterns (Planner switches from Seq Scan to
   Index Scan once tables exceed ~50 rows — currently <5 rows, planner correctly uses Seq Scan)
 - **First-request latency**: ~30-50ms → ~5ms (pool pre-warm)
