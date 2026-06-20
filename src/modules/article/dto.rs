@@ -1,5 +1,5 @@
-use serde::Deserialize;
 use crate::common::pagination::HasCursor;
+use serde::Deserialize;
 
 #[derive(Debug, Deserialize)]
 pub struct CreateArticleRequest {
@@ -9,5 +9,7 @@ pub struct CreateArticleRequest {
 }
 
 impl HasCursor for crate::models::Article {
-    fn cursor_value(&self) -> String { self.id.to_string() }
+    fn cursor_value(&self) -> String {
+        self.id.to_string()
+    }
 }

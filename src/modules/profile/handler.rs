@@ -1,16 +1,22 @@
-use axum::{extract::{Path, State}, Json};
+use super::dto::UpdateProfileRequest;
+use super::service::ProfileService;
 use crate::common::locale::Locale;
-use std::time::Duration;
-use crate::config::AppState;
 use crate::common::response::ok;
+use crate::config::AppState;
 use crate::errors::AppResult;
 use crate::models::User;
 use crate::utils::cache::keys;
-use super::dto::UpdateProfileRequest;
-use super::service::ProfileService;
+use axum::{
+    extract::{Path, State},
+    Json,
+};
+use std::time::Duration;
 
-pub async fn get(State(state): State<AppState>,
-    Locale(locale): Locale, Path(email): Path<String>) -> AppResult<Json<serde_json::Value>> {
+pub async fn get(
+    State(state): State<AppState>,
+    Locale(locale): Locale,
+    Path(email): Path<String>,
+) -> AppResult<Json<serde_json::Value>> {
     let cache_key = keys::profile(&email);
     let profile: User = state
         .cache
@@ -21,10 +27,17 @@ pub async fn get(State(state): State<AppState>,
     Ok(Json(ok(profile, &locale)))
 }
 
-pub async fn update(State(state): State<AppState>,
-    Locale(locale): Locale, Path(email): Path<String>, Json(body): Json<UpdateProfileRequest>) -> AppResult<Json<serde_json::Value>> {
+pub async fn update(
+    State(state): State<AppState>,
+    Locale(locale): Locale,
+    Path(email): Path<String>,
+    Json(body): Json<UpdateProfileRequest>,
+) -> AppResult<Json<serde_json::Value>> {
     let profile = ProfileService::update(&state.db, &email, body).await?;
     state.cache.invalidate(&keys::profile(&email)).await;
-    state.cache.invalidate_pattern(keys::profile_pattern()).await;
+    state
+        .cache
+        .invalidate_pattern(keys::profile_pattern())
+        .await;
     Ok(Json(ok(profile, &locale)))
 }

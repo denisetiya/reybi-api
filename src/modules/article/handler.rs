@@ -20,8 +20,12 @@ pub async fn list(
     Query(pq): Query<PaginationQuery>,
 ) -> AppResult<Json<serde_json::Value>> {
     let limit = pq.take();
-    let cache_key = format!("{}:p{}:l{}",
-        keys::article_list(), pq.cursor.clone().unwrap_or_else(|| "0".to_string()), limit);
+    let cache_key = format!(
+        "{}:p{}:l{}",
+        keys::article_list(),
+        pq.cursor.clone().unwrap_or_else(|| "0".to_string()),
+        limit
+    );
 
     let articles: Vec<Article> = state
         .cache
@@ -55,7 +59,10 @@ pub async fn create(
     Json(body): Json<CreateArticleRequest>,
 ) -> AppResult<Json<serde_json::Value>> {
     let article = ArticleService::create(&state.db, body).await?;
-    state.cache.invalidate_pattern(keys::articles_pattern()).await;
+    state
+        .cache
+        .invalidate_pattern(keys::articles_pattern())
+        .await;
     Ok(Json(ok(article, &locale)))
 }
 
@@ -68,7 +75,10 @@ pub async fn update(
     let article = ArticleService::update(&state.db, id.clone(), body).await?;
     // invalidate both the item cache and the list cache
     state.cache.invalidate(&keys::article(&id)).await;
-    state.cache.invalidate_pattern(keys::articles_pattern()).await;
+    state
+        .cache
+        .invalidate_pattern(keys::articles_pattern())
+        .await;
     Ok(Json(ok(article, &locale)))
 }
 
@@ -79,6 +89,11 @@ pub async fn delete(
 ) -> AppResult<Json<serde_json::Value>> {
     ArticleService::delete(&state.db, id.clone()).await?;
     state.cache.invalidate(&keys::article(&id)).await;
-    state.cache.invalidate_pattern(keys::articles_pattern()).await;
-    Ok(Json(message(&t(&locale, "ARTICLE_NOT_FOUND").replace("not found", "deleted"))))
+    state
+        .cache
+        .invalidate_pattern(keys::articles_pattern())
+        .await;
+    Ok(Json(message(
+        &t(&locale, "ARTICLE_NOT_FOUND").replace("not found", "deleted"),
+    )))
 }

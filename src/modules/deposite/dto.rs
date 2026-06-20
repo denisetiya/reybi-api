@@ -1,6 +1,6 @@
+use crate::common::pagination::HasCursor;
 use serde::Deserialize;
 use serde_json::Value;
-use crate::common::pagination::HasCursor;
 
 #[derive(Debug, Deserialize)]
 pub struct CreateDepositeRequest {
@@ -21,5 +21,7 @@ pub struct GarbageItem {
 }
 
 impl HasCursor for crate::models::Deposite {
-    fn cursor_value(&self) -> String { self.id.to_string() }
+    fn cursor_value(&self) -> String {
+        self.id.to_string()
+    }
 }

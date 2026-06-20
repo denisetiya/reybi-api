@@ -1,6 +1,6 @@
+use crate::common::pagination::HasCursor;
 use serde::Deserialize;
 use serde_json::Value;
-use crate::common::pagination::HasCursor;
 
 #[derive(Debug, Deserialize)]
 pub struct ProductFilter {
@@ -50,5 +50,7 @@ pub struct CreateVariantRequest {
 }
 
 impl HasCursor for crate::models::Product {
-    fn cursor_value(&self) -> String { self.id.to_string() }
+    fn cursor_value(&self) -> String {
+        self.id.to_string()
+    }
 }

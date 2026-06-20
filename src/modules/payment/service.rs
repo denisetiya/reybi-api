@@ -55,8 +55,7 @@ impl MidtransClient {
         });
 
         let url = format!("{}/snap/v1/transactions", self.base);
-        let token = general_purpose::STANDARD
-            .encode(format!("{}:", self.server_key));
+        let token = general_purpose::STANDARD.encode(format!("{}:", self.server_key));
 
         let resp = self
             .http
@@ -104,10 +103,7 @@ impl MidtransClient {
         gross_amount: &str,
         signature_key: &str,
     ) -> bool {
-        let payload = format!(
-            "{}{}{}{}",
-            order_id, status_code, gross_amount, server_key
-        );
+        let payload = format!("{}{}{}{}", order_id, status_code, gross_amount, server_key);
         let mut hasher = Sha512::new();
         hasher.update(payload.as_bytes());
         let got = hex::encode(hasher.finalize());

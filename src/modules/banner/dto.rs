@@ -1,5 +1,5 @@
-use serde::Deserialize;
 use crate::common::pagination::HasCursor;
+use serde::Deserialize;
 
 #[derive(Debug, Deserialize)]
 pub struct CreateBannerRequest {
@@ -8,5 +8,7 @@ pub struct CreateBannerRequest {
 }
 
 impl HasCursor for crate::models::Banner {
-    fn cursor_value(&self) -> String { self.id.to_string() }
+    fn cursor_value(&self) -> String {
+        self.id.to_string()
+    }
 }

@@ -1,15 +1,24 @@
-use axum::{extract::{Path, Query, State}, Json};
+use super::{dto::CreateLandfillRequest, service::LandfillService};
 use crate::common::locale::Locale;
-use std::time::Duration;
+use crate::common::{
+    pagination::{paginate, PaginationQuery},
+    response::{message, ok, ok_paginated},
+};
 use crate::config::AppState;
-use crate::common::{response::{ok, ok_paginated, message}, pagination::{PaginationQuery, paginate}};
 use crate::errors::AppResult;
 use crate::models::Landfill;
 use crate::utils::cache::keys;
-use super::{dto::CreateLandfillRequest, service::LandfillService};
+use axum::{
+    extract::{Path, Query, State},
+    Json,
+};
+use std::time::Duration;
 
-pub async fn list(State(state): State<AppState>,
-    Locale(locale): Locale, Query(pq): Query<PaginationQuery>) -> AppResult<Json<serde_json::Value>> {
+pub async fn list(
+    State(state): State<AppState>,
+    Locale(locale): Locale,
+    Query(pq): Query<PaginationQuery>,
+) -> AppResult<Json<serde_json::Value>> {
     let limit = pq.take();
     let cache_key = format!(
         "{}:p{}:l{}",
@@ -29,25 +38,44 @@ pub async fn list(State(state): State<AppState>,
     Ok(Json(ok_paginated(data, cursor, has_more, &locale)))
 }
 
-pub async fn create(State(state): State<AppState>,
-    Locale(locale): Locale, Json(body): Json<CreateLandfillRequest>) -> AppResult<Json<serde_json::Value>> {
+pub async fn create(
+    State(state): State<AppState>,
+    Locale(locale): Locale,
+    Json(body): Json<CreateLandfillRequest>,
+) -> AppResult<Json<serde_json::Value>> {
     let item = LandfillService::create(&state.db, body).await?;
-    state.cache.invalidate_pattern(keys::landfills_pattern()).await;
+    state
+        .cache
+        .invalidate_pattern(keys::landfills_pattern())
+        .await;
     Ok(Json(ok(item, &locale)))
 }
 
-pub async fn update(State(state): State<AppState>,
-    Locale(locale): Locale, Path(id): Path<String>, Json(body): Json<CreateLandfillRequest>) -> AppResult<Json<serde_json::Value>> {
+pub async fn update(
+    State(state): State<AppState>,
+    Locale(locale): Locale,
+    Path(id): Path<String>,
+    Json(body): Json<CreateLandfillRequest>,
+) -> AppResult<Json<serde_json::Value>> {
     let item = LandfillService::update(&state.db, id.clone(), body).await?;
     state.cache.invalidate(&keys::landfill(&id)).await;
-    state.cache.invalidate_pattern(keys::landfills_pattern()).await;
+    state
+        .cache
+        .invalidate_pattern(keys::landfills_pattern())
+        .await;
     Ok(Json(ok(item, &locale)))
 }
 
-pub async fn delete(State(state): State<AppState>,
-    Locale(locale): Locale, Path(id): Path<String>) -> AppResult<Json<serde_json::Value>> {
+pub async fn delete(
+    State(state): State<AppState>,
+    Locale(_locale): Locale,
+    Path(id): Path<String>,
+) -> AppResult<Json<serde_json::Value>> {
     LandfillService::delete(&state.db, id.clone()).await?;
     state.cache.invalidate(&keys::landfill(&id)).await;
-    state.cache.invalidate_pattern(keys::landfills_pattern()).await;
+    state
+        .cache
+        .invalidate_pattern(keys::landfills_pattern())
+        .await;
     Ok(Json(message("Landfill deleted")))
 }

@@ -1,11 +1,11 @@
-use axum::{Router, middleware as mw};
+use axum::{middleware as mw, Router};
 use sqlx::postgres::PgPoolOptions;
-use tower_http::cors::CorsLayer;
 use tower_http::compression::CompressionLayer;
+use tower_http::cors::CorsLayer;
 use tower_http::trace::TraceLayer;
 
-use reybi_api::config::{AppConfig, AppState};
 use reybi_api::common::locale;
+use reybi_api::config::{AppConfig, AppState};
 use reybi_api::middleware;
 use reybi_api::utils::cache::Cache;
 

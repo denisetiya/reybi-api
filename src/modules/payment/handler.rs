@@ -52,10 +52,8 @@ pub async fn webhook(
         return Err(AppError::Forbidden("invalid signature".into()));
     }
 
-    let new_status = MidtransClient::map_status(
-        &payload.transaction_status,
-        payload.fraud_status.as_deref(),
-    );
+    let new_status =
+        MidtransClient::map_status(&payload.transaction_status, payload.fraud_status.as_deref());
 
     sqlx::query(
         r#"

@@ -1,9 +1,5 @@
 use axum::{
-    extract::Request,
-    http::request::Parts,
-    http::Extensions,
-    middleware::Next,
-    response::Response,
+    extract::Request, http::request::Parts, http::Extensions, middleware::Next, response::Response,
 };
 
 /// Locale extracted from Accept-Language header, `?locale=`, or `?lang=` query param.
@@ -12,9 +8,15 @@ use axum::{
 pub struct Locale(pub String);
 
 impl Locale {
-    pub fn en() -> Self { Locale("en".to_string()) }
-    pub fn id() -> Self { Locale("id".to_string()) }
-    pub fn as_str(&self) -> &str { &self.0 }
+    pub fn en() -> Self {
+        Locale("en".to_string())
+    }
+    pub fn id() -> Self {
+        Locale("id".to_string())
+    }
+    pub fn as_str(&self) -> &str {
+        &self.0
+    }
 }
 
 /// Implements `FromRequestParts` so handlers can extract locale directly via
@@ -58,8 +60,12 @@ fn extract_locale(req: &Request) -> Locale {
     if let Some(header) = req.headers().get("accept-language") {
         if let Ok(val) = header.to_str() {
             let v = val.to_lowercase();
-            if v.starts_with("id") { return Locale::id(); }
-            if v.starts_with("en") { return Locale::en(); }
+            if v.starts_with("id") {
+                return Locale::id();
+            }
+            if v.starts_with("en") {
+                return Locale::en();
+            }
         }
     }
     Locale::en()

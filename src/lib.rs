@@ -4,7 +4,7 @@ pub mod errors;
 pub mod i18n;
 pub mod middleware;
 pub mod models;
-pub mod utils;
 pub mod modules;
+pub mod utils;
 
 pub use config::AppState;

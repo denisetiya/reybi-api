@@ -1,15 +1,25 @@
-use axum::{extract::{Path, Query, State}, Json};
+use super::service::SallerService;
 use crate::common::locale::Locale;
-use std::time::Duration;
+use crate::common::{
+    pagination::{paginate, PaginationQuery},
+    response::ok_paginated,
+};
 use crate::config::AppState;
-use crate::common::{response::ok_paginated, pagination::{PaginationQuery, paginate}};
 use crate::errors::AppResult;
 use crate::models::Product;
 use crate::utils::cache::keys;
-use super::service::SallerService;
+use axum::{
+    extract::{Path, Query, State},
+    Json,
+};
+use std::time::Duration;
 
-pub async fn list_products(State(state): State<AppState>,
-    Locale(locale): Locale, Path(id): Path<String>, Query(pq): Query<PaginationQuery>) -> AppResult<Json<serde_json::Value>> {
+pub async fn list_products(
+    State(state): State<AppState>,
+    Locale(locale): Locale,
+    Path(id): Path<String>,
+    Query(pq): Query<PaginationQuery>,
+) -> AppResult<Json<serde_json::Value>> {
     let limit = pq.take();
     let cache_key = format!(
         "{}:p{}:l{}",

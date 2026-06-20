@@ -1,6 +1,6 @@
-use sqlx::PgPool;
 use crate::errors::{AppError, AppResult};
 use crate::models::Banner;
+use sqlx::PgPool;
 
 pub struct BannerService;
 
@@ -47,12 +47,10 @@ impl BannerService {
                 .await
             }
             (None, None) => {
-                sqlx::query_as::<_, Banner>(
-                    "SELECT * FROM banners ORDER BY id DESC LIMIT $1",
-                )
-                .bind(limit_with_one)
-                .fetch_all(db)
-                .await
+                sqlx::query_as::<_, Banner>("SELECT * FROM banners ORDER BY id DESC LIMIT $1")
+                    .bind(limit_with_one)
+                    .fetch_all(db)
+                    .await
             }
         };
         rows.map_err(|e| AppError::Internal(e.into()))
@@ -61,9 +59,13 @@ impl BannerService {
     pub async fn create(db: &PgPool, image: &str, r#type: Option<&str>) -> AppResult<Banner> {
         let id = cuid2::create_id();
         sqlx::query_as::<_, Banner>(
-            r#"INSERT INTO banners (id, image, type) VALUES ($1,$2,$3) RETURNING *"#
+            r#"INSERT INTO banners (id, image, type) VALUES ($1,$2,$3) RETURNING *"#,
         )
-        .bind(id).bind(image).bind(r#type)
-        .fetch_one(db).await.map_err(|e| AppError::Internal(e.into()))
+        .bind(id)
+        .bind(image)
+        .bind(r#type)
+        .fetch_one(db)
+        .await
+        .map_err(|e| AppError::Internal(e.into()))
     }
 }

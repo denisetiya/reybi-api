@@ -23,7 +23,11 @@ pub struct AuthConfig {
 
 impl AuthConfig {
     pub fn new(access_secret: String, refresh_secret: String, key_server: String) -> Self {
-        Self { access_secret, refresh_secret, key_server }
+        Self {
+            access_secret,
+            refresh_secret,
+            key_server,
+        }
     }
 }
 
@@ -37,7 +41,9 @@ pub async fn jwt_auth(
 
     if path.starts_with("/v1/auth")
         || (method == axum::http::Method::GET
-            && (path.starts_with("/v1/products") || path.starts_with("/v1/banners") || path.starts_with("/v1/articles")))
+            && (path.starts_with("/v1/products")
+                || path.starts_with("/v1/banners")
+                || path.starts_with("/v1/articles")))
     {
         return Ok(next.run(req).await);
     }
@@ -56,7 +62,8 @@ pub async fn jwt_auth(
         }
     }
 
-    let refresh_token = req.headers()
+    let refresh_token = req
+        .headers()
         .get("x-refresh-token")
         .and_then(|v| v.to_str().ok());
 
@@ -84,7 +91,9 @@ pub async fn jwt_auth(
             req.extensions_mut().insert(new_claims);
             let mut response = next.run(req).await;
             response.headers_mut().insert(
-                "x-new-access-token".parse::<axum::http::HeaderName>().unwrap(),
+                "x-new-access-token"
+                    .parse::<axum::http::HeaderName>()
+                    .unwrap(),
                 new_access.parse().unwrap(),
             );
             return Ok(response);

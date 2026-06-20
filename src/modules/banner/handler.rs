@@ -19,7 +19,12 @@ pub async fn list(
     Query(pq): Query<PaginationQuery>,
 ) -> AppResult<Json<serde_json::Value>> {
     let limit = pq.take();
-    let cache_key = format!("{}:p{}:l{}", keys::banner_list(), pq.cursor.clone().unwrap_or_else(|| "0".to_string()), limit);
+    let cache_key = format!(
+        "{}:p{}:l{}",
+        keys::banner_list(),
+        pq.cursor.clone().unwrap_or_else(|| "0".to_string()),
+        limit
+    );
 
     let banners: Vec<Banner> = state
         .cache
@@ -39,8 +44,13 @@ pub async fn list_by_type(
     Query(pq): Query<PaginationQuery>,
 ) -> AppResult<Json<serde_json::Value>> {
     let limit = pq.take();
-    let cache_key = format!("{}:{}:p{}:l{}",
-        keys::banner_list(), r#type, pq.cursor.clone().unwrap_or_else(|| "0".to_string()), limit);
+    let cache_key = format!(
+        "{}:{}:p{}:l{}",
+        keys::banner_list(),
+        r#type,
+        pq.cursor.clone().unwrap_or_else(|| "0".to_string()),
+        limit
+    );
 
     let banners: Vec<Banner> = state
         .cache
@@ -61,7 +71,10 @@ pub async fn create(
     let banner = BannerService::create(&state.db, &body.image, body.r#type.as_deref()).await?;
 
     // Invalidate ALL banner caches — list, by-type, and item
-    state.cache.invalidate_pattern(keys::banners_pattern()).await;
+    state
+        .cache
+        .invalidate_pattern(keys::banners_pattern())
+        .await;
 
     Ok(Json(ok(banner, &locale)))
 }

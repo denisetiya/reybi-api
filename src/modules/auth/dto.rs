@@ -1,6 +1,5 @@
 use serde::{Deserialize, Serialize};
 
-
 #[derive(Debug, Deserialize)]
 pub struct RegisterRequest {
     pub name: String,

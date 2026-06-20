@@ -1,7 +1,7 @@
-use sqlx::PgPool;
+use super::dto::CreateArticleRequest;
 use crate::errors::{AppError, AppResult};
 use crate::models::Article;
-use super::dto::CreateArticleRequest;
+use sqlx::PgPool;
 
 pub struct ArticleService;
 
@@ -10,18 +10,27 @@ impl ArticleService {
         let limit_with_one = limit + 1;
         if let Some(c) = cursor {
             sqlx::query_as::<_, Article>(
-                "SELECT * FROM articles WHERE id < $1 ORDER BY id DESC LIMIT $2"
-            ).bind(c).bind(limit_with_one).fetch_all(db).await.map_err(|e| AppError::Internal(e.into()))
+                "SELECT * FROM articles WHERE id < $1 ORDER BY id DESC LIMIT $2",
+            )
+            .bind(c)
+            .bind(limit_with_one)
+            .fetch_all(db)
+            .await
+            .map_err(|e| AppError::Internal(e.into()))
         } else {
-            sqlx::query_as::<_, Article>(
-                "SELECT * FROM articles ORDER BY id DESC LIMIT $1"
-            ).bind(limit_with_one).fetch_all(db).await.map_err(|e| AppError::Internal(e.into()))
+            sqlx::query_as::<_, Article>("SELECT * FROM articles ORDER BY id DESC LIMIT $1")
+                .bind(limit_with_one)
+                .fetch_all(db)
+                .await
+                .map_err(|e| AppError::Internal(e.into()))
         }
     }
 
     pub async fn get_by_id(db: &PgPool, id: String) -> AppResult<Article> {
         sqlx::query_as::<_, Article>("SELECT * FROM articles WHERE id = $1")
-            .bind(id).fetch_optional(db).await
+            .bind(id)
+            .fetch_optional(db)
+            .await
             .map_err(|e| AppError::Internal(e.into()))?
             .ok_or_else(|| AppError::NotFound("Article not found".into()))
     }
@@ -43,9 +52,14 @@ impl ArticleService {
     }
 
     pub async fn delete(db: &PgPool, id: String) -> AppResult<()> {
-        let r = sqlx::query("DELETE FROM articles WHERE id=$1").bind(&id)
-            .execute(db).await.map_err(|e| AppError::Internal(e.into()))?;
-        if r.rows_affected() == 0 { return Err(AppError::NotFound("Article not found".into())); }
+        let r = sqlx::query("DELETE FROM articles WHERE id=$1")
+            .bind(&id)
+            .execute(db)
+            .await
+            .map_err(|e| AppError::Internal(e.into()))?;
+        if r.rows_affected() == 0 {
+            return Err(AppError::NotFound("Article not found".into()));
+        }
         Ok(())
     }
 }

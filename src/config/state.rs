@@ -1,7 +1,7 @@
-use sqlx::PgPool;
 use crate::config::AppConfig;
 use crate::middleware::AuthConfig;
 use crate::utils::cache::Cache;
+use sqlx::PgPool;
 
 #[derive(Clone)]
 pub struct AppState {
@@ -18,6 +18,11 @@ impl AppState {
             config.jwt_refresh_secret.clone(),
             config.key_server.clone(),
         );
-        Self { db, config, auth, cache }
+        Self {
+            db,
+            config,
+            auth,
+            cache,
+        }
     }
 }

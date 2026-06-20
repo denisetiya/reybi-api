@@ -1,5 +1,5 @@
-use serde::Deserialize;
 use crate::common::pagination::HasCursor;
+use serde::Deserialize;
 
 #[derive(Debug, Deserialize)]
 pub struct AddCartRequest {
@@ -9,5 +9,7 @@ pub struct AddCartRequest {
 }
 
 impl HasCursor for crate::models::Cart {
-    fn cursor_value(&self) -> String { self.id.to_string() }
+    fn cursor_value(&self) -> String {
+        self.id.to_string()
+    }
 }

@@ -1,10 +1,10 @@
+use chrono::{Duration, Utc};
+use jsonwebtoken::{encode, EncodingKey, Header};
 use sqlx::PgPool;
-use chrono::{Utc, Duration};
-use jsonwebtoken::{encode, Header, EncodingKey};
 
+use super::dto::{AuthResponse, RegisterRequest};
 use crate::config::AppConfig;
 use crate::errors::{AppError, AppResult};
-use super::dto::{RegisterRequest, AuthResponse};
 
 #[derive(Debug, serde::Serialize)]
 pub struct UserSummary {
@@ -74,30 +74,31 @@ impl AuthService {
     }
 }
 
-async fn validate_firebase_token(
-    config: &AppConfig,
-    token: &str,
-) -> AppResult<FirebaseUser> {
+async fn validate_firebase_token(config: &AppConfig, token: &str) -> AppResult<FirebaseUser> {
     use reqwest::Client;
     let client = Client::new();
     let url = format!(
         "https://identitytoolkit.googleapis.com/v1/accounts:lookup?key={}",
         config.key_server
     );
-    let resp = client.post(&url)
+    let resp = client
+        .post(&url)
         .json(&serde_json::json!({ "idToken": token }))
         .send()
         .await
         .map_err(|e| AppError::Internal(e.into()))?;
 
-    let body: serde_json::Value = resp.json().await
+    let body: serde_json::Value = resp
+        .json()
+        .await
         .map_err(|e| AppError::Internal(e.into()))?;
 
-    let email = body["users"][0]["email"].as_str()
-        .ok_or_else(|| AppError::Validation(vec![crate::errors::FieldError {
+    let email = body["users"][0]["email"].as_str().ok_or_else(|| {
+        AppError::Validation(vec![crate::errors::FieldError {
             path: "token".into(),
             message: "Invalid Firebase token".into(),
-        }]))?;
+        }])
+    })?;
 
     let name = body["users"][0]["displayName"].as_str().map(String::from);
 
@@ -116,15 +117,11 @@ async fn find_or_create_user(
     db: &PgPool,
     firebase: &FirebaseUser,
 ) -> AppResult<crate::models::User> {
-    
-
-    let existing = sqlx::query_as::<_, crate::models::User>(
-        "SELECT * FROM users WHERE email = $1"
-    )
-    .bind(&firebase.email)
-    .fetch_optional(db)
-    .await
-    .map_err(|e| AppError::Internal(e.into()))?;
+    let existing = sqlx::query_as::<_, crate::models::User>("SELECT * FROM users WHERE email = $1")
+        .bind(&firebase.email)
+        .fetch_optional(db)
+        .await
+        .map_err(|e| AppError::Internal(e.into()))?;
 
     if let Some(user) = existing {
         return Ok(user);
@@ -132,7 +129,7 @@ async fn find_or_create_user(
 
     let id = cuid2::create_id();
     sqlx::query_as::<_, crate::models::User>(
-        r#"INSERT INTO users (id, email, name, role) VALUES ($1, $2, $3, $4) RETURNING *"#
+        r#"INSERT INTO users (id, email, name, role) VALUES ($1, $2, $3, $4) RETURNING *"#,
     )
     .bind(&id)
     .bind(&firebase.email)
@@ -143,10 +140,7 @@ async fn find_or_create_user(
     .map_err(|e| AppError::Internal(e.into()))
 }
 
-fn generate_tokens(
-    user: &crate::models::User,
-    config: &AppConfig,
-) -> AppResult<(String, String)> {
+fn generate_tokens(user: &crate::models::User, config: &AppConfig) -> AppResult<(String, String)> {
     let now = Utc::now();
     let access_claims = Claims {
         id: user.id.to_string(),
@@ -160,11 +154,17 @@ fn generate_tokens(
         iat: now.timestamp() as usize,
         exp: (now + Duration::days(7)).timestamp() as usize,
     };
-    let access = encode(&Header::default(), &access_claims,
-        &EncodingKey::from_secret(config.jwt_access_secret.as_bytes()))
-        .map_err(|_| AppError::Internal(anyhow::anyhow!("token failed")))?;
-    let refresh = encode(&Header::default(), &refresh_claims,
-        &EncodingKey::from_secret(config.jwt_refresh_secret.as_bytes()))
-        .map_err(|_| AppError::Internal(anyhow::anyhow!("refresh token failed")))?;
+    let access = encode(
+        &Header::default(),
+        &access_claims,
+        &EncodingKey::from_secret(config.jwt_access_secret.as_bytes()),
+    )
+    .map_err(|_| AppError::Internal(anyhow::anyhow!("token failed")))?;
+    let refresh = encode(
+        &Header::default(),
+        &refresh_claims,
+        &EncodingKey::from_secret(config.jwt_refresh_secret.as_bytes()),
+    )
+    .map_err(|_| AppError::Internal(anyhow::anyhow!("refresh token failed")))?;
     Ok((access, refresh))
 }

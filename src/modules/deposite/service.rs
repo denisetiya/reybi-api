@@ -1,12 +1,16 @@
-use sqlx::PgPool;
+use super::dto::CreateDepositeRequest;
 use crate::errors::{AppError, AppResult};
 use crate::models::Deposite;
-use super::dto::CreateDepositeRequest;
+use sqlx::PgPool;
 
 pub struct DepositeService;
 
 impl DepositeService {
-    pub async fn create(db: &PgPool, user_id: String, data: CreateDepositeRequest) -> AppResult<Deposite> {
+    pub async fn create(
+        db: &PgPool,
+        user_id: String,
+        data: CreateDepositeRequest,
+    ) -> AppResult<Deposite> {
         let id = cuid2::create_id();
         let deposite = sqlx::query_as::<_, Deposite>(
             r#"INSERT INTO deposites (id, user_id, address_id, type, pickup_date, pickup_time, coin, images, landfill_id)
@@ -25,20 +29,39 @@ impl DepositeService {
             .execute(db).await.map_err(|e| AppError::Internal(e.into()))?;
         }
         let sid = cuid2::create_id();
-        sqlx::query(r#"INSERT INTO deposite_statuses (id, deposit_id, ongoing) VALUES ($1,$2,true)"#)
-            .bind(sid).bind(id).execute(db).await.map_err(|e| AppError::Internal(e.into()))?;
+        sqlx::query(
+            r#"INSERT INTO deposite_statuses (id, deposit_id, ongoing) VALUES ($1,$2,true)"#,
+        )
+        .bind(sid)
+        .bind(id)
+        .execute(db)
+        .await
+        .map_err(|e| AppError::Internal(e.into()))?;
         Ok(deposite)
     }
 
-    pub async fn get_by_user(db: &PgPool, user_id: Option<String>, limit: i64) -> AppResult<Vec<Deposite>> {
+    pub async fn get_by_user(
+        db: &PgPool,
+        user_id: Option<String>,
+        limit: i64,
+    ) -> AppResult<Vec<Deposite>> {
         if let Some(uid) = user_id {
             sqlx::query_as::<_, Deposite>(
-                "SELECT * FROM deposites WHERE user_id=$1 ORDER BY created_at DESC LIMIT $2"
-            ).bind(uid).bind(limit + 1).fetch_all(db).await.map_err(|e| AppError::Internal(e.into()))
+                "SELECT * FROM deposites WHERE user_id=$1 ORDER BY created_at DESC LIMIT $2",
+            )
+            .bind(uid)
+            .bind(limit + 1)
+            .fetch_all(db)
+            .await
+            .map_err(|e| AppError::Internal(e.into()))
         } else {
             sqlx::query_as::<_, Deposite>(
-                "SELECT * FROM deposites ORDER BY created_at DESC LIMIT $1"
-            ).bind(limit + 1).fetch_all(db).await.map_err(|e| AppError::Internal(e.into()))
+                "SELECT * FROM deposites ORDER BY created_at DESC LIMIT $1",
+            )
+            .bind(limit + 1)
+            .fetch_all(db)
+            .await
+            .map_err(|e| AppError::Internal(e.into()))
         }
     }
 }

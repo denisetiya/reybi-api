@@ -1,22 +1,36 @@
-use axum::{extract::{Path, Query, State}, Json};
+use super::{dto::CreateOrderRequest, service::OrderService};
 use crate::common::locale::Locale;
-use std::time::Duration;
+use crate::common::{
+    pagination::{paginate, PaginationQuery},
+    response::{message, ok, ok_paginated},
+};
 use crate::config::AppState;
-use crate::common::{response::{ok, ok_paginated, message}, pagination::{PaginationQuery, paginate}};
 use crate::errors::AppResult;
 use crate::models::Order;
 use crate::utils::cache::keys;
-use super::{dto::CreateOrderRequest, service::OrderService};
+use axum::{
+    extract::{Path, Query, State},
+    Json,
+};
+use std::time::Duration;
 
-pub async fn create(State(state): State<AppState>,
-    Locale(locale): Locale, Path(user_id): Path<String>, Json(body): Json<CreateOrderRequest>) -> AppResult<Json<serde_json::Value>> {
+pub async fn create(
+    State(state): State<AppState>,
+    Locale(locale): Locale,
+    Path(user_id): Path<String>,
+    Json(body): Json<CreateOrderRequest>,
+) -> AppResult<Json<serde_json::Value>> {
     let order = OrderService::create(&state.db, user_id.clone(), body).await?;
     state.cache.invalidate_pattern(keys::orders_pattern()).await;
     Ok(Json(ok(order, &locale)))
 }
 
-pub async fn list_user(State(state): State<AppState>,
-    Locale(locale): Locale, Path(user_id): Path<String>, Query(pq): Query<PaginationQuery>) -> AppResult<Json<serde_json::Value>> {
+pub async fn list_user(
+    State(state): State<AppState>,
+    Locale(locale): Locale,
+    Path(user_id): Path<String>,
+    Query(pq): Query<PaginationQuery>,
+) -> AppResult<Json<serde_json::Value>> {
     let limit = pq.take();
     let scope = format!("u:{}", user_id);
     let cache_key = format!(
@@ -37,8 +51,11 @@ pub async fn list_user(State(state): State<AppState>,
     Ok(Json(ok_paginated(data, cursor, has_more, &locale)))
 }
 
-pub async fn list_all(State(state): State<AppState>,
-    Locale(locale): Locale, Query(pq): Query<PaginationQuery>) -> AppResult<Json<serde_json::Value>> {
+pub async fn list_all(
+    State(state): State<AppState>,
+    Locale(locale): Locale,
+    Query(pq): Query<PaginationQuery>,
+) -> AppResult<Json<serde_json::Value>> {
     let limit = pq.take();
     let cache_key = format!(
         "{}:p{}:l{}",
@@ -58,8 +75,11 @@ pub async fn list_all(State(state): State<AppState>,
     Ok(Json(ok_paginated(data, cursor, has_more, &locale)))
 }
 
-pub async fn delete(State(state): State<AppState>,
-    Locale(locale): Locale, Path(id): Path<String>) -> AppResult<Json<serde_json::Value>> {
+pub async fn delete(
+    State(state): State<AppState>,
+    Locale(_locale): Locale,
+    Path(id): Path<String>,
+) -> AppResult<Json<serde_json::Value>> {
     OrderService::delete(&state.db, id.clone()).await?;
     state.cache.invalidate(&keys::order(&id)).await;
     state.cache.invalidate_pattern(keys::orders_pattern()).await;
