@@ -4,7 +4,7 @@ use std::time::Duration;
 
 use crate::common::locale::Locale;
 use crate::common::pagination::{paginate, PaginationQuery};
-use crate::common::response::{message, ok, ok_paginated};
+use crate::common::response::{message, ok, ok_paginated, AppResponse};
 use crate::config::AppState;
 use crate::errors::AppResult;
 use crate::i18n::messages::t;
@@ -18,7 +18,7 @@ pub async fn list(
     State(state): State<AppState>,
     Locale(locale): Locale,
     Query(pq): Query<PaginationQuery>,
-) -> AppResult<Json<serde_json::Value>> {
+) -> AppResult<AppResponse<serde_json::Value>> {
     let limit = pq.take();
     let cache_key = format!(
         "{}:p{}:l{}",
@@ -35,14 +35,14 @@ pub async fn list(
         .await?;
 
     let (data, cursor, has_more) = paginate(&articles, limit);
-    Ok(Json(ok_paginated(data, cursor, has_more, &locale)))
+    Ok(ok_paginated(data, cursor, has_more, &locale))
 }
 
 pub async fn get(
     State(state): State<AppState>,
     Locale(locale): Locale,
     Path(id): Path<String>,
-) -> AppResult<Json<serde_json::Value>> {
+) -> AppResult<AppResponse<serde_json::Value>> {
     let cache_key = keys::article(&id.to_string());
     let article: Article = state
         .cache
@@ -50,20 +50,20 @@ pub async fn get(
             ArticleService::get_by_id(&state.db, id).await
         })
         .await?;
-    Ok(Json(ok(article, &locale)))
+    Ok(ok(article, &locale))
 }
 
 pub async fn create(
     State(state): State<AppState>,
     Locale(locale): Locale,
     Json(body): Json<CreateArticleRequest>,
-) -> AppResult<Json<serde_json::Value>> {
+) -> AppResult<AppResponse<serde_json::Value>> {
     let article = ArticleService::create(&state.db, body).await?;
     state
         .cache
         .invalidate_pattern(keys::articles_pattern())
         .await;
-    Ok(Json(ok(article, &locale)))
+    Ok(ok(article, &locale))
 }
 
 pub async fn update(
@@ -71,7 +71,7 @@ pub async fn update(
     Locale(locale): Locale,
     Path(id): Path<String>,
     Json(body): Json<CreateArticleRequest>,
-) -> AppResult<Json<serde_json::Value>> {
+) -> AppResult<AppResponse<serde_json::Value>> {
     let article = ArticleService::update(&state.db, id.clone(), body).await?;
     // invalidate both the item cache and the list cache
     state.cache.invalidate(&keys::article(&id)).await;
@@ -79,21 +79,21 @@ pub async fn update(
         .cache
         .invalidate_pattern(keys::articles_pattern())
         .await;
-    Ok(Json(ok(article, &locale)))
+    Ok(ok(article, &locale))
 }
 
 pub async fn delete(
     State(state): State<AppState>,
     Locale(locale): Locale,
     Path(id): Path<String>,
-) -> AppResult<Json<serde_json::Value>> {
+) -> AppResult<AppResponse<serde_json::Value>> {
     ArticleService::delete(&state.db, id.clone()).await?;
     state.cache.invalidate(&keys::article(&id)).await;
     state
         .cache
         .invalidate_pattern(keys::articles_pattern())
         .await;
-    Ok(Json(message(
+    Ok(message(
         &t(&locale, "ARTICLE_NOT_FOUND").replace("not found", "deleted"),
-    )))
+    ))
 }

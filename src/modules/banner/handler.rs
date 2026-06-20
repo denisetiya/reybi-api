@@ -4,7 +4,7 @@ use std::time::Duration;
 
 use crate::common::locale::Locale;
 use crate::common::pagination::{paginate, PaginationQuery};
-use crate::common::response::{ok, ok_paginated};
+use crate::common::response::{ok, ok_paginated, AppResponse};
 use crate::config::AppState;
 use crate::errors::AppResult;
 use crate::models::user::Banner;
@@ -17,7 +17,7 @@ pub async fn list(
     State(state): State<AppState>,
     Locale(locale): Locale,
     Query(pq): Query<PaginationQuery>,
-) -> AppResult<Json<serde_json::Value>> {
+) -> AppResult<AppResponse<serde_json::Value>> {
     let limit = pq.take();
     let cache_key = format!(
         "{}:p{}:l{}",
@@ -34,7 +34,7 @@ pub async fn list(
         .await?;
 
     let (data, cursor, has_more) = paginate(&banners, limit);
-    Ok(Json(ok_paginated(data, cursor, has_more, &locale)))
+    Ok(ok_paginated(data, cursor, has_more, &locale))
 }
 
 pub async fn list_by_type(
@@ -42,7 +42,7 @@ pub async fn list_by_type(
     Locale(locale): Locale,
     Path(r#type): Path<String>,
     Query(pq): Query<PaginationQuery>,
-) -> AppResult<Json<serde_json::Value>> {
+) -> AppResult<AppResponse<serde_json::Value>> {
     let limit = pq.take();
     let cache_key = format!(
         "{}:{}:p{}:l{}",
@@ -60,14 +60,14 @@ pub async fn list_by_type(
         .await?;
 
     let (data, cursor, has_more) = paginate(&banners, limit);
-    Ok(Json(ok_paginated(data, cursor, has_more, &locale)))
+    Ok(ok_paginated(data, cursor, has_more, &locale))
 }
 
 pub async fn create(
     State(state): State<AppState>,
     Locale(locale): Locale,
     Json(body): Json<CreateBannerRequest>,
-) -> AppResult<Json<serde_json::Value>> {
+) -> AppResult<AppResponse<serde_json::Value>> {
     let banner = BannerService::create(&state.db, &body.image, body.r#type.as_deref()).await?;
 
     // Invalidate ALL banner caches — list, by-type, and item
@@ -76,5 +76,5 @@ pub async fn create(
         .invalidate_pattern(keys::banners_pattern())
         .await;
 
-    Ok(Json(ok(banner, &locale)))
+    Ok(ok(banner, &locale))
 }

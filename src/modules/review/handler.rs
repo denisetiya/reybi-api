@@ -1,6 +1,7 @@
 use super::{dto::*, service::ReviewService};
 use crate::common::locale::Locale;
 use crate::common::response::ok;
+use crate::common::response::AppResponse;
 use crate::config::AppState;
 use crate::errors::AppResult;
 use crate::utils::cache::keys;
@@ -13,7 +14,7 @@ pub async fn create(
     State(state): State<AppState>,
     Locale(locale): Locale,
     Json(body): Json<CreateReviewRequest>,
-) -> AppResult<Json<serde_json::Value>> {
+) -> AppResult<AppResponse<serde_json::Value>> {
     let review = ReviewService::create(&state.db, cuid2::create_id(), body).await?;
     // New review affects the parent product's review set — drop product cache too.
     state
@@ -24,7 +25,7 @@ pub async fn create(
         .cache
         .invalidate_pattern(crate::utils::cache::keys::products_pattern())
         .await;
-    Ok(Json(ok(review, &locale)))
+    Ok(ok(review, &locale))
 }
 
 pub async fn update(
@@ -32,7 +33,7 @@ pub async fn update(
     Locale(locale): Locale,
     Path(id): Path<String>,
     Json(body): Json<UpdateReviewRequest>,
-) -> AppResult<Json<serde_json::Value>> {
+) -> AppResult<AppResponse<serde_json::Value>> {
     let review = ReviewService::update(&state.db, id.clone(), body).await?;
     state.cache.invalidate(&keys::review(&id)).await;
     state
@@ -43,5 +44,5 @@ pub async fn update(
         .cache
         .invalidate_pattern(crate::utils::cache::keys::products_pattern())
         .await;
-    Ok(Json(ok(review, &locale)))
+    Ok(ok(review, &locale))
 }

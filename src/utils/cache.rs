@@ -22,16 +22,25 @@ impl Cache {
             return Self { inner: None };
         }
         match Client::open(url) {
-            Ok(client) => match ConnectionManager::new(client).await {
-                Ok(cm) => {
-                    tracing::info!("✓ redis cache connected");
-                    Self { inner: Some(cm) }
+            Ok(client) => {
+                // Bound the connect attempt so a bad URL / unreachable host
+                // doesn't wedge server startup forever.
+                let conn_fut = ConnectionManager::new(client);
+                match tokio::time::timeout(Duration::from_secs(5), conn_fut).await {
+                    Ok(Ok(cm)) => {
+                        tracing::info!("✓ redis cache connected");
+                        Self { inner: Some(cm) }
+                    }
+                    Ok(Err(e)) => {
+                        warn!(error = %e, "redis connect failed — cache disabled");
+                        Self { inner: None }
+                    }
+                    Err(_) => {
+                        warn!("redis connect timed out after 5s — cache disabled");
+                        Self { inner: None }
+                    }
                 }
-                Err(e) => {
-                    warn!(error = %e, "redis connect failed — cache disabled");
-                    Self { inner: None }
-                }
-            },
+            }
             Err(e) => {
                 warn!(error = %e, "invalid REDIS_URL — cache disabled");
                 Self { inner: None }
@@ -125,7 +134,13 @@ impl Cache {
         }
     }
 
-    /// High-level: GET → deserialize → if miss, run loader, SETEX result.
+    /// High-level: GET → deserialize (JSON) → if miss, run loader, SETEX result.
+    ///
+    /// Keeps the on-the-wire and on-disk payloads aligned: what's stored in
+    /// Redis is exactly what we'd send to the client, so there's no
+    /// encode/decode mismatch risk and no schema tag to maintain.  JSON is
+    /// a touch slower than bincode here but lets us inspect cached payloads
+    /// with `redis-cli GET` for debugging.
     pub async fn get_or_load<T, F, Fut>(
         &self,
         key: &str,
@@ -133,19 +148,23 @@ impl Cache {
         loader: F,
     ) -> Result<T, crate::errors::AppError>
     where
-        T: Serialize + DeserializeOwned + Clone,
+        T: Serialize + DeserializeOwned,
         F: FnOnce() -> Fut,
         Fut: std::future::Future<Output = Result<T, crate::errors::AppError>>,
     {
+        // Cache hit path
         if let Some(raw) = self.get_raw(key).await {
             if let Ok(v) = serde_json::from_str::<T>(&raw) {
                 debug!(key, "✓ cache hit");
                 return Ok(v);
             }
+            // Corrupt entry — drop it so the loader can repopulate.
+            self.invalidate(key).await;
         }
+        // Cache miss — run the loader, then populate the cache.
         let v = loader().await?;
-        if let Ok(s) = serde_json::to_string(&v) {
-            self.set_ex(key, &s, ttl).await;
+        if let Ok(blob) = serde_json::to_string(&v) {
+            self.set_ex(key, &blob, ttl).await;
         }
         Ok(v)
     }

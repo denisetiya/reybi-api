@@ -199,7 +199,7 @@ jobs:
           key: ${{ secrets.SERVER_SSH_KEY }}
           password: ${{ secrets.SERVER_PASSWORD }}
           command_timeout: 10m
-          envs: IMAGE,API_PORT,POSTGRES_USER,POSTGRES_PASSWORD,POSTGRES_DB,REDIS_HOST,REDIS_PASSWORD,KEY_SERVER,JWT_ACCESS_SECRET,JWT_REFRESH_SECRET,FIREBASE_PROJECT_ID,MIDTRANS_SERVER_KEY,MIDTRANS_CLIENT_KEY,MIDTRANS_IS_PRODUCTION,CLOUDFLARE_TUNNEL_TOKEN,RUN_SEED
+          envs: IMAGE,IMAGE_LOCAL,API_PORT,POSTGRES_USER,POSTGRES_PASSWORD,POSTGRES_DB,REDIS_HOST,REDIS_PASSWORD,KEY_SERVER,JWT_ACCESS_SECRET,JWT_REFRESH_SECRET,FIREBASE_PROJECT_ID,MIDTRANS_SERVER_KEY,MIDTRANS_CLIENT_KEY,MIDTRANS_IS_PRODUCTION,CLOUDFLARE_TUNNEL_TOKEN,RUN_SEED,GITHUB_TOKEN
           script: |
             set -euo pipefail
             # default IMAGE if runner didn't forward it (avoids `set -u` crash)
@@ -236,13 +236,25 @@ jobs:
             fi
 
             # 3. login to ghcr.io + pull image
+            # Try GHCR_PAT first (most permissive); fall back to GITHUB_TOKEN
+            # which has read access to the repo's own packages automatically.
+            GH_USER="${{ github.actor }}"
             if [ -n "${GHCR_PAT:-}" ]; then
-              GH_USER="${{ github.actor }}"
               echo "${GHCR_PAT}" \
+                | docker login ghcr.io -u "${GH_USER}" --password-stdin
+            elif [ -n "${GITHUB_TOKEN:-}" ]; then
+              echo "${GITHUB_TOKEN}" \
                 | docker login ghcr.io -u "${GH_USER}" --password-stdin
             fi
             echo "▶ pulling ${IMAGE}"
-            docker pull "${IMAGE}"
+            # Pull the GHCR image; on 403/404 fall back to local tag so the
+            # server can still boot if GHCR is unreachable or the token
+            # doesn't have package read scope.
+            if ! docker pull "${IMAGE}" 2>&1; then
+              echo "⚠ GHCR pull failed — falling back to ${IMAGE_LOCAL:-reybi-api:local}"
+              docker pull "${IMAGE_LOCAL:-reybi-api:local}" || true
+              IMAGE="${IMAGE_LOCAL:-reybi-api:local}"
+            fi
             docker logout ghcr.io >/dev/null 2>&1 || true
 
             # 4. start api + cloudflared (use IMAGE env so compose file ${IMAGE} resolves)

@@ -1,5 +1,6 @@
 use super::{dto::*, service::ProductService};
 use crate::common::locale::Locale;
+use crate::common::response::AppResponse;
 use crate::common::{
     pagination::paginate,
     response::{message, ok, ok_paginated},
@@ -18,7 +19,7 @@ pub async fn list(
     State(state): State<AppState>,
     Locale(locale): Locale,
     Query(filter): Query<ProductFilter>,
-) -> AppResult<Json<serde_json::Value>> {
+) -> AppResult<AppResponse<serde_json::Value>> {
     let limit = filter.limit.unwrap_or(25);
     // Encode all filter dimensions into the cache key so different queries
     // don't collide on the same entry.
@@ -39,14 +40,14 @@ pub async fn list(
         .await?;
 
     let (data, cursor, has_more) = paginate(&products, limit);
-    Ok(Json(ok_paginated(data, cursor, has_more, &locale)))
+    Ok(ok_paginated(data, cursor, has_more, &locale))
 }
 
 pub async fn get(
     State(state): State<AppState>,
     Locale(locale): Locale,
     Path(id): Path<String>,
-) -> AppResult<Json<serde_json::Value>> {
+) -> AppResult<AppResponse<serde_json::Value>> {
     let cache_key = keys::product(&id);
     let product: Product = state
         .cache
@@ -56,20 +57,20 @@ pub async fn get(
                 .ok_or_else(|| AppError::NotFound("Product not found".into()))
         })
         .await?;
-    Ok(Json(ok(product, &locale)))
+    Ok(ok(product, &locale))
 }
 
 pub async fn create(
     State(state): State<AppState>,
     Locale(locale): Locale,
     Json(body): Json<CreateProductRequest>,
-) -> AppResult<Json<serde_json::Value>> {
+) -> AppResult<AppResponse<serde_json::Value>> {
     let product = ProductService::create(&state.db, body).await?;
     state
         .cache
         .invalidate_pattern(keys::products_pattern())
         .await;
-    Ok(Json(ok(product, &locale)))
+    Ok(ok(product, &locale))
 }
 
 pub async fn update(
@@ -77,28 +78,28 @@ pub async fn update(
     Locale(locale): Locale,
     Path(id): Path<String>,
     Json(body): Json<UpdateProductRequest>,
-) -> AppResult<Json<serde_json::Value>> {
+) -> AppResult<AppResponse<serde_json::Value>> {
     let product = ProductService::update(&state.db, id.clone(), body).await?;
     state.cache.invalidate(&keys::product(&id)).await;
     state
         .cache
         .invalidate_pattern(keys::products_pattern())
         .await;
-    Ok(Json(ok(product, &locale)))
+    Ok(ok(product, &locale))
 }
 
 pub async fn delete(
     State(state): State<AppState>,
     Locale(_locale): Locale,
     Path(id): Path<String>,
-) -> AppResult<Json<serde_json::Value>> {
+) -> AppResult<AppResponse<serde_json::Value>> {
     ProductService::delete(&state.db, id.clone()).await?;
     state.cache.invalidate(&keys::product(&id)).await;
     state
         .cache
         .invalidate_pattern(keys::products_pattern())
         .await;
-    Ok(Json(message("Product deleted")))
+    Ok(message("Product deleted"))
 }
 
 pub async fn create_variant(
@@ -106,7 +107,7 @@ pub async fn create_variant(
     Locale(locale): Locale,
     Path(id): Path<String>,
     Json(body): Json<CreateVariantRequest>,
-) -> AppResult<Json<serde_json::Value>> {
+) -> AppResult<AppResponse<serde_json::Value>> {
     let variant = ProductService::add_variant(&state.db, id.clone(), body).await?;
     // Adding a variant changes the parent product — drop both caches.
     state.cache.invalidate(&keys::product(&id)).await;
@@ -114,5 +115,5 @@ pub async fn create_variant(
         .cache
         .invalidate_pattern(keys::products_pattern())
         .await;
-    Ok(Json(ok(variant, &locale)))
+    Ok(ok(variant, &locale))
 }

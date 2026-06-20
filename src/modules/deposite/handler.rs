@@ -1,5 +1,6 @@
 use super::{dto::CreateDepositeRequest, service::DepositeService};
 use crate::common::locale::Locale;
+use crate::common::response::AppResponse;
 use crate::common::{
     pagination::{paginate, PaginationQuery},
     response::{ok, ok_paginated},
@@ -18,13 +19,13 @@ pub async fn create(
     State(state): State<AppState>,
     Locale(locale): Locale,
     Json(body): Json<CreateDepositeRequest>,
-) -> AppResult<Json<serde_json::Value>> {
+) -> AppResult<AppResponse<serde_json::Value>> {
     let deposite = DepositeService::create(&state.db, cuid2::create_id(), body).await?;
     state
         .cache
         .invalidate_pattern(keys::deposites_pattern())
         .await;
-    Ok(Json(ok(deposite, &locale)))
+    Ok(ok(deposite, &locale))
 }
 
 pub async fn list_user(
@@ -32,7 +33,7 @@ pub async fn list_user(
     Locale(locale): Locale,
     Path(id): Path<String>,
     Query(pq): Query<PaginationQuery>,
-) -> AppResult<Json<serde_json::Value>> {
+) -> AppResult<AppResponse<serde_json::Value>> {
     let limit = pq.take();
     let scope = format!("u:{}", id);
     let cache_key = format!(
@@ -50,14 +51,14 @@ pub async fn list_user(
         .await?;
 
     let (data, cursor, has_more) = paginate(&items, limit);
-    Ok(Json(ok_paginated(data, cursor, has_more, &locale)))
+    Ok(ok_paginated(data, cursor, has_more, &locale))
 }
 
 pub async fn list_all(
     State(state): State<AppState>,
     Locale(locale): Locale,
     Query(pq): Query<PaginationQuery>,
-) -> AppResult<Json<serde_json::Value>> {
+) -> AppResult<AppResponse<serde_json::Value>> {
     let limit = pq.take();
     let cache_key = format!(
         "{}:p{}:l{}",
@@ -74,5 +75,5 @@ pub async fn list_all(
         .await?;
 
     let (data, cursor, has_more) = paginate(&items, limit);
-    Ok(Json(ok_paginated(data, cursor, has_more, &locale)))
+    Ok(ok_paginated(data, cursor, has_more, &locale))
 }

@@ -1,5 +1,6 @@
 use super::{dto::CreateLandfillRequest, service::LandfillService};
 use crate::common::locale::Locale;
+use crate::common::response::AppResponse;
 use crate::common::{
     pagination::{paginate, PaginationQuery},
     response::{message, ok, ok_paginated},
@@ -18,7 +19,7 @@ pub async fn list(
     State(state): State<AppState>,
     Locale(locale): Locale,
     Query(pq): Query<PaginationQuery>,
-) -> AppResult<Json<serde_json::Value>> {
+) -> AppResult<AppResponse<serde_json::Value>> {
     let limit = pq.take();
     let cache_key = format!(
         "{}:p{}:l{}",
@@ -35,20 +36,20 @@ pub async fn list(
         .await?;
 
     let (data, cursor, has_more) = paginate(&items, limit);
-    Ok(Json(ok_paginated(data, cursor, has_more, &locale)))
+    Ok(ok_paginated(data, cursor, has_more, &locale))
 }
 
 pub async fn create(
     State(state): State<AppState>,
     Locale(locale): Locale,
     Json(body): Json<CreateLandfillRequest>,
-) -> AppResult<Json<serde_json::Value>> {
+) -> AppResult<AppResponse<serde_json::Value>> {
     let item = LandfillService::create(&state.db, body).await?;
     state
         .cache
         .invalidate_pattern(keys::landfills_pattern())
         .await;
-    Ok(Json(ok(item, &locale)))
+    Ok(ok(item, &locale))
 }
 
 pub async fn update(
@@ -56,26 +57,26 @@ pub async fn update(
     Locale(locale): Locale,
     Path(id): Path<String>,
     Json(body): Json<CreateLandfillRequest>,
-) -> AppResult<Json<serde_json::Value>> {
+) -> AppResult<AppResponse<serde_json::Value>> {
     let item = LandfillService::update(&state.db, id.clone(), body).await?;
     state.cache.invalidate(&keys::landfill(&id)).await;
     state
         .cache
         .invalidate_pattern(keys::landfills_pattern())
         .await;
-    Ok(Json(ok(item, &locale)))
+    Ok(ok(item, &locale))
 }
 
 pub async fn delete(
     State(state): State<AppState>,
     Locale(_locale): Locale,
     Path(id): Path<String>,
-) -> AppResult<Json<serde_json::Value>> {
+) -> AppResult<AppResponse<serde_json::Value>> {
     LandfillService::delete(&state.db, id.clone()).await?;
     state.cache.invalidate(&keys::landfill(&id)).await;
     state
         .cache
         .invalidate_pattern(keys::landfills_pattern())
         .await;
-    Ok(Json(message("Landfill deleted")))
+    Ok(message("Landfill deleted"))
 }

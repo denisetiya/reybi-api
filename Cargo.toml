@@ -7,16 +7,17 @@ authors = ["denisetiya"]
 
 [profile.release]
 opt-level = 3
-lto = true
+lto = "fat"
 codegen-units = 1
 strip = true
+panic = "abort"
 
 [dependencies]
 # Web framework
 axum = { version = "0.8", features = ["macros"] }
 tokio = { version = "1", features = ["full"] }
 tower = "0.5"
-tower-http = { version = "0.6", features = ["cors", "compression-gzip", "trace", "limit"] }
+tower-http = { version = "0.6", features = ["cors", "compression-gzip", "compression-br", "compression-deflate", "trace", "limit", "timeout", "set-header", "fs"] }
 
 # Serialization
 serde = { version = "1", features = ["derive"] }
@@ -54,7 +55,14 @@ dotenvy = "0.15"
 thiserror = "2"
 anyhow = "1"
 base64 = "0.22"
-reqwest = { version = "0.12", features = ["json"] }
+# reqwest only used for localhost self-warm — drop default TLS stack to keep
+# the build lean and the binary small (no openssl / native-tls pull-in).
+reqwest = { version = "0.12", default-features = false, features = ["json"] }
+fnv = "1"
+# Faster multithreaded allocator — meaningful win under concurrent load where
+# the system allocator's lock contention shows up.  Pulled in as a global
+# allocator in `main.rs` via `#[global_allocator]`.
+mimalloc = { version = "0.1", default-features = false }
 
 [dev-dependencies]
 tower-http = { version = "0.6", features = ["cors", "compression-gzip", "trace", "limit"] }

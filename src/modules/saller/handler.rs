@@ -1,5 +1,6 @@
 use super::service::SallerService;
 use crate::common::locale::Locale;
+use crate::common::response::AppResponse;
 use crate::common::{
     pagination::{paginate, PaginationQuery},
     response::ok_paginated,
@@ -19,7 +20,7 @@ pub async fn list_products(
     Locale(locale): Locale,
     Path(id): Path<String>,
     Query(pq): Query<PaginationQuery>,
-) -> AppResult<Json<serde_json::Value>> {
+) -> AppResult<AppResponse<serde_json::Value>> {
     let limit = pq.take();
     let cache_key = format!(
         "{}:p{}:l{}",
@@ -36,5 +37,5 @@ pub async fn list_products(
         .await?;
 
     let (data, cursor, has_more) = paginate(&items, limit);
-    Ok(Json(ok_paginated(data, cursor, has_more, &locale)))
+    Ok(ok_paginated(data, cursor, has_more, &locale))
 }

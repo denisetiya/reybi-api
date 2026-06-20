@@ -6,6 +6,8 @@ use serde::{Deserialize, Serialize};
 
 use crate::errors::AppError;
 
+pub mod etag;
+
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Claims {
     pub id: String,

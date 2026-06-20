@@ -2,6 +2,7 @@ use super::dto::UpdateProfileRequest;
 use super::service::ProfileService;
 use crate::common::locale::Locale;
 use crate::common::response::ok;
+use crate::common::response::AppResponse;
 use crate::config::AppState;
 use crate::errors::AppResult;
 use crate::models::User;
@@ -16,7 +17,7 @@ pub async fn get(
     State(state): State<AppState>,
     Locale(locale): Locale,
     Path(email): Path<String>,
-) -> AppResult<Json<serde_json::Value>> {
+) -> AppResult<AppResponse<serde_json::Value>> {
     let cache_key = keys::profile(&email);
     let profile: User = state
         .cache
@@ -24,7 +25,7 @@ pub async fn get(
             ProfileService::get_by_email(&state.db, &email).await
         })
         .await?;
-    Ok(Json(ok(profile, &locale)))
+    Ok(ok(profile, &locale))
 }
 
 pub async fn update(
@@ -32,12 +33,12 @@ pub async fn update(
     Locale(locale): Locale,
     Path(email): Path<String>,
     Json(body): Json<UpdateProfileRequest>,
-) -> AppResult<Json<serde_json::Value>> {
+) -> AppResult<AppResponse<serde_json::Value>> {
     let profile = ProfileService::update(&state.db, &email, body).await?;
     state.cache.invalidate(&keys::profile(&email)).await;
     state
         .cache
         .invalidate_pattern(keys::profile_pattern())
         .await;
-    Ok(Json(ok(profile, &locale)))
+    Ok(ok(profile, &locale))
 }

@@ -17,6 +17,17 @@ pub struct AppConfig {
     pub firebase_project_id: String,
     pub redis_url: String,
     pub cache_ttl_secs: u64,
+    /// Max concurrent Postgres connections.  Tune up if the API serves
+    /// many in-flight requests and Postgres has headroom; down if every
+    /// connection's a precious resource.
+    pub pg_max_connections: u32,
+    /// Min idle connections kept open by sqlx — the pre-warm target.
+    pub pg_min_connections: u32,
+    /// How long to wait for a free connection before failing the request.
+    pub pg_acquire_timeout_secs: u64,
+    /// `statement_timeout` SET on every new connection — kills long-running
+    /// queries before they pin a connection indefinitely.
+    pub pg_statement_timeout_ms: u64,
 }
 
 impl AppConfig {
@@ -44,8 +55,26 @@ impl AppConfig {
                 .ok()
                 .and_then(|v| v.parse().ok())
                 .unwrap_or(300),
+            pg_max_connections: env_u32("PG_MAX_CONNECTIONS", 20),
+            pg_min_connections: env_u32("PG_MIN_CONNECTIONS", 4),
+            pg_acquire_timeout_secs: env_u64("PG_ACQUIRE_TIMEOUT_SECS", 5),
+            pg_statement_timeout_ms: env_u64("PG_STATEMENT_TIMEOUT_MS", 8_000),
         }
     }
+}
+
+fn env_u32(key: &str, default: u32) -> u32 {
+    env::var(key)
+        .ok()
+        .and_then(|v| v.parse().ok())
+        .unwrap_or(default)
+}
+
+fn env_u64(key: &str, default: u64) -> u64 {
+    env::var(key)
+        .ok()
+        .and_then(|v| v.parse().ok())
+        .unwrap_or(default)
 }
 
 pub use state::AppState;
