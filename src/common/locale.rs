@@ -1,11 +1,12 @@
 use axum::{
     extract::Request,
+    http::request::Parts,
     http::Extensions,
     middleware::Next,
     response::Response,
 };
 
-/// Locale extracted from Accept-Language header or ?locale= query param.
+/// Locale extracted from Accept-Language header, `?locale=`, or `?lang=` query param.
 /// Default "en".
 #[derive(Clone, Debug)]
 pub struct Locale(pub String);
@@ -16,6 +17,25 @@ impl Locale {
     pub fn as_str(&self) -> &str { &self.0 }
 }
 
+/// Implements `FromRequestParts` so handlers can extract locale directly via
+/// `Locale(locale): Locale` and forward `&locale` to response helpers.
+impl<S> axum::extract::FromRequestParts<S> for Locale
+where
+    S: Send + Sync,
+{
+    type Rejection = std::convert::Infallible;
+
+    async fn from_request_parts(parts: &mut Parts, _state: &S) -> Result<Self, Self::Rejection> {
+        // The middleware below has already inserted the locale; fall back to "en"
+        // only if the extractor is used on a route that bypassed the middleware.
+        Ok(parts
+            .extensions
+            .get::<Locale>()
+            .cloned()
+            .unwrap_or_else(Locale::en))
+    }
+}
+
 pub async fn locale_middleware(mut req: Request, next: Next) -> Response {
     let locale = extract_locale(&req);
     req.extensions_mut().insert(locale);
@@ -23,11 +43,12 @@ pub async fn locale_middleware(mut req: Request, next: Next) -> Response {
 }
 
 fn extract_locale(req: &Request) -> Locale {
-    // 1. Query param ?locale=id
+    // 1. Query param `?locale=id` or `?lang=id` (alias)
     if let Some(query) = req.uri().query() {
         for pair in query.split('&') {
             if let Some((k, v)) = pair.split_once('=') {
-                if k == "locale" && (v == "en" || v == "id") {
+                // accept both `locale` and `lang` as the locale key
+                if (k == "locale" || k == "lang") && (v == "en" || v == "id") {
                     return Locale(v.to_string());
                 }
             }

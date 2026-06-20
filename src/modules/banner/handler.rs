@@ -2,6 +2,7 @@ use axum::extract::{Path, Query, State};
 use axum::Json;
 use std::time::Duration;
 
+use crate::common::locale::Locale;
 use crate::common::pagination::{paginate, PaginationQuery};
 use crate::common::response::{ok, ok_paginated};
 use crate::config::AppState;
@@ -14,6 +15,7 @@ use super::service::BannerService;
 
 pub async fn list(
     State(state): State<AppState>,
+    Locale(locale): Locale,
     Query(pq): Query<PaginationQuery>,
 ) -> AppResult<Json<serde_json::Value>> {
     let limit = pq.take();
@@ -22,16 +24,17 @@ pub async fn list(
     let banners: Vec<Banner> = state
         .cache
         .get_or_load(&cache_key, Duration::from_secs(300), || async {
-            BannerService::list(&state.db, None, limit).await
+            BannerService::list(&state.db, None, pq.cursor.as_deref(), limit).await
         })
         .await?;
 
     let (data, cursor, has_more) = paginate(&banners, limit);
-    Ok(Json(ok_paginated(data, cursor, has_more, "en")))
+    Ok(Json(ok_paginated(data, cursor, has_more, &locale)))
 }
 
 pub async fn list_by_type(
     State(state): State<AppState>,
+    Locale(locale): Locale,
     Path(r#type): Path<String>,
     Query(pq): Query<PaginationQuery>,
 ) -> AppResult<Json<serde_json::Value>> {
@@ -42,16 +45,17 @@ pub async fn list_by_type(
     let banners: Vec<Banner> = state
         .cache
         .get_or_load(&cache_key, Duration::from_secs(300), || async {
-            BannerService::list(&state.db, Some(&r#type), limit).await
+            BannerService::list(&state.db, Some(&r#type), pq.cursor.as_deref(), limit).await
         })
         .await?;
 
     let (data, cursor, has_more) = paginate(&banners, limit);
-    Ok(Json(ok_paginated(data, cursor, has_more, "en")))
+    Ok(Json(ok_paginated(data, cursor, has_more, &locale)))
 }
 
 pub async fn create(
     State(state): State<AppState>,
+    Locale(locale): Locale,
     Json(body): Json<CreateBannerRequest>,
 ) -> AppResult<Json<serde_json::Value>> {
     let banner = BannerService::create(&state.db, &body.image, body.r#type.as_deref()).await?;
@@ -59,5 +63,5 @@ pub async fn create(
     // Invalidate ALL banner caches — list, by-type, and item
     state.cache.invalidate_pattern(keys::banners_pattern()).await;
 
-    Ok(Json(ok(banner, "en")))
+    Ok(Json(ok(banner, &locale)))
 }

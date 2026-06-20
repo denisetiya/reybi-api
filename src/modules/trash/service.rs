@@ -6,9 +6,17 @@ use super::dto::CreateTrashTypeRequest;
 pub struct TrashService;
 
 impl TrashService {
-    pub async fn list(db: &PgPool, limit: i64) -> AppResult<Vec<TrashType>> {
-        sqlx::query_as::<_, TrashType>("SELECT * FROM trash_types ORDER BY name ASC LIMIT $1")
-            .bind(limit + 1).fetch_all(db).await.map_err(|e| AppError::Internal(e.into()))
+    pub async fn list(db: &PgPool, cursor: Option<&str>, limit: i64) -> AppResult<Vec<TrashType>> {
+        let lim = limit + 1;
+        if let Some(c) = cursor {
+            sqlx::query_as::<_, TrashType>(
+                "SELECT * FROM trash_types WHERE id < $1 ORDER BY name ASC LIMIT $2"
+            ).bind(c).bind(lim).fetch_all(db).await.map_err(|e| AppError::Internal(e.into()))
+        } else {
+            sqlx::query_as::<_, TrashType>(
+                "SELECT * FROM trash_types ORDER BY name ASC LIMIT $1"
+            ).bind(lim).fetch_all(db).await.map_err(|e| AppError::Internal(e.into()))
+        }
     }
 
     pub async fn create(db: &PgPool, data: CreateTrashTypeRequest) -> AppResult<TrashType> {

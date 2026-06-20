@@ -6,7 +6,7 @@
 #  - release binary, distroless-style runtime
 # ============================================================================
 
-ARG RUST_VERSION=1.85
+ARG RUST_VERSION=1.88
 
 # ---------- Stage 1: planner (dependency cache) ----------
 FROM rust:${RUST_VERSION}-bookworm AS chef

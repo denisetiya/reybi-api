@@ -6,11 +6,17 @@ use super::dto::CreateArticleRequest;
 pub struct ArticleService;
 
 impl ArticleService {
-    pub async fn list(db: &PgPool, limit: i64) -> AppResult<Vec<Article>> {
-        sqlx::query_as::<_, Article>(
-            "SELECT * FROM articles ORDER BY created_at DESC LIMIT $1"
-        ).bind(limit + 1)
-        .fetch_all(db).await.map_err(|e| AppError::Internal(e.into()))
+    pub async fn list(db: &PgPool, cursor: Option<&str>, limit: i64) -> AppResult<Vec<Article>> {
+        let limit_with_one = limit + 1;
+        if let Some(c) = cursor {
+            sqlx::query_as::<_, Article>(
+                "SELECT * FROM articles WHERE id < $1 ORDER BY id DESC LIMIT $2"
+            ).bind(c).bind(limit_with_one).fetch_all(db).await.map_err(|e| AppError::Internal(e.into()))
+        } else {
+            sqlx::query_as::<_, Article>(
+                "SELECT * FROM articles ORDER BY id DESC LIMIT $1"
+            ).bind(limit_with_one).fetch_all(db).await.map_err(|e| AppError::Internal(e.into()))
+        }
     }
 
     pub async fn get_by_id(db: &PgPool, id: String) -> AppResult<Article> {

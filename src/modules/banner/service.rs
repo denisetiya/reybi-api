@@ -5,15 +5,57 @@ use crate::models::Banner;
 pub struct BannerService;
 
 impl BannerService {
-    pub async fn list(db: &PgPool, r#type: Option<&str>, limit: i64) -> AppResult<Vec<Banner>> {
-        let mut query = String::from("SELECT * FROM banners");
+    pub async fn list(
+        db: &PgPool,
+        r#type: Option<&str>,
+        cursor: Option<&str>,
+        limit: i64,
+    ) -> AppResult<Vec<Banner>> {
+        // CUIDs are time-sortable lexicographically; `id < $cursor` gives the prev page
+        // when results are ordered by `id DESC` (newest first).
         let limit_with_one = limit + 1;
-        if let Some(t) = r#type {
-            query.push_str(&format!(" WHERE type = '{}'", t.replace("'", "''")));
-        }
-        query.push_str(&format!(" ORDER BY created_at DESC LIMIT {limit_with_one}"));
-        sqlx::query_as::<_, Banner>(&query)
-            .fetch_all(db).await.map_err(|e| AppError::Internal(e.into()))
+        let rows = match (r#type, cursor) {
+            (Some(t), Some(c)) => {
+                sqlx::query_as::<_, Banner>(
+                    "SELECT * FROM banners WHERE type = $1 AND id < $2 \
+                     ORDER BY id DESC LIMIT $3",
+                )
+                .bind(t)
+                .bind(c)
+                .bind(limit_with_one)
+                .fetch_all(db)
+                .await
+            }
+            (Some(t), None) => {
+                sqlx::query_as::<_, Banner>(
+                    "SELECT * FROM banners WHERE type = $1 \
+                     ORDER BY id DESC LIMIT $2",
+                )
+                .bind(t)
+                .bind(limit_with_one)
+                .fetch_all(db)
+                .await
+            }
+            (None, Some(c)) => {
+                sqlx::query_as::<_, Banner>(
+                    "SELECT * FROM banners WHERE id < $1 \
+                     ORDER BY id DESC LIMIT $2",
+                )
+                .bind(c)
+                .bind(limit_with_one)
+                .fetch_all(db)
+                .await
+            }
+            (None, None) => {
+                sqlx::query_as::<_, Banner>(
+                    "SELECT * FROM banners ORDER BY id DESC LIMIT $1",
+                )
+                .bind(limit_with_one)
+                .fetch_all(db)
+                .await
+            }
+        };
+        rows.map_err(|e| AppError::Internal(e.into()))
     }
 
     pub async fn create(db: &PgPool, image: &str, r#type: Option<&str>) -> AppResult<Banner> {

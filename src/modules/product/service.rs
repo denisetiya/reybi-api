@@ -8,31 +8,37 @@ pub struct ProductService;
 impl ProductService {
     pub async fn list(db: &PgPool, filter: &ProductFilter) -> AppResult<Vec<Product>> {
         let limit = filter.limit.unwrap_or(25).clamp(1, 100);
+        let lim = limit + 1;
+        let cursor = filter.cursor.as_deref();
         if let Some(cat) = &filter.category {
-            let rows = sqlx::query_as::<_, Product>(
-                "SELECT * FROM products WHERE category = $1 ORDER BY created_at DESC LIMIT $2"
-            )
-            .bind(cat)
-            .bind(limit + 1)
-            .fetch_all(db).await.map_err(|e| AppError::Internal(e.into()))?;
-            return Ok(rows);
+            let sql = if cursor.is_some() {
+                "SELECT * FROM products WHERE category = $1 AND id < $2 ORDER BY id DESC LIMIT $3"
+            } else {
+                "SELECT * FROM products WHERE category = $1 ORDER BY id DESC LIMIT $2"
+            };
+            let mut q = sqlx::query_as::<_, Product>(sql).bind(cat);
+            if let Some(c) = cursor { q = q.bind(c).bind(lim); } else { q = q.bind(lim); }
+            return q.fetch_all(db).await.map_err(|e| AppError::Internal(e.into()));
         }
         if let Some(q) = &filter.search {
             let pattern = format!("%{}%", q.replace('%', "%%"));
-            let rows = sqlx::query_as::<_, Product>(
-                "SELECT * FROM products WHERE name ILIKE $1 ORDER BY created_at DESC LIMIT $2"
-            )
-            .bind(&pattern)
-            .bind(limit + 1)
-            .fetch_all(db).await.map_err(|e| AppError::Internal(e.into()))?;
-            return Ok(rows);
+            let sql = if cursor.is_some() {
+                "SELECT * FROM products WHERE name ILIKE $1 AND id < $2 ORDER BY id DESC LIMIT $3"
+            } else {
+                "SELECT * FROM products WHERE name ILIKE $1 ORDER BY id DESC LIMIT $2"
+            };
+            let mut qq = sqlx::query_as::<_, Product>(sql).bind(&pattern);
+            if let Some(c) = cursor { qq = qq.bind(c).bind(lim); } else { qq = qq.bind(lim); }
+            return qq.fetch_all(db).await.map_err(|e| AppError::Internal(e.into()));
         }
-        let rows = sqlx::query_as::<_, Product>(
-            "SELECT * FROM products ORDER BY created_at DESC LIMIT $1"
-        )
-        .bind(limit + 1)
-        .fetch_all(db).await.map_err(|e| AppError::Internal(e.into()))?;
-        Ok(rows)
+        let sql = if cursor.is_some() {
+            "SELECT * FROM products WHERE id < $1 ORDER BY id DESC LIMIT $2"
+        } else {
+            "SELECT * FROM products ORDER BY id DESC LIMIT $1"
+        };
+        let mut q = sqlx::query_as::<_, Product>(sql);
+        if let Some(c) = cursor { q = q.bind(c).bind(lim); } else { q = q.bind(lim); }
+        q.fetch_all(db).await.map_err(|e| AppError::Internal(e.into()))
     }
 
     pub async fn get_by_id(db: &PgPool, id: String) -> AppResult<Option<Product>> {
