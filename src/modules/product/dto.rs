@@ -1,6 +1,5 @@
 use serde::Deserialize;
 use serde_json::Value;
-use uuid::Uuid;
 use crate::common::pagination::HasCursor;
 
 #[derive(Debug, Deserialize)]
@@ -22,7 +21,7 @@ pub struct CreateProductRequest {
     pub discount: Option<f64>,
     pub coin: Option<i32>,
     pub recommended: Option<bool>,
-    pub saller_id: Option<Uuid>,
+    pub saller_id: Option<String>,
     pub thumbnail: Option<String>,
     pub images: Option<Value>,
 }

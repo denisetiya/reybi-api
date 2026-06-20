@@ -12,6 +12,11 @@ pub struct AppConfig {
     pub upload_dir: String,
     pub firebase_credentials_path: String,
     pub key_server: String,
+    pub midtrans_server_key: String,
+    pub midtrans_client_key: String,
+    pub firebase_project_id: String,
+    pub redis_url: String,
+    pub cache_ttl_secs: u64,
 }
 
 impl AppConfig {
@@ -25,6 +30,14 @@ impl AppConfig {
             upload_dir: env::var("UPLOAD_DIR").unwrap_or_else(|_| "./uploads".into()),
             firebase_credentials_path: env::var("FIREBASE_CREDENTIALS_PATH").unwrap_or_else(|_| "firebase-credentials.json".into()),
             key_server: env::var("KEY_SERVER").expect("KEY_SERVER must be set"),
+            midtrans_server_key: env::var("MIDTRANS_SERVER_KEY").unwrap_or_default(),
+            midtrans_client_key: env::var("MIDTRANS_CLIENT_KEY").unwrap_or_default(),
+            firebase_project_id: env::var("FIREBASE_PROJECT_ID").unwrap_or_default(),
+            redis_url: env::var("REDIS_URL").unwrap_or_default(),
+            cache_ttl_secs: env::var("CACHE_TTL_SECS")
+                .ok()
+                .and_then(|v| v.parse().ok())
+                .unwrap_or(300),
         }
     }
 }

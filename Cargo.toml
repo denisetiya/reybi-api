@@ -23,10 +23,23 @@ serde = { version = "1", features = ["derive"] }
 serde_json = "1"
 
 # Database
-sqlx = { version = "0.8", features = ["runtime-tokio", "tls-rustls", "postgres", "chrono", "uuid"] }
+sqlx = { version = "0.8", features = ["runtime-tokio", "tls-rustls", "postgres", "chrono", "uuid", "migrate", "json", "macros"] }
+
+# Redis client (cache + rate-limit + idempotency keys)
+redis = { version = "0.27", features = ["tokio-comp", "aio", "connection-manager"] }
+
+# CUID2 — collision-resistant IDs matching Prisma's @default(cuid())
+cuid2 = "0.1"
+
+# Firebase Admin (ID-token verification)
+firebase-auth = "0.4"
+
+# Midtrans webhook signature (SHA-512 over body)
+sha2 = "0.10"
+hex = "0.4"
 
 # Auth
-jsonwebtoken = "10"
+jsonwebtoken = { version = "10", features = ["rust_crypto"] }
 argon2 = "0.5"
 
 # Validation

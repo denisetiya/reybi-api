@@ -1,10 +1,9 @@
 use serde::Deserialize;
-use uuid::Uuid;
 use crate::common::pagination::HasCursor;
 
 #[derive(Debug, Deserialize)]
 pub struct CreateOrderRequest {
-    pub product_id: Uuid,
+    pub product_id: String,
     pub quantity: i32,
     pub coin: Option<i64>,
     pub payment: PaymentRequest,

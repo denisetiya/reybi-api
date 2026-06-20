@@ -11,3 +11,4 @@ pub mod landfill;
 pub mod trash;
 pub mod address;
 pub mod saller;
+pub mod payment;

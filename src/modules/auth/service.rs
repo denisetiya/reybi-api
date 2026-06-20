@@ -1,5 +1,4 @@
 use sqlx::PgPool;
-use uuid::Uuid;
 use chrono::{Utc, Duration};
 use jsonwebtoken::{encode, Header, EncodingKey};
 
@@ -9,7 +8,7 @@ use super::dto::{RegisterRequest, AuthResponse};
 
 #[derive(Debug, serde::Serialize)]
 pub struct UserSummary {
-    pub id: Uuid,
+    pub id: String,
     pub name: Option<String>,
     pub email: String,
     pub role: String,
@@ -51,11 +50,11 @@ impl AuthService {
         _firebase_token: &str,
         data: RegisterRequest,
     ) -> AppResult<serde_json::Value> {
-        let id = Uuid::new_v4();
+        let id = cuid2::create_id();
         sqlx::query(
             r#"INSERT INTO users (id, name, email, role) VALUES ($1, $2, $3, $4) ON CONFLICT DO NOTHING"#
         )
-        .bind(id)
+        .bind(&id)
         .bind(&data.name)
         .bind(&data.email)
         .bind("user")
@@ -131,11 +130,11 @@ async fn find_or_create_user(
         return Ok(user);
     }
 
-    let id = Uuid::new_v4();
+    let id = cuid2::create_id();
     sqlx::query_as::<_, crate::models::User>(
         r#"INSERT INTO users (id, email, name, role) VALUES ($1, $2, $3, $4) RETURNING *"#
     )
-    .bind(id)
+    .bind(&id)
     .bind(&firebase.email)
     .bind(&firebase.name)
     .bind("user")

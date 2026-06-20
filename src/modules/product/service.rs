@@ -1,5 +1,4 @@
 use sqlx::PgPool;
-use uuid::Uuid;
 use crate::errors::{AppError, AppResult};
 use crate::models::Product;
 use super::dto::{ProductFilter, CreateProductRequest, UpdateProductRequest, CreateVariantRequest};
@@ -36,14 +35,14 @@ impl ProductService {
         Ok(rows)
     }
 
-    pub async fn get_by_id(db: &PgPool, id: Uuid) -> AppResult<Option<Product>> {
+    pub async fn get_by_id(db: &PgPool, id: String) -> AppResult<Option<Product>> {
         sqlx::query_as::<_, Product>("SELECT * FROM products WHERE id = $1")
-            .bind(id)
+            .bind(&id)
             .fetch_optional(db).await.map_err(|e| AppError::Internal(e.into()))
     }
 
     pub async fn create(db: &PgPool, data: CreateProductRequest) -> AppResult<Product> {
-        let id = Uuid::new_v4();
+        let id = cuid2::create_id();
         sqlx::query_as::<_, Product>(
             r#"INSERT INTO products (id, name, price, stock, description, category,
                location, discount, coin, recommended, saller_id, thumbnail, images)
@@ -56,8 +55,8 @@ impl ProductService {
         .fetch_one(db).await.map_err(|e| AppError::Internal(e.into()))
     }
 
-    pub async fn update(db: &PgPool, id: Uuid, data: UpdateProductRequest) -> AppResult<Product> {
-        let existing = Self::get_by_id(db, id).await?
+    pub async fn update(db: &PgPool, id: String, data: UpdateProductRequest) -> AppResult<Product> {
+        let existing = Self::get_by_id(db, id.clone()).await?
             .ok_or_else(|| AppError::NotFound("Product not found".into()))?;
         sqlx::query_as::<_, Product>(
             r#"UPDATE products SET
@@ -66,7 +65,7 @@ impl ProductService {
                thumbnail=$11, images=$12, updated_at=NOW()
                WHERE id=$1 RETURNING *"#
         )
-        .bind(id)
+        .bind(&id)
         .bind(data.name.as_deref().unwrap_or(&existing.name))
         .bind(data.price.unwrap_or(existing.price))
         .bind(data.stock.unwrap_or(existing.stock))
@@ -81,7 +80,7 @@ impl ProductService {
         .fetch_one(db).await.map_err(|e| AppError::Internal(e.into()))
     }
 
-    pub async fn delete(db: &PgPool, id: Uuid) -> AppResult<()> {
+    pub async fn delete(db: &PgPool, id: String) -> AppResult<()> {
         let r = sqlx::query("DELETE FROM products WHERE id = $1")
             .bind(id).execute(db).await.map_err(|e| AppError::Internal(e.into()))?;
         if r.rows_affected() == 0 { return Err(AppError::NotFound("Product not found".into())); }
@@ -89,9 +88,9 @@ impl ProductService {
     }
 
     pub async fn add_variant(
-        db: &PgPool, product_id: Uuid, data: CreateVariantRequest,
+        db: &PgPool, product_id: String, data: CreateVariantRequest,
     ) -> AppResult<crate::models::VariantProduct> {
-        let id = Uuid::new_v4();
+        let id = cuid2::create_id();
         sqlx::query_as::<_, crate::models::VariantProduct>(
             r#"INSERT INTO product_variants (id, product_id, name, price, stock, image)
                VALUES ($1,$2,$3,$4,$5,$6) RETURNING *"#

@@ -4,6 +4,6 @@ use super::handler;
 
 pub fn routes() -> Router<AppState> {
     Router::new()
-        .route("/:email", get(handler::get))
-        .route("/:email", axum::routing::put(handler::update))
+        .route("/{email}", get(handler::get))
+        .route("/{email}", axum::routing::put(handler::update))
 }

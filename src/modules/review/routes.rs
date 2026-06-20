@@ -5,5 +5,5 @@ use super::handler;
 pub fn routes() -> Router<AppState> {
     Router::new()
         .route("/", post(handler::create))
-        .route("/:id", put(handler::update))
+        .route("/{id}", put(handler::update))
 }

@@ -1,12 +1,11 @@
 use serde::Deserialize;
-use uuid::Uuid;
 use crate::common::pagination::HasCursor;
 
 #[derive(Debug, Deserialize)]
 pub struct AddCartRequest {
-    pub product_id: Uuid,
+    pub product_id: String,
     pub quantity: i32,
-    pub variant_id: Option<Uuid>,
+    pub variant_id: Option<String>,
 }
 
 impl HasCursor for crate::models::Cart {

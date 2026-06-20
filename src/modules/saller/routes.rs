@@ -3,5 +3,5 @@ use crate::config::AppState;
 use super::handler;
 
 pub fn routes() -> Router<AppState> {
-    Router::new().route("/products/:id", get(handler::list_products))
+    Router::new().route("/products/{id}", get(handler::list_products))
 }

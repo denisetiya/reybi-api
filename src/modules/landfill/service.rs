@@ -1,5 +1,4 @@
 use sqlx::PgPool;
-use uuid::Uuid;
 use crate::errors::{AppError, AppResult};
 use crate::models::Landfill;
 use super::dto::CreateLandfillRequest;
@@ -13,13 +12,13 @@ impl LandfillService {
     }
 
     pub async fn create(db: &PgPool, data: CreateLandfillRequest) -> AppResult<Landfill> {
-        let id = Uuid::new_v4();
+        let id = cuid2::create_id();
         sqlx::query_as::<_, Landfill>(
             r#"INSERT INTO landfills (id, name, address) VALUES ($1,$2,$3) RETURNING *"#
         ).bind(id).bind(&data.name).bind(&data.address).fetch_one(db).await.map_err(|e| AppError::Internal(e.into()))
     }
 
-    pub async fn update(db: &PgPool, id: Uuid, data: CreateLandfillRequest) -> AppResult<Landfill> {
+    pub async fn update(db: &PgPool, id: String, data: CreateLandfillRequest) -> AppResult<Landfill> {
         sqlx::query_as::<_, Landfill>(
             r#"UPDATE landfills SET name=$2, address=$3 WHERE id=$1 RETURNING *"#
         ).bind(id).bind(&data.name).bind(&data.address)
@@ -27,8 +26,8 @@ impl LandfillService {
         .ok_or_else(|| AppError::NotFound("Landfill not found".into()))
     }
 
-    pub async fn delete(db: &PgPool, id: Uuid) -> AppResult<()> {
-        let r = sqlx::query("DELETE FROM landfills WHERE id=$1").bind(id)
+    pub async fn delete(db: &PgPool, id: String) -> AppResult<()> {
+        let r = sqlx::query("DELETE FROM landfills WHERE id=$1").bind(&id)
             .execute(db).await.map_err(|e| AppError::Internal(e.into()))?;
         if r.rows_affected() == 0 { return Err(AppError::NotFound("Landfill not found".into())); }
         Ok(())

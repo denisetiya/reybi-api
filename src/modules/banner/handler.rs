@@ -1,15 +1,31 @@
-use axum::{extract::{Path, Query, State}, Json};
+use axum::extract::{Path, Query, State};
+use axum::Json;
+use std::time::Duration;
+
+use crate::common::pagination::{paginate, PaginationQuery};
+use crate::common::response::{ok, ok_paginated};
 use crate::config::AppState;
-use crate::common::{response::{ok, ok_paginated}, pagination::{PaginationQuery, paginate}};
 use crate::errors::AppResult;
-use super::{dto::CreateBannerRequest, service::BannerService};
+use crate::models::user::Banner;
+use crate::utils::cache::keys;
+
+use super::dto::CreateBannerRequest;
+use super::service::BannerService;
 
 pub async fn list(
     State(state): State<AppState>,
     Query(pq): Query<PaginationQuery>,
 ) -> AppResult<Json<serde_json::Value>> {
     let limit = pq.take();
-    let banners = BannerService::list(&state.db, None, limit).await?;
+    let cache_key = format!("{}:p{}:l{}", keys::banner_list(), pq.cursor.clone().unwrap_or_else(|| "0".to_string()), limit);
+
+    let banners: Vec<Banner> = state
+        .cache
+        .get_or_load(&cache_key, Duration::from_secs(300), || async {
+            BannerService::list(&state.db, None, limit).await
+        })
+        .await?;
+
     let (data, cursor, has_more) = paginate(&banners, limit);
     Ok(Json(ok_paginated(data, cursor, has_more, "en")))
 }
@@ -20,7 +36,16 @@ pub async fn list_by_type(
     Query(pq): Query<PaginationQuery>,
 ) -> AppResult<Json<serde_json::Value>> {
     let limit = pq.take();
-    let banners = BannerService::list(&state.db, Some(&r#type), limit).await?;
+    let cache_key = format!("{}:{}:p{}:l{}",
+        keys::banner_list(), r#type, pq.cursor.clone().unwrap_or_else(|| "0".to_string()), limit);
+
+    let banners: Vec<Banner> = state
+        .cache
+        .get_or_load(&cache_key, Duration::from_secs(300), || async {
+            BannerService::list(&state.db, Some(&r#type), limit).await
+        })
+        .await?;
+
     let (data, cursor, has_more) = paginate(&banners, limit);
     Ok(Json(ok_paginated(data, cursor, has_more, "en")))
 }
@@ -30,5 +55,9 @@ pub async fn create(
     Json(body): Json<CreateBannerRequest>,
 ) -> AppResult<Json<serde_json::Value>> {
     let banner = BannerService::create(&state.db, &body.image, body.r#type.as_deref()).await?;
+
+    // Invalidate ALL banner caches — list, by-type, and item
+    state.cache.invalidate_pattern(keys::banners_pattern()).await;
+
     Ok(Json(ok(banner, "en")))
 }

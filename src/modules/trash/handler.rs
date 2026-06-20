@@ -1,5 +1,4 @@
 use axum::{extract::{Path, Query, State}, Json};
-use uuid::Uuid;
 use crate::config::AppState;
 use crate::common::{response::{ok, ok_paginated, message}, pagination::{PaginationQuery, paginate}};
 use crate::errors::AppResult;
@@ -16,12 +15,12 @@ pub async fn create(State(state): State<AppState>, Json(body): Json<CreateTrashT
     Ok(Json(ok(item, "en")))
 }
 
-pub async fn update(State(state): State<AppState>, Path(id): Path<Uuid>, Json(body): Json<CreateTrashTypeRequest>) -> AppResult<Json<serde_json::Value>> {
-    let item = TrashService::update(&state.db, id, body).await?;
+pub async fn update(State(state): State<AppState>, Path(id): Path<String>, Json(body): Json<CreateTrashTypeRequest>) -> AppResult<Json<serde_json::Value>> {
+    let item = TrashService::update(&state.db, id.clone(), body).await?;
     Ok(Json(ok(item, "en")))
 }
 
-pub async fn delete(State(state): State<AppState>, Path(id): Path<Uuid>) -> AppResult<Json<serde_json::Value>> {
-    TrashService::delete(&state.db, id).await?;
+pub async fn delete(State(state): State<AppState>, Path(id): Path<String>) -> AppResult<Json<serde_json::Value>> {
+    TrashService::delete(&state.db, id.clone()).await?;
     Ok(Json(message("Trash type deleted")))
 }

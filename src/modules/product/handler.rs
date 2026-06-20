@@ -1,5 +1,4 @@
 use axum::{extract::{Path, Query, State}, Json};
-use uuid::Uuid;
 use crate::config::AppState;
 use crate::common::{response::{ok, ok_paginated, message}, pagination::paginate};
 use crate::errors::{AppError, AppResult};
@@ -17,7 +16,7 @@ pub async fn list(
 
 pub async fn get(
     State(state): State<AppState>,
-    Path(id): Path<Uuid>,
+    Path(id): Path<String>,
 ) -> AppResult<Json<serde_json::Value>> {
     let product = ProductService::get_by_id(&state.db, id).await?
         .ok_or_else(|| AppError::NotFound("Product not found".into()))?;
@@ -34,24 +33,24 @@ pub async fn create(
 
 pub async fn update(
     State(state): State<AppState>,
-    Path(id): Path<Uuid>,
+    Path(id): Path<String>,
     Json(body): Json<UpdateProductRequest>,
 ) -> AppResult<Json<serde_json::Value>> {
-    let product = ProductService::update(&state.db, id, body).await?;
+    let product = ProductService::update(&state.db, id.clone(), body).await?;
     Ok(Json(ok(product, "en")))
 }
 
 pub async fn delete(
     State(state): State<AppState>,
-    Path(id): Path<Uuid>,
+    Path(id): Path<String>,
 ) -> AppResult<Json<serde_json::Value>> {
-    ProductService::delete(&state.db, id).await?;
+    ProductService::delete(&state.db, id.clone()).await?;
     Ok(Json(message("Product deleted")))
 }
 
 pub async fn create_variant(
     State(state): State<AppState>,
-    Path(id): Path<Uuid>,
+    Path(id): Path<String>,
     Json(body): Json<CreateVariantRequest>,
 ) -> AppResult<Json<serde_json::Value>> {
     let variant = ProductService::add_variant(&state.db, id, body).await?;

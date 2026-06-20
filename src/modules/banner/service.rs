@@ -1,5 +1,4 @@
 use sqlx::PgPool;
-use uuid::Uuid;
 use crate::errors::{AppError, AppResult};
 use crate::models::Banner;
 
@@ -18,7 +17,7 @@ impl BannerService {
     }
 
     pub async fn create(db: &PgPool, image: &str, r#type: Option<&str>) -> AppResult<Banner> {
-        let id = Uuid::new_v4();
+        let id = cuid2::create_id();
         sqlx::query_as::<_, Banner>(
             r#"INSERT INTO banners (id, image, type) VALUES ($1,$2,$3) RETURNING *"#
         )

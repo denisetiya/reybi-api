@@ -4,6 +4,6 @@ use super::handler;
 
 pub fn routes() -> Router<AppState> {
     Router::new()
-        .route("/user/:user_id", axum::routing::post(handler::create))
-        .route("/user/:user_id", axum::routing::put(handler::update))
+        .route("/user/{user_id}", axum::routing::post(handler::create))
+        .route("/user/{user_id}", axum::routing::put(handler::update))
 }

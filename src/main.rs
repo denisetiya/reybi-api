@@ -7,6 +7,7 @@ use tower_http::trace::TraceLayer;
 use reybi_api::config::{AppConfig, AppState};
 use reybi_api::common::locale;
 use reybi_api::middleware;
+use reybi_api::utils::cache::Cache;
 
 #[tokio::main]
 async fn main() {
@@ -25,10 +26,19 @@ async fn main() {
         .min_connections(4)
         .acquire_timeout(std::time::Duration::from_secs(5))
         .idle_timeout(std::time::Duration::from_secs(300))
-        .connect_lazy(&config.database_url)
+        .connect(&config.database_url)
+        .await
         .expect("Failed to connect to database");
 
-    let state = AppState::new(pool, config.clone());
+    // run pending migrations (idempotent — skips already-applied files)
+    sqlx::migrate!("./migrations")
+        .run(&pool)
+        .await
+        .expect("Failed to run database migrations");
+    tracing::info!("✓ database migrations applied");
+
+    let cache = Cache::connect(&config.redis_url).await;
+    let state = AppState::new(pool, config.clone(), cache);
 
     let api_routes = Router::new()
         .nest("/auth", reybi_api::modules::auth::routes::routes())
@@ -43,7 +53,8 @@ async fn main() {
         .nest("/landfills", reybi_api::modules::landfill::routes::routes())
         .nest("/trash", reybi_api::modules::trash::routes::routes())
         .nest("/addresses", reybi_api::modules::address::routes::routes())
-        .nest("/sallers", reybi_api::modules::saller::routes::routes());
+        .nest("/sallers", reybi_api::modules::saller::routes::routes())
+        .nest("/payments", reybi_api::modules::payment::routes::routes());
 
     let app = Router::new()
         .nest("/v1", api_routes)
