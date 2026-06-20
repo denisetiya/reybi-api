@@ -213,10 +213,17 @@ jobs:
               sudo apt-get install -y gettext-base >/dev/null 2>&1
             fi
 
-            # 1. render .env from .env.example using real secrets
-            envsubst < .env.example > .env
-            chmod 600 .env
-            echo "✔ .env rendered ($(wc -l < .env) lines)"
+            # 1. render .env from .env.example using real secrets, BUT only
+            #    if server doesn't already have a working .env.  This avoids
+            #    clobbering manually-managed secrets (postgres user, redis
+            #    password) on every deploy when those aren't rotated in GH.
+            if [ ! -f .env ] || ! grep -qE '^(DATABASE_URL|REDIS_URL)=.+' .env; then
+              envsubst < .env.example > .env
+              chmod 600 .env
+              echo "✔ .env rendered from .env.example + secrets ($(wc -l < .env) lines)"
+            else
+              echo "✔ .env preserved (server-managed, not regenerated)"
+            fi
 
             # 2. apply view migrations + triggers (one-shot, idempotent)
             if [ "${RUN_SEED:-false}" = "true" ]; then

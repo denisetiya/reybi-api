@@ -16,13 +16,12 @@ services:
     env_file:
       - .env
     environment:
-      # override DATABASE_URL → shared infra-postgres
-      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@infra-postgres:5432/${POSTGRES_DB}?schema=public
-      REDIS_URL: redis://:*** @${REDIS_HOST}:6379/
-      FIREBASE_SERVICE_ACCOUNT_PATH: /app/firebase-credentials.json
-      HOST: 0.0.0.0
-      PORT: "3000"
-      RUST_LOG: "reybi_api=info,tower_http=info,sqlx=warn"
+          # DATABASE_URL + REDIS_URL come from .env (already correctly formed
+          # with passwords).  Don't override here — the template previously
+          # interpolated ${POSTGRES_PASSWORD} and broke auth.
+          HOST: 0.0.0.0
+          PORT: "3000"
+          RUST_LOG: "reybi_api=info,tower_http=info,sqlx=warn"
     volumes:
       - ./firebase-service-account.json:/app/firebase-credentials.json:ro
       - uploads_data:/app/uploads
