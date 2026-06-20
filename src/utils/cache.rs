@@ -215,6 +215,60 @@ pub mod keys {
         "reybi:v1:profile:*"
     }
 
+    pub fn deposite_list(scope: &str) -> String {
+        format!("reybi:v1:deposites:list:{scope}")
+    }
+    pub fn deposite(id: &str) -> String {
+        format!("reybi:v1:deposites:item:{id}")
+    }
+    pub fn deposites_pattern() -> &'static str {
+        "reybi:v1:deposites:*"
+    }
+
+    pub fn cart_list(user_id: &str) -> String {
+        format!("reybi:v1:carts:list:{user_id}")
+    }
+    pub fn cart(id: &str) -> String {
+        format!("reybi:v1:carts:item:{id}")
+    }
+    pub fn carts_pattern() -> &'static str {
+        "reybi:v1:carts:*"
+    }
+
+    pub fn address_list(user_id: &str) -> String {
+        format!("reybi:v1:addresses:list:{user_id}")
+    }
+    pub fn address(user_id: &str) -> String {
+        format!("reybi:v1:addresses:item:{user_id}")
+    }
+    pub fn addresses_pattern() -> &'static str {
+        "reybi:v1:addresses:*"
+    }
+
+    pub fn order_list(scope: &str) -> String {
+        format!("reybi:v1:orders:list:{scope}")
+    }
+    pub fn order(id: &str) -> String {
+        format!("reybi:v1:orders:item:{id}")
+    }
+    pub fn orders_pattern() -> &'static str {
+        "reybi:v1:orders:*"
+    }
+
+    pub fn saller_products(saller_id: &str) -> String {
+        format!("reybi:v1:saller:products:{saller_id}")
+    }
+    pub fn saller_pattern() -> &'static str {
+        "reybi:v1:saller:*"
+    }
+
+    pub fn review(id: &str) -> String {
+        format!("reybi:v1:reviews:item:{id}")
+    }
+    pub fn reviews_pattern() -> &'static str {
+        "reybi:v1:reviews:*"
+    }
+
     /// Idempotency key for webhook handlers (24h TTL, set after processing).
     pub fn webhook_idem(transaction_id: &str) -> String {
         format!("reybi:v1:webhook:idem:{transaction_id}")
