@@ -163,7 +163,7 @@ jobs:
           fi
 
       - name: Sync files to server
-        uses: appleboy/scp-action@v0.1.7
+        uses: appleboy/scp-action@v1.0.0
         with:
           host: ${{ secrets.SERVER_HOST }}
           port: ${{ secrets.SERVER_PORT || 22 }}
@@ -177,7 +177,7 @@ jobs:
 
       - name: Sync firebase credentials (if present)
         if: ${{ env.FIREBASE_CREDENTIALS_B64 != '' }}
-        uses: appleboy/scp-action@v0.1.7
+        uses: appleboy/scp-action@v1.0.0
         with:
           host: ${{ secrets.SERVER_HOST }}
           port: ${{ secrets.SERVER_PORT || 22 }}
